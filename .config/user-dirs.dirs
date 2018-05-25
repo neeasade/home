@@ -1,0 +1,3 @@
+XDG_DESKTOP_DIR="$HOME/tmp/Desktop"
+XDG_MUSIC_DIR="$HOME/music"
+XDG_DOWNLOADS_DIR="$HOME/Downloads"
