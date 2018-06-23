@@ -1471,6 +1471,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 			break;
 		}
 	} else {
+		/*xdrawglyph(g, cx, cy);*/ //uncomment and remove the next XftDrawRect to make reverse cursor a block 
 		XftDrawRect(xw.draw, &drawcol,
 				borderpx + cx * win.cw,
 				borderpx + cy * win.ch,

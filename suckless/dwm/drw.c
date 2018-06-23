@@ -231,7 +231,7 @@ drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int
 	if (filled)
 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
 	else
-		XDrawRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w - 1, h - 1);
+		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, 1); /* used fillrectangle because I couldn't get draw rectangle the way I want. unfocused tags will have a think line. it works for me */
 }
 
 int

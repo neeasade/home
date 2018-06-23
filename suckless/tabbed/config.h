@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]        = "Termnius (TTF):size=9";
+static const char font[]        = "Scientifica:size=9";
 static const char* normbgcolor  = "#2d3436";
 static const char* normfgcolor  = "#cccccc";
 static const char* selbgcolor   = "#091010";

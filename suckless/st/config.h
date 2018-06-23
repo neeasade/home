@@ -5,8 +5,9 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "TerminessTTF Nerd Font Mono:pixelsize=15:antialias=true:autohint=true";
-static int borderpx = 2;
+static char *font = "curie :pixelsize=12:antialias=true:autohint=true";
+
+static int borderpx = 15;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -84,32 +85,31 @@ unsigned int tabspaces = 8;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
+
 	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
-
-	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
-
-	[255] = 0,
-
+	[0] = 	"black",
+  [1] = 	"red3",
+  [2] = 	"green3",
+  [3] = 	"yellow3",
+  [4] = 	"blue2",
+  [5] = 	"magenta3",
+  [6] = 	"cyan3",
+  [7] = 	"gray90",
+  /* 8 bright colors */
+  [8]  =  "gray50",
+  [9]  =  "red",
+  [10] =  "green",
+  [11] =  "yellow",
+  [12] =  "#5c5cff",
+  [13] =  "magenta",
+  [14] =  "cyan",
+	[15] =  "white",
+         
 	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
-	"#091018"
+	[256] = "#cccccc",
+	[257] = "#555555",
+	[258] = "#091018",
+	[259] = "#e9b3c8"
 };
 
 
@@ -117,10 +117,10 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 7;
+unsigned int defaultfg = 259;
 unsigned int defaultbg = 258;
-static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+static unsigned int defaultcs = 259;
+static unsigned int defaultrcs = 259;
 
 /*
  * Default shape of cursor
@@ -129,7 +129,7 @@ static unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 4;
+static unsigned int cursorshape = 1;
 
 /*
  * Default columns and rows numbers
@@ -149,7 +149,7 @@ static unsigned int mousebg = 0;
  * Color used to display font attributes when fontconfig selected a font which
  * doesn't match the ones requested.
  */
-static unsigned int defaultattr = 11;
+static unsigned int defaultattr = 259;
 
 /*
  * Internal mouse shortcuts.
