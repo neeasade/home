@@ -1,3 +1,6 @@
+" All system-wide defaults are set in $VIMRUNTIME/archlinux.vim (usually just
+" /usr/share/vim/vimfiles/archlinux.vim) and sourced by the call to :runtime
+" you can find below.  If you wish to change any of those settings, you should
 " do it in this file (/etc/vimrc), since archlinux.vim will be overwritten
 " everytime an upgrade of the vim packages is performed.  It is recommended to
 " make changes after sourcing archlinux.vim since it alters the value of the
@@ -14,25 +17,46 @@ runtime! archlinux.vim
 " do not load defaults if ~/.vimrc is missing
 "let skip_defaults_vim=1
 
-" Omnicompletion
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete<Paste>
-
+" nvim is better. change my mind
 if !has('nvim')
   set ttymouse=xterm2
 endif
 
+" for moar colors
 syntax on
-set encoding=UTF-8 
+filetype plugin on
+
+" because I can't live without enabling it
 set number
-autocmd VimEnter * NERDTree
-autocmd ColorScheme * highlight Normal ctermbg=NONE
-" maps esc to close terminal
+set ruler
+
+" indentation
+set tabstop=2
+set shiftwidth=2
+
+" encoding for making lives easier
+set encoding=utf-8
+
+" hide statusbar. I don't like it. change my mind
+set laststatus=0
+
+" yank to clipboard
+set clipboard=unnamedplus
+
+" better search imo
+set ignorecase
+set smartcase
+
+" maps esc to go to normal mode while in :term
 tnoremap <Esc> <C-\><C-n>       
 
-hi Normal ctermbg=none
-colorscheme afterglow
+" set 256 colors
+set t_Co=256
 
+" keybindings
+nmap <F6> :NERDTreeToggle<CR>
+
+" Plugins start here
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -45,48 +69,30 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-
-" load plugin using vundle
-" Programming
+" Own plugins
+" General
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'Townk/vim-autoclose'
 Plugin 'scrooloose/nerdtree'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ervandew/supertab'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
-Plugin 'majutsushi/tagbar'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'vim-scripts/a.vim'
-Plugin 'jez/vim-c0'
-Plugin 'jez/vim-ispc'
-Plugin 'kchmck/vim-coffee-script'
+Plugin 'davidhalter/jedi-vim' "because python
+Plugin 'jistr/vim-nerdtree-tabs' " I lke me some fancy stuff
+Plugin 'vim-syntastic/syntastic' " it saves me some time
+Plugin 'ervandew/supertab' " using tab for completion is better
 
-" Beautify
+" Beautify. everyone expects their to be noice looking
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'ryanoasis/vim-webdevicons'
-Plugin 'rafi/awesome-vim-colorschemes'
-Plugin 'danilo-augusto/vim-afterglow'
-Plugin 'miyakogi/seiya.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'morhetz/gruvbox'
-
-" General Plugins
-Plugin 'easymotion/vim-easymotion'
+Plugin 'vim-scripts/twilight256.vim'
+" no vimairline for ya
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1 
-let g:airline_theme= 'dracula'
-let g:hybrid_custom_term_colors = 1
-let g:hybrid_reduced_contrast = 1 
+" colorscheme
+colorscheme twilight256
+
+" Plugin's config
 
 "devicons
 
@@ -96,6 +102,7 @@ let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_ctrlp = 1
 
 "syntastic
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -106,19 +113,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 "jedi-vim
+
 let g:jedi#completions_command = "<C-Tab>"
 
-" yank to clipboard
-set clipboard=unnamed
-"function! ClipboardYank()
-"  call system('xclip -i -selection clipboard', @@)
-"endfunction
-"function! ClipboardPaste()
-"  let @@ = system('xclip -o -selection clipboard')
-"endfunction
-"
-"vnoremap <silent> y y:call ClipboardYank()<cr>
-"vnoremap <silent> d d:call ClipboardYank()<cr>
-"nnoremap <silent> p :call ClipboardPaste()<cr>p
-" shortcuts
-nmap <F6> :NERDTreeToggle<CR>
