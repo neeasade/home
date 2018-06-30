@@ -1,8 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 /* appearance */
-static const unsigned int BORDERPX  = 4;        /* border pixel of windows */
-static const unsigned int GAP_PX    = 4;        /* useless gaps in px */
-static const unsigned int start_borders = 0; //0 means no borders and yes gaps. 1 means no gaps and yes borders. 2 means no borders and no gaps, 3 means gaps and borders
+static const unsigned int bargap 		= 0; 				/* gaps above bar */
+static const unsigned int BORDERPX  = 6;        /* border pixel of windows */
+static const unsigned int GAP_PX    = 8;        /* useless gaps in px */
+static const unsigned int start_borders = 3; //0 means no borders and yes gaps. 1 means no gaps and yes borders. 2 means no borders and no gaps, 3 means gaps and borders
 static const unsigned int snap      = 0;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -11,16 +12,12 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "scientifica:size=10" };
 static const char dmenufont[]       = "scientifica :size=10";
 //theme include
-#include "themes/pink.h"
+#include "themes/thicc.h"
+//#include "themes/pink.h"
 //#include "themes/default.h"
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { normfg,    normbg,    normborder },
-	[SchemeSel]  = { selfg,     selbg,     selborder  },
-};
 
 /* tagging */
-static const char *tags[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "0", "1", "2", "3", "4", "5", /*"6", "7", "8", "9"*/ };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -29,7 +26,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     iscentered     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            0,             1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,             0,           -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 1,       0,             0,           -1 },
 	{ "feh",      NULL,       "feh",      0,            1,             1,		-1 },
 	{ "st",       NULL,       "floating-st", 0,          0,             1,           -1 },
 	};
@@ -107,8 +104,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_a,      setlayout,      {.v = &layouts[7]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-//	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-//	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
@@ -119,10 +116,10 @@ static Key keys[] = {
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
 	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
+/*	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	TAGKEYS(                        XK_0,                      9)
+	TAGKEYS(                        XK_0,                      9) */
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 

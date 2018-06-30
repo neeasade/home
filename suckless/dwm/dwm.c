@@ -757,7 +757,7 @@ drawbar(Monitor *m)
 	float sw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
-	int BOXW = drw->fonts->h / 1;;
+	int BOXW = drw->fonts->h / 1;
 	int BOXS = drw->fonts->h / 1;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
@@ -1379,19 +1379,19 @@ resizeclient(Client *c, int x, int y, int w, int h)
 			gapoffset = 0;
 			gapincr = -2 * borderpx;
 			wc.border_width = 0;
-		}
+		} 
 		/* Remove gap (not border) when layout is anything other monocole. */
-		else if (selmon->lt[selmon->sellt]->arrange != monocle && n == 1) {	
+		/*else if (selmon->lt[selmon->sellt]->arrange != monocle && n == 1) {	
 			gapoffset = 0; 
 			gapincr = 0;
 
-		} else {
+		}*/ else { 
 			gapoffset = gappx;
-			gapincr = 2 * gappx;
+			gapincr = 2 * gappx - 2;
 		}
 	}
 	c->oldx = c->x; c->x = wc.x = x + gapoffset;
-	c->oldy = c->y; c->y = wc.y = y + gapoffset;
+	c->oldy = c->y; c->y = wc.y = y + gapoffset + bargap;
 	c->oldw = c->w; c->w = wc.width = w - gapincr;
 	c->oldh = c->h; c->h = wc.height = h - gapincr;
 
@@ -2027,7 +2027,7 @@ updatebarpos(Monitor *m)
 	m->wh = m->mh;
 	if (m->showbar) {
 		m->wh -= bh;
-		m->by = m->topbar ? m->wy : m->wy + m->wh;
+		m->by = m->topbar ? m->wy + bargap : m->wy + m->wh;
 		m->wy = m->topbar ? m->wy + bh : m->wy;
 	} else
 		m->by = -bh;
@@ -2483,7 +2483,7 @@ centeredmaster(Monitor *m)
 	}
 }
 
-void toggleborder (Client *c) {
+void toggleborder () {
 	if (borderpx == 0) borderpx = BORDERPX;
 	else borderpx = 0;
 }
