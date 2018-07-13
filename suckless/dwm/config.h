@@ -1,11 +1,11 @@
 /* See LICENSE file for copyright and license details. */
 /* appearance */
-static const unsigned int bargap 		= 0; 				/* gaps above bar */
 static const unsigned int BORDERPX  = 6;        /* border pixel of windows */
 static const unsigned int GAP_PX    = 8;        /* useless gaps in px */
 static const unsigned int start_borders = 3; //0 means no borders and yes gaps. 1 means no gaps and yes borders. 2 means no borders and no gaps, 3 means gaps and borders
 static const unsigned int snap      = 0;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
+static const int BAR_HEIGHT = 20; // in pixels
 static const int topbar             = 1;        /* 0 means bottom bar */
 //static const int float_border 			= 1; // 0 means keep border no matter the number of client is in floating. 1 means no border if only one floating client is present.
 //static const char *fonts[]          = {"Terminus (TTF):size=9" };
@@ -17,7 +17,8 @@ static const char dmenufont[]       = "scientifica :size=10";
 //#include "themes/default.h"
 
 /* tagging */
-static const char *tags[] = { "0", "1", "2", "3", "4", "5", /*"6", "7", "8", "9"*/ };
+static const int NUM_WORKSPACES=6;
+static const char *tags[] = { "0", "1", "2", "3", "4", "5" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -38,6 +39,7 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 
 #include "layouts.c"
 #include "fibonacci.c"
+static int NUM_LAYOUTS = 8;
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
@@ -58,7 +60,7 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-
+	
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
@@ -79,7 +81,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },	
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
@@ -140,4 +141,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 	{ ClkRootWin, 		0, 		Button3, 	spawn, 		{.v = drawst } },
 };
-

@@ -1,5 +1,5 @@
 # dwm version
-VERSION = 6.1
+VERSION = "git_gud"
 
 # Customize below to fit your system
 
