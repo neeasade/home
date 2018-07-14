@@ -1,7 +1,5 @@
 # For the benefit of emacs users: -*- shell-script -*-
-###########################
-# xbindkeys configuration #
-###########################
+########################### xbindkeys configuration # ##########################
 #
 # Version: 1.8.6
 #
@@ -40,7 +38,7 @@
 # Shortcuts
 
 # Screenshot using Xfce's screenshooter
-"sh ~/bin/ss.sh"
+"bash ${HOME}/bin/ss.sh"
     m:0x0 + c:107
     Print
 
@@ -50,7 +48,7 @@
     Mod4 + n
  
 # Launch Minecraft Launcher *assumes it's in a particular directory
-"java -jar ~/stuff/mc.jar"
+"java -jar ${HOME}/stuff/mc.jar"
     m:0x40 + c:58
     Mod4 + m
 
@@ -64,16 +62,19 @@
     m:0x41 + c:41
     Shift+Mod4 + f
 
-# Launch vivaldi, browser *works only if you have the snapshot version*
-"vivaldi-snapshot"
+# Launch firefox
+"firefox"
     m:0x40 + c:55
     Mod4 + v
 
-# Launch draw st script located in bin
-"bash ~/bin/draw_st.sh"
-    m:0x40 + c:40
-    Mod4 + d
-
+# Launch floating st
+"bash ${HOME}/bin/draw_st.sh"
+    m:0x40 + b:3
+    Mod4 + Super_L
+# Start recording
+"${HOME}/bin/record.sh"
+		m:0x44 + c:27
+    Control+Mod4 + r
 ##################################
 # End of xbindkeys configuration #
 ##################################

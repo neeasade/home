@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# forked from astrakk. modified to utilize dmenu instead of rofi
 # screenshot filename
 tmp_image=/tmp/maim_imgur.$USER.$$.png
 
@@ -30,7 +30,7 @@ imgur_upload() {
 }
 
 grab_area() {
-     maim -s >"$tmp_image"
+     maim -s -u >"$tmp_image"
      imgur_upload "$tmp_image"
 }
 
@@ -40,7 +40,7 @@ grab_window() {
 }
 
 grab_all() {
-     maim >"$tmp_image"
+     maim -u >"$tmp_image"
      imgur_upload "$tmp_image"
 }
 
@@ -66,7 +66,7 @@ check_install "curl"
 check_install "xclip"
 check_install "xdotool"
 
-# starting rofi in dmenu mode
+# starting dmenu 
 select_option "$(printf "%s\n" "${options[@]}" | dmenu \
      -i \
      -p "> ")"

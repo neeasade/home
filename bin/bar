@@ -1,0 +1,135 @@
+#!/usr/bin/bash
+#
+# http://github.com/mitchweaver/bin
+#
+# the unholy lemonbar
+# edited to fit The_Human's dwm. changed layouts' symbol and cleared gaps
+
+# on exit, kill all children
+trap 'pkill -P $$' EXIT
+LC_ALL=""
+
+init() {
+    . ${HOME}/.cache/wal/colors.sh
+		colorfg="#ffffff"
+    [ -d /tmp/bar ] && rm -rf /tmp/bar
+    mkdir -p /tmp/bar
+
+    # wait for dwm to start
+    while ! pgrep dwm > /dev/null ; do
+        sleep 0.1
+    done
+
+    # if zero, bar is disabled
+    [ $(< /tmp/dwm_info/bar_height) -eq 0 ] && exit
+
+    echo 1 > /tmp/dwm_info/check
+
+    num_ws=$(< /tmp/dwm_info/num_ws)
+
+    res="$(xrandr --nograb --current | awk '/\*/ {print $1}')"
+    res=${res% *}
+    sw=${res%x*}
+    sh=${res#*x}
+    sw=${sw%.*}
+    sh=${sh%.*}
+
+    gap=0
+
+    w=$(( $sw - $gap * 2 ))
+    x=$gap
+    h=$(< /tmp/dwm_info/bar_height)
+    [ $gap -gt 0 ] && h=$(( $h + ($h / 4) ))
+
+    if [ $(< /tmp/dwm_info/top_bar) -eq 0 ] ; then
+        [ $gap -gt 0 ] && 
+            y=$(echo "$h / 5" | bc -l) || 
+            y=0
+    else
+        [ $gap -gt 0 ] &&
+            y=$(echo "$sh - $h - ($h / 2.5)" | bc -l) ||
+            y=$(( $sh - $h ))
+    fi
+
+    if [ $gap -eq 0 ] ; then
+        ft1="TerminessTTF Nerd Font:size=8"
+        ft2="TerminessTTF Nerd Font:size=10"
+        ft3="TerminessTTF Nerd Font:size=10"
+        ft4="TerminessTTF Nerd Font:size=10"
+        ft5="TerminessTTF Nerd Font:size=10"
+    else
+		  	ft1="Terminus (TTF):size=8"
+        ft2="TerminessTTF Nerd Font Mono:size=8"
+        ft3="TerminessTTF Nerd Font Mono:size=8"
+        ft4="TerminessTTF Nerd Font Mono:size=10"
+        ft5="TerminessTTF Nerd Font Mono:size=10"
+    fi
+
+    unset res sw sh gap tmp
+}
+
+layout() {
+    case $(< /tmp/dwm_info/current_layout) in
+        0) echo -n "[]=" ;; # tiled
+        1) echo -n "><>" ;; # floating
+        2) echo -n "[M]" ;; # monocle
+        3) echo -n "TTT" ;; # bstack 
+        4) echo -n "[]H" ;; # deck 
+        5) echo -n "|M|" ;; # center master
+        6) echo -n "[@]" ;; # spiral 
+        7) echo -n "[\\]" ;; # dwindle 
+    esac 2> /dev/null
+} 
+
+wksp() {
+    if [ $(< /tmp/dwm_info/check) -eq 1 ] ; then
+        for i in $(seq $num_ws || jot $num_ws) ; do
+
+            [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
+                ws=" %{F$color2}$i%{F-} " ||
+                ws=" $i "
+
+            [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
+                ws="%{+u}$ws" ||
+                ws="%{-u}$ws"
+            buffer=$buffer$ws
+
+        done
+        echo -n "$buffer" > /tmp/bar/wksp
+        echo -n 0 > /tmp/dwm_info/check
+    fi 2> /dev/null
+}
+
+launch_daemons() {
+		# time_daemon
+    dash -c 'while date "+%I:%M %p" > /tmp/bar/date
+        do sleep 59
+    done' &
+}
+
+init
+launch_daemons
+
+while \
+    printf " %s%b%s%b%b%b%b%b%b%s \\n" \
+        "$(wksp)$(< /tmp/bar/wksp)%{-u} " \
+        "%{T4}$(layout)" \
+        "$(< /tmp/bar/temp)" \
+        "%{r}%{F"$colorfg"}%{T4}[ $(< /tmp/bar/date) %{T4}]%{T-}%{F-}"
+
+    do sleep 0.5
+done 2> /dev/null | \
+
+lemonbar -db \
+         -f "$ft1" \
+         -f "$ft2" \
+         -f "$ft3" \
+         -f "$ft4" \
+         -f "$ft5" \
+         -g ${w}x${h}+${x}+${y} \
+         -n bar \
+         -u 2 \
+         -U "#fbd3da" \
+         -B "#2d3436" \
+         -F "#ffffff" \
+-a 0 > /dev/null 2>&1
