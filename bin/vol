@@ -1,0 +1,11 @@
+#!/bin/bash
+# simple bash script which increases the volume of Master (ALSA)
+
+vol_arith=$1
+
+amixer set Master $vol_arith
+
+# get current volume and output that to a file which will be used by the bar
+#amixer sget Master | grep -oE '\[*..?.?%\]' | sed -e 's/\[//' -e 's/\%\]//' > /tmp/bar/vol
+
+amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $2 }' > /tmp/bar/vol

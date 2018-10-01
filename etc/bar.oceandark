@@ -10,14 +10,13 @@ trap 'pkill -P $$' EXIT
 LC_ALL=""
 
 init() {
-
-    colordetails="#b9b9b9"
-    colordetailsbg="#101010"
-    colorwsbg="#101010"
-    colorws="#868686"
-    colorwscurrent="#b9b9b9"
-    colorwindowname="#b9b9b9"
-    colorwindownamebg="#101010"
+	colordetails="#fbd3da"
+    colordetailsbg="#bf616a"
+    colorwsbg="#2b303b"
+    colorws="#eff1f5"
+    colorwscurrent="#65737e"
+    colorwindowname="#fbd3da"
+    colorwindownamebg="#65737e"
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar
     mkdir -p /tmp/bar
@@ -42,23 +41,22 @@ init() {
     sw=${sw%.*}
     sh=${sh%.*}
 
-    gap=$(< /tmp/dwm_info/gappx)
-    w=$(( $sw - 500 ))
-    x=$(( $sw / 2 - $w / 2 ))
+    gap=0
+    w=$(( $sw - $gap * 2 ))
+    x=$gap
     h=$(< /tmp/dwm_info/bar_height)
-    #[ $gap -gt 0 ] && h=$(( $h + ($h / 4) ))
+    [ $gap -gt 0 ] && h=$(( $h + ($h / 4) ))
 
     if [ $(< /tmp/dwm_info/top_bar) -eq 0 ] ; then
         [ $gap -gt 0 ] && 
-            y=$(( $gap )) ||
+            y=$(echo "$h / 5" | bc -l) || 
             y=0
-
     else
         [ $gap -gt 0 ] &&
             y=$(echo "$sh - $h - ($h / 2.5)" | bc -l) ||
             y=$(( $sh - $h ))
     fi
-    
+
     if [ $gap -eq 0 ] ; then
         ft1="TerminessTTF Nerd Font:size=9"
         ft2="ShureTechMono Nerd Font:size=9"
@@ -92,15 +90,17 @@ layout() {
 } 
 
 wksp() {
+    circle="\uf10c"
+    filled_circle="\uf111"
     if [ $(< /tmp/dwm_info/check) -eq 1 ] ; then
         for i in $(seq $num_ws || jot $num_ws) ; do
-            wkspicon=$(( $i - 1 ))
+
             [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
-                ws=" %{T1}%{B$colorwsbg}$wkspicon%{B-}%{T-} " ||
-                ws=""
+                ws=" %{T1}%{B$colorwsbg}%{F$colorws}$filled_circle%{F-}%{B-}%{T-} " ||
+                ws=" $circle "
 
             [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{B-}%{T-} " ||
+                ws=" %{T1}%{B$colorwsbg}%{F$colorwscurrent}$filled_circle%{F-}%{B-}%{T-} " ||
                 ws="$ws"
             buffer=$buffer$ws
 
@@ -115,9 +115,9 @@ focused_window() {
     lencwin=${#cwin}
     if (( $lencwin > 80 )); then
         win=${cwin:0:50} 
-        formatname="%{T2}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
+        formatname="%{l}%{T2}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
     elif [ -n "$cwin" ]; then
-        formatname="%{T2}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
+        formatname="%{l}%{T2}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
     elif [ -z "$cwin" ]; then
         formatname=""
     fi
@@ -128,24 +128,10 @@ launch_daemons() {
 		# time_daemon
     dash -c 'while date "+%H:%M" > /tmp/bar/date
         do sleep 59
-    done' > /dev/null 2>&1 &
-        
-        # day_daemon
-    dash -c 'while true; do
-        case $(date +%u) in
-            1) echo mo > /tmp/bar/day;;
-            2) echo tu > /tmp/bar/day;;
-            3) echo we > /tmp/bar/day;;
-            4) echo th > /tmp/bar/day;;
-            5) echo fr > /tmp/bar/day;;
-            6) echo st > /tmp/bar/day;;
-            7) echo su > /tmp/bar/day;;
-        esac
-        sleep 6000
-        done' &
+    done' &
 
         # ram and cpu usage daemon
-    #python $HOME/bin/usage &
+    python $HOME/bin/usage &
 }
 
 init
@@ -153,11 +139,13 @@ launch_daemons
 
 while \
     printf " %s%b%s%b%b%b%b%b%b%s \\n" \
-        "  %{T2}%{F$colordetails}$(< /tmp/bar/day)%{F-}%{T-}  " \
-        "  $(wksp)$(< /tmp/bar/wksp)" \
-        "%{c}%{F$colorwindowname}$(focused_window)%{F-}" \
+        "$(focused_window)" \
+        "%{c}$(wksp)$(< /tmp/bar/wksp) " \
+        "%{T4}%{F$colorws}%{B$colorwsbg}$(layout)%{T-}%{F-}%{B-}" \
         "$(< /tmp/bar/temp)" \
-        "%{r}  %{T2}%{F$colordetails}$(< /tmp/bar/date)%{T-}%{F-}  "
+        "%{r}%{T4}%{B$colordetailsbg}%{F$colordetails} [ \ufb19 $(< /tmp/bar/cpu)% ][ \uf2db $(< /tmp/bar/ram)% ][ \uf028 $(< /tmp/bar/vol) ][ \uf64f $(< /tmp/bar/date) ] %{T-}%{F-}%{B-}" \
+        "%{A:poweroff:}\uffff%{A}"
+
     do sleep 0.5
 done 2> /dev/null | \
 
@@ -171,6 +159,6 @@ lemonbar -db \
          -n bar \
          -u 2 \
          -U "#fbd3da" \
-         -B "#101010" \
+         -B "#2b303b" \
          -F "#ffffff" \
 -a 0 > /dev/null 2>&1

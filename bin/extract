@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+# terminal archive viewer which uses ranger
+# Made by: Th3-Hum4n
+# this script checks if the archive name has "tar" or "zip" in its name and uses an extract method accordingly
+
+archive_name=$1
+archive_type="$(file "$archive_name")"
+
+case $archive_type in
+    *tar*)
+	mkdir /tmp/archive
+	tar xfv "$1" -C /tmp/archive
+	ranger /tmp/archive
+	rm -rf /tmp/archive
+	;;
+	*zip*)
+	mkdir /tmp/archive
+	unzip "$1" -d /tmp/archive
+	ranger /tmp/archive
+	rm -rf /tmp/archive
+	;;
+    *)
+    echo "unknown archive type! please submit the archive type in a pull request"
+    ;;
+esac

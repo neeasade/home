@@ -1,0 +1,41 @@
+#!/bin/bash
+# dmenu launcher with my patches
+
+# get resolution, screen height, screen width, etc.
+# resolution stuff stolen from mitch :p
+res="$(xrandr --nograb --current | awk '/\*/ {print $1}')"
+res=${res% *}
+sw=${res%x*}
+sh=${res#*x}
+sw=${sw%.*}
+sh=${sh%.*}
+
+dmenu_w=$((sw / 2))
+dmenu_x=$((sw / 2 - dmenu_w / 2))
+dmenu_lines=$((sw / 50))
+dmenu_y=$((sh / 6))
+
+font="ShureTechMono Nerd Font:size=10"
+selbg="#101010"
+selfg="#656565"
+normfg="#868686"
+normbg="#101010"
+borderpx=$(< /tmp/dwm_info/borderpx)
+borcol="#868686"
+
+app_run() {
+    dmenu_run -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg" -sb "$selbg" -sf "$selfg" -p "run:"
+}
+
+sel() {
+    dmenu -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg" -sb "$selbg" -sf "$selfg" -p "select:"
+}
+
+case $1 in
+    "sel")
+        sel
+        ;;
+    "run")
+        app_run
+        ;;
+esac

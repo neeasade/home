@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+# get cpu and ram usage
+
+import psutil
+from time import sleep
+
+while True:
+    ram_usage = str(int(psutil.virtual_memory().percent))
+    cpu_usage = str(int(psutil.cpu_percent()))
+    with open("/tmp/bar/ram", "w") as ram:
+        ram.write(ram_usage)
+    with open("/tmp/bar/cpu", "w") as cpu:
+        cpu.write(cpu_usage)
+    sleep(1)

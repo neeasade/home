@@ -1,0 +1,23 @@
+#!/bin/bash
+
+while getopts "t:" OPTS; do
+    case "$OPTS" in
+        t)
+            time_interval=$OPTARG
+            ;;
+        h)
+            echo "usage: [-t] time interval in mins"
+            ;;
+        *)
+            echo "usage: [-t] time interval in mins"
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+while true; do
+    cur_time="$(date +%H:%M)"
+    notify-send -t 5000 -u critical "current time: $cur_time"
+    echo "notification sent"
+    sleep $(($time_interval * 60))
+done

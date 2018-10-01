@@ -1,0 +1,36 @@
+#!/bin/bash
+# Install all the fonts I use and like
+
+# links
+terminess="https://github-production-release-asset-2e65be.s3.amazonaws.com/27574418/e1b1de7c-35ce-11e8-9017-7b6c082ccabe?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180812T120936Z&X-Amz-Expires=300&X-Amz-Signature=b28038e6837b4133c8cf56903f21005be4abcb30aed055d89ab8f1f0662ff8b6&X-Amz-SignedHeaders=host&actor_id=37809414&response-content-disposition=attachment%3B%20filename%3DTerminus.zip&response-content-type=application%2Foctet-stream"
+iosevka="https://github-production-release-asset-2e65be.s3.amazonaws.com/27574418/2c56a822-35cf-11e8-8881-17d0c2dca3c4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180812T121132Z&X-Amz-Expires=300&X-Amz-Signature=6d48dc7a9d9cb020f942a2a837acc4569af11c0b5e1c41dd46f4000741288964&X-Amz-SignedHeaders=host&actor_id=37809414&response-content-disposition=attachment%3B%20filename%3DIosevka.zip&response-content-type=application%2Foctet-stream"
+sharetechmono="https://github-production-release-asset-2e65be.s3.amazonaws.com/27574418/15304540-35cf-11e8-8913-db39c5f6986b?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180812T121113Z&X-Amz-Expires=300&X-Amz-Signature=8316cae3695bc898c8165dec816cdd71c10d8f30c5d2a7b9aad42bf13d289f38&X-Amz-SignedHeaders=host&actor_id=37809414&response-content-disposition=attachment%3B%20filename%3DShareTechMono.zip&response-content-type=application%2Foctet-stream"
+
+# initiate all the folders
+mkdir -p /tmp/fonts
+mkdir -p /tmp/fonts/archives
+archive_folder="/tmp/fonts/archives/"
+
+download() {
+    curl $terminess > $archive_folder/Termines.zip
+    curl $sharetechmono > $archive_folder/ShareTechMono.zip
+    curl $iosevka > $archive_folder/Iosevka.zip
+}
+
+extract() {
+    cd $archive_folder
+    unzip ./Terminus.zip -d /tmp/fonts/terminess
+    unzip ./Iosevka.zip -d /tmp/fonts/iosevka
+    unzip ./ShareTechMono.zip -d /tmp/fonts/sharetechmono 
+}
+
+install() {
+    cp -r /tmp/fonts/terminess/* $HOME/.fonts/
+    cp -r /tmp/fonts/iosevka/* $HOME/.fonts/
+    cp -r /tmp/fonts/sharetechmono/* $HOME/.fonts/
+    fc-cache
+}
+
+download
+extract
+install

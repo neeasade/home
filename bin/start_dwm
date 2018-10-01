@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+# Took from arch wiki
+echo term > /tmp/dwm.fifo
+sleep 10
+while true; do
+    # Log stderror to a file 
+    dwm 2> ~/var/logs/dwm
+    # No error logging
+    #dwm > /dev/null 2>&1
+done

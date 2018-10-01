@@ -1,0 +1,59 @@
+# functions and linux/openbsd specific things
+
+case $(uname) in
+    Linux)
+    alias ls='ls --color=auto'
+    ;;
+    OpenBSD)
+    alias sudo='doas'
+    alias killall='pkill -9 "$1"'
+    ;;
+esac
+
+find_font() {
+    fc-list | grep "$1"
+}
+
+mklatex() {
+    pdflatex "$1"
+    rm "${1//.tex}".aux "${1//.tex}".log
+}
+
+c() {
+    if [[ -f "$1" ]]; then
+        cat "$1"
+    elif [[ -d "$1" ]]; then
+        cd "$1"
+    else
+        clear
+    fi
+}
+
+# aliases
+alias a='alias'
+a mkf='touch'
+a python="/usr/bin/python3"
+#a pacwoman='python ${HOME}/usr/src/pacwoman/pacwoman.py'
+a py="python"
+a sf='neofetch'
+a colors="${HOME}/bin/colors"
+a v='nvim'
+a panes='${HOME}/bin/panes'
+a l="ls -l"
+a ll="ls -w $(ls | wc -l)"
+a f="ranger"
+a pip="pip3"
+a mkd="mkdir"
+a ff="find_font"
+a mklatex="mklatex"
+a mkci="make clean install"
+a mpf="mupdf"
+a sx="startx"
+a c="c"
+a sudo="sudo "
+
+# aliases for switching to specific dirs
+a gH="cd $HOME"
+a gR="cd /"
+a gB="cd $HOME/bin"
+a gS="cd $HOME/usr/src"

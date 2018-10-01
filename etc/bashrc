@@ -1,0 +1,49 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# colors and their ANSI codes. made colorful prompt easy
+blk="\[\033[38;5;0m\]"
+red="\[\033[38;5;1m\]"
+grn="\[\033[38;5;2m\]"
+ylw="\[\033[38;5;3m\]"
+blu="\[\033[38;5;4m\]"
+pnk="\[\033[38;5;5m\]"
+cyn="\[\033[38;5;6m\]"
+wht="\[\033[38;5;7m\]"
+dblk="\[\033[38;5;8m\]"
+dred="\[\033[38;5;9m\]"
+dgrn="\[\033[38;5;10m\]"
+dylw="\[\033[38;5;11m\]"
+dblu="\[\033[38;5;12m\]"
+dpnk="\[\033[38;5;13m\]"
+dcyn="\[\033[38;5;14m\]"
+dwht="\[\033[38;5;15m\]"
+
+# check the current git branch
+_branch() {
+    local branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/')"
+    [ -n "$branch" ] &&
+        echo -n "$branch"
+}
+
+# prompt
+case "$(whoami)" in
+    the_human)
+        export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}m${dpnk}a${dblu}n ${dgrn}\w\[$(tput sgr0)\]${dcyn}$(_branch) \033[0m"
+    ;;
+    root)
+    export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w\[$(tput sgr0)\] \003[0m"
+    ;;
+esac
+
+# export a bunch of variables
+export EDITOR=nvim
+export PATH=$PATH:$HOME/bin/:$HOME/.local/bin:$HOME/usr/local:$HOME/usr/local/bin
+export MANPATH=$MANPATH:$HOME/usr/local/man
+
+# source aliases
+source $HOME/etc/aliases

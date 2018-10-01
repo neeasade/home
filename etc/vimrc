@@ -1,0 +1,120 @@
+"vim config
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Own plugins
+" General
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'scrooloose/nerdtree'
+Plugin 'davidhalter/jedi-vim' "because python
+Plugin 'rust-lang/rust.vim' "rust yummy
+Plugin 'jistr/vim-nerdtree-tabs' " I like me some fancy stuff
+Plugin 'vim-syntastic/syntastic' " it saves me some time
+Plugin 'ervandew/supertab' " using tab for completion is better
+Plugin 'w0rp/ale' "linter
+
+" Beautify. everyone expects their to be noice looking
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'ryanoasis/vim-webdevicons'
+Plugin 'morhetz/gruvbox'
+Plugin 'vim-scripts/twilight256.vim'
+"Plugin 'Yggdroot/indentLine'
+Plugin 'chriskempson/base16-vim'
+" no vimairline for ya
+
+" obscure crap
+Plugin 'aurieh/discord.nvim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+
+" nvim is better. change my mind
+if !has('nvim')
+  set ttymouse=xterm2
+endif
+
+" for moar colors
+syntax on
+filetype plugin on
+
+" because I can't live without enabling it
+"set number
+"set ruler
+
+" indentation
+set tabstop=4
+set shiftwidth=4
+set et
+
+" encoding for making lives easier
+set encoding=utf-8
+
+" hide statusbar. I don't like it. change my mind
+set laststatus=0
+
+" better search imo
+set ignorecase
+set smartcase
+
+" maps esc to go to normal mode while in :term
+tnoremap <Esc> <C-\><C-n>       
+
+" set 256 colors
+set t_Co=256
+
+" keybindings
+nmap <F6> :NERDTreeToggle<CR>
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" colorscheme
+colorscheme base16-grayscale-dark
+" Plugin's config
+
+"devicons
+
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_airline_statusline = 1
+let g:webdevicons_enable_ctrlp = 1
+
+"syntastic
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"jedi-vim
+
+let g:jedi#completions_command = "<C-Tab>"
+
+"rust-lang
+let g:rustfmt_autosave = 1 "enable rust format
+
+"linter
+"completition
+let g:ale_completion_enabled = 1
+
+"identguides config
+"let g:indentLine_setColors = 0
+"let g:indentLine_char = '▏'
+"filetype indent on
+"IndentLinesDisable
+
+" yank to clipboard
+set clipboard=unnamed
