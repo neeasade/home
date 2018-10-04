@@ -1,0 +1,4 @@
+#!/bin/dash
+
+cd $HOME/usr/src/dline
+python3 dline.py $@
