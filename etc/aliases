@@ -6,7 +6,7 @@ case $(uname) in
     ;;
     OpenBSD)
     alias sudo='doas'
-    alias killall='pkill -9 "$1"'
+    alias killall='pkill -9'
     ;;
 esac
 
@@ -43,7 +43,7 @@ a l="ls -l"
 a ll="ls -w $(ls | wc -l)"
 a f="ranger"
 a pip="pip3"
-a mkd="mkdir"
+a mkd="mkdir -p"
 a ff="find_font"
 a mklatex="mklatex"
 a mkci="make clean install"
@@ -57,3 +57,4 @@ a gH="cd $HOME"
 a gR="cd /"
 a gB="cd $HOME/bin"
 a gS="cd $HOME/usr/src"
+a gr="cd $HOME/usr/repos"

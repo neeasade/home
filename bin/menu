@@ -16,10 +16,10 @@ dmenu_lines=$((sw / 50))
 dmenu_y=$((sh / 6))
 
 font="ShureTechMono Nerd Font:size=10"
-selbg="#101010"
-selfg="#656565"
-normfg="#868686"
-normbg="#101010"
+selbg="#c9ced6"
+selfg="#646765"
+normfg="#6f7270"
+normbg="#d3d8de"
 borderpx=$(< /tmp/dwm_info/borderpx)
 borcol="#868686"
 

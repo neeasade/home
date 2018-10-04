@@ -1,7 +1,4 @@
-#
-# ~/.bashrc
-#
-
+# $HOME/etc/bashrc 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -24,23 +21,55 @@ dcyn="\[\033[38;5;14m\]"
 dwht="\[\033[38;5;15m\]"
 
 # check the current git branch
+# read the comments to understand
 _branch() {
     local branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/')"
-    [ -n "$branch" ] &&
-        echo -n "$branch"
+    local branch_status=0
+    
+    # branch_status=0 => unmodified
+    # branch_status=1 => modified
+    # branch_status=2 => the local repo is ahead
+    # TODO: add support for checking if the local repo is not up to date
+
+    if [ -n "$branch" ]; then
+        case "$(git status -uno 2> /dev/null)" in
+            *"Changes to be committed"* | *"not staged"*)
+            branch_status=1;;
+            *"ahead of"*)
+            branch_status=2;;
+            *"up to date"*)
+            branch_status=0;;
+        esac
+        
+        case $branch_status in
+        0)
+        echo -n "$branch";;
+        1)
+        echo -n "${branch}+";;
+        2)
+        echo -n "${branch}^";;
+        esac
+    fi
+}
+
+# set our terminal's window terminal to the current working dir
+_get_cwd() {
+    cwd="$(echo "$PWD" | sed -e "s|$HOME|\$HOME|g")"
+    echo -ne "\033]0;$cwd\a" 
 }
 
 # prompt
 case "$(whoami)" in
     the_human)
-        export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}m${dpnk}a${dblu}n ${dgrn}\w\[$(tput sgr0)\]${dcyn}$(_branch) \033[0m"
+    export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}m${dpnk}a${dblu}n ${dblu}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\$(_get_cwd)\[\033[0m\] "
     ;;
     root)
-    export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w\[$(tput sgr0)\] \003[0m"
+    export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\$(_get_cwd)\[\003[0m\] "
     ;;
 esac
 
 # export a bunch of variables
+# I prefer to have binaries and other scripts in my home dir, so I add some some directories to my $PATH
 export EDITOR=nvim
 export PATH=$PATH:$HOME/bin/:$HOME/.local/bin:$HOME/usr/local:$HOME/usr/local/bin
 export MANPATH=$MANPATH:$HOME/usr/local/man

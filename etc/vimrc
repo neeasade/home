@@ -18,7 +18,7 @@ Plugin 'rust-lang/rust.vim' "rust yummy
 Plugin 'jistr/vim-nerdtree-tabs' " I like me some fancy stuff
 Plugin 'vim-syntastic/syntastic' " it saves me some time
 Plugin 'ervandew/supertab' " using tab for completion is better
-Plugin 'w0rp/ale' "linter
+"Plugin 'w0rp/ale' "linter
 
 " Beautify. everyone expects their to be noice looking
 Plugin 'ryanoasis/vim-devicons'
@@ -108,7 +108,7 @@ let g:rustfmt_autosave = 1 "enable rust format
 
 "linter
 "completition
-let g:ale_completion_enabled = 1
+"let g:ale_completion_enabled = 1
 
 "identguides config
 "let g:indentLine_setColors = 0
