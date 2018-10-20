@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Made by The_Human
 # bash script which converts audio format of video to mp3 using ffmpeg. made it to convert movies' audio codec to watch in tvs
 

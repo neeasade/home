@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # forked from astrakk. modified to utilize dmenu instead of rofi
 # screenshot filename
 tmp_image=/tmp/maim_imgur.$USER.$$.png

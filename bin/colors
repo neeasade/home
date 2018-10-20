@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 # MIT Licence.
 # Print out 256 colours, with each number printed in its corresponding colour
 # See http://askubuntu.com/questions/821157/print-a-256-color-test-pattern-in-the-terminal/821163#821163

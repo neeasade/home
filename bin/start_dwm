@@ -1,6 +1,5 @@
-#!/usr/bin/bash
+#!/bin/dash
 # Took from arch wiki
-echo term > /tmp/dwm.fifo
 sleep 10
 while true; do
     # Log stderror to a file 

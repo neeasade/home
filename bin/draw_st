@@ -1,9 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/dash
 
-read -r X Y W H < <(slop -f "%x %y %w %h" -b 1 -t 0 -q)
-# Width and Height in px need to be converted to columns/rows
-# To get these magic values, make a fullscreen st, and divide your screen width by ${tput cols}, height by ${tput lines} 
-(( W /= 8 ))
-(( H /= 16 ))
-g=${W}x${H}+${X}+${Y}
-st -t "floating-st" -g $g &
+set -- $(slop -q -o -f '%x %y %w %h')
+
+[ $# -eq 0 ] && exit 1
+
+tabbed -n floating-st -c -g ${3}x${4}+${1}+${2} -r 2 st -w '' -t floating-st &

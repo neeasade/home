@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 #
 # http://github.com/mitchweaver/bin
 #
@@ -11,13 +11,13 @@ LC_ALL=""
 
 init() {
 
-    colordetails="#b9b9b9"
-    colordetailsbg="#101010"
-    colorwsbg="#101010"
-    colorws="#868686"
-    colorwscurrent="#b9b9b9"
-    colorwindowname="#b9b9b9"
-    colorwindownamebg="#101010"
+    colordetails="#d3d8de"
+    colordetailsbg="#2b2c2b"
+    colorwsbg="#2b2c2b"
+    colorws="#d3d8de"
+    colorwscurrent="#c9ced6"
+    colorwindowname="#d3d8de"
+    colorwindownamebg="#2b2c2b"
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar
     mkdir -p /tmp/bar
@@ -138,7 +138,7 @@ launch_daemons() {
             3) echo we > /tmp/bar/day;;
             4) echo th > /tmp/bar/day;;
             5) echo fr > /tmp/bar/day;;
-            6) echo st > /tmp/bar/day;;
+            6) echo sa > /tmp/bar/day;;
             7) echo su > /tmp/bar/day;;
         esac
         sleep 6000
@@ -171,6 +171,6 @@ lemonbar -db \
          -n bar \
          -u 2 \
          -U "#fbd3da" \
-         -B "#101010" \
+         -B "#2b2c2b" \
          -F "#ffffff" \
 -a 0 > /dev/null 2>&1
