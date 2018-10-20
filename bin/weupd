@@ -1,0 +1,5 @@
+#!/bin/dash
+
+cur_date="$(date +%u)"
+
+[ $cur_date -eq 5 ] && st -e 'sudo pacman -Syu' || exit 1

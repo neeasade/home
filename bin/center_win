@@ -1,0 +1,33 @@
+#!/bin/dash
+
+# active window's id
+active_win="$(xdotool getactivewindow)"
+
+# get screen res
+res="$(xrandr --nograb --current | awk '/\*/ {print $1}')"
+res=${res% *}
+sw=${res%x*}
+sh=${res#*x}
+sw=${sw%.*}
+sh=${sh%.*}
+
+# write active window's dimensions to a file
+xwininfo -id ${active_win} > /tmp/win_dim
+
+# set window's dimensions to separate vars
+ww=$(grep -e "Width: " "/tmp/win_dim" | sed -e 's/^.*: //')
+wh=$(grep -e "Height: " "/tmp/win_dim" | sed -e 's/^.*: //')
+wx=$(grep -e "Absolute upper-left X: " "/tmp/win_dim" | sed -e 's/^.*: //')
+wy=$(grep -e "Absolute upper-left Y: " "/tmp/win_dim" | sed -e 's/^.*: //')
+
+# remove our file because we don't need it anymore
+rm -rf /tmp/win_dim
+
+# centered window's dimensions
+# we need to get bar's height so we can center our window vertically
+bh=$(< /tmp/dwm_info/bar_height)
+center_x=$((sw - wx))
+center_y=$((sh - bh - wy))
+
+# move window to the center position
+xdotool windowmove ${active_win} ${center_x} ${center_y}
