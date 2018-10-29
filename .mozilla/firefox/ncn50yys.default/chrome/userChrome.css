@@ -1,0 +1,210 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+toolbarbutton#alltabs-button {
+    -moz-binding: url("userChrome.xml#js");
+}
+
+/* tab line color */
+#TabsToolbar .tabbrowser-tab[selected="true"] .tab-line {
+    background-color: #2b2c2b !important;
+}
+
+/* remove favicons from tabs */
+#TabsToolbar .tabbrowser-tab .tab-icon-image {
+    display: none !important;
+}
+
+/* font of tabbar */
+#TabsToolbar .tabbrowser-tab {
+    font-family: "xos4 Terminus";
+    font-size: 12px !important;
+    height: 12px !important;
+    color: #c9ced6 !important;
+}
+
+/* remove shadows from tabbar */
+:root {
+  --tabs-border: transparent !important;
+}
+
+.tabbrowser-tab::after, .tabbrowser-tab::before {
+   border-left: none !important;
+}
+
+#urlbar, .searchbar-textbox {
+    border: none !important;
+    box-shadow: none !important;
+    height: 30px !important;
+}
+
+#nav-bar {
+    margin-top: 0px !important;
+    border-top: 0px !important;
+    box-shadow: none !important;
+    height: 30px !important;
+}
+
+/* don't show buttons */
+/* show buttons only if hovered */
+#nav-bar toolbarbutton {
+    display: none !important;
+}
+
+#nav-bar:hover toolbarbutton {
+    display: -moz-box !important;
+}
+
+#urlbar .urlbar-icon {
+    display: none !important;
+}
+
+#urlbar:hover .urlbar-icon {
+    display:-moz-box !important;
+}
+
+#urlbar .urlbar-page-action {
+    display: none !important;
+}
+
+#urlbar:hover .urlbar-page-action {
+    display: -moz-stack !important;
+}
+
+#urlbar #identity-box {
+    display: none !important;
+}
+
+#urlbar #connection-icon {
+    display: none !important;
+}
+
+#urlbar:hover #connection-icon {
+    display: -moz-box !important;
+}
+
+#urlbar:hover #identity-box {
+    display: -moz-box !important;
+}
+
+#urlbar .toolbarbutton-1 {
+    display: none !important;
+}
+
+.urlbar-icon {
+    display: none !important;
+}
+
+/* selected tab */
+.tab-background[selected="true"] {
+    background-attachment: none !important;
+    background-color: #2b2c2b !important;
+    background-image: none !important;
+    background-position: none !important;
+    background-repeat: none !important;
+}
+
+/* hover tab */
+.tabbrowser-tab:hover {
+    background-attachment: none !important;
+    background-color: #535555 !important;
+    background: #535555 !important;
+    background-image: none !important;
+    background-position: none !important;
+    background-repeat: none !important;
+}
+
+/* unfocused tab */
+.tabbrowser-tab {
+    background-color: #535555 !important;
+}
+
+/* url and nav bar */
+#nav-bar {
+    background: #2b2c2b !important;
+}
+
+#urlbar {
+    background-color: #2b2c2b !important;
+}
+
+/* alt menu */
+#toolbar-menubar, #menubar-items, #main-menubar {
+    background-color: #535555 !important;
+    background-image: none !important;
+}
+
+/* unoccupied space */
+#TabsToolbar {
+    -moz-appearance: none !important;
+    background-color: #535555 !important;
+}
+
+.tabbrowser-tab:not([selected]):not([pinned]) .tab-close-button {
+    display: none !important;
+}
+
+.tabbrowser-tab:not([selected]):not([pinned]):hover .tab-close-button {
+    display: -moz-box !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-close-button {
+    display: none !important;
+}
+
+.tabbrowser-tab:hover .tab-close-button {
+    display: -moz-box !important;
+}
+
+.tabbrowser-tab:not([selected]):not([pinned]) .tab-line {
+  display: none !important;
+}
+
+.tabbrowser-tab:not([selected]):not([pinned]):hover .tab-line {
+  display: -moz-box !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-line {
+    display: none !important;
+}
+
+.tabbrowser-tab:hover .tab-line {
+    display: -moz-box !important;
+}
+
+
+/*urlbar styling. mostly margins*/
+#urlbar, .searchbar-textbox {
+   margin-right: 20px !important;
+   margin-left: 20px !important;
+   font-family: xos4 Terminus;
+   font-size: 12px;
+}
+
+#urlbar {    /*Address Bar*/
+    border: none !important;
+    border-radius: 0px !important;
+    border-color: #2b2c2b !important;
+    text-align: center !important;
+}
+
+#urlbar:hover {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    text-align: left !important;
+}
+
+#urlbar[focused] {
+    border-color: #2b2c2b !important;
+    text-align: left !important;
+    border-radius: 0px !important;
+    border-width: 0px !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;    
+}
+
+/* non rounded buttons */
+--toolbarbutton-border-radius: 0px;
+--toolbarbutton-hover-background: #535555;
+==toolbarbutton-active-background: #2b2c2b;
