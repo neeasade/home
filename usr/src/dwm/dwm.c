@@ -94,7 +94,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
+	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isbordered;
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -143,6 +143,7 @@ typedef struct {
 	unsigned int tags;
 	int iscentered;
 	int isfloating;
+    int isbordered;
 	int monitor;
 } Rule;
 
@@ -312,6 +313,7 @@ applyrules(Client *c)
 	/* rule matching */
 	c->isfloating = 0;
 	c->tags = 0;
+    c->isbordered = 1;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
@@ -324,6 +326,7 @@ applyrules(Client *c)
 		{
 			c->iscentered = r->iscentered;
 			c->isfloating = r->isfloating;
+            c->isbordered = r->isbordered;
 			c->tags |= r->tags;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
@@ -961,8 +964,7 @@ isuniquegeom(XineramaScreenInfo *unique, size_t n, XineramaScreenInfo *info)
 #endif /* XINERAMA */
 
 void
-keypress(XEvent *e)
-{
+keypress(XEvent *e) {
 	unsigned int i;
 	KeySym keysym;
 	XKeyEvent *ev;
@@ -977,8 +979,7 @@ keypress(XEvent *e)
 }
 
 void
-killclient(const Arg *arg)
-{
+killclient(const Arg *arg) {
 	if (!selmon->sel)
 		return;
 	if (!sendevent(selmon->sel, wmatom[WMDelete])) {
@@ -1033,12 +1034,17 @@ manage(Window w, XWindowAttributes *wa)
 		c->y = c->mon->wy + (c->mon->wh / 2 - HEIGHT(c) / 2);
 	}
 
-	if(c->iscentered) {
+	if (c->iscentered) {
 		c->x = (c->mon->mw - WIDTH(c)) / 2;
 		c->y = (c->mon->mh - HEIGHT(c)) / 2;
 	}
-
+    
 	wc.border_width = c->bw;
+
+    if (c->isbordered == 0) {
+        wc.border_width = 0;
+    }
+
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
 	configure(c); /* propagates border_width, if size doesn't change */
@@ -1052,7 +1058,7 @@ manage(Window w, XWindowAttributes *wa)
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
 	
-	/* Use attachaside only when the number of master clients is 1 */
+    /* Use attachaside only when the number of master clients is 1 */
 	if (c->mon->nmaster <= 1) {
 		attachaside(c);
 	}	else {
@@ -1282,7 +1288,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
 		gapoffset = 0;
         gapincr = 0;
-		} else {
+	} else {
 		/* Remove border and gap if layout is monocle */
 		if (monocle_fullscreen == 1) {
             if (selmon->lt[selmon->sellt]->arrange == monocle) {
@@ -1305,11 +1311,17 @@ resizeclient(Client *c, int x, int y, int w, int h)
 			gapincr = 2 * gappx;
 		}
 	}
+    
 
     c->oldx = c->x; c->x = wc.x = x + gapoffset;
     c->oldy = c->y; c->y = wc.y = y + gapoffset;
     c->w = wc.width = w - gapincr;
     c->h = wc.height = h - gapincr;
+    
+    if (c->isbordered == 0) {
+        wc.border_width = 0;
+    }
+
     XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
     configure(c);
 	XSync(dpy, False);
@@ -1372,8 +1384,7 @@ resizemouse(const Arg *arg)
 }
 
 void
-restack(Monitor *m)
-{
+restack(Monitor *m) {
 	Client *c;
 	XEvent ev;
 	XWindowChanges wc;
@@ -1876,7 +1887,6 @@ unfocus(Client *c, int setfocus)
 		return;
 	grabbuttons(c, 0);
 	XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColBorder].pixel);
-    //drw_borders(c, 0, c->win);
     if (setfocus) {
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
@@ -1925,12 +1935,12 @@ unmapnotify(XEvent *e)
 void updatebarpos(Monitor *m) {
     Client *c;
     int nvis = 0;
-    bh = BAR_HEIGHT + gappx;
     m->wy = m->my;
     m->wh = m->mh;
-    m->wh -= bh;
+    m->wh -= BAR_HEIGHT + gappx;
     m->by = topbar ? m->wy : m->wy + m->wh;
     if (topbar) m->wy += BAR_HEIGHT + gappx;
+    
     for(c = m->clients; c; c = c->next){
       if(ISVISIBLE(c)) ++nvis;
     }
@@ -2425,8 +2435,8 @@ void toggleborder () {
 
 void togglegaps () {
     if (gappx == 0) {
-            gappx = GAP_PX;
-            arrange(selmon);
+        gappx = GAP_PX;
+        arrange(selmon);
     } else {
             gappx = 0;
             arrange(selmon);

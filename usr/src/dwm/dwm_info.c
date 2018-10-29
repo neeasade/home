@@ -1,4 +1,5 @@
-void init_dwm_info(const int gappx, const int BAR_HEIGHT, const int topbar, const int num_ws, const int borderpx) {
+void
+init_dwm_info(const int gappx, const int BAR_HEIGHT, const int topbar, const int num_ws, const int borderpx) {
     system("[ -d /tmp/dwm_info ] && rm -rf /tmp/dwm_info");
     mkdir("/tmp/dwm_info", 0777);
 
@@ -23,13 +24,16 @@ void init_dwm_info(const int gappx, const int BAR_HEIGHT, const int topbar, cons
     FILE *fnum_ws = fopen("/tmp/dwm_info/num_ws", "w"); fprintf(fnum_ws, "%d", num_ws); fclose(fnum_ws);
 }
 
-void set_dwm_info_current_workspace(int i) {
+void
+set_dwm_info_current_workspace(int i) {
     FILE *f = fopen("/tmp/dwm_info/current_ws", "w");
     fprintf(f, "%d", i);
     fclose(f);
     FILE *fCHECK = fopen("/tmp/dwm_info/check", "w"); fprintf(fCHECK, "1"); fclose(fCHECK);
 }
-void set_dwm_info_current_layout(int i) {
+
+void
+set_dwm_info_current_layout(int i) {
     // sets index of current layout in layouts[]
     FILE *f = fopen("/tmp/dwm_info/current_layout", "w");
     fprintf(f, "%d", i);
@@ -37,7 +41,8 @@ void set_dwm_info_current_layout(int i) {
     FILE *fCHECK = fopen("/tmp/dwm_info/check", "w"); fprintf(fCHECK, "1"); fclose(fCHECK);
 }
 
-void toggle_dwm_info_ws(int ws, int bool) {
+void
+toggle_dwm_info_ws(int ws, int bool) {
     // toggles whether the given tag has clients or not 
     // NOTE: bool should only be either '1' or 0'
     char buf[20];
