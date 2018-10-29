@@ -1,36 +1,44 @@
 .main {
-padding-left: 200px;
-padding-top: 100px;
+    padding-left: 200px;
+    padding-top: 75px;
+    padding-right: 250px;
+    margin: 0px;
 }
 
 a:link {
-text-decoration: none;
-color: #f2dedc; 
+    text-decoration: none;
+    color: #f2dedc; 
 }
 
 a:visited {
-text-decoration: none;
-color: #f2dedc;
+    text-decoration: none;
+    color: #f2dedc;
 }
 
 a:hover {
-text-decoration: none;
+    text-decoration: none;
 }
 
 a:active {
-text-decoration: none;
+    text-decoration: none;
 }
 
 
 html * {
-font-family: "TerminessTTF Nerd Font Mono";
-font-size: 30px;
+    font-family: "TerminessTTF Nerd Font Mono";
+    font-size: 30px;
 }
 
 p {
-color: #d6a7a2;
+    color: #d6a7a2;
+}
+
+hr {
+    border-bottom: dashed 1px;
+    border-top: none;
+    color: #ffd1eb;
 }
 
 body {
-background-color: #2d3436
+    background-color: #2b2c2b;
 }

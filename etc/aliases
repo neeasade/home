@@ -2,11 +2,14 @@
 
 case $(uname) in
     Linux)
-    alias ls='ls --color=auto'
+    alias ls="ls --color=auto"
+    alias sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7 --ascii_colors 8 11 7 8 8 8"
     ;;
     OpenBSD)
-    alias sudo='doas'
-    alias killall='pkill -9'
+    alias sudo="doas"
+    alias killall="pkill -9"
+    alias sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7 --ascii_colors 5 7 5 5 5 5"
+    alias lsblk="df -h"
     ;;
 esac
 
@@ -20,41 +23,65 @@ mklatex() {
 }
 
 c() {
-    if [[ -f "$1" ]]; then
-        cat "$1"
-    elif [[ -d "$1" ]]; then
+    if [ -d "$1" ]; then
         cd "$1"
-    else
+    elif [ -f "$1" ]; then
+        cat "$1"
+    elif [ $# -eq 0 ]; then
         clear
+    else
+        echo "no such file or directory"
     fi
 }
 
 # aliases
-alias a='alias'
-a mkf='touch'
+alias a="alias"
+a mkf="touch"
 a python="/usr/bin/python3"
-#a pacwoman='python ${HOME}/usr/src/pacwoman/pacwoman.py'
+#a pacwoman="python ${HOME}/usr/src/pacwoman/pacwoman.py"
 a py="python"
-a sf='neofetch'
 a colors="${HOME}/bin/colors"
-a v='nvim'
-a panes='${HOME}/bin/panes'
+a v="nvim"
+a panes="${HOME}/bin/panes"
 a l="ls -l"
 a ll="ls -w $(ls | wc -l)"
-a f="ranger"
+a fm="ranger"
 a pip="pip3"
 a mkd="mkdir -p"
 a ff="find_font"
 a mklatex="mklatex"
+# make aliases
 a mkci="make clean install"
+a mkic="make clean install"
+a mk="make"
+a mki="make install"
+a mka="make all"
+
 a mpf="mupdf"
 a sx="startx"
 a c="c"
 a sudo="sudo "
-
+a aliases="alias"
+a quit="exit"
+a :q="exit"
+a sl="ls"
+# specific to a laptop I use
+a swifi="sudo ip link set wlp2s0 down && sudo wifi-menu -o && sudo dhcpcd"
+a brness="$HOME/bin/brness"
+a df="df -h"
+a du="du -h"
+a mv="mv -iv"
+a rm="rm -rv"
+a rmf="rm -f"
+a cp="cp -rv"
+a feh="feh --no-fehbg"
 # aliases for switching to specific dirs
+# if the last letter is uppercase, it means they are in the home dir; else, it"s in the root dir
 a gH="cd $HOME"
-a gR="cd /"
+a gr="cd /"
 a gB="cd $HOME/bin"
 a gS="cd $HOME/usr/src"
-a gr="cd $HOME/usr/repos"
+a gR="cd $HOME/usr/repos"
+a gT="cd $HOME/tmp"
+a gW="cd $HOME/var/pictures/wallpapers"
+a gE="cd $HOME/etc"

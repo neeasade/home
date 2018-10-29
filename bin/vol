@@ -1,11 +1,38 @@
 #!/bin/bash
 # simple bash script which increases the volume of Master (ALSA)
 
-vol_arith=$1
+usage() {
+    printf "help\n----------\n[-h] echo this message\n[-i] increase volume by percent\n[-d] decrease volume by percent\n[-s] set volume in percent\n[-m] mute speakers\n"
+}
 
-amixer set Master $vol_arith
+inc() {
+    amixer set Master $1+
+}
+
+dec() {
+    amixer set Master $1-
+}
+
+setvol() {
+    amixer set Master $1
+}
+
+mute() {
+    amixer set Master mute
+}
+
+unmute() {
+    amixer set Master unmute
+}
+
+case $1 in
+    -h) usage;;
+    -i) inc $2;;
+    -d) dec $2;;
+    -m) mute;;
+    -u) unmute;;
+    *) usage;;
+esac
 
 # get current volume and output that to a file which will be used by the bar
-#amixer sget Master | grep -oE '\[*..?.?%\]' | sed -e 's/\[//' -e 's/\%\]//' > /tmp/bar/vol
-
 amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $2 }' > /tmp/bar/vol

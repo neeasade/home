@@ -43,6 +43,7 @@ init() {
     sh=${sh%.*}
 
     gap=$(< /tmp/dwm_info/gappx)
+    borpx=$(< /tmp/dwm_info/borderpx)
     w=$(( $sw - 500 ))
     x=$(( $sw / 2 - $w / 2 ))
     h=$(< /tmp/dwm_info/bar_height)
@@ -96,11 +97,11 @@ wksp() {
         for i in $(seq $num_ws || jot $num_ws) ; do
             wkspicon=$(( $i - 1 ))
             [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
-                ws=" %{T1}%{B$colorwsbg}$wkspicon%{B-}%{T-} " ||
+                ws="%{B$colorwsbg} %{T1}$wkspicon%{T-} %{B-}" ||
                 ws=""
 
             [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{B-}%{T-} " ||
+                ws="%{B$colorwsbg} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
                 ws="$ws"
             buffer=$buffer$ws
 
@@ -153,11 +154,11 @@ launch_daemons
 
 while \
     printf " %s%b%s%b%b%b%b%b%b%s \\n" \
-        "  %{T2}%{F$colordetails}$(< /tmp/bar/day)%{F-}%{T-}  " \
+        "%{B$colordetailsbg}  %{T2}%{F$colordetails}$(< /tmp/bar/day)%{F-}%{T-}  " \
         "  $(wksp)$(< /tmp/bar/wksp)" \
         "%{c}%{F$colorwindowname}$(focused_window)%{F-}" \
         "$(< /tmp/bar/temp)" \
-        "%{r}  %{T2}%{F$colordetails}$(< /tmp/bar/date)%{T-}%{F-}  "
+        "%{r}%{B$colordetailsbg}  %{T2}%{F$colordetails}$(< /tmp/bar/date)%{T-}%{F-}  %{B-}"
     do sleep 0.5
 done 2> /dev/null | \
 
@@ -173,4 +174,6 @@ lemonbar -db \
          -U "#fbd3da" \
          -B "#2b2c2b" \
          -F "#ffffff" \
+         -r "$borpx" \
+         -R "#cb93c6" \
 -a 0 > /dev/null 2>&1

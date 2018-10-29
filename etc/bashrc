@@ -54,19 +54,26 @@ _branch() {
 
 # set our terminal's window terminal to the current working dir
 _get_cwd() {
-    cwd="$(echo "$PWD" | sed -e "s|$HOME|\$HOME|g")"
-    echo -ne "\033]0;$cwd\a" 
+    # we don't want to set the terminal window's name if we're in a tty
+    if [ "$TERM" != "linux" ]; then
+        local cwd="$(echo "$PWD" | sed -e "s|$HOME|\$HOME|g" 2> /dev/null)"
+        echo -ne "\033]0;$cwd\a" 2> /dev/null
+    fi
 }
 
 # prompt
 case "$(whoami)" in
     the_human)
-    export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}m${dpnk}a${dblu}n ${dblu}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\$(_get_cwd)\[\033[0m\] "
+        export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}m${dpnk}a${dblu}n ${dblu}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\[\$(_get_cwd)\]\[\033[0m\] "
     ;;
     root)
-    export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\$(_get_cwd)\[\003[0m\] "
+        export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\$(_get_cwd)\[\003[0m\] "
     ;;
 esac
+
+# update history so we can share the same history between terms
+shopt -s histappend
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # export a bunch of variables
 # I prefer to have binaries and other scripts in my home dir, so I add some some directories to my $PATH
@@ -76,3 +83,19 @@ export MANPATH=$MANPATH:$HOME/usr/local/man
 
 # source aliases
 source $HOME/etc/aliases
+
+# set vi mode
+set -o vi
+
+# infinite history
+HISTFILESIZE= HISTSIZE=
+HISTFILE="$HOME/var/cache/bash_history"
+
+# console stuff
+if [ "$TERM" == "linux" ]; then
+    # set our console font. (I'm too lazy to setup a systemd service for this)
+    setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
+    # set the colorscheme!
+    source $HOME/etc/conscols
+    clear # we have to clear the console to see the changes
+fi

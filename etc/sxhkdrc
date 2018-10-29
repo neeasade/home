@@ -1,0 +1,32 @@
+Print
+  $HOME/bin/ss
+
+super + Print
+  maim -u > image
+
+super + v
+  firefox
+
+super + n
+  st -e 'nvim'
+
+super + f
+  thunar
+
+super + button3
+  $HOME/bin/draw_st
+
+super + ctrl + r
+  $HOME/bin/record
+
+super + r
+  st -e 'ranger'
+
+XF86AudioRaiseVolume
+    $HOME/bin/vol -i 5%
+
+XF86AudioLowerVolume
+    $HOME/bin/vol -d 5%
+
+XF86AudioMute
+    $HOME/bin/vol -m
