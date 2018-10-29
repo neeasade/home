@@ -18,4 +18,4 @@ $HOME/tmp -> junk
 ![scrot](https://github.com/Th3-Hum4n/home/blob/master/var/scrots/viking_with_rust.png)
 
 
-![scrot](https://github.com/Th3-Hum4n/home/blob/master/var/scrots/viking_with_solidbg.png)
+![scrot2](https://github.com/Th3-Hum4n/home/blob/master/var/scrots/viking_with_solid_bg.png)
