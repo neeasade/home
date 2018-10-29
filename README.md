@@ -1,7 +1,7 @@
 # $HOME
 all the things in $HOME
 
-# file hiearachy system
+# file hiearchy system
 ```
 $HOME/var -> personal files
 $HOME/usr/src -> projects
