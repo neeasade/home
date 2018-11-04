@@ -27,4 +27,3 @@ const char *colorname[] = {
 unsigned int defaultfg = 256;
 unsigned int defaultbg = 0;
 unsigned int defaultcs = 256;
-unsigned int defaultrcs = 256;

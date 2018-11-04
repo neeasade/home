@@ -1,74 +1,48 @@
-#!/bin/bash
-# Made by Th3_Hum4n
+#!/bin/dash
 # ls and cd in dmenu
 # -h 1 = hide dotfiles
 
-while getopts "h:" OPTS; do
-    case "$OPTS" in
-        h)
-            hidden=$OPTARG
-            ;;
-        *)
-            echo "usage: [-h] 1 for showing hidden folders"
-            ;;
-    esac
-done
-shift $((OPTIND - 1))
+case "$1" in
+    -h) hidden=$2;;
+    *) hidden=1;;
+esac
 
 get_dir() {
     case "$hidden" in
-        0)
-            printf "..\n$(ls -w $(ls $pwd | wc -l) $pwd)" | $HOME/bin/menu sel
-            ;;
         1)
-            printf "..\n$(ls -Aw $(ls -A $pwd | wc -l) $pwd)" | $HOME/bin/menu sel
-            ;;
+            echo "..\n$(ls -w $(ls $pwd | wc -l) $pwd)" | menu sel;;
+        0)
+            echo "..\n$(ls -Aw $(ls -A $pwd | wc -l) $pwd)" | menu sel;;
     esac
 }
 
 cd_dir() {
-    # check if file exists; if it does, use approriate method open it
-    # set text editor
-    EDITOR="tabbed st -w -e nvim"
-    TERM="tabbed st -w"
-    echo "log: selection is $1"
-    echo "log: determining if its a file or dir"
-    if [[ -f "$1" ]]; then
-        echo "checking file type"
-        file_type="$(file "$1")"
-        case $file_type in
-            *script*)
-                echo "log: opening script"
-                $EDITOR $1
-                ;;
-            *image*)
-                echo "log: opening image"
-                feh $1
-                ;;
-            *Media*)
-                echo "log: opening media"
-                mpv "$1"
-                ;;
-            *text*)
-                echo "log: opening text file"
-                $EDITOR "$1"
-                ;;
-            *executable*)
-                echo "log: opening binary"
-                ;;
-            *)
-                echo "log: unknown file type"
-                $EDITOR "$1"
-                ;;
-        esac
-    elif [[ -d $1 ]]; then
-        echo "log: changing directory"
-        cd "$1"
-        cd_dir "$(get_dir)"
-    elif [[ $1 == "openterm" || $1 == "term" || $1 == "oterm" || $1 == "ot" ]]; then
-        echo "log: opening terminal"
-        $TERM
+    cd "$1"
+    spawn
+}
+
+open_file() {
+    # get the mime type of the file
+    file_type="$(file -ib "$1")"
+
+    case "$file_type" in
+        *image*) feh "$1";;
+        *video*) mpv "$1";;
+        *text*) "$TERMINAL" $EDITOR "$1";;
+        *binary*) sh "$1";;
+    esac
+}
+
+spawn() {
+    output="$(get_dir)"
+
+    if [ -d "$output" ]; then
+        cd_dir "$output"
+    elif [ -f "$output" ]; then
+        open_file "$output"
+    elif [ "$output" = ot ] || [ "$output" = "open terminal" ]; then
+        $TERMINAL
     fi
 }
 
-cd_dir "$(get_dir)"
+spawn

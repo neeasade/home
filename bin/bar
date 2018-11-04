@@ -10,14 +10,15 @@ trap 'pkill -P $$' EXIT
 LC_ALL=""
 
 init() {
-
-    colordetails="#d3d8de"
-    colordetailsbg="#2b2c2b"
-    colorwsbg="#2b2c2b"
-    colorws="#d3d8de"
-    colorwscurrent="#c9ced6"
-    colorwindowname="#d3d8de"
-    colorwindownamebg="#2b2c2b"
+    source $HOME/var/cache/tm/colors/colors.sh
+    
+    colordetails=$color7
+    colordetailsbg=$color0
+    colorwsbg=$color0
+    colorws=$color7
+    colorwscurrent=$color15
+    colorwindowname=$color7
+    colorwindownamebg=$color0
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar
     mkdir -p /tmp/bar
@@ -42,9 +43,11 @@ init() {
     sw=${sw%.*}
     sh=${sh%.*}
 
-    gap=$(< /tmp/dwm_info/gappx)
-    borpx=$(< /tmp/dwm_info/borderpx)
-    w=$(( $sw - 500 ))
+    bar_gaps=$(< /tmp/dwm_info/bar_gaps)
+    [ $bar_gaps -eq 1 ] && gap=$(< /tmp/dwm_info/gappx) || gap=0
+    [ $bar_gaps -eq 1 ] && borpx=$(< /tmp/dwm_info/borderpx)
+    
+    w=$(( $sw ))
     x=$(( $sw / 2 - $w / 2 ))
     h=$(< /tmp/dwm_info/bar_height)
     #[ $gap -gt 0 ] && h=$(( $h + ($h / 4) ))
@@ -56,7 +59,7 @@ init() {
 
     else
         [ $gap -gt 0 ] &&
-            y=$(echo "$sh - $h - ($h / 2.5)" | bc -l) ||
+            y=$( echo "$sh - $h - $gap" | bc -l ) ||
             y=$(( $sh - $h ))
     fi
     
@@ -97,12 +100,12 @@ wksp() {
         for i in $(seq $num_ws || jot $num_ws) ; do
             wkspicon=$(( $i - 1 ))
             [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
-                ws="%{B$colorwsbg} %{T1}$wkspicon%{T-} %{B-}" ||
-                ws=""
+                ws="%{B$colorwsbg} %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
+                ws="%{B$colorwsbg} %{T1}%{F$colorws}$wkspicon%{T-}%{F-} %{B-}"
 
             [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws="%{B$colorwsbg} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
-                ws="$ws"
+                ws="%{B$colorwsbg}%{+o} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
+                ws="%{-o}$ws"
             buffer=$buffer$ws
 
         done
@@ -154,7 +157,7 @@ launch_daemons
 
 while \
     printf " %s%b%s%b%b%b%b%b%b%s \\n" \
-        "%{B$colordetailsbg}  %{T2}%{F$colordetails}$(< /tmp/bar/day)%{F-}%{T-}  " \
+    "%{B$colordetailsbg}  %{T2}%{F$colordetails}$(< /tmp/bar/day)     $(layout)%{F-}%{T-}  " \
         "  $(wksp)$(< /tmp/bar/wksp)" \
         "%{c}%{F$colorwindowname}$(focused_window)%{F-}" \
         "$(< /tmp/bar/temp)" \
@@ -171,9 +174,9 @@ lemonbar -db \
          -g ${w}x${h}+${x}+${y} \
          -n bar \
          -u 2 \
-         -U "#fbd3da" \
-         -B "#2b2c2b" \
+         -U $color5 \
+         -B $color0 \
          -F "#ffffff" \
          -r "$borpx" \
-         -R "#cb93c6" \
+         -R $color5 \
 -a 0 > /dev/null 2>&1

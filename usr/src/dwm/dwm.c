@@ -1792,7 +1792,7 @@ void start_with_borders () { // start either with borders or gaps.
 		borderpx = BORDERPX;
 		gappx = GAP_PX;
   } 
-	init_dwm_info(gappx, BAR_HEIGHT, topbar, NUM_WORKSPACES, borderpx);
+	init_dwm_info(gappx, BAR_HEIGHT, topbar, NUM_WORKSPACES, borderpx, bar_gaps);
 }
 
 void
@@ -1937,9 +1937,20 @@ void updatebarpos(Monitor *m) {
     int nvis = 0;
     m->wy = m->my;
     m->wh = m->mh;
-    m->wh -= BAR_HEIGHT + gappx;
+    
+    if (!bar_gaps) {
+        m->wh -= BAR_HEIGHT;
+    } else {
+        m->wh -= BAR_HEIGHT - gappx;
+    }
+
     m->by = topbar ? m->wy : m->wy + m->wh;
-    if (topbar) m->wy += BAR_HEIGHT + gappx;
+    
+    if (!bar_gaps) {
+        if (topbar) m->wy += BAR_HEIGHT;
+    } else {
+        if (topbar) m->wy += BAR_HEIGHT + gappx;
+    }
     
     for(c = m->clients; c; c = c->next){
       if(ISVISIBLE(c)) ++nvis;

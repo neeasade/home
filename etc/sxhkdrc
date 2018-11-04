@@ -1,8 +1,8 @@
 Print
-  $HOME/bin/ss
+  $HOME/bin/screenshot
 
 super + Print
-  maim -u > image
+  maim -u -s > $HOME/var/pictures/scrots/$(date '+%a_%b_%d-%H:%M').png
 
 super + v
   firefox

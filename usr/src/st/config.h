@@ -11,7 +11,8 @@ static char *font = "xos4 Terminus:antialias=true:autohint=false:style=Regular";
 //#include "themes/base16-ocean.h"
 //#include "themes/greyscale.h"
 //#include "themes/bubblegum-theme.h"
-#include "themes/viking.h"
+//#include "themes/viking.h"
+#include "/home/the_human/var/cache/tm/colors/colors_st.h"
 
 static int borderpx = 25;
 
@@ -96,7 +97,8 @@ unsigned int tabspaces = 4;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 1;
+static unsigned int cursorshape = 2;
+static unsigned int defaultrcs = 256;
 
 /*
  * Default columns and rows numbers

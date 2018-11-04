@@ -3,7 +3,8 @@
 /* appearance */
 static const char font[]        = "ShureTechMono Nerd Font:size=10";
 //#include "themes/greyscale.h"
-#include "themes/viking.h"
+//#include "themes/viking.h"
+#include "/home/the_human/var/cache/tm/colors/colors_tabbed.h"
 static const char before[]      = "<";
 static const char after[]       = ">";
 static const char titletrim[]   = "...";

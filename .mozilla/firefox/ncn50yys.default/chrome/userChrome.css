@@ -207,4 +207,4 @@ toolbarbutton#alltabs-button {
 /* non rounded buttons */
 --toolbarbutton-border-radius: 0px;
 --toolbarbutton-hover-background: #535555;
-==toolbarbutton-active-background: #2b2c2b;
+--toolbarbutton-active-background: #2b2c2b;

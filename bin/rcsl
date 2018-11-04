@@ -10,3 +10,6 @@ for sltool in ${sltools[@]}; do
     echo "compiling ${sltool}"
     make clean install
 done
+
+pkill bar
+$HOME/bin/bar &

@@ -34,4 +34,3 @@
  unsigned int defaultfg = 257;
  unsigned int defaultbg = 256;
  unsigned int defaultcs = 257;
- unsigned int defaultrcs = 257;

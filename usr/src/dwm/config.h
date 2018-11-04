@@ -6,7 +6,8 @@ static const unsigned int start_borders = 3; //0 means no borders and yes gaps. 
 static const unsigned int snap      = 0;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int BAR_HEIGHT         = 16; // in pixels
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
+static const int bar_gaps           = 0; // whether to have gaps around bar
 static const int two_borders        = 1;        /* whether use two borders */ //TODO
 static const int monocle_fullscreen = 0;       /* whether to disable border and gap in monocle layout */ //TODO
 //static const int float_border 			= 1; // 0 means keep border no matter the number of client is in floating. 1 means no border if only one floating client is present.
@@ -19,7 +20,8 @@ static const char dmenufont[]       = "scientifica :size=10";
 //#include "themes/default.h"
 //#include "themes/base16-ocean-dark.h"
 //#include "themes/greyscale.h"
-#include "themes/viking.h"
+//#include "themes/viking.h"
+#include "/home/the_human/var/cache/tm/colors/colors_dwm.h"
 
 /* tagging */
 static const int NUM_WORKSPACES=6;
@@ -74,12 +76,12 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "bash", "-c", "$HOME/bin/menu run", NULL };
-static const char *termcmd[]  = { "tabbed", "-c", "-o", selbg, "-O", normfg, "-t", normbg, "-T", selfg, "-u", selbg, "-U", selfg, "st", "-w", NULL };
+static const char *termcmd[]  = { "tabbed", "-c","-r 2", "st", "-w", "", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 static const char *drawst[] = { "bash", "-c", "${HOME}/bin/draw_st", NULL };
-static const char *hiddendmenudir[] = { "bash", "-c", "${HOME}/bin/dmenu_dir -h 0", NULL };
-static const char *dmenudir[] = { "bash", "-c", "${HOME}/bin/dmenu_dir -h 1", NULL };
+static const char *hiddendmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 0", NULL };
+static const char *dmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 1", NULL };
 static const char *center_win[] = { "bash", "-c", "${HOME}/bin/center_win", NULL };
 
 #include "zoomswap.c"

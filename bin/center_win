@@ -26,8 +26,9 @@ rm -rf /tmp/win_dim
 # centered window's dimensions
 # we need to get bar's height so we can center our window vertically
 bh=$(< /tmp/dwm_info/bar_height)
+gap=$(< /tmp/dwm_info/gappx)
 center_x=$((sw - wx))
-center_y=$((sh - bh - wy))
+center_y=$((sh - bh - wy - gap * 2))
 
 # move window to the center position
 xdotool windowmove ${active_win} ${center_x} ${center_y}

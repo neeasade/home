@@ -1,5 +1,5 @@
 void
-init_dwm_info(const int gappx, const int BAR_HEIGHT, const int topbar, const int num_ws, const int borderpx) {
+init_dwm_info(const int gappx, const int BAR_HEIGHT, const int topbar, const int num_ws, const int borderpx, const int bar_gaps) {
     system("[ -d /tmp/dwm_info ] && rm -rf /tmp/dwm_info");
     mkdir("/tmp/dwm_info", 0777);
 
@@ -20,8 +20,10 @@ init_dwm_info(const int gappx, const int BAR_HEIGHT, const int topbar, const int
     FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
     FILE *fbar_height = fopen("/tmp/dwm_info/bar_height", "w"); fprintf(fgappx, "%d", BAR_HEIGHT); fclose(fbar_height);
     FILE *ftop_bar = fopen("/tmp/dwm_info/top_bar", "w"); fprintf(fgappx, "%d", topbar); fclose(ftop_bar);
+    FILE *fbar_gaps = fopen("/tmp/dwm_info/bar_gaps", "w"); fprintf(fbar_gaps, "%d", bar_gaps); fclose(fborderpx);
 
     FILE *fnum_ws = fopen("/tmp/dwm_info/num_ws", "w"); fprintf(fnum_ws, "%d", num_ws); fclose(fnum_ws);
+
 }
 
 void

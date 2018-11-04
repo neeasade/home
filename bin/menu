@@ -15,13 +15,15 @@ dmenu_x=$((sw / 2 - dmenu_w / 2))
 dmenu_lines=$((sw / 50))
 dmenu_y=$((sh / 6))
 
+source $HOME/var/cache/tm/colors/colors.sh
+
 font="ShureTechMono Nerd Font:size=10"
-selbg="#535555"
-selfg="#c9ced6"
-normbg="#2b2c2b"
-normfg="#d3d8de"
+selbg=$color8
+selfg=$color15
+normbg=$color0
+normfg=$color7
 borderpx=$(< /tmp/dwm_info/borderpx)
-borcol="#868686"
+borcol=$color5
 
 app_run() {
     dmenu_run -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg" -sb "$selbg" -sf "$selfg" -p "run:"

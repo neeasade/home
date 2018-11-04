@@ -64,6 +64,7 @@ a sudo="sudo "
 a aliases="alias"
 a quit="exit"
 a :q="exit"
+a :q!="exit"
 a sl="ls"
 # specific to a laptop I use
 a swifi="sudo ip link set wlp2s0 down && sudo wifi-menu -o && sudo dhcpcd"
@@ -75,6 +76,17 @@ a rm="rm -rv"
 a rmf="rm -f"
 a cp="cp -rv"
 a feh="feh --no-fehbg"
+a cd..="cd .."
+a c..="cd .."
+# git aliases
+a gcommit="git commit --interactive"
+a gclone="git clone"
+a gpush="git push"
+a gpull="git pull"
+a diff="git diff"
+a gdiff="git diff"
+a gstatus="git status"
+
 # aliases for switching to specific dirs
 # if the last letter is uppercase, it means they are in the home dir; else, it"s in the root dir
 a gH="cd $HOME"

@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/bin/dash
 # simple bash script which increases the volume of Master (ALSA)
 
 usage() {
-    printf "help\n----------\n[-h] echo this message\n[-i] increase volume by percent\n[-d] decrease volume by percent\n[-s] set volume in percent\n[-m] mute speakers\n"
+    echo "help\n----------\n[-h] echo this message\n[-i] increase volume by percent"
+    echo "[-d] decrease volume by percent\n[-s] set volume in percent\n[-m] mute speakers\n[-u] unmute the speakers"
 }
 
 inc() {
@@ -31,6 +32,7 @@ case $1 in
     -d) dec $2;;
     -m) mute;;
     -u) unmute;;
+    -s) setvol $2;;
     *) usage;;
 esac
 
