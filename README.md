@@ -15,9 +15,8 @@ $HOME/tmp -> junk
 ```
 
 # scrots
-![scrot](https://github.com/Th3-Hum4n/home/blob/master/var/scrots/viking_with_rust.png)
+![scrot](https://github.com/Th3-Hum4n/home/blob/master/var/pictures/scrots/viking_with_rust.png)
 
+![scrot2](https://github.com/Th3-Hum4n/home/blob/master/var/pictures/scrots/viking_with_solid_bg.png)
 
-![scrot2](https://github.com/Th3-Hum4n/home/blob/master/var/scrots/viking_with_solid_bg.png)
-
-![scrot3](https://github.com/Th3-Hum4n/home/blob/master/var/scrots/Sun_Nov_04-13:45.png)
+![scrot3](https://github.com/Th3-Hum4n/home/blob/master/var/pictures/scrots/Sun_Nov_04-13:45.png)
