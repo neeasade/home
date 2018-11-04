@@ -7,23 +7,14 @@ sysmodmap=/etc/X11/xinit/.Xmodmap
 
 # merge in defaults and keymaps
 
-if [ -f $sysresources ]; then
-    xrdb -merge $sysresources
+[ -f $sysresources ] && xrdb -merge $sysresources
+[ -f $sysmodmap ] && xmodmap $sysmodmap
+[ -f "$userresources" ] && xrdb -merge "$userresources"
+[ -f "$usermodmap" ] && xmodmap "$usermodmap"
 
-fi
-
-if [ -f $sysmodmap ]; then
-    xmodmap $sysmodmap
-fi
-
-if [ -f "$userresources" ]; then
-    xrdb -merge "$userresources"
-
-fi
-
-if [ -f "$usermodmap" ]; then
-    xmodmap "$usermodmap"
-fi
+# init logs
+[ -d "$HOME/var/logs" ] && rm -rf $HOME/var/logs/
+mkdir -p $HOME/var/logs
 
 # start some nice programs
 
@@ -33,12 +24,14 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  done
  unset f
 fi
+
+# qt5ct stuff
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME=qt5ct
-#compton -bc --config ~/.config/compton.conf &
-#xwinwrap -ov -ni -fs -- mpv x11 -wid WID --keepaspect=no --loop ~/.config/wallpapers/cat-walll.webm &
-feh --bg-scale $HOME/var/pictures/wallpapers/greyscale.png
-#python ~/bin/weekly-update.py &
+compton -bc &
+#xwinwrap -ov -ni -fs -- mpv x11 -wid WID --keepaspect=no --loop $HOME/var/pictures/wallpapers/train.webm &
+feh --no-fehbg --bg-scale $HOME/var/pictures/wallpapers/senni_flower_bw.png &
+dunst -conf $HOME/etc/dunst/dunstrc &
 xrandr -s 1360x768 &
-xbindkeys &
 $HOME/bin/bar &
-exec dwm
+sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log -s $HOME/var/logs/sxhkd.log &
+exec dwm 2> $HOME/var/logs/dwm.log
