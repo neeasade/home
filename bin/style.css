@@ -1,18 +1,19 @@
+@import "file:///home/the_human/var/cache/tm/colors/colors.css";
+
 .main {
     padding-left: 200px;
     padding-top: 75px;
     padding-right: 250px;
-    margin: 0px;
 }
 
 a:link {
     text-decoration: none;
-    color: #f2dedc; 
+    color: var(--color5); 
 }
 
 a:visited {
     text-decoration: none;
-    color: #f2dedc;
+    color: var(--color5);
 }
 
 a:hover {
@@ -25,20 +26,24 @@ a:active {
 
 
 html * {
-    font-family: "TerminessTTF Nerd Font Mono";
+    font-family: "TerminessTTF Nerd Font";
     font-size: 30px;
 }
 
 p {
-    color: #d6a7a2;
+    color: var(--color13);
 }
 
 hr {
     border-bottom: dashed 1px;
     border-top: none;
-    color: #ffd1eb;
+    color: var(--color5);
 }
 
 body {
-    background-color: #2b2c2b;
+    background-color: var(--color0);
+    padding-left: 200px;
+    padding-top: 75px;
+    padding-right: 250px;
 }
+
