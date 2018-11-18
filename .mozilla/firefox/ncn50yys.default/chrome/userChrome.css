@@ -1,3 +1,4 @@
+@import "file:///home/the_human/var/cache/tm/colors/colors.css";
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
 toolbarbutton#alltabs-button {
@@ -6,7 +7,7 @@ toolbarbutton#alltabs-button {
 
 /* tab line color */
 #TabsToolbar .tabbrowser-tab[selected="true"] .tab-line {
-    background-color: #2b2c2b !important;
+    background-color: transparent !important;
 }
 
 /* remove favicons from tabs */
@@ -19,7 +20,7 @@ toolbarbutton#alltabs-button {
     font-family: "xos4 Terminus";
     font-size: 12px !important;
     height: 12px !important;
-    color: #c9ced6 !important;
+    color: var(--color7) !important;
 }
 
 /* remove shadows from tabbar */
@@ -97,7 +98,7 @@ toolbarbutton#alltabs-button {
 /* selected tab */
 .tab-background[selected="true"] {
     background-attachment: none !important;
-    background-color: #2b2c2b !important;
+    background-color: var(--color0) !important;
     background-image: none !important;
     background-position: none !important;
     background-repeat: none !important;
@@ -106,8 +107,8 @@ toolbarbutton#alltabs-button {
 /* hover tab */
 .tabbrowser-tab:hover {
     background-attachment: none !important;
-    background-color: #535555 !important;
-    background: #535555 !important;
+    background-color: var(--color8) !important;
+    background: var(--color8) !important;
     background-image: none !important;
     background-position: none !important;
     background-repeat: none !important;
@@ -115,28 +116,28 @@ toolbarbutton#alltabs-button {
 
 /* unfocused tab */
 .tabbrowser-tab {
-    background-color: #535555 !important;
+    background-color: var(--color8) !important;
 }
 
 /* url and nav bar */
 #nav-bar {
-    background: #2b2c2b !important;
+    background: var(--color0) !important;
 }
 
 #urlbar {
-    background-color: #2b2c2b !important;
+    background-color: var(--color0) !important;
 }
 
 /* alt menu */
 #toolbar-menubar, #menubar-items, #main-menubar {
-    background-color: #535555 !important;
+    background-color: var(--color8) !important;
     background-image: none !important;
 }
 
 /* unoccupied space */
 #TabsToolbar {
     -moz-appearance: none !important;
-    background-color: #535555 !important;
+    background-color: var(--color8) !important;
 }
 
 .tabbrowser-tab:not([selected]):not([pinned]) .tab-close-button {
@@ -177,14 +178,16 @@ toolbarbutton#alltabs-button {
    margin-right: 20px !important;
    margin-left: 20px !important;
    font-family: xos4 Terminus;
+   color: var(--color7); 
    font-size: 12px;
 }
 
 #urlbar {    /*Address Bar*/
     border: none !important;
     border-radius: 0px !important;
-    border-color: #2b2c2b !important;
+    border-color: var(--color0) !important;
     text-align: center !important;
+    color: var(--color7);
 }
 
 #urlbar:hover {
@@ -194,7 +197,7 @@ toolbarbutton#alltabs-button {
 }
 
 #urlbar[focused] {
-    border-color: #2b2c2b !important;
+    border-color: var(--color0) !important;
     text-align: left !important;
     border-radius: 0px !important;
     border-width: 0px !important;
@@ -206,5 +209,5 @@ toolbarbutton#alltabs-button {
 
 /* non rounded buttons */
 --toolbarbutton-border-radius: 0px;
---toolbarbutton-hover-background: #535555;
---toolbarbutton-active-background: #2b2c2b;
+--toolbarbutton-hover-background: var(--color15);
+--toolbarbutton-active-background: var(--color0);

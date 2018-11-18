@@ -241,13 +241,14 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void centeredmaster(Monitor *m);
 static void bstack(Monitor *m);
-static void start_with_borders();
+static void init();
 static void toggleborder();
 static void update_ws_bools(Monitor *m);
 
 /* variables */
 static int borderpx = 0;
 static int gappx = 0;
+static int bar_gaps = 0;
 static Client *prevzoom = NULL;
 static const char broken[] = "broken";
 static char stext[256];
@@ -782,7 +783,7 @@ focus(Client *c)
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 	}
-	selmon->sel = c;	
+	selmon->sel = c;
 }
 
 /* there are some broken focus acquiring clients needing extra handling */
@@ -1730,9 +1731,9 @@ void
 tag(const Arg *arg)
 {
 	if (selmon->sel && arg->ui & TAGMASK) {
-		selmon->sel->tags = arg->ui & TAGMASK;
-		focus(NULL);
-		arrange(selmon);
+        selmon->sel->tags = arg->ui & TAGMASK;
+        focus(NULL);
+        arrange(selmon);
 	}
 }
 
@@ -1778,7 +1779,7 @@ tile(Monitor *m)
 		}
 }
 
-void start_with_borders () { // start either with borders or gaps.
+void init () { // start either with borders or gaps.
 	if (start_borders == 1) {
 		borderpx = BORDERPX;
 		gappx = 0;
@@ -1792,6 +1793,7 @@ void start_with_borders () { // start either with borders or gaps.
 		borderpx = BORDERPX;
 		gappx = GAP_PX;
   } 
+    bar_gaps = bar_gap;
 	init_dwm_info(gappx, BAR_HEIGHT, topbar, NUM_WORKSPACES, borderpx, bar_gaps);
 }
 
@@ -1941,7 +1943,7 @@ void updatebarpos(Monitor *m) {
     if (!bar_gaps) {
         m->wh -= BAR_HEIGHT;
     } else {
-        m->wh -= BAR_HEIGHT - gappx;
+        m->wh -= BAR_HEIGHT + gappx;
     }
 
     m->by = topbar ? m->wy : m->wy + m->wh;
@@ -2332,7 +2334,7 @@ zoom(const Arg *arg)
 int
 main(int argc, char *argv[])
 {
-	start_with_borders();
+	init();
 	if (argc == 2 && !strcmp("-v", argv[1]))
 		die("dwm-"VERSION);
 	else if (argc != 1)
@@ -2447,13 +2449,16 @@ void toggleborder () {
 void togglegaps () {
     if (gappx == 0) {
         gappx = GAP_PX;
+        bar_gaps = bar_gap;
         arrange(selmon);
     } else {
-            gappx = 0;
-            arrange(selmon);
+        gappx = 0;
+        bar_gaps = 0;
+        arrange(selmon);
     }
     // write our new gap config so our bar can read it
     FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
+    updatebarpos(mons);
 
     // restart bar with our new gaps so it resizes
     system("pkill -9 lemonbar ; pkill -9 bar ; bash ${HOME}/bin/bar &");

@@ -37,4 +37,5 @@ case $1 in
 esac
 
 # get current volume and output that to a file which will be used by the bar
-amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $2 }' > /tmp/bar/vol
+amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $2 }' |\
+    sed -e 's/%//' > /tmp/bar/vol

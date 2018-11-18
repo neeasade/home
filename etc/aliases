@@ -1,3 +1,4 @@
+# vim:ft=sh
 # functions and linux/openbsd specific things
 
 case $(uname) in
@@ -36,64 +37,64 @@ c() {
 
 # aliases
 alias a="alias"
-a mkf="touch"
 a python="/usr/bin/python3"
 #a pacwoman="python ${HOME}/usr/src/pacwoman/pacwoman.py"
 a py="python"
-a colors="${HOME}/bin/colors"
 a v="nvim"
-a panes="${HOME}/bin/panes"
 a l="ls -l"
 a ll="ls -w $(ls | wc -l)"
 a fm="ranger"
 a pip="pip3"
-a mkd="mkdir -p"
 a ff="find_font"
 a mklatex="mklatex"
 # make aliases
 a mkci="make clean install"
-a mkic="make clean install"
+a mkic="make clean install" # more like a typo
 a mk="make"
 a mki="make install"
 a mka="make all"
-
 a mpf="mupdf"
 a sx="startx"
 a c="c"
+# allows the user to use aliases with sudo
 a sudo="sudo "
 a aliases="alias"
 a quit="exit"
+# sometimes it's quicker to do :q! than exit
 a :q="exit"
 a :q!="exit"
 a sl="ls"
 # specific to a laptop I use
 a swifi="sudo ip link set wlp2s0 down && sudo wifi-menu -o && sudo dhcpcd"
-a brness="$HOME/bin/brness"
+a brness="sudo $HOME/bin/brness"
+# saner defaults
 a df="df -h"
 a du="du -h"
 a mv="mv -iv"
 a rm="rm -rv"
-a rmf="rm -f"
 a cp="cp -rv"
+a ln="ln -sf"
+a mkf="touch"
+a mkd="mkdir -pv"
+a free="free -h"
 a feh="feh --no-fehbg"
+a rmf="rm -f"
 a cd..="cd .."
 a c..="cd .."
 # git aliases
-a gcommit="git commit --interactive"
-a gclone="git clone"
-a gpush="git push"
-a gpull="git pull"
+a commit="git commit --interactive -m"
 a diff="git diff"
-a gdiff="git diff"
-a gstatus="git status"
 
 # aliases for switching to specific dirs
-# if the last letter is uppercase, it means they are in the home dir; else, it"s in the root dir
+# if the last letter is uppercase, it means they are in the home dir
 a gH="cd $HOME"
-a gr="cd /"
 a gB="cd $HOME/bin"
 a gS="cd $HOME/usr/src"
 a gR="cd $HOME/usr/repos"
 a gT="cd $HOME/tmp"
 a gW="cd $HOME/var/pictures/wallpapers"
 a gE="cd $HOME/etc"
+a gD="cd $HOME/var/downloads"
+a gC="cd $HOME/var/cache"
+a gV="cd $HOME/var"
+a gr="cd /"

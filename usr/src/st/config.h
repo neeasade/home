@@ -5,7 +5,13 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "xos4 Terminus:antialias=true:autohint=false:style=Regular";
+//static char *font = "xos4 Terminus:antialias=true:autohint=false:style=Regular";
+static char *font = "scientifica:style=bold";
+//static char *font = "dina:size=6";
+//static char *font = "agave:size=9";
+//static char *font = "ShureTechMono NerdFont:size=9";
+//static char *font = "montecarlo:size=9:style=Regular";
+
 //#include "themes/default.h"
 //#include "themes/thicc.h"
 //#include "themes/base16-ocean.h"

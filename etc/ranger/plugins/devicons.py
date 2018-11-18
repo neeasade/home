@@ -3,8 +3,8 @@
 # These glyphs, and the mapping of file extensions to glyphs
 # has been copied from the vimscript code that is present in
 # https://github.com/ryanoasis/vim-devicons
-import re;
-import os;
+import re
+import os
 
 # all those glyphs will show as weird squares if you don't have the correct patched font
 # My advice is to use NerdFonts which can be found here:
@@ -190,5 +190,6 @@ file_node_exact_matches = {
 }
 
 def devicon(file):
-  if file.is_directory: return dir_node_exact_matches.get(file.relative_path, '')
+  if file.is_directory:
+      return dir_node_exact_matches.get(file.relative_path, '')
   return file_node_exact_matches.get(file.relative_path, file_node_extensions.get(file.extension, ''))

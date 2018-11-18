@@ -11,9 +11,9 @@ sw=${sw%.*}
 sh=${sh%.*}
 
 dmenu_w=$((sw / 2))
-dmenu_x=$((sw / 2 - dmenu_w / 2))
 dmenu_lines=$((sw / 50))
-dmenu_y=$((sh / 6))
+dmenu_x=$((sw / 2 - dmenu_w / 2))
+dmenu_y=$((sh / 6 + dmenu_lines))
 
 source $HOME/var/cache/tm/colors/colors.sh
 
@@ -26,16 +26,23 @@ borderpx=$(< /tmp/dwm_info/borderpx)
 borcol=$color5
 
 app_run() {
-    dmenu_run -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg" -sb "$selbg" -sf "$selfg" -p "run:"
+    dmenu_run -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
+        -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
+        -sb "$selbg" -sf "$selfg" -p "run:"
+    exit
 }
 
 sel() {
-    dmenu -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg" -sb "$selbg" -sf "$selfg" -p "select:"
+    [ $# -eq 0 ] && prompt="select:" || prompt="$1"
+    dmenu -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
+        -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
+        -sb "$selbg" -sf "$selfg" -p "$prompt"
+    exit
 }
 
 case $1 in
     "sel")
-        sel
+        [ -z $2 ] && sel || sel "$2"
         ;;
     "run")
         app_run

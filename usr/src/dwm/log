@@ -1,7 +1,0 @@
-cleaning
-dwm build options:
-CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os -I/usr/X11R6/include -I/usr/include/freetype2 -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION="git_gud" -DXINERAMA
-LDFLAGS  = -s -L/usr/X11R6/lib -lX11 -lXinerama -lfontconfig -lXft
-CC       = cc
-CC drw.c
-CC dwm.c

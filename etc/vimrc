@@ -1,4 +1,4 @@
-"vim config
+" vim config
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/etc/vim/bundle/Vundle.vim
@@ -70,8 +70,8 @@ set laststatus=0
 set ignorecase
 set smartcase
 
-" maps esc to go to normal mode while in :term
-tnoremap <Esc> <C-\><C-n>       
+" maps C-x Esc to go to normal mode while in :term
+tnoremap <C-x><Esc> <C-\><C-N>       
 
 " set 256 colors
 set t_Co=256
@@ -85,7 +85,13 @@ set nocompatible              " be iMproved, required
 " colorscheme
 colorscheme viking
 
-AddShebangPattern! sh ^#!.*/bin/dash\>
+" yank to clipboard
+set clipboard=unnamed
+
+" set window's title
+" title is set to the full path of the file
+set title titlestring=nvim:\ %F titlelen=80
+
 " Plugin's config
 
 "devicons
@@ -119,7 +125,7 @@ hi ALEWarningSign ctermbg=NONE ctermfg=11 cterm=NONE
 hi ALEError ctermbg=NONE ctermfg=1 cterm=NONE
 hi ALEWarning ctermbg=NONE ctermfg=11 cterm=NONE
 let g:ale_sign_error = ">"
-let g:ale_sign_warning = "~"
+let g:ale_sign_warning = "-"
 
 "indentguides config
 let g:indentLine_setColors = 1
@@ -127,8 +133,9 @@ let g:indentLine_char = '|'
 let g:indentLine_first_char = "|"
 let g:indentLine_bgcolor_term = 0
 let g:indentLine_showFirstLevelIndentLevel = 1
+let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal']
+let g:indentLine_bufTypeExclude = ['man', 'help', 'terminal']
 
 filetype indent on
 
-" yank to clipboard
-set clipboard=unnamed
+AddShebangPattern! sh ^#!.*/bin/dash\>

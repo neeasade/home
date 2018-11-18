@@ -1,14 +1,14 @@
 Print
   $HOME/bin/screenshot
 
+super + shift + Return
+   st -g 80x40 -t floating-st
+
 super + Print
   maim -u -s > $HOME/var/pictures/scrots/$(date '+%a_%b_%d-%H:%M').png
 
 super + v
   firefox
-
-super + n
-  st -e 'nvim'
 
 super + f
   thunar
@@ -23,10 +23,13 @@ super + r
   st -e 'ranger'
 
 XF86AudioRaiseVolume
-    $HOME/bin/vol -i 5%
+  $HOME/bin/vol -i 5%
 
 XF86AudioLowerVolume
-    $HOME/bin/vol -d 5%
+  $HOME/bin/vol -d 5%
 
 XF86AudioMute
-    $HOME/bin/vol -m
+  $HOME/bin/vol -m
+
+super + x
+  $HOME/bin/turnoff  

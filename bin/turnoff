@@ -1,0 +1,11 @@
+#!/bin/dash
+
+options="poweroff\nreboot\nkill x"
+
+selected_option="$(echo $options | menu sel)"
+
+case "$selected_option" in
+    poweroff) poweroff;;
+    reboot) reboot;;
+    "kill x") killall xinit;;
+esac

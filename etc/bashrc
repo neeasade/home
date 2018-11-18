@@ -56,7 +56,7 @@ _branch() {
 _get_cwd() {
     # we don't want to set the terminal window's name if we're in a tty
     if [ "$TERM" != "linux" ]; then
-        local cwd="$(echo "$PWD" | sed -e "s|$HOME|\$HOME|g" 2> /dev/null)"
+        local cwd="$(echo "$PWD" | sed -e "s|$HOME|bash: ~|g" 2> /dev/null)"
         echo -ne "\033]0;$cwd\a" 2> /dev/null
     fi
 }
@@ -71,19 +71,11 @@ case "$(whoami)" in
     ;;
 esac
 
-# export a bunch of variables
-# I prefer to have binaries and other scripts in my home dir, so I add some some directories to my $PATH
-export EDITOR=nvim
-export PATH=$PATH:$HOME/bin/:$HOME/.local/bin:$HOME/usr/local:$HOME/usr/local/bin
-export MANPATH=$MANPATH:$HOME/usr/local/man
-export TERMINAL="tabbed -c -r 2 st -w ''"
-export XDG_CACHE_HOME="$HOME/var/cache"
-export XDG_CONFIG_HOME="$HOME/etc"
-
 # source aliases
 source $HOME/etc/aliases
 
 # set vi mode
+# vi-like keybindings are so comfy
 set -o vi
 
 # infinite history
@@ -96,5 +88,6 @@ if [ "$TERM" == "linux" ]; then
     setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
     # set the colorscheme!
     source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
+    sleep 1
     clear # we have to clear the console to see the changes
 fi

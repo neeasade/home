@@ -1,13 +1,13 @@
 /* See LICENSE file for copyright and license details. */
 /* appearance */
 static const unsigned int BORDERPX  = 1;        /* border pixel of windows */
-static const unsigned int GAP_PX    = 6;        /* useless gaps in px */
+static const unsigned int GAP_PX    = 8;        /* useless gaps in px */
 static const unsigned int start_borders = 3; //0 means no borders and yes gaps. 1 means no gaps and yes borders. 2 means no borders and no gaps, 3 means gaps and borders
 static const unsigned int snap      = 0;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int BAR_HEIGHT         = 16; // in pixels
+static const int BAR_HEIGHT         = 20; // in pixels
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int bar_gaps           = 0; // whether to have gaps around bar
+static const int bar_gap            = 0; // whether to have gaps around bar
 static const int two_borders        = 1;        /* whether use two borders */ //TODO
 static const int monocle_fullscreen = 0;       /* whether to disable border and gap in monocle layout */ //TODO
 //static const int float_border 			= 1; // 0 means keep border no matter the number of client is in floating. 1 means no border if only one floating client is present.
@@ -24,7 +24,7 @@ static const char dmenufont[]       = "scientifica :size=10";
 #include "/home/the_human/var/cache/tm/colors/colors_dwm.h"
 
 /* tagging */
-static const int NUM_WORKSPACES=6;
+static const int NUM_WORKSPACES = 6;
 static const char *tags[] = { "0", "1", "2", "3", "4", "5" };
 
 static const Rule rules[] = {
@@ -43,12 +43,12 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.60; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 #include "layouts.c"
-#include "fibonacci.c"
+
 static int NUM_LAYOUTS = 8;
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -80,16 +80,16 @@ static const char *termcmd[]  = { "tabbed", "-c","-r 2", "st", "-w", "", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 static const char *drawst[] = { "bash", "-c", "${HOME}/bin/draw_st", NULL };
-static const char *hiddendmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 0", NULL };
-static const char *dmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 1", NULL };
+static const char *hiddendmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 1", NULL };
+static const char *dmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 0", NULL };
 static const char *center_win[] = { "bash", "-c", "${HOME}/bin/center_win", NULL };
 
 #include "zoomswap.c"
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY|ShiftMask,             XK_g,      togglegaps,      {0} },
-	{ MODKEY|ShiftMask,             XK_b,      toggleborder,      {0} },
+	{ MODKEY|ShiftMask,             XK_g,      togglegaps,     {0} },
+	{ MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },	
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
@@ -118,7 +118,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
     { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = hiddendmenudir} },
     { MODKEY|ShiftMask|ControlMask, XK_f,      spawn,          {.v = dmenudir} },
-    { MODKEY|ControlMask, XK_c,      spawn,          {.v = center_win} },
+    { MODKEY|ControlMask,           XK_c,      spawn,          {.v = center_win} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -147,7 +147,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
@@ -155,5 +155,5 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkRootWin, 		0, 		Button3, 	spawn, 		{.v = drawst } },
+	{ ClkRootWin, 		    0, 		        Button3, 	    spawn, 		    {.v = drawst} },
 };

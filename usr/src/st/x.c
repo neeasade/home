@@ -1453,6 +1453,22 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 		case 1: /* Blinking Block (Default) */
 		case 2: /* Steady Block */
 			xdrawglyph(g, cx, cy);
+            /*xftdrawrect(xw.draw, &drawcol,
+                    borderpx + cx * win.cw,
+                    borderpx + cy * win.ch,
+                    win.cw - 1, 1);
+            xftdrawrect(xw.draw, &drawcol,
+                    borderpx + cx * win.cw,
+                    borderpx + cy * win.ch,
+                    1, win.ch - 1);
+            xftdrawrect(xw.draw, &drawcol,
+                    borderpx + (cx + 1) * win.cw - 1,
+                    borderpx + cy * win.ch,
+                    1, win.ch - 1);
+            xftdrawrect(xw.draw, &drawcol,
+                    borderpx + cx * win.cw,
+                    borderpx + (cy + 1) * win.ch - 1,
+                    win.cw, 1);*/ //uncomment for hollow block for focused window. also comment xdrawglyh line
 			break;
 		case 3: /* Blinking Underline */
 		case 4: /* Steady Underline */
@@ -1471,7 +1487,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 			break;
 		}
 	} else {
-		/*xdrawglyph(g, cx, cy);*/ //uncomment and remove the next XftDrawRect to make reverse cursor a block 
+		//xdrawglyph(g, cx, cy); //uncomment and remove the next XftDrawRect to make reverse cursor a block 
 		XftDrawRect(xw.draw, &drawcol,
 				borderpx + cx * win.cw,
 				borderpx + cy * win.ch,

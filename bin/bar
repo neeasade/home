@@ -1,21 +1,19 @@
 #!/bin/bash
-#
-# http://github.com/mitchweaver/bin
-#
-# the unholy lemonbar
-# edited to fit The_Human's dwm. changed layouts' symbol and cleared gaps
+# taken from mitchweaver
+# heavily modified some base aspects to fit my style
 
 # on exit, kill all children
 trap 'pkill -P $$' EXIT
 LC_ALL=""
 
 init() {
+    # get colors
     source $HOME/var/cache/tm/colors/colors.sh
     
     colordetails=$color7
     colordetailsbg=$color0
     colorwsbg=$color0
-    colorws=$color7
+    colorws=$color8
     colorwscurrent=$color15
     colorwindowname=$color7
     colorwindownamebg=$color0
@@ -47,10 +45,9 @@ init() {
     [ $bar_gaps -eq 1 ] && gap=$(< /tmp/dwm_info/gappx) || gap=0
     [ $bar_gaps -eq 1 ] && borpx=$(< /tmp/dwm_info/borderpx)
     
-    w=$(( $sw ))
-    x=$(( $sw / 2 - $w / 2 ))
+    w=$(echo "$sw - $gap * 2" | bc -l)
     h=$(< /tmp/dwm_info/bar_height)
-    #[ $gap -gt 0 ] && h=$(( $h + ($h / 4) ))
+    [ $bar_gaps -eq 1 ] && x=$gap || x=0
 
     if [ $(< /tmp/dwm_info/top_bar) -eq 0 ] ; then
         [ $gap -gt 0 ] && 
@@ -63,28 +60,21 @@ init() {
             y=$(( $sh - $h ))
     fi
     
-    if [ $gap -eq 0 ] ; then
-        ft1="TerminessTTF Nerd Font:size=9"
-        ft2="ShureTechMono Nerd Font:size=9"
-        ft3="TerminessTTF Nerd Font:size=8"
-        ft4="TerminessTTF Nerd Font:size=8"
-        ft5="TerminessTTF Nerd Font:size=8"
-    else
-        ft1="TerminessTTF Nerd Font:size=9"
-        ft2="ShureTechMono Nerd Font:size=9"
-        ft3="TerminessTTF Nerd Font:size=8"
-        ft4="TerminessTTF Nerd Font:size=8"
-        ft5="TerminessTTF Nerd Font:size=8"
-    fi
-		# get the current volume
-		bash $HOME/bin/vol +0%
+    ft1="TerminessTTF Nerd Font:size=9"
+    ft2="ShureTechMono Nerd Font:size=9"
+    ft3="dina:size=6"
+    ft4="scientifica:style=bold:size=8"
+    ft5="TerminessTTF Nerd Font:size=8"
+
+	# get the current volume
+	bash $HOME/bin/vol -i 10
 
     unset res sw sh gap tmp
 }
 
 layout() {
     case $(< /tmp/dwm_info/current_layout) in
-        0) echo -en "\\uf570" ;; # tiled
+        0) echo -en "\\ufa6f" ;; # tiled
         1) echo -en "\\ue28e" ;; # floating
         2) echo -en "\\uf6a1" ;; # monocle
         3) echo -en "\\uf0c9" ;; # bstack 
@@ -104,7 +94,7 @@ wksp() {
                 ws="%{B$colorwsbg} %{T1}%{F$colorws}$wkspicon%{T-}%{F-} %{B-}"
 
             [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws="%{B$colorwsbg}%{+o} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
+                ws="%{B$colorwsbg}%{+o} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}%{-o}" ||
                 ws="%{-o}$ws"
             buffer=$buffer$ws
 
@@ -119,9 +109,9 @@ focused_window() {
     lencwin=${#cwin}
     if (( $lencwin > 80 )); then
         win=${cwin:0:50} 
-        formatname="%{T2}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
+        formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
     elif [ -n "$cwin" ]; then
-        formatname="%{T2}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
+        formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
     elif [ -z "$cwin" ]; then
         formatname=""
     fi
@@ -129,12 +119,19 @@ focused_window() {
 }
 
 launch_daemons() {
-		# time_daemon
-    dash -c 'while date "+%H:%M" > /tmp/bar/date
-        do sleep 59
+	# time_daemon
+    dash -c 'while date "+%H:%M" > /tmp/bar/time
+            do sleep 59
     done' > /dev/null 2>&1 &
-        
-        # day_daemon
+    
+    bash -c 'while true; do
+        cur_month="$(date +%b)"
+        cur_month=${cur_month,*}
+        cur_date="$(date +%d)"
+        echo "$cur_month $cur_date" > /tmp/bar/date
+        sleep 6000
+    done' &
+    # day_daemon
     dash -c 'while true; do
         case $(date +%u) in
             1) echo mo > /tmp/bar/day;;
@@ -146,10 +143,10 @@ launch_daemons() {
             7) echo su > /tmp/bar/day;;
         esac
         sleep 6000
-        done' &
+    done' &
 
-        # ram and cpu usage daemon
-    #python $HOME/bin/usage &
+    # ram and cpu usage daemon
+    python $HOME/bin/usage &
 }
 
 init
@@ -157,11 +154,14 @@ launch_daemons
 
 while \
     printf " %s%b%s%b%b%b%b%b%b%s \\n" \
-    "%{B$colordetailsbg}  %{T2}%{F$colordetails}$(< /tmp/bar/day)     $(layout)%{F-}%{T-}  " \
+    "%{B$colordetailsbg}  %{T4}%{F$colordetails}$(< /tmp/bar/day)     "\
+        "\ue28e%{F-}%{T-}   "\
         "  $(wksp)$(< /tmp/bar/wksp)" \
-        "%{c}%{F$colorwindowname}$(focused_window)%{F-}" \
+        "%{c}$(focused_window)" \
         "$(< /tmp/bar/temp)" \
-        "%{r}%{B$colordetailsbg}  %{T2}%{F$colordetails}$(< /tmp/bar/date)%{T-}%{F-}  %{B-}"
+        "%{r}%{B$colordetailsbg}  %{T1}%{F$colordetails}ram $(< /tmp/bar/ram)"\
+        "   vol $(< /tmp/bar/vol)   $(< /tmp/bar/time)   "\
+        "$(< /tmp/bar/date)%{T-}%{F-}  %{B-}"
     do sleep 0.5
 done 2> /dev/null | \
 
@@ -176,7 +176,6 @@ lemonbar -db \
          -u 2 \
          -U $color5 \
          -B $color0 \
-         -F "#ffffff" \
+         -F $color7 \
          -r "$borpx" \
-         -R $color5 \
--a 0 > /dev/null 2>&1
+         -R $color5 > /dev/null 2>&1
