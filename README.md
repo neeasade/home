@@ -15,7 +15,7 @@ $HOME/tmp -> junk
 ```
 
 # managing colors
-I use [tm](https://github.com/Th3-Hum4n/tm) to create themes from raw text files. Makes my life easier when I want to change themes in an instant. To change the theme, I run `tm -c ~/etc/colors/colors_name && rcsl` which will create color files and recompile all the suckless software.
+I use [tm](https://github.com/Th3-Hum4n/tm) to create themes from raw text files. Makes my life easier when I want to change themes in an instant. To change the theme, I run `tm -c ~/etc/colors/colors_name && rice` which will create color files and recompile all the suckless software.
 
 # scrots
 ![scrot](https://github.com/Th3-Hum4n/home/blob/master/var/pictures/scrots/viking_with_rust.png)
