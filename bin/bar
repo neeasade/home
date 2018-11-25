@@ -1,5 +1,5 @@
 #!/bin/bash
-# taken from mitchweaver
+# took from githu.com/mitchweaver/bin
 # heavily modified some base aspects to fit my style
 
 # on exit, kill all children
@@ -123,7 +123,8 @@ launch_daemons() {
     dash -c 'while date "+%H:%M" > /tmp/bar/time
             do sleep 59
     done' > /dev/null 2>&1 &
-    
+   
+    # date_daemon
     bash -c 'while true; do
         cur_month="$(date +%b)"
         cur_month=${cur_month,*}
@@ -131,6 +132,7 @@ launch_daemons() {
         echo "$cur_month $cur_date" > /tmp/bar/date
         sleep 6000
     done' &
+
     # day_daemon
     dash -c 'while true; do
         case $(date +%u) in
@@ -147,6 +149,16 @@ launch_daemons() {
 
     # ram and cpu usage daemon
     python $HOME/bin/usage &
+
+    # weather_daemon
+    dash -c 'while true; do
+        curl -s https://wttr.in/chennai?m0TQP > /tmp/bar/raw_weather
+        [ -z $(cat /tmp/bar/raw_weather) ] && continue
+        temp="$(head -n 2 /tmp/bar/raw_weather | grep -oe "[0-9]")"
+        temp=$(echo "$temp" | head -n 2 | tr -d "\n")
+        echo "   weather $(( $temp + 273 ))K" > /tmp/bar/weather
+        sleep 300
+    done' &
 }
 
 init
@@ -160,6 +172,7 @@ while \
         "%{c}$(focused_window)" \
         "$(< /tmp/bar/temp)" \
         "%{r}%{B$colordetailsbg}  %{T1}%{F$colordetails}ram $(< /tmp/bar/ram)"\
+        "$(</tmp/bar/weather)"\
         "   vol $(< /tmp/bar/vol)   $(< /tmp/bar/time)   "\
         "$(< /tmp/bar/date)%{T-}%{F-}  %{B-}"
     do sleep 0.5

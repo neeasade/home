@@ -4,8 +4,9 @@
 tmp_image="/tmp/grab.png"
 
 upload() {
-    url=$(curl -F file="@${tmp_image}" https://0x0.st)
-    echo $url | xclip -sel "clip"
+    url="$(curl -F file="@${tmp_image}" https://0x0.st)"
+    # remove newline before copying it to clipboard
+    echo "$url" | head -n 1 | tr -d "\n" | xclip -sel "clip"
     notify-send "scrot taken!" "url in clipboard"
 }
 
@@ -27,7 +28,7 @@ case $capture in
     *area*) grab_area;;
     *win*) grab_window;;
     *screen*) grab_screen;;
-    *) exit;;
+    *) notify-send "error" "learn to select fool"; exit;;
 esac
 
 upload

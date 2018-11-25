@@ -1,0 +1,3 @@
+#!/bin/mksh
+# $HOME/etc/kshrc
+source $HOME/etc/aliases

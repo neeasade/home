@@ -3,16 +3,22 @@
 
 case $(uname) in
     Linux)
-    alias ls="ls --color=auto"
-    alias sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7 --ascii_colors 8 11 7 8 8 8"
+    alias ls="ls -FN --color=auto"
+    alias sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7\
+--ascii_colors 8 11 7 8 8 8"
     ;;
     OpenBSD)
     alias sudo="doas"
     alias killall="pkill -9"
-    alias sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7 --ascii_colors 5 7 5 5 5 5"
+    alias sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7\
+--ascii_colors 5 7 5 5 5 5"
     alias lsblk="df -h"
+    alias ls="ls -FN"
     ;;
 esac
+
+# fallback to my fetch script if neofetch is not installed
+[ -z "$(command -v neofetch)" ] && alias sf="$HOME/bin/fetch"
 
 find_font() {
     fc-list | grep "$1"
@@ -79,6 +85,7 @@ a mkd="mkdir -pv"
 a free="free -h"
 a feh="feh --no-fehbg"
 a rmf="rm -f"
+a info="info --vi-keys"
 a cd..="cd .."
 a c..="cd .."
 # git aliases

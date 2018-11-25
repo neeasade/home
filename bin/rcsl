@@ -1,15 +1,14 @@
 #!/bin/bash
 # script to recompile suckless software
-# have to use bash, because dash doesn't have arrays
 
 base_dir="$HOME/usr/src"
-sltools=("dwm" "dmenu" "st" "tabbed")
+sltools="dwm dmenu st tabbed"
 
-for sltool in ${sltools[@]}; do
+for sltool in $sltools; do
     cd ${base_dir}/${sltool}
     echo "compiling ${sltool}"
     make clean install
 done
 
-pkill bar
+[ -n $(pgreo bar) ] && pkill bar
 $HOME/bin/bar &

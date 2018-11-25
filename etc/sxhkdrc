@@ -22,6 +22,12 @@ super + ctrl + r
 super + r
   st -e 'ranger'
 
+super + shift + r
+  surf $HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/doc/rust/html/book/2018-edition/
+
+super + shift + u
+  $HOME/bin/invcurwin
+
 XF86AudioRaiseVolume
   $HOME/bin/vol -i 5%
 

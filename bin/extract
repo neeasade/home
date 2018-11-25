@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/dash
 # terminal archive viewer which uses ranger
 # Made by: Th3-Hum4n
 # this script checks if the archive name has "tar" or "zip" in its name and uses an extract method accordingly

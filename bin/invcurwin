@@ -1,0 +1,24 @@
+#!/bin/dash
+# uses compton to invert current window
+cur_win_id="$(xdotool getactivewindow)"
+cur_win_class="$(xprop -id $cur_win_id | grep WM_CLASS)"
+cur_win_class="$(echo "$cur_win_class" | awk 'NF>1{print $NF}')"
+
+inv_check=$(cat $HOME/tmp/invchk)
+prv_win="$(cat $HOME/tmp/prvinvwin)"
+
+# kill compton before doing anything
+[ -n $(pgrep compton) ] && pkill -9 compton
+
+if [ $cur_win_class = $prv_win ]; then
+    if [ $inv_check -eq 1 ]; then
+        compton -bc &
+        echo 0 > $HOME/tmp/invchk
+        exit
+    fi
+fi
+
+compton -bc --invert-color-include "class_g="$cur_win_class"" &
+echo 1 > $HOME/tmp/invchk
+echo $cur_win_class > $HOME/tmp/prvinvwin
+exit

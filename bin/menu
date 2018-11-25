@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/dash
 # dmenu launcher with my patches
 
 # get resolution, screen height, screen width, etc.
@@ -15,14 +15,14 @@ dmenu_lines=$((sw / 50))
 dmenu_x=$((sw / 2 - dmenu_w / 2))
 dmenu_y=$((sh / 6 + dmenu_lines))
 
-source $HOME/var/cache/tm/colors/colors.sh
+. $HOME/var/cache/tm/colors/colors.sh
 
 font="ShureTechMono Nerd Font:size=10"
 selbg=$color8
 selfg=$color15
 normbg=$color0
 normfg=$color7
-borderpx=$(< /tmp/dwm_info/borderpx)
+borderpx=$(cat /tmp/dwm_info/borderpx)
 borcol=$color5
 
 app_run() {

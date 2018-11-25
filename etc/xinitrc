@@ -1,0 +1,42 @@
+#!/bin/sh
+
+userresources=$HOME/.Xresources
+usermodmap=$HOME/etc/xmodmap
+sysresources=/etc/X11/xinit/.Xresources
+sysmodmap=/etc/X11/xinit/.Xmodmap
+
+# merge in defaults and keymaps
+
+[ -f $sysresources ] && xrdb -merge $sysresources
+[ -f $sysmodmap ] && xmodmap $sysmodmap
+[ -f "$userresources" ] && xrdb -merge "$userresources"
+[ -f "$usermodmap" ] && xmodmap "$usermodmap"
+
+# init logs
+[ -d "$HOME/var/logs" ] && rm -rf $HOME/var/logs/
+mkdir -p $HOME/var/logs
+
+# start some nice programs
+
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+ for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+  [ -x "$f" ] && . "$f"
+ done
+ unset f
+fi
+
+# some variables
+wall_path=$HOME/var/pictures/wallpapers
+# qt5ct stuff
+[ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME=qt5ct
+compton -bc &
+#xwinwrap -ov -ni -fs -- mpv x11 -wid WID --keepaspect=no --loop $HOME/var/pictures/wallpapers/train.webm &
+feh --no-fehbg --bg-fill $wall_path/chol_haemo_structure_bg.png &
+#feh --no-fehbg --bg-tile $HOME/var/pictures/wallpapers/white_folk_pattern.png &
+#tm -w $wall_path/xmas_trees_row.jpg $wall_path/pink_tree_row_winter.jpg\
+#    $wall_path/river_middle_frozen.jpg $wall_path/snowy_trees_forest.jpg\
+#    $wall_path/winter_tree.jpg &
+dunst -conf $HOME/etc/dunst/dunstrc &
+$HOME/bin/bar &
+sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log -s $HOME/var/logs/sxhkd.log &
+exec dwm 2> $HOME/var/logs/dwm.log

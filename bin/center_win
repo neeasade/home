@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/dash
 
 # active window's id
 active_win="$(xdotool getactivewindow)"
@@ -25,9 +25,9 @@ rm -rf /tmp/win_dim
 
 # centered window's dimensions
 # we need to get bar's height so we can center our window vertically
-bh=$(< /tmp/dwm_info/bar_height)
-gap=$(< /tmp/dwm_info/gappx)
-bar_gaps=$(< /tmp/dwm_info/bar_gaps)
+bh=$(cat /tmp/dwm_info/bar_height)
+gap=$(cat /tmp/dwm_info/gappx)
+bar_gaps=$(cat /tmp/dwm_info/bar_gaps)
 center_x=$((sw - wx))
 [ $bar_gaps -eq 0 ] && center_y=$((sh - bh)) || center_y=$((sh - h - gappx*2))
 

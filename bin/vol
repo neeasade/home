@@ -1,5 +1,5 @@
 #!/bin/dash
-# simple bash script which increases the volume of Master (ALSA)
+# simple dash script which increases the volume of Master (ALSA)
 
 usage() {
     echo "help\n----------\n[-h] echo this message\n[-i] increase volume by percent"

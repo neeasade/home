@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/dash
 # brightness script.
 # TODO: find a way to do the below syntax in dash without cat
 
-max_brightness=$(< /sys/class/backlight/intel_backlight/max_brightness)
+max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 
 set_per_bright() {
     # assumes that number has a percent sign
@@ -13,7 +13,7 @@ set_per_bright() {
 }
 
 inc() {
-    current_brightness=$(< /sys/class/backlight/intel_backlight/brightness)
+    current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
     local inc_bright=${1%*%}
     inc_bright=$(( inc_bright * current_brightness / 100 ))
 
@@ -21,7 +21,7 @@ inc() {
 }
 
 dec() {
-    current_brightness=$(< /sys/class/backlight/intel_backlight/brightness)
+    current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
     local dec_bright=${1%*%}
     dec_bright=$(( dec_bright * current_brightness / 100))
 
@@ -30,12 +30,12 @@ dec() {
 
 get_bright() {
     local bright
-    bright=$(< /sys/class/backlight/intel_backlight/brightness)
+    bright=$(cat /sys/class/backlight/intel_backlight/brightness)
     echo $(( bright * 100 / max_brightness ))
 }
 
 usage() {
-    echo -e "help\n--------\n[-h] echo this message\n[-d] decrease brightness by percent\n[-i] increase brightness by percent\n[-s] set brightness in percent\n[-g] get brightness in percent\n"
+    echo "help\n--------\n[-h] echo this message\n[-d] decrease brightness by percent\n[-i] increase brightness by percent\n[-s] set brightness in percent\n[-g] get brightness in percent\n"
 }
 
 case "$1" in

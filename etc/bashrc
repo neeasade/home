@@ -61,15 +61,28 @@ _get_cwd() {
     fi
 }
 
+# delete Desktop folder
+# I HATE IT
+_rm_desktop() {
+    [ -d $XDG_DESKTOP_HOME ] && rm -rf $XDG_DESKTOP_HOME
+    [ -d $HOME/Desktop ] && rm -rf $HOME/Desktop
+}
+
 # prompt
-case "$(whoami)" in
-    the_human)
-        export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}m${dpnk}a${dblu}n ${dblu}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\[\$(_get_cwd)\]\[\033[0m\] "
-    ;;
-    root)
-        export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\$(_get_cwd)\[\003[0m\] "
-    ;;
-esac
+#case "$(whoami)" in
+#    the_human)
+#        export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}\
+#m${dpnk}a${dblu}n ${dblu}\w\[$(tput sgr0)\]${dcyn}\$(_branch)\
+#\[\$(_get_cwd)\]\[\$(_rm_desktop)\]\[\033[0m\] "
+#    ;;
+#    root)
+#        export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w\[$(tput sgr0)\]\
+#${dcyn}\$(_branch)\$(_get_cwd)\[\003[0m\] "
+#    ;;
+#esac
+
+export PS1="]\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\
+ \[\033[0m\]"
 
 # source aliases
 source $HOME/etc/aliases
@@ -88,6 +101,5 @@ if [ "$TERM" == "linux" ]; then
     setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
     # set the colorscheme!
     source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
-    sleep 1
     clear # we have to clear the console to see the changes
 fi
