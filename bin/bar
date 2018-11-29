@@ -1,5 +1,6 @@
 #!/bin/bash
-# took from githu.com/mitchweaver/bin
+# d w m  bar
+# took from github.com/mitchweaver/bin
 # heavily modified some base aspects to fit my style
 
 # on exit, kill all children
@@ -87,7 +88,8 @@ layout() {
 
 wksp() {
     if [ $(< /tmp/dwm_info/check) -eq 1 ] ; then
-        for i in $(seq $num_ws || jot $num_ws) ; do
+        i=1
+        while [ $i -le $num_ws ]; do
             wkspicon=$(( $i - 1 ))
             [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
                 ws="%{B$colorwsbg} %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
@@ -98,6 +100,7 @@ wksp() {
                 ws="%{-o}$ws"
             buffer=$buffer$ws
 
+            i=$(( i + 1 ))
         done
         echo -n "$buffer" > /tmp/bar/wksp
         echo -n 0 > /tmp/dwm_info/check
@@ -106,6 +109,13 @@ wksp() {
 
 focused_window() {
     cwin="$(xdotool getactivewindow getwindowname)"
+
+    case "$cwin" in
+        *Firefox*)
+            cwin="$(echo "$cwin" | sed -e 's/ - Mozilla Firefox//')"
+            cwin="ff: "$cwin""
+    esac
+
     lencwin=${#cwin}
     if (( $lencwin > 80 )); then
         win=${cwin:0:50} 

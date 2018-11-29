@@ -11,6 +11,6 @@ esac
 while true; do
     cur_time="$(date +%H:%M)"
     notify-send -t 5000 -u critical "current time: $cur_time"
-    echo "notification sent"
+    echo "notification sent $cur_time"
     sleep $(($time_interval * 60))
 done

@@ -1,5 +1,7 @@
 # vim:ft=sh
 # functions and linux/openbsd specific things
+# this script is mostly POSIX because I might source this file
+# no matter what shell I use
 
 case $(uname) in
     Linux)
@@ -26,6 +28,7 @@ find_font() {
 
 mklatex() {
     pdflatex "$1"
+    # some bashisms
     rm "${1//.tex}".aux "${1//.tex}".log
 }
 

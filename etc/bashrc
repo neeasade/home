@@ -42,12 +42,9 @@ _branch() {
         esac
         
         case $branch_status in
-        0)
-        echo -n "$branch";;
-        1)
-        echo -n "${branch}+";;
-        2)
-        echo -n "${branch}^";;
+        0) echo -n "$branch";;
+        1) echo -n "${branch}+";;
+        2) echo -n "${branch}^";;
         esac
     fi
 }
@@ -81,7 +78,10 @@ _rm_desktop() {
 #    ;;
 #esac
 
-export PS1="]\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\
+#export PS1="]\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\
+# \[\033[0m\]"
+
+export PS1="$\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\
  \[\033[0m\]"
 
 # source aliases

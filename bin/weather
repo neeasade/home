@@ -1,0 +1,26 @@
+#!/bin/dash
+# a weather notification sender
+# only sends the current weather condition, ie sunny or cloudly and temperature in K
+
+# get data if not present already
+[ ! -f /tmp/bar/raw_weather ] &&\
+    curl -s https://wttr.in/chennai?m0TQP > /tmp/bar/raw_weather
+
+# get the weather conditon
+weather_cond=`cat /tmp/bar/raw_weather | head -n 1 | grep -oE "[ A-Za-z]" |\
+    tr -d '\n'`
+weather_condition=""
+
+for word in $weather_cond; do
+    weather_conditon="${weather_conditon}${word} "
+done
+
+# get the current temperature
+[ -f /tmp/bar/weather ] && temperature=`cat /tmp/bar/weather | grep -oE "[0-9]"\
+    | tr -d '\n'` || temperature=`cat /tmp/bar/raw_weather | head -n 1 |\
+    grep -oE "[0-9] | head -n 2 | tr -d '\n'"`
+
+# send the notification
+notify-send "weather" "$weather_conditon"
+sleep 2
+notify-send "temperature" "${temperature}K"
