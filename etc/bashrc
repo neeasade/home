@@ -98,8 +98,10 @@ HISTFILE="$HOME/var/cache/bash_history"
 # console stuff
 if [ "$TERM" == "linux" ]; then
     # set our console font. (I'm too lazy to setup a systemd service for this)
-    setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
+    [ -f $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf ] &&\
+        setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
     # set the colorscheme!
-    source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
+    [ -f $HOME/var/cache/tm/colors/colors_tty.sh ] &&\
+        source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
     clear # we have to clear the console to see the changes
 fi

@@ -53,6 +53,7 @@ a v="nvim"
 a l="ls -l"
 a ll="ls -w $(ls | wc -l)"
 a fm="ranger"
+a mf="ranger"
 a pip="pip3"
 a ff="find_font"
 a mklatex="mklatex"
@@ -72,6 +73,7 @@ a quit="exit"
 # sometimes it's quicker to do :q! than exit
 a :q="exit"
 a :q!="exit"
+# I got no time for steam locomotive but I admit that it's a nice joke
 a sl="ls"
 # specific to a laptop I use
 a swifi="sudo ip link set wlp2s0 down && sudo wifi-menu -o && sudo dhcpcd"
@@ -89,8 +91,12 @@ a free="free -h"
 a feh="feh --no-fehbg"
 a rmf="rm -f"
 a info="info --vi-keys"
+a fc-cache="fc-cache --verbose"
 a cd..="cd .."
 a c..="cd .."
+a resx="[ -n $(pgrep sxhkd) ] && pkill -9 sxhkd;\
+sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\
+-s $HOME/var/logs/sxhkd.log & disown"
 # git aliases
 a commit="git commit --interactive -m"
 a diff="git diff"
