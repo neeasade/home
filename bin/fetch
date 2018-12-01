@@ -88,4 +88,4 @@ echo ${dpnk}term: ${dwht}$terminal${null}
 echo ${dpnk}sh: ${dwht}${SHELL}${null}
 echo ${dpnk}uptime: ${dwht}$(_get_uptime)${null}
 echo ${dpnk}pkg_cnt: ${dwht}$(_get_package_count)${null}
-echo ${red}x ${blu}x ${grn}x ${ylw}x ${cyn}x ${pnk}x${null}
+echo ${red}* ${blu}* ${grn}* ${ylw}* ${cyn}* ${pnk}*${null}

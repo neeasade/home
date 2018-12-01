@@ -1,0 +1,79 @@
+#!/bin/dash
+# a todo list thingy manager in dash
+# set the cache folder
+[ -n $(echo "$XDG_CACHE_HOME") ] && cache="$XDG_CACHE_HOME/todo"\
+    || cache="$HOME/.cache/todo"
+
+add_entry() {
+    local entry="$1"
+    echo "$entry" >> "${cache}"
+}
+
+delete_entry() {
+    local line_num="$1"
+    # assuming the line number is from the beginning, get that entry
+    local entry="$(sed -n "${line_num}p" "${cache}")"
+    
+    sed -i "/${entry}/d" "${cache}"
+}
+
+show() {
+    local i=1
+    local num_entries=$(cat "${cache}" | wc -l)
+ 
+    while [ $i -le $num_entries ]; do
+        echo "${i} `sed -n "${i}p" "${cache}"`"
+        i=$((i+1))
+    done
+}
+
+usage() {
+    case "$1" in
+        interactive)
+            echo "a(dd) entry -> add new entry"
+            echo "s(how) or p(rint) -> print the list"
+            echo "d(elete) n -> delete nth entry"
+            echo "q(uit) or e(xit) -> quit";;
+        prompt)
+            echo "usage\n---------------"
+            echo "[-a entry] add new entry to todo list"
+            echo "[-s] show all entries"
+            echo "[-p] show all entries"
+            echo "[-i] interactive mode"
+            echo "[-d n] delete the nth entry"
+            echo "[-h] print this help message";;
+    esac
+}
+
+interactive() {
+    while true; do
+        read -p "> " input
+
+        # only get the first word
+        for i in $input; do
+            local func="$i"
+            break
+        done
+
+        # let's modify the input to remove the function
+        input=`echo "$input" | sed -e "s/${func}//"`
+ 
+        case "$func" in
+            s|p|show|print) show;;
+            a|add) add_entry "$(echo "$input" | sed -e 's/ //')";;
+            d|delete) delete_entry "$input";;
+            q|e|quit|exit) exit 0;;
+            h|?) usage interactive;;
+            *) usage interactive;;
+        esac
+    done
+}
+
+case "$1" in
+    -h) usage prompt;;
+    -a) add_entry "$2";;
+    -d) delete_entry "$2";;
+    -s|-p) show;;
+    -i) interactive;;
+    *) interactive;;
+esac

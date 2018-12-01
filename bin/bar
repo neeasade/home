@@ -68,7 +68,7 @@ init() {
     ft5="TerminessTTF Nerd Font:size=8"
 
 	# get the current volume
-	bash $HOME/bin/vol -i 10
+	$HOME/bin/vol -i 10
 
     unset res sw sh gap tmp
 }
@@ -88,9 +88,11 @@ layout() {
 
 wksp() {
     if [ $(< /tmp/dwm_info/check) -eq 1 ] ; then
-        i=1
+        local i=1
+        local ws=""
+        local buffer=""
         while [ $i -le $num_ws ]; do
-            wkspicon=$(( $i - 1 ))
+            local wkspicon=$(( $i - 1 ))
             [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
                 ws="%{B$colorwsbg} %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
                 ws="%{B$colorwsbg} %{T1}%{F$colorws}$wkspicon%{T-}%{F-} %{B-}"
@@ -108,7 +110,7 @@ wksp() {
 }
 
 focused_window() {
-    cwin="$(xdotool getactivewindow getwindowname)"
+    local cwin="$(xdotool getactivewindow getwindowname)"
 
     case "$cwin" in
         *Firefox*)
@@ -116,14 +118,14 @@ focused_window() {
             cwin="ff: "$cwin""
     esac
 
-    lencwin=${#cwin}
-    if (( $lencwin > 80 )); then
-        win=${cwin:0:50} 
-        formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
+    local lencwin=${#cwin}
+    if [ $lencwin -gt 80 ]; then
+        local win=${cwin:0:50} 
+        local formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
     elif [ -n "$cwin" ]; then
-        formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
+        local formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
     elif [ -z "$cwin" ]; then
-        formatname=""
+        local formatname=""
     fi
     echo $formatname
 }
@@ -200,5 +202,5 @@ lemonbar -db \
          -U $color5 \
          -B $color0 \
          -F $color7 \
-         -r "$borpx" \
+         -r $borpx \
          -R $color5 > /dev/null 2>&1

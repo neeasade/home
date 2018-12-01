@@ -4,10 +4,12 @@
 tmp_image="/tmp/grab.png"
 
 upload() {
-    url="$(curl -F file="@${tmp_image}" https://0x0.st)"
+    local url="$(curl -F file="@${tmp_image}" https://0x0.st)"
     # remove newline before copying it to clipboard
     echo "$url" | head -n 1 | tr -d "\n" | xclip -sel "clip"
-    notify-send "scrot taken!" "url in clipboard"
+    [ -n "$url" ] &&\
+        notify-send "scrot taken!" "url in clipboard" ||\
+        notify-send "error" "check if your internet is on"
 }
 
 grab_screen() {

@@ -3,7 +3,11 @@
 
 usage() {
     echo "help\n----------\n[-h] echo this message\n[-i] increase volume by percent"
-    echo "[-d] decrease volume by percent\n[-s] set volume in percent\n[-m] mute speakers\n[-u] unmute the speakers"
+    echo "[-d] decrease volume by percent\n\
+    [-s] set volume in percent\n\
+    [-m] mute speakers\n\
+    [-u] unmute the speakers\n\
+    [-g] print the current volume"
 }
 
 inc() {
@@ -26,6 +30,10 @@ unmute() {
     amixer set Master unmute
 }
 
+get() {
+    echo $(cat /tmp/bar/vol)%
+}
+
 case $1 in
     -h) usage;;
     -i) inc $2;;
@@ -33,6 +41,7 @@ case $1 in
     -m) mute;;
     -u) unmute;;
     -s) setvol $2;;
+    -g) get;;
     *) usage;;
 esac
 

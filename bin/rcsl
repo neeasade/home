@@ -10,5 +10,5 @@ for sltool in $sltools; do
     make clean install
 done
 
-[ -n $(pgreo bar) ] && pkill bar
+[ -n $(pgrep bar) ] && pkill bar
 $HOME/bin/bar &
