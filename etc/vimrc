@@ -92,6 +92,9 @@ set clipboard=unnamed
 " title is set to the full path of the file
 set title titlestring=nvim:\ %F titlelen=80
 
+" remove trailing whitespaces before writing
+autocmd BufWritePre * %s/\s\+$//e
+
 " Plugin's config
 
 "devicons

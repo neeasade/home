@@ -44,6 +44,16 @@ c() {
     fi
 }
 
+# function to resource shellrc and aliases
+resourcesh() {
+    source $HOME/etc/aliases
+
+    case "$SHELL" in
+        *ksh*) source $HOME/etc/kshrc;;
+        *bash*) source $HOME/etc/bashrc;;
+    esac
+}
+
 # aliases
 alias a="alias"
 a python="/usr/bin/python3"
@@ -94,9 +104,10 @@ a info="info --vi-keys"
 a fc-cache="fc-cache --verbose"
 a cd..="cd .."
 a c..="cd .."
-a resx="[ -n $(pgrep sxhkd) ] && pkill -9 sxhkd;\
+a resxhkd="[ -n $(pgrep sxhkd) ] && pkill -9 sxhkd;\
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\
 -s $HOME/var/logs/sxhkd.log & disown"
+a resourcesh="resourcesh"
 # git aliases
 a commit="git commit --interactive -m"
 a diff="git diff"

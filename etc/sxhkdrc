@@ -25,7 +25,7 @@ super + r
 super + shift + r
   surf $HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/doc/rust/html/book/2018-edition/
 
-super + shift + u
+super + u
   $HOME/bin/invcurwin
 
 XF86AudioRaiseVolume
@@ -37,5 +37,20 @@ XF86AudioLowerVolume
 XF86AudioMute
   $HOME/bin/vol -m
 
+super + shift + Up
+  $HOME/bin/vol -i 5%
+
+super + shift + Down
+  $HOME/bin/vol -d 5%
+
+super + shift + m
+  $HOME/bin/vol -m
+
+super + shift + u
+  $HOME/bin/vol -u
+
 super + x
-  $HOME/bin/turnoff  
+  $HOME/bin/turnoff
+
+super + shift + v
+  dash -c 'notify-send "current vol" `$HOME/bin/vol -g`'

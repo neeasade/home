@@ -16,8 +16,6 @@ sysmodmap=/etc/X11/xinit/.Xmodmap
 [ -d "$HOME/var/logs" ] && rm -rf $HOME/var/logs/
 mkdir -p $HOME/var/logs
 
-# start some nice programs
-
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
   [ -x "$f" ] && . "$f"
@@ -30,8 +28,8 @@ wall_path=$HOME/var/pictures/wallpapers
 # qt5ct stuff
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME=qt5ct
 compton -bc &
-#xwinwrap -ov -ni -fs -- mpv x11 -wid WID --keepaspect=no --loop $HOME/var/pictures/wallpapers/train.webm &
-feh --no-fehbg --bg-fill $wall_path/chol_haemo_structure_bg.png &
+#xwinwrap -ov -ni -fs -- mpv x11 -wid WID --keepaspect=no --loop $wall_path/train.webm &
+feh --no-fehbg --bg-fill $wall_path/giant_wheel_bw.png &
 #feh --no-fehbg --bg-tile $HOME/var/pictures/wallpapers/white_folk_pattern.png &
 #tm -w $wall_path/xmas_trees_row.jpg $wall_path/pink_tree_row_winter.jpg\
 #    $wall_path/river_middle_frozen.jpg $wall_path/snowy_trees_forest.jpg\
