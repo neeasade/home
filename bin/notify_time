@@ -2,10 +2,7 @@
 
 case $1 in
     -t) time_interval=$2;;
-    -h) echo "help\n---\n[-t] time interval in mins"
-        return;;
-    *) echo "help\n---\n[-t] time interval in mins"
-        return;;
+    -h|*) echo "help\n---\n[-t] time interval in mins"; return;;
 esac
 
 while true; do

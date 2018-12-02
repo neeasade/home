@@ -10,7 +10,7 @@ LC_ALL=""
 init() {
     # get colors
     source $HOME/var/cache/tm/colors/colors.sh
-    
+
     colordetails=$color7
     colordetailsbg=$color0
     colorwsbg=$color0
@@ -45,13 +45,13 @@ init() {
     bar_gaps=$(< /tmp/dwm_info/bar_gaps)
     [ $bar_gaps -eq 1 ] && gap=$(< /tmp/dwm_info/gappx) || gap=0
     [ $bar_gaps -eq 1 ] && borpx=$(< /tmp/dwm_info/borderpx)
-    
+
     w=$(echo "$sw - $gap * 2" | bc -l)
     h=$(< /tmp/dwm_info/bar_height)
     [ $bar_gaps -eq 1 ] && x=$gap || x=0
 
     if [ $(< /tmp/dwm_info/top_bar) -eq 0 ] ; then
-        [ $gap -gt 0 ] && 
+        [ $gap -gt 0 ] &&
             y=$(( $gap )) ||
             y=0
 
@@ -60,7 +60,7 @@ init() {
             y=$( echo "$sh - $h - $gap" | bc -l ) ||
             y=$(( $sh - $h ))
     fi
-    
+
     ft1="TerminessTTF Nerd Font:size=9"
     ft2="ShureTechMono Nerd Font:size=9"
     ft3="dina:size=6"
@@ -78,35 +78,33 @@ layout() {
         0) echo -en "\\ufa6f" ;; # tiled
         1) echo -en "\\ue28e" ;; # floating
         2) echo -en "\\uf6a1" ;; # monocle
-        3) echo -en "\\uf0c9" ;; # bstack 
-        4) echo -en "\\uf04c" ;; # deck 
+        3) echo -en "\\uf0c9" ;; # bstack
+        4) echo -en "\\uf04c" ;; # deck
         5) echo -en "\\ufb87" ;; # center master
-        6) echo -en "\\ue62e" ;; # spiral 
-        7) echo -en "\\uf306" ;; # dwindle 
+        6) echo -en "\\ue62e" ;; # spiral
+        7) echo -en "\\uf306" ;; # dwindle
     esac 2> /dev/null
-} 
+}
 
 wksp() {
-    if [ $(< /tmp/dwm_info/check) -eq 1 ] ; then
-        local i=1
-        local ws=""
-        local buffer=""
-        while [ $i -le $num_ws ]; do
-            local wkspicon=$(( $i - 1 ))
-            [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
-                ws="%{B$colorwsbg} %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
-                ws="%{B$colorwsbg} %{T1}%{F$colorws}$wkspicon%{T-}%{F-} %{B-}"
+    local i=1
+    local ws=""
+    local buffer=""
+    while [ $i -le $num_ws ]; do
+        local wkspicon=$(( $i - 1 ))
+        [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
+            ws="%{B$colorwsbg} %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
+            ws="%{B$colorwsbg} %{T1}%{F$colorws}$wkspicon%{T-}%{F-} %{B-}"
 
-            [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws="%{B$colorwsbg}%{+o} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}%{-o}" ||
-                ws="%{-o}$ws"
-            buffer=$buffer$ws
+        [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
+            ws="%{B$colorwsbg}%{+o} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}%{-o}" ||
+            ws="%{-o}$ws"
+        buffer=$buffer$ws
 
-            i=$(( i + 1 ))
-        done
-        echo -n "$buffer" > /tmp/bar/wksp
-        echo -n 0 > /tmp/dwm_info/check
-    fi 2> /dev/null
+        i=$(( i + 1 ))
+    done
+    echo -n "$buffer" > /tmp/bar/wksp
+    echo -n 0 > /tmp/dwm_info/check
 }
 
 focused_window() {
@@ -120,7 +118,7 @@ focused_window() {
 
     local lencwin=${#cwin}
     if [ $lencwin -gt 80 ]; then
-        local win=${cwin:0:50} 
+        local win=${cwin:0:50}
         local formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
     elif [ -n "$cwin" ]; then
         local formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
@@ -135,14 +133,14 @@ launch_daemons() {
     dash -c 'while date "+%H:%M" > /tmp/bar/time
             do sleep 59
     done' > /dev/null 2>&1 &
-   
+
     # date_daemon
     bash -c 'while true; do
         cur_month="$(date +%b)"
         cur_month=${cur_month,*}
         cur_date="$(date +%d)"
         echo "$cur_month $cur_date" > /tmp/bar/date
-        sleep 6000
+        sleep 300
     done' &
 
     # day_daemon
@@ -156,7 +154,7 @@ launch_daemons() {
             6) echo sa > /tmp/bar/day;;
             7) echo su > /tmp/bar/day;;
         esac
-        sleep 6000
+        sleep 300
     done' &
 
     # ram and cpu usage daemon

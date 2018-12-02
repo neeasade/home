@@ -1,8 +1,8 @@
 #!/bin/dash
 # Took from arch wiki
 while true; do
-    # Log stderror to a file 
-    dwm 2> ~/var/logs/dwm.log
+    # Log stderror to a file
+    dwm 2> $HOME/var/logs/dwm.log
     # No error logging
     #dwm > /dev/null 2>&1
 done

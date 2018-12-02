@@ -17,7 +17,8 @@ done
 
 # get the current temperature
 [ -f /tmp/bar/weather ] && temperature=`cat /tmp/bar/weather | grep -oE "[0-9]"\
-    | tr -d '\n'` || temperature=`cat /tmp/bar/raw_weather | head -n 1 |\
+    | tr -d '\n'`\
+    || temperature=`cat /tmp/bar/raw_weather | head -n 1 |\
     grep -oE "[0-9] | head -n 2 | tr -d '\n'"`
 
 # send the notification

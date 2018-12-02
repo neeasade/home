@@ -15,6 +15,7 @@ sh=${sh%.*}
 xwininfo -id ${active_win} > /tmp/win_dim
 
 # set window's dimensions to separate vars
+echo "$(grep -o "Width: " "/tmp/win_dim" | sed -e "[0-9x]")"
 ww=$(grep -e "Width: " "/tmp/win_dim" | sed -e 's/^.*: //')
 wh=$(grep -e "Height: " "/tmp/win_dim" | sed -e 's/^.*: //')
 wx=$(grep -e "Absolute upper-left X: " "/tmp/win_dim" | sed -e 's/^.*: //')

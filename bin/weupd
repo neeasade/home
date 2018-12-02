@@ -2,4 +2,12 @@
 
 cur_date="$(date +%u)"
 
-[ $cur_date -eq 5 ] && st -e 'sudo pacman -Syu' || exit 1
+if [ $cur_date -eq 5 ]; then
+    os="$(cat /etc/os-release)"
+    case "$os" in
+        *arch*) st -e 'sudo pacman -Syu';;
+        *void*) st -e 'sudo xbps-install -Suv';;
+    esac
+else
+    exit 0
+fi
