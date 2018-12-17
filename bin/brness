@@ -3,6 +3,7 @@
 # TODO: find a way to do the below syntax in dash without cat
 
 max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
 
 set_per_bright() {
     # assumes that number has a percent sign
@@ -13,19 +14,17 @@ set_per_bright() {
 }
 
 inc() {
-    current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
     local inc_bright=${1%*%}
-    inc_bright=$(( inc_bright * current_brightness / 100 ))
+    inc_bright=$(( inc_bright * max_brightness / 100 ))
 
-    echo $(( current_brightness + inc_bright )) > /sys/class/backlight/intel_backlight/brightness
+    echo $(( inc_bright + current_brightness ))> /sys/class/backlight/intel_backlight/brightness
 }
 
 dec() {
-    current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
     local dec_bright=${1%*%}
-    dec_bright=$(( dec_bright * current_brightness / 100))
+    dec_bright=$(( dec_bright * max_brightness / 100))
 
-    echo $(( current_brightness - dec_bright )) > /sys/class/backlight/intel_backlight/brightness
+    echo $(( -dec_bright + current_brightness )) > /sys/class/backlight/intel_backlight/brightness
 }
 
 get_bright() {

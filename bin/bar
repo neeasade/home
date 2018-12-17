@@ -9,15 +9,15 @@ LC_ALL=""
 
 init() {
     # get colors
-    source $HOME/var/cache/tm/colors/colors.sh
+    . $HOME/var/cache/tm/colors/colors.sh
 
     colordetails=$color7
-    colordetailsbg=$color0
-    colorwsbg=$color0
+    #colordetailsbg=$color0
+    #colorwsbg=$color0
     colorws=$color8
     colorwscurrent=$color15
     colorwindowname=$color7
-    colorwindownamebg=$color0
+    #colorwindownamebg=$color0
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar
     mkdir -p /tmp/bar
@@ -35,16 +35,12 @@ init() {
 
     num_ws=$(< /tmp/dwm_info/num_ws)
 
-    res="$(xrandr --nograb --current | awk '/\*/ {print $1}')"
-    res=${res% *}
-    sw=${res%x*}
-    sh=${res#*x}
-    sw=${sw%.*}
-    sh=${sh%.*}
+    sw=$(res -w)
+    sh=$(res -h)
 
     bar_gaps=$(< /tmp/dwm_info/bar_gaps)
     [ $bar_gaps -eq 1 ] && gap=$(< /tmp/dwm_info/gappx) || gap=0
-    [ $bar_gaps -eq 1 ] && borpx=$(< /tmp/dwm_info/borderpx)
+    [ $bar_gaps -eq 1 ] && borpx=$(< /tmp/dwm_info/borderpx) || borpx=0
 
     w=$(echo "$sw - $gap * 2" | bc -l)
     h=$(< /tmp/dwm_info/bar_height)
@@ -52,14 +48,15 @@ init() {
 
     if [ $(< /tmp/dwm_info/top_bar) -eq 0 ] ; then
         [ $gap -gt 0 ] &&
-            y=$(( $gap )) ||
+            y=$gap ||
             y=0
-
     else
         [ $gap -gt 0 ] &&
-            y=$( echo "$sh - $h - $gap" | bc -l ) ||
-            y=$(( $sh - $h ))
+            y=$( echo "$sh - $h - $gap -$borpx" | bc -l ) ||
+            y=$(( $sh - $h - $borpx))
     fi
+
+    [ $(< /tmp/dwm_info/top_bar) -eq 1 ] && line="o" || line="u"
 
     ft1="TerminessTTF Nerd Font:size=9"
     ft2="ShureTechMono Nerd Font:size=9"
@@ -87,24 +84,23 @@ layout() {
 }
 
 wksp() {
-    local i=1
-    local ws=""
-    local buffer=""
-    while [ $i -le $num_ws ]; do
+    if [ $(< /tmp/dwm_info/check) -eq 1 ] ; then
+        for i in $(seq $num_ws || jot $num_ws) ; do
         local wkspicon=$(( $i - 1 ))
         [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
-            ws="%{B$colorwsbg} %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}" ||
-            ws="%{B$colorwsbg} %{T1}%{F$colorws}$wkspicon%{T-}%{F-} %{B-}"
+            ws=" %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} " ||
+            ws=" %{T1}%{F$colorws}$wkspicon%{T-}%{F-} "
 
         [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
-            ws="%{B$colorwsbg}%{+o} %{T1}%{B$colorwsbg}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{B-}%{-o}" ||
-            ws="%{-o}$ws"
+            ws="%{+$line} %{T1}%{F$colorwscurrent}$wkspicon%{F-}%{T-} %{-$line}" ||
+            ws="%{-$line}$ws"
         buffer=$buffer$ws
+        done
+        echo -n "$buffer" > /tmp/bar/wksp
+        echo -n 0 > /tmp/dwm_info/check
+    fi 2> /dev/null
 
-        i=$(( i + 1 ))
-    done
-    echo -n "$buffer" > /tmp/bar/wksp
-    echo -n 0 > /tmp/dwm_info/check
+    unset i
 }
 
 focused_window() {
@@ -113,15 +109,18 @@ focused_window() {
     case "$cwin" in
         *Firefox*)
             cwin="$(echo "$cwin" | sed -e 's/ - Mozilla Firefox//')"
-            cwin="ff: "$cwin""
+            cwin="ff: "$cwin"";;
+        *"- mpv"*)
+            cwin="$(echo "$cwin" | sed -e 's/ - mpv//')"
+            cwin="mpv: "${cwin}"";;
     esac
 
     local lencwin=${#cwin}
     if [ $lencwin -gt 80 ]; then
         local win=${cwin:0:50}
-        local formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $win... %{F-}%{B-}%{T-}"
+        local formatname="%{T3}%{F$colorwindowname} $win... %{F-}%{B-}%{T-}"
     elif [ -n "$cwin" ]; then
-        local formatname="%{T3}%{F$colorwindowname}%{B$colorwindownamebg} $cwin %{F-}%{B-}%{T-}"
+        local formatname="%{T3}%{F$colorwindowname} $cwin %{F-}%{B-}%{T-}"
     elif [ -z "$cwin" ]; then
         local formatname=""
     fi
@@ -158,15 +157,15 @@ launch_daemons() {
     done' &
 
     # ram and cpu usage daemon
-    python $HOME/bin/usage &
+    #python $HOME/bin/usage &
 
     # weather_daemon
     dash -c 'while true; do
         curl -s https://wttr.in/chennai?m0TQP > /tmp/bar/raw_weather
-        [ -z $(cat /tmp/bar/raw_weather) ] && continue
-        temp="$(head -n 2 /tmp/bar/raw_weather | grep -oe "[0-9]")"
-        temp=$(echo "$temp" | head -n 2 | tr -d "\n")
-        echo "   weather $(( $temp + 273 ))K" > /tmp/bar/weather
+        [ ! -f /tmp/bar/raw_weather ] && continue
+        temp="$(head -n 2 /tmp/bar/raw_weather | grep -oE "[0-9]+")"
+        temp=$(echo "$temp" | head -n 1 | tr -d "\n")
+        echo "   weather $(( $temp + 273 ))K   " > /tmp/bar/weather
         sleep 300
     done' &
 }
@@ -176,14 +175,13 @@ launch_daemons
 
 while \
     printf " %s%b%s%b%b%b%b%b%b%s \\n" \
-    "%{B$colordetailsbg}  %{T4}%{F$colordetails}$(< /tmp/bar/day)     "\
-        "\ue28e%{F-}%{T-}   "\
-        "  $(wksp)$(< /tmp/bar/wksp)" \
-        "%{c}$(focused_window)" \
+    "  %{T4}%{F$colordetails}$(< /tmp/bar/day)   %{F-}%{T-}"\
+        "$(wksp)$(< /tmp/bar/wksp)" \
+        "%{c}  $(focused_window)  " \
         "$(< /tmp/bar/temp)" \
-        "%{r}%{B$colordetailsbg}  %{T1}%{F$colordetails}ram $(< /tmp/bar/ram)"\
+        "%{r}  %{T1}%{F$colordetails}"\
         "$(</tmp/bar/weather)"\
-        "   vol $(< /tmp/bar/vol)   $(< /tmp/bar/time)   "\
+        "vol $(< /tmp/bar/vol)   $(< /tmp/bar/time)   "\
         "$(< /tmp/bar/date)%{T-}%{F-}  %{B-}"
     do sleep 0.5
 done 2> /dev/null | \

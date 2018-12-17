@@ -21,7 +21,7 @@ dwht="\033[38;5;15m"
 null="\033[0m"
 
 # function to create dashes
-_create_dashes() {
+create_dashes() {
     num_dashes=$1
     local n=0
     while [ "$n" -lt $num_dashes ]; do
@@ -34,13 +34,13 @@ _create_dashes() {
 
 # function to get user and hostname
 # in the format user@hostname
-_get_user_hostname() {
+get_user_hostname() {
     echo "${blu}${USER}${dblu}@${blu}$(hostname)${null}"
 }
 
 # function to get the window manager
 # I don't handle de here because I don't use it
-_get_wm() {
+get_wm() {
     # assuming that the setup is using xinitrc
     # let's get the last line
     # the second word will be our window manager
@@ -49,16 +49,21 @@ _get_wm() {
     echo $wm_name
 }
 
-_get_distro_name() {
-    . /etc/os-release
-    local distro=$PRETTY_NAME
+get_distro_name() {
+    case $(uname) in
+        Linux)
+            . /etc/os-release
+            local distro=$PRETTY_NAME;;
+        OpenBSD)
+            local distro="OpenBSD";;
+    esac
 
     echo $distro
 }
 
-_get_package_count() {
+get_package_count() {
     local os_release="$(cat /etc/os-release)"
-    
+
     if [ $(uname) = "Linux" ]; then
         case "$os_release" in
             *arch* | *Arch*) local package_count=$(pacman -Qq | wc -l);;
@@ -71,7 +76,7 @@ _get_package_count() {
     echo $package_count
 }
 
-_get_uptime() {
+get_uptime() {
     local utime="$(uptime -p | sed -e 's/up //')"
 
     echo "$utime"
@@ -80,12 +85,12 @@ _get_uptime() {
 terminal="st"
 host_name="${USER}@$(hostname)"
 
-echo $(_get_user_hostname)
-echo ${dblu}$(_create_dashes ${#host_name})${null}
-echo ${dpnk}os: ${dwht}$(_get_distro_name)${null}
-echo ${dpnk}wm: ${dwht}$(_get_wm)${null}
+echo $(get_user_hostname)
+echo ${dblu}$(create_dashes ${#host_name})${null}
+echo ${dpnk}os: ${dwht}$(get_distro_name)${null}
+echo ${dpnk}wm: ${dwht}$(get_wm)${null}
 echo ${dpnk}term: ${dwht}$terminal${null}
 echo ${dpnk}sh: ${dwht}${SHELL}${null}
-echo ${dpnk}uptime: ${dwht}$(_get_uptime)${null}
-echo ${dpnk}pkg_cnt: ${dwht}$(_get_package_count)${null}
+echo ${dpnk}uptime: ${dwht}$(get_uptime)${null}
+echo ${dpnk}pkg_cnt: ${dwht}$(get_package_count)${null}
 echo ${red}* ${blu}* ${grn}* ${ylw}* ${cyn}* ${pnk}*${null}

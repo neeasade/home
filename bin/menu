@@ -3,12 +3,8 @@
 
 # get resolution, screen height, screen width, etc.
 # resolution stuff stolen from mitch :p
-res="$(xrandr --nograb --current | awk '/\*/ {print $1}')"
-res=${res% *}
-sw=${res%x*}
-sh=${res#*x}
-sw=${sw%.*}
-sh=${sh%.*}
+sw=$(res -w)
+sh=$(res -h)
 
 dmenu_w=$((sw / 2))
 dmenu_lines=$((sw / 50))
@@ -28,21 +24,20 @@ borcol=$color5
 app_run() {
     dmenu_run -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
         -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
-        -sb "$selbg" -sf "$selfg" -p "run:"
+        -sb "$selbg" -sf "$selfg" -i -p "run:"
     exit
 }
 
 sel() {
-    [ $# -eq 0 ] && prompt="select:" || prompt="$1"
     dmenu -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
         -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
-        -sb "$selbg" -sf "$selfg" -p "$prompt"
+        -sb "$selbg" -sf "$selfg" -i -p "select:" "$@"
     exit
 }
 
 case $1 in
     "sel")
-        [ -z $2 ] && sel || sel "$2"
+        shift; sel "$@"
         ;;
     "run")
         app_run

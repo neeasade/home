@@ -4,24 +4,16 @@
 active_win="$(xdotool getactivewindow)"
 
 # get screen res
-res="$(xrandr --nograb --current | awk '/\*/ {print $1}')"
-res=${res% *}
-sw=${res%x*}
-sh=${res#*x}
-sw=${sw%.*}
-sh=${sh%.*}
+sw=$(res -w)
+sh=$(res -h)
 
 # write active window's dimensions to a file
-xwininfo -id ${active_win} > /tmp/win_dim
+xwininfo -id "$active_win" > /tmp/win_dim
 
 # set window's dimensions to separate vars
-echo "$(grep -o "Width: " "/tmp/win_dim" | sed -e "[0-9x]")"
-ww=$(grep -e "Width: " "/tmp/win_dim" | sed -e 's/^.*: //')
-wh=$(grep -e "Height: " "/tmp/win_dim" | sed -e 's/^.*: //')
-wx=$(grep -e "Absolute upper-left X: " "/tmp/win_dim" | sed -e 's/^.*: //')
-wy=$(grep -e "Absolute upper-left Y: " "/tmp/win_dim" | sed -e 's/^.*: //')
+wx=$(grep -e "Absolute upper-left X: " "/tmp/win_dim" | grep -oE '[0-9]+')
 
-# remove our file because we don't need it anymore
+## remove our file because we don't need it anymore
 rm -rf /tmp/win_dim
 
 # centered window's dimensions
@@ -29,8 +21,8 @@ rm -rf /tmp/win_dim
 bh=$(cat /tmp/dwm_info/bar_height)
 gap=$(cat /tmp/dwm_info/gappx)
 bar_gaps=$(cat /tmp/dwm_info/bar_gaps)
-center_x=$((sw - wx))
-[ $bar_gaps -eq 0 ] && center_y=$((sh - bh)) || center_y=$((sh - h - gappx*2))
+center_x=$((sw-wx))
+[ $bar_gaps = 0 ] && center_y=$((sh - bh)) || center_y=$((sh - bh - gap*2))
 
 # move window to the center position
-xdotool windowmove ${active_win} ${center_x} ${center_y}
+xdotool getactivewindow windowmove "$center_x" "$center_y"

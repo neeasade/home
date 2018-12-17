@@ -5,7 +5,7 @@
 
 set -eu # Fail on errors or undeclared variables
 
-printable_colours=256
+printable_colours=16
 
 # Return a colour that contrasts with the given colour
 # Bash only does integer division, so keep it integral
@@ -19,23 +19,23 @@ function contrast_colour {
     fi
 
     # Greyscale # rgb_R = rgb_G = rgb_B = (number - 232) * 10 + 8
-    if (( colour > 231 )); then # Greyscale ramp
-        (( colour < 244 )) && printf "15" || printf "0"
-        return
-    fi
+    #if (( colour > 231 )); then # Greyscale ramp
+    #    (( colour < 244 )) && printf "15" || printf "0"
+    #    return
+    #fi
 
     # All other colours:
     # 6x6x6 colour cube = 16 + 36*R + 6*G + B  # Where RGB are [0..5]
     # See http://stackoverflow.com/a/27165165/5353461
 
     # r=$(( (colour-16) / 36 ))
-    g=$(( ((colour-16) % 36) / 6 ))
+    #g=$(( ((colour-16) % 36) / 6 ))
     # b=$(( (colour-16) % 6 ))
 
     # If luminance is bright, print number in black, white otherwise.
     # Green contributes 587/1000 to human perceived luminance - ITU R-REC-BT.601
-    (( g > 2)) && printf "0" || printf "15"
-    return
+    #(( g > 2)) && printf "0" || printf "15"
+    #return
 
     # Uncomment the below for more precise luminance calculations
 
@@ -91,5 +91,5 @@ function print_blocks {
 
 print_run 0 16 # The first 16 colours are spread over the whole spectrum
 printf "\n"
-print_blocks 16 231 6 6 3 # 6x6x6 colour cube between 16 and 231 inclusive
-print_blocks 232 255 12 2 1 # Not 50, but 24 Shades of Grey
+print_blocks 16 1 3 3 3 # 6x6x6 colour cube between 16 and 231 inclusive
+#print_blocks 232 255 12 2 1 # Not 50, but 24 Shades of Grey

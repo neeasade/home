@@ -31,7 +31,7 @@ unmute() {
 }
 
 get() {
-    echo $(cat /tmp/bar/vol)%
+    echo "$(cat /tmp/bar/vol)"
 }
 
 case $1 in

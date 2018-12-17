@@ -1,6 +1,9 @@
 #!/bin/dash
 #
 # wrapper script around couple of scripts
+
+[ -n "$1" ] && tm -c "$HOME/etc/colors/${1}"
+
 # do all the things which need to be done after running tm
 
 # lets recompile all the suckless software
@@ -8,3 +11,6 @@ $HOME/bin/rcsl
 
 # lets prepare the startpage
 $HOME/bin/prsp
+
+# restart dwm
+xdotool key alt+shift+q

@@ -11,8 +11,7 @@ show() {
     feh $tmp_image
 }
 
-url="$(/dev/null | menu sel 'enter url:')"
+[ $# -eq 0 ] && url="$(/dev/null | menu sel -p 'enter url:')" || url="$1"
 
 show $url
-wait
 rm -rf $tmp_image

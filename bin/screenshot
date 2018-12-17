@@ -30,7 +30,9 @@ case $capture in
     *area*) grab_area;;
     *win*) grab_window;;
     *screen*) grab_screen;;
-    *) notify-send "error" "learn to select fool"; exit;;
+    *) notify-send "error" "invalid option"; exit;;
 esac
 
 upload
+
+rm -rf $tmp_image

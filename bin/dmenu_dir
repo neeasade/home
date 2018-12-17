@@ -7,12 +7,18 @@ case "$1" in
     *) hidden=1;;
 esac
 
+cwd() {
+    current_dir="$PWD"
+    current_dir=`echo "$PWD" | sed -e "s|$HOME|~|"`
+    echo "${current_dir} "
+}
+
 get_dir() {
     case "$hidden" in
         1)
-            echo "..\n$(ls -w $(ls $pwd | wc -l) $pwd)" | menu sel;;
+            echo "..\n$(ls -pw $(ls $pwd | wc -l) $pwd)" | menu sel -p "$(cwd)";;
         0)
-            echo "..\n$(ls -Aw $(ls -A $pwd | wc -l) $pwd)" | menu sel;;
+            echo "..\n$(ls -pAw $(ls -A $pwd | wc -l) $pwd)" | menu sel -p "$(cwd)";;
     esac
 }
 
@@ -23,7 +29,7 @@ cd_dir() {
 
 open_file() {
     # get the mime type of the file
-    file_type="$(file -ib "$1")"
+    local file_type="$(file -ib "$1")"
 
     case "$file_type" in
         *pdf*) mupdf "$1";;
@@ -35,7 +41,7 @@ open_file() {
 }
 
 spawn() {
-    output="$(get_dir)"
+    local output="$(get_dir)"
 
     if [ -d "$output" ]; then
         cd_dir "$output"

@@ -3,12 +3,8 @@
 # depends on xdotool and xrandr (for res)
 
 # get screen res
-res="$(xrandr --nograb --current | awk '/\*/ {print $1}')"
-res=${res% *}
-sw=${res%x*}
-sh=${res#*x}
-sw=${sw%.*}
-sh=${sh%.*}
+sw=$(res -w)
+sh=$(res -h)
 
 # borderpx
 borderpx=$(cat /tmp/dwm_info/borderpx)
@@ -23,4 +19,4 @@ xdotool key alt+shift+space
 # now let's resize the window
 # just as an edge case, let's move the window to 0 0
 xdotool windowmove ${activewin} 0 0
-xdotool windowsize ${activewin} $((sw - borderpx*2)) $((sh - borderpx*2))
+xdotool windowsize ${activewin} $sw $sh

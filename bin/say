@@ -17,7 +17,7 @@ def request_data(word):
 def get_audio_file_name(word):
     data = request_data(word)
     data = json.loads(data)
-    
+
     # this convuluted mess exists because the way dictionaryapi.com returns
     # data is a mess
     try:
