@@ -1,0 +1,13 @@
+#!/bin/dash
+# a script to start bar once fifo stuff are present
+
+check=$(cat /tmp/dwm_info/check)
+
+while [ $check -eq 0 ]; do
+    sleep 0.1
+done
+
+echo 1 > /tmp/dwm_info/check
+
+$HOME/bin/bar &
+sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log -s $HOME/var/logs/sxhkd.log &

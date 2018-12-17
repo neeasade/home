@@ -1,0 +1,29 @@
+#!/bin/dash
+# script to set wallpaper
+# fehbg is gay
+alias feh="feh --no-fehbg"
+
+tile() {
+    local path="$1"
+    cp "$path" $XDG_CACHE_HOME/wall
+    feh --bg-tile "$path"
+}
+
+fill() {
+    local path="$1"
+    cp "$path" $XDG_CACHE_HOME/wall
+    feh --bg-fill "$path"
+}
+
+scale() {
+    local path="$1"
+    cp "$path" $XDG_CACHE_HOME/wall
+    feh --bg-scale "$path"
+}
+
+case $1 in
+    -s) scale "$2";;
+    -S) tile "$XDG_CACHE_HOME/wall";;
+    -t) tile "$2";;
+    -f) fill "$2";;
+esac

@@ -1,0 +1,23 @@
+#!/bin/dash
+# youtube "playlist" player
+# the videos are stored in a plain text file separated with new lines
+# I use this script to play music and not videos, so ytdl will only download audio
+default_plpath="$HOME/etc/ytplaylist"
+
+play() {
+    local link="$1"
+    link="$(echo "$link" | sed -E 's/http(s)/ytdl/')"
+    mpv "$link" --no-video
+}
+
+[ $# -eq 0 ] && exit
+
+while [ $# -gt 0 ]; do
+    [ -f "${default_plpath}/${1}" ] && path="${default_plpath}/${1}" || path="$1"
+    for line in $(cat $path); do
+        title="$(youtube-dl -e "$line")"
+        notify-send "now playing" "$title"
+        play "$line" --no-video
+    done
+    shift
+done
