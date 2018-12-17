@@ -68,26 +68,26 @@ _rm_desktop() {
     fi
 }
 
-PS1_details="\[$(tput sgr0)\]\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\[\033[0m\]"
+_PS1_details="\[$(tput sgr0)\]\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\[\033[0m\]"
 
 # prompts
 #case "$(whoami)" in
 #    the_human)
 #        export PS1="${red}t${grn}h${ylw}e${blu}_${pnk}h${cyn}u${dred}\
-#m${dpnk}a${dblu}n ${dblu}\w${PS1_details} "
+#m${dpnk}a${dblu}n ${dblu}\w${_PS1_details} "
 #    ;;
 #    root)
-#        export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w${PS1_details} "
+#        export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w${_PS1_details} "
 #    ;;
 #esac
-#export PS1="]${PS1_details} "
-export PS1="\$${PS1_details} "
+export PS1="]${_PS1_details} "
+#export PS1="\$${_PS1_details} "
 
 # source aliases
 source $HOME/etc/aliases
 
 # set vi mode
-# vi-like keybindings are so comfy
+# vi vi vi vi vi vi vi
 set -o vi
 
 # infinite history
@@ -95,7 +95,7 @@ HISTFILESIZE= HISTSIZE=
 HISTFILE="$HOME/var/cache/bash_history"
 
 # console stuff
-if [ "$TERM" == "linux" ]; then
+if [ "$TERM" = "linux" ]; then
     # set our console font. (I'm too lazy to setup a systemd service for this)
     [ -f $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf ] &&\
         setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf

@@ -10,6 +10,9 @@ super + Print
 super + v
   firefox
 
+super + shift + v
+  notify-send "vol" "$($HOME/bin/vol -g)%"
+
 super + f
   thunar
 
@@ -38,10 +41,10 @@ XF86AudioMute
   $HOME/bin/vol -m
 
 super + shift + Up
-  $HOME/bin/vol -i 5%
+  $HOME/bin/vol -i 1%
 
 super + shift + Down
-  $HOME/bin/vol -d 5%
+  $HOME/bin/vol -d 1%
 
 super + shift + m
   $HOME/bin/vol -m
@@ -54,3 +57,12 @@ super + x
 
 super + shift + v
   dash -c 'notify-send "current vol" `$HOME/bin/vol -g`'
+
+super + shift + ctrl + m
+  $HOME/bin/togmouse
+
+alt + b
+  $HOME/bin/restartbar
+
+super + shift + w
+  $HOME/bin/weather

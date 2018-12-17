@@ -4,10 +4,7 @@
 set rtp+=~/etc/vim/bundle/Vundle.vim
 set rtp+=~/etc/vim
 call vundle#begin("~/etc/vim/plugins")
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
 " Own plugins
@@ -16,13 +13,14 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'davidhalter/jedi-vim' "because python
 Plugin 'rust-lang/rust.vim' "rust yummy
+Plugin 'justmao945/vim-clang' "C is good
 Plugin 'jistr/vim-nerdtree-tabs' " I like me some fancy stuff
 Plugin 'vim-syntastic/syntastic' " it saves me some time
 Plugin 'ervandew/supertab' " using tab for completion is better
 Plugin 'vitalk/vim-shebang'
 Plugin 'w0rp/ale' "linter
 
-" Beautify. everyone expects their to be noice looking
+" Beautify
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'ryanoasis/vim-webdevicons'
 Plugin 'morhetz/gruvbox'
@@ -31,13 +29,8 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'chriskempson/base16-vim'
 " no vimairline for ya
 
-" obscure crap
-Plugin 'aurieh/discord.nvim'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
+call vundle#end()
+filetype plugin indent on
 
 " nvim is better. change my mind
 if !has('nvim')
@@ -71,7 +64,7 @@ set ignorecase
 set smartcase
 
 " maps C-x Esc to go to normal mode while in :term
-tnoremap <C-x><Esc> <C-\><C-N>       
+tnoremap <C-x><Esc> <C-\><C-N>
 
 " set 256 colors
 set t_Co=256
@@ -80,13 +73,14 @@ set t_Co=256
 nmap <F6> :NERDTreeToggle<CR>
 nnoremap <F8> :SyntasticCheck<CR>
 
-set nocompatible              " be iMproved, required
+" be improved
+set nocompatible
 
 " colorscheme
 colorscheme viking
 
 " yank to clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " set window's title
 " title is set to the full path of the file
@@ -94,6 +88,15 @@ set title titlestring=nvim:\ %F titlelen=80
 
 " remove trailing whitespaces before writing
 autocmd BufWritePre * %s/\s\+$//e
+
+" disable line numbers in terminal
+autocmd TermOpen * setlocal nonumber norelativenumber
+
+" split stuff
+set splitright
+
+" set columns limit to 80
+set columns=80
 
 " Plugin's config
 
@@ -115,7 +118,7 @@ let g:syntastic_check_on_wq = 0
 autocmd VimEnter * SyntasticToggleMode
 
 "jedi-vim
-let g:jedi#completions_command = "<C-Tab>"
+let g:jedi#completions_command = "<C-x><Tab>"
 
 "rust-lang
 let g:rustfmt_autosave = 1 "enable rust format
@@ -136,8 +139,9 @@ let g:indentLine_char = '|'
 let g:indentLine_first_char = "|"
 let g:indentLine_bgcolor_term = 0
 let g:indentLine_showFirstLevelIndentLevel = 1
-let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal']
-let g:indentLine_bufTypeExclude = ['man', 'help', 'terminal']
+let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal', 'json']
+let g:indentLine_bufTypeExclude = ['man', 'help', 'terminal', 'json']
+let g:indentLine_bufNameExclude = ['NERD_tree.*', 'term://*', "man:*"]
 
 filetype indent on
 

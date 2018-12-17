@@ -1,15 +1,6 @@
 #!/bin/sh
-
-userresources=$HOME/.Xresources
 usermodmap=$HOME/etc/xmodmap
-sysresources=/etc/X11/xinit/.Xresources
-sysmodmap=/etc/X11/xinit/.Xmodmap
-
 # merge in defaults and keymaps
-
-[ -f $sysresources ] && xrdb -merge $sysresources
-[ -f $sysmodmap ] && xmodmap $sysmodmap
-[ -f "$userresources" ] && xrdb -merge "$userresources"
 [ -f "$usermodmap" ] && xmodmap "$usermodmap"
 
 # init logs
@@ -29,7 +20,7 @@ wall_path=$HOME/var/pictures/wallpapers
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME=qt5ct
 compton -bc &
 #xwinwrap -ov -ni -fs -- mpv x11 -wid WID --keepaspect=no --loop $wall_path/train.webm &
-feh --no-fehbg --bg-fill $wall_path/giant_wheel_bw.png &
+$HOME/bin/swall -S &
 #feh --no-fehbg --bg-tile $HOME/var/pictures/wallpapers/white_folk_pattern.png &
 #tm -w $wall_path/xmas_trees_row.jpg $wall_path/pink_tree_row_winter.jpg\
 #    $wall_path/river_middle_frozen.jpg $wall_path/snowy_trees_forest.jpg\

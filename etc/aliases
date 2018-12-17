@@ -2,22 +2,23 @@
 # functions and linux/openbsd specific things
 # this script is mostly POSIX because I might source this file
 # no matter what shell I use
+# I alias functions too because I might need to launch those functions with sudo
 
 case $(uname) in
     Linux)
-    alias ls="ls -FN --color=auto"
-    alias sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7\
---ascii_colors 8 11 7 8 8 8"
+    alias ls="ls -FN --color=auto --group-directories-first"
+    alias sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7 --ascii_colors 8 11 7 8 8 8"
+    alias doas="sudo " # I know they aren't the same
     ;;
     OpenBSD)
     alias sudo="doas"
-    alias killall="pkill -9"
-    alias sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7\
---ascii_colors 5 7 5 5 5 5"
+    alias sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7 --ascii_colors 5 7 5 5 5 5"
     alias lsblk="df -h"
     alias ls="ls -FN"
     ;;
 esac
+# ls -F prints @ after symlinks, * after executables, / after dirs, | after FIFOs
+# thank you OpenBSD's man pages
 
 # fallback to my fetch script if neofetch is not installed
 [ -z "$(command -v neofetch)" ] && alias sf="$HOME/bin/fetch"
@@ -32,6 +33,7 @@ mklatex() {
     rm "${1//.tex}".aux "${1//.tex}".log
 }
 
+# tfw you're too lazy to type cd or cat or clear
 c() {
     if [ -d "$1" ]; then
         cd "$1"
@@ -57,22 +59,32 @@ resourcesh() {
 # aliases
 alias a="alias"
 a python="/usr/bin/python3"
+# I now have a script for launching pacwoman
+# I still have the alias commented for some reason
 #a pacwoman="python ${HOME}/usr/src/pacwoman/pacwoman.py"
+# shorthand for launching python and perl
 a py="python"
+a pl="perl"
+
 a v="nvim"
 a l="ls -l"
 a ll="ls -w $(ls | wc -l)"
 a fm="ranger"
 a mf="ranger"
+# python 2 is obselete
 a pip="pip3"
 a ff="find_font"
 a mklatex="mklatex"
+a c="c"
+
 # make aliases
 a mkci="make clean install"
 a mkic="make clean install" # more like a typo
 a mk="make"
 a mki="make install"
 a mka="make all"
+a mku="make uninstall"
+
 a mpf="mupdf"
 a sx="startx"
 a c="c"
@@ -87,6 +99,8 @@ a :q!="exit"
 a sl="ls"
 # specific to a laptop I use
 a swifi="sudo ip link set wlp2s0 down && sudo wifi-menu -o && sudo dhcpcd"
+
+# assuming /etc/sudoers set correctly
 a brness="sudo $HOME/bin/brness"
 # saner defaults
 a df="df -h"
@@ -102,15 +116,24 @@ a feh="feh --no-fehbg"
 a rmf="rm -f"
 a info="info --vi-keys"
 a fc-cache="fc-cache --verbose"
+
 a cd..="cd .."
 a c..="cd .."
+
+# reload configs
 a resxhkd="[ -n $(pgrep sxhkd) ] && pkill -9 sxhkd;\
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\
 -s $HOME/var/logs/sxhkd.log & disown"
 a resourcesh="resourcesh"
+
 # git aliases
+# interactive mode is really nice imo
 a commit="git commit --interactive -m"
 a diff="git diff"
+
+a datenow="date +'%a %d %b %Y %H:%M'"
+a killall="pkill -9"
+a killx="pkill -15 Xorg"
 
 # aliases for switching to specific dirs
 # if the last letter is uppercase, it means they are in the home dir
