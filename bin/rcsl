@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/dash
 # script to recompile suckless software
 
 base_dir="$HOME/usr/src"

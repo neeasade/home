@@ -5,7 +5,7 @@ options="poweroff\nreboot\nkill x"
 selected_option="$(echo $options | menu sel)"
 
 case "$selected_option" in
-    poweroff) poweroff;;
-    reboot) reboot;;
+    poweroff) sudo poweroff;;
+    reboot) sudo reboot;;
     "kill x") pkill -15 Xorg;;
 esac

@@ -204,4 +204,4 @@ static Button buttons[] = {
 	{ OnMedia,      MODKEY,         1,      clickexternplayer, { 0 },       1 },
 };
 
-#define HOMEPAGE "file:///home/the_human/tmp/homepage.html"
+#define HOMEPAGE "file:///home/the_human/var/cache/homepage.html"

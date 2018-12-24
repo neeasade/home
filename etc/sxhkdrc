@@ -26,7 +26,7 @@ super + r
   st -e 'ranger'
 
 super + shift + r
-  surf $HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/doc/rust/html/book/2018-edition/
+  surf $HOME/opt/rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/doc/rust/html/book/2018-edition/
 
 super + u
   $HOME/bin/invcurwin
@@ -40,10 +40,10 @@ XF86AudioLowerVolume
 XF86AudioMute
   $HOME/bin/vol -m
 
-super + shift + Up
+super + shift + j
   $HOME/bin/vol -i 1%
 
-super + shift + Down
+super + shift + k
   $HOME/bin/vol -d 1%
 
 super + shift + m
@@ -66,3 +66,9 @@ alt + b
 
 super + shift + w
   $HOME/bin/weather
+
+super + shift + l
+  sudo $HOME/bin/brness -i 1%
+
+super + shift + h
+  sudo $HOME/bin/brness -d 1%

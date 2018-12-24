@@ -65,7 +65,7 @@ init() {
     ft5="TerminessTTF Nerd Font:size=8"
 
 	# get the current volume
-	$HOME/bin/vol -i 10
+	$HOME/bin/vol -i 0
 
     unset res sw sh gap tmp
 }
@@ -103,6 +103,14 @@ wksp() {
     unset i
 }
 
+get_bat() {
+    local percent=`$HOME/bin/bat -p`
+    local status=`$HOME/bin/bat -s`
+    [ ${status} = "Charging" ] && color=$color1 || color=$color7
+    echo "%{F$color}$percent%{F-}" > /tmp/bar/bat
+    unset color
+}
+
 focused_window() {
     local cwin="$(xdotool getactivewindow getwindowname)"
 
@@ -129,8 +137,9 @@ focused_window() {
 
 launch_daemons() {
 	# time_daemon
-    dash -c 'while date "+%H:%M" > /tmp/bar/time
-            do sleep 59
+    dash -c 'while true; do
+        date "+%H:%M" > /tmp/bar/time
+        sleep 59
     done' > /dev/null 2>&1 &
 
     # date_daemon
@@ -162,7 +171,7 @@ launch_daemons() {
     # weather_daemon
     dash -c 'while true; do
         curl -s https://wttr.in/chennai?m0TQP > /tmp/bar/raw_weather
-        [ ! -f /tmp/bar/raw_weather ] && continue
+        [ -z "$(cat /tmp/bar/raw_weather)" ] && continue
         temp="$(head -n 2 /tmp/bar/raw_weather | grep -oE "[0-9]+")"
         temp=$(echo "$temp" | head -n 1 | tr -d "\n")
         echo "   weather $(( $temp + 273 ))K   " > /tmp/bar/weather
@@ -180,7 +189,8 @@ while \
         "%{c}  $(focused_window)  " \
         "$(< /tmp/bar/temp)" \
         "%{r}  %{T1}%{F$colordetails}"\
-        "$(</tmp/bar/weather)"\
+        "$(< /tmp/bar/weather)"\
+        "$(get_bat)bat $(< /tmp/bar/bat)  "\
         "vol $(< /tmp/bar/vol)   $(< /tmp/bar/time)   "\
         "$(< /tmp/bar/date)%{T-}%{F-}  %{B-}"
     do sleep 0.5

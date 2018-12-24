@@ -50,11 +50,11 @@ _branch() {
 }
 
 # set our terminal's window terminal to the current working dir
-_get_cwd() {
+_set_wn() {
     # we don't want to set the terminal window's name if we're in a tty
     if [ "$TERM" != "linux" ]; then
-        local cwd="$(echo "$PWD" | sed -e "s|$HOME|bash: ~|g" 2> /dev/null)"
-        echo -ne "\033]0;$cwd\a" 2> /dev/null
+        local cwd="${PWD/$HOME/\~}"
+        echo -ne "\033]0;bash: $cwd\a" 2> /dev/null
     fi
 }
 
@@ -68,7 +68,7 @@ _rm_desktop() {
     fi
 }
 
-_PS1_details="\[$(tput sgr0)\]\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\[\033[0m\]"
+_PS1_details="\[$(tput sgr0)\]\[\$(_set_wn)\]${cyn}\$(_branch)\[\$(_rm_desktop)\]\[\033[0m\]"
 
 # prompts
 #case "$(whoami)" in
@@ -80,8 +80,8 @@ _PS1_details="\[$(tput sgr0)\]\[\$(_get_cwd)\]${cyn}\$(_branch)\[\$(_rm_desktop)
 #        export PS1="${red}r${pnk}o${blu}o${grn}t ${dgrn}\w${_PS1_details} "
 #    ;;
 #esac
-export PS1="]${_PS1_details} "
-#export PS1="\$${_PS1_details} "
+#export PS1="]${_PS1_details} "
+export PS1="\$${_PS1_details} "
 
 # source aliases
 source $HOME/etc/aliases
@@ -103,4 +103,5 @@ if [ "$TERM" = "linux" ]; then
     [ -f $HOME/var/cache/tm/colors/colors_tty.sh ] &&\
         source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
     clear # we have to clear the console to see the changes
+    [ $(sudo $HOME/bin/brness -g) -gt 10 ] && brness -s 10%
 fi

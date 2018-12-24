@@ -27,6 +27,7 @@ Plugin 'morhetz/gruvbox'
 Plugin 'vim-scripts/twilight256.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'chriskempson/base16-vim'
+Plugin 'junegunn/goyo.vim'
 " no vimairline for ya
 
 call vundle#end()
@@ -97,6 +98,7 @@ set splitright
 
 " set columns limit to 80
 set columns=80
+set tw=80
 
 " Plugin's config
 

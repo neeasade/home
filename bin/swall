@@ -23,7 +23,7 @@ scale() {
 
 case $1 in
     -s) scale "$2";;
-    -S) tile "$XDG_CACHE_HOME/wall";;
+    -S) feh --bg-fill "$XDG_CACHE_HOME/wall";;
     -t) tile "$2";;
     -f) fill "$2";;
 esac

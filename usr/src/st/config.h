@@ -8,9 +8,12 @@
 //static char *font = "xos4 Terminus:antialias=true:autohint=false:style=Regular";
 static char *font = "scientifica:style=bold";
 //static char *font = "dina:size=6";
-//static char *font = "agave:size=9";
 //static char *font = "ShureTechMono NerdFont:size=9";
+//static char *font = "ShureTechMono NerdFont:size=10";
 //static char *font = "montecarlo:size=9:style=Regular";
+//static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
+//static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font
+//static char *font = "IBM Plex Mono:size=8";
 
 //#include "themes/default.h"
 //#include "themes/thicc.h"
@@ -20,7 +23,7 @@ static char *font = "scientifica:style=bold";
 //#include "themes/viking.h"
 #include "/home/the_human/var/cache/tm/colors/colors_st.h"
 
-static int borderpx = 25;
+static int borderpx = 20;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -56,8 +59,8 @@ static unsigned int tripleclicktimeout = 600;
 int allowaltscreen = 1;
 
 /* frames per second st should at maximum draw to the screen */
-static unsigned int xfps = 120;
-static unsigned int actionfps = 30;
+static unsigned int xfps = 60;
+static unsigned int actionfps = 60;
 
 /*
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
@@ -111,7 +114,7 @@ static unsigned int defaultrcs = 256;
  */
 
 static unsigned int cols = 80;
-static unsigned int rows = 24;
+static unsigned int rows = 40;
 
 /*
  * Default colour and shape of the mouse cursor

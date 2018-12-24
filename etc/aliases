@@ -28,9 +28,10 @@ find_font() {
 }
 
 mklatex() {
-    pdflatex "$1"
-    # some bashisms
-    rm "${1//.tex}".aux "${1//.tex}".log
+    for file in $@; do
+        pdflatex "$file"
+        rm "${file%.tex}".aux "${file%.tex}".log
+    done
 }
 
 # tfw you're too lazy to type cd or cat or clear
@@ -97,8 +98,6 @@ a :q="exit"
 a :q!="exit"
 # I got no time for steam locomotive but I admit that it's a nice joke
 a sl="ls"
-# specific to a laptop I use
-a swifi="sudo ip link set wlp2s0 down && sudo wifi-menu -o && sudo dhcpcd"
 
 # assuming /etc/sudoers set correctly
 a brness="sudo $HOME/bin/brness"
@@ -111,7 +110,7 @@ a cp="cp -rv"
 a ln="ln -sf"
 a mkf="touch"
 a mkd="mkdir -pv"
-a free="free -h"
+a free="free -m"
 a feh="feh --no-fehbg"
 a rmf="rm -f"
 a info="info --vi-keys"
@@ -147,4 +146,5 @@ a gE="cd $HOME/etc"
 a gD="cd $HOME/var/downloads"
 a gC="cd $HOME/var/cache"
 a gV="cd $HOME/var"
+a gO="cd $HOME/opt"
 a gr="cd /"

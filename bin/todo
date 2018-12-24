@@ -1,7 +1,7 @@
 #!/bin/dash
 # a todo list thingy manager in dash
 # set the cache folder
-[ -n $(echo "$XDG_CACHE_HOME") ] && cache="$XDG_CACHE_HOME/todo"\
+[ -n "$XDG_CACHE_HOME" ] && cache="$XDG_CACHE_HOME/todo"\
     || cache="$HOME/.cache/todo"
 
 add_entry() {

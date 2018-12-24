@@ -2,13 +2,14 @@
 /* Default settings; can be overriden by command line. */
 
 static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
+static int fuzzy = 1;                       /* -F option; if 0, dont use fuzzy match */
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
 	"xos4 Terminus:size=8"
 };
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
-static unsigned int borderpx = 0;
-static char *colborder = "#ffffff";
+static unsigned int borderpx   = 0;
+static char *colborder         = "#ffffff";
 
 #include "/home/the_human/var/cache/tm/colors/colors_dmenu.h"
 

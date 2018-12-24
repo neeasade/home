@@ -62,12 +62,12 @@ get_distro_name() {
 }
 
 get_package_count() {
-    local os_release="$(cat /etc/os-release)"
+    local osrelease="$(cat /etc/os-release)"
 
     if [ $(uname) = "Linux" ]; then
-        case "$os_release" in
-            *arch* | *Arch*) local package_count=$(pacman -Qq | wc -l);;
-            *void* | *Void*) local package_count=$(xbps-query -l);;
+        case "$osrelease" in
+            *"arch"* | *"Arch"*) local package_count=$(pacman -Qq | wc -l);;
+            *"void"* | *"Void"*) local package_count=$(xbps-query -l | wc -l);;
         esac
     elif [ $(uname) = "OpenBSD" ]; then
         local package_count="$(ls -d /var/db/pkg/* | wc -l | sed -e 's/^[ \t]*//')"

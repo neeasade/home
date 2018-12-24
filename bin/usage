@@ -1,14 +1,30 @@
-#!/usr/bin/python3
-# get cpu and ram usage
+#!/bin/dash
+# script to get memory usage
+# TODO: add cpu usage
 
-import psutil
-from time import sleep
+get_mem() {
+    local mem="$(free -m | grep Mem)"
+    local total=`echo $mem | awk -F' ' '{print $2}'`
+    local used=`echo $mem | awk -F' ' '{print $3}'`
 
-while True:
-    ram_usage = str(int(psutil.virtual_memory().percent))
-    cpu_usage = str(int(psutil.cpu_percent()))
-    with open("/tmp/bar/ram", "w") as ram:
-        ram.write(ram_usage)
-    with open("/tmp/bar/cpu", "w") as cpu:
-        cpu.write(cpu_usage)
-    sleep(1)
+    # do math to get percentage
+    local percent=$(( used*100 / total ))
+    echo ${percent}
+}
+
+get_cpu() {
+    local cpu="$(grep 'cpu ' /proc/stat)"
+    local used=`echo "$cpu" | awk '{print $2+$4}'`
+    local total=`echo "$cpu" | awk '{print $2+$4+$5}'`
+
+    local percent=$(( used*100 / total ))
+    echo ${percent}
+}
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -m|-r) get_mem;;
+        -c) get_cpu;;
+    esac
+    shift
+done
