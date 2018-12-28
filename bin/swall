@@ -5,25 +5,37 @@ alias feh="feh --no-fehbg"
 
 tile() {
     local path="$1"
-    cp "$path" $XDG_CACHE_HOME/wall
+    cp "$path" $XDG_CACHE_HOME/wall 2> /dev/null
+    echo tile > $HOME/tmp/wall
     feh --bg-tile "$path"
 }
 
 fill() {
     local path="$1"
-    cp "$path" $XDG_CACHE_HOME/wall
+    cp "$path" $XDG_CACHE_HOME/wall 2> /dev/null
+    echo fill > $HOME/tmp/wall
     feh --bg-fill "$path"
 }
 
 scale() {
     local path="$1"
-    cp "$path" $XDG_CACHE_HOME/wall
+    cp "$path" $XDG_CACHE_HOME/wall 2> /dev/null
+    echo scale > $HOME/tmp/wall
     feh --bg-scale "$path"
+}
+
+set_wall() {
+    local path="$XDG_CACHE_HOME/wall"
+    case $(cat $HOME/tmp/wall) in
+        tile) tile $path;;
+        scale) scale $path;;
+        fill) fill $path;;
+    esac
 }
 
 case $1 in
     -s) scale "$2";;
-    -S) feh --bg-fill "$XDG_CACHE_HOME/wall";;
+    -S) set_wall;;
     -t) tile "$2";;
     -f) fill "$2";;
 esac

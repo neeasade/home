@@ -3,21 +3,56 @@
 # the videos are stored in a plain text file separated with new lines
 # I use this script to play music and not videos, so ytdl will only download audio
 default_plpath="$HOME/etc/ytplaylist"
+socket="/tmp/mpv_ytpl.socket"
 
-play() {
-    local link="$1"
-    link="$(echo "$link" | sed -E 's/http(s)/ytdl/')"
-    mpv "$link" --no-video
+set_prop() {
+    echo "{ \"command\": [\"set_property\", ${@}] }" | socat - ${socket}
 }
 
-[ $# -eq 0 ] && exit
+get_prop() {
+    echo "{ \"command\": [\"get_property\", ${@}] }" | socat - ${socket}
+}
+
+play() {
+    local file="${1}"
+    local path="${default_plpath}/${file}"
+    # if the file is not in default path, then its a full path
+    [ ! -f "${path}" ] && path="${file}"
+
+    for link in $(cat ${path}); do
+        local title="$(youtube-dl -e ${link})"
+        echo "${title}"
+        notify-send "now playing" "${title}"
+        link="$(echo "${link}" | sed -E 's/http(s)/ytdl/')"
+        mpv ${link} --no-video --input-ipc-server=${socket}
+    done
+
+    unset link
+    rm -rf ${socket}
+}
+
+pause() {
+    local is_paused="$(get_prop "\"pause\"")"
+
+    case "${is_paused}" in
+        *true*) set_prop "\"pause\", false";;
+        *false*) set_prop "\"pause\", true";;
+    esac
+}
+
+skip() {
+    local time_duration=$(echo `get_prop "\"duration\""` | grep -oE '[0-9.]+')
+
+    set_prop "\"time-pos\", ${time_duration}"
+}
 
 while [ $# -gt 0 ]; do
-    [ -f "${default_plpath}/${1}" ] && path="${default_plpath}/${1}" || path="$1"
-    for line in $(cat $path); do
-        title="$(youtube-dl -e "$line")"
-        notify-send "now playing" "$title"
-        play "$line" --no-video
-    done
+    case ${1} in
+        play)
+           [ -S ${socket} ]  && echo 'mpv already playing!' && exit 0; shift; play "${1}";;
+        pause) pause;;
+        skip) skip;;
+        die|end) rm -rf ${socket} && pkill -9 mpv && exit;;
+    esac
     shift
 done
