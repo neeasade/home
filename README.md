@@ -16,7 +16,7 @@ $HOME/tmp -> junk**
 
 \* exceptions include `config.mk` and `Makefile`
 
-\** `~/tmp` can contain some info which will be used by scripts. For example, `invcurwin` writes the `WM_CLASS` and 0 or 1 to `~/tmp`. FIFOs aren't really junk.
+\*\* `~/tmp` can contain some info which will be used by scripts. For example, `invcurwin` writes the `WM_CLASS` and 0 or 1 to `~/tmp`. FIFOs aren't really junk.
 
 I symlink `~/usr/fonts` to `~/.fonts` because it's better than making a custom config file for fontconfig.
 
@@ -45,7 +45,9 @@ to change layouts in dwm, you have to press `SUPER + N` where N -> {1 2 3 4 5 6 
 
 5 -> Floating
 
-{6, 7} -> I have no clue but it's probably the fibonacci ones
+6 -> Center master
+
+{7, 8} -> I have no clue but it's probably the fibonacci ones
 
 I use `sxhkd` for launching applications because the syntax is quite simple and the program itself is quite painless to setup unlike xbindkeys which refused to work in some machines.
 
@@ -58,7 +60,7 @@ I ~~steal~~ get my wallpapers from unsplash and r/unixporn posts.
 I try to use dash wherever possible. If I cannot do something with dash, then I fallback to bash and then fallback to python. Scripts which involve json data like `say`, I programmed in python because JSON.sh or jq is just bloat when there's a json module in python.
 
 # browser
-firefox is my choice, it's riceable and it cares about the user's privacy. For viewing documents, like the rust's book, however, I tend to use surf. surf is small and does the job I need.
+firefox is my choice, it's riceable and it cares about the user's privacy. For viewing documents, like the rust's book, however, I tend to use surf. surf is small and does the job I need. currently I use qutebrowser because I like its keyboard-drivenness and it's not a pain in the neck to configure it. ff has a lot of limitations like using an extension to have a custom new tab, etc. I just don't bother and use qb now. so far,  I like it.
 
 
 I might switch to [kiwmi](https://github.com/buffet/kiwmi) once it's ready as it seems to have a cool concept.
