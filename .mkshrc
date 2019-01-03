@@ -1,0 +1,117 @@
+#!/bin/mksh
+# vim:ft=sh
+# $HOME/etc/mkshrc
+# if not run interactive, exit
+[[ $- != *i* ]] && return
+
+# some mksh specific stuff
+# echo is better. read the fucking manual
+alias echo='builtin print'
+unalias r # I'd rather use `!!`
+. $HOME/etc/aliases
+set -o vi-tabcomplete # just to be sure
+set -o nohup bgnice trackall
+
+# history
+HISTFILE="$HOME/var/cache/mksh_history"
+# if this set to a really large number, mksh might not start at all. refer the
+# manual to know more
+HISTSIZE=100000
+
+# vi mode
+set -o vi
+
+# color vars
+_blk="\033[38;5;0m"
+_red="\033[38;5;1m"
+_grn="\033[38;5;2m"
+_ylw="\033[38;5;3m"
+_blu="\033[38;5;4m"
+_pnk="\033[38;5;5m"
+_cyn="\033[38;5;6m"
+_wht="\033[38;5;7m"
+_dblk="\033[38;5;8m"
+_dred="\033[38;5;9m"
+_dgrn="\033[38;5;10m"
+_dylw="\033[38;5;11m"
+_dblu="\033[38;5;12m"
+_dpnk="\033[38;5;13m"
+_dcyn="\033[38;5;14m"
+_dwht="\033[38;5;15m"
+_null="\033[0m"
+
+# check the current git branch
+_branch() {
+    local branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/')"
+    local branch_status=0
+
+    # branch_status=0 => unmodified
+    # branch_status=1 => modified
+    # branch_status=2 => the local repo is ahead
+    # TODO: add support for checking if the local repo is not up to date
+
+    if [ -n "$branch" ]; then
+        case "$(git status -uno 2> /dev/null)" in
+            *"Changes to be committed"* | *"not staged"*)
+            branch_status=1;;
+            *"ahead of"*)
+            branch_status=2;;
+            *"up to date"*)
+            branch_status=0;;
+        esac
+
+        case $branch_status in
+        0) echo -n "$branch";;
+        1) echo -n "${branch}+";;
+        2) echo -n "${branch}^";;
+        esac
+    fi
+}
+
+# set the terminal's window terminal to the current working dir
+_set_wn() {
+    if [ "$TERM" != "linux" ]; then
+        local cwd="${PWD/$HOME/\~}"
+        echo -ne "\033]0;mksh: $cwd\a" 2> /dev/null
+    fi
+}
+
+# delete Desktop folder
+# I HATE IT
+_rm_desktop() {
+    [ -d $XDG_DESKTOP_HOME ] && rm -rf $XDG_DESKTOP_HOME
+    [ -d $HOME/Desktop ] && rm -rf $HOME/Desktop
+    if [ -d $HOME/Downloads ]; then
+        [ -z "$(ls $HOME/Downloads)" ] && rm -rf $HOME/Downloads
+    fi
+}
+
+_PS1_details() {
+    echo -ne "${_cyn}$(_branch)${_null}"
+}
+
+_PS1_command() {
+    echo -ne "$(_set_wn)$(_rm_desktop)"
+}
+
+_get_cwd() {
+    echo -ne "${PWD/$HOME/\~}"
+}
+
+# prompts
+# single quotes are used to expand the function's echo statement
+# mksh cannot do colors in prompt like bash does so functions has been used
+#export PS1=']$(_PS1_details)$(_PS1_command) '
+export PS1='\$$(_PS1_details)$(_PS1_command) '
+
+# console stuff
+if [ "$TERM" = "linux" ]; then
+    # set our console font. (I'm too lazy to setup a systemd service for this)
+    [ -f $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf ] &&
+        setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
+    # set the colorscheme!
+    [ -f $HOME/var/cache/tm/colors/colors_tty.sh ] &&
+        source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
+    clear
+    [ $(sudo $HOME/bin/brness -g) -gt 10 ] && brness -s 10%
+fi
