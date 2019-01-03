@@ -10,15 +10,14 @@ Plugin 'VundleVim/Vundle.vim'
 " Own plugins
 " General
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'scrooloose/nerdtree'
 Plugin 'davidhalter/jedi-vim' "because python
 Plugin 'rust-lang/rust.vim' "rust yummy
 Plugin 'justmao945/vim-clang' "C is good
-Plugin 'jistr/vim-nerdtree-tabs' " I like me some fancy stuff
 Plugin 'vim-syntastic/syntastic' " it saves me some time
 Plugin 'ervandew/supertab' " using tab for completion is better
 Plugin 'vitalk/vim-shebang'
 Plugin 'w0rp/ale' "linter
+Plugin 'racer-rust/vim-racer'
 
 " Beautify
 Plugin 'ryanoasis/vim-devicons'
@@ -28,6 +27,7 @@ Plugin 'vim-scripts/twilight256.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'chriskempson/base16-vim'
 Plugin 'junegunn/goyo.vim'
+Plugin 'vmchale/ion-vim'
 " no vimairline for ya
 
 call vundle#end()
@@ -100,6 +100,9 @@ set splitright
 set columns=80
 set tw=80
 
+" remove cursor styling
+set guicursor=
+
 " Plugin's config
 
 "devicons
@@ -144,6 +147,10 @@ let g:indentLine_showFirstLevelIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal', 'json']
 let g:indentLine_bufTypeExclude = ['man', 'help', 'terminal', 'json']
 let g:indentLine_bufNameExclude = ['NERD_tree.*', 'term://*', "man:*"]
+
+" racer
+let g:racer_cmd = "/home/the_human/opt/cargo/bin/racer"
+let g:racer_experimental_compeleter = 1
 
 filetype indent on
 

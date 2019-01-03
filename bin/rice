@@ -14,3 +14,5 @@ $HOME/bin/prsp
 
 # restart dwm
 xdotool key alt+shift+q
+[ -n $(pgrep bar) ] && pkill bar
+$HOME/bin/bar &

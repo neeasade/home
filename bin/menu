@@ -9,7 +9,7 @@ sh=$(res -h)
 dmenu_w=$((sw / 2))
 dmenu_lines=$((sw / 50))
 dmenu_x=$((sw / 2 - dmenu_w / 2))
-dmenu_y=$((sh / 6 + dmenu_lines))
+dmenu_y=$((sh / 5 - dmenu_lines))
 
 . $HOME/var/cache/tm/colors/colors.sh
 

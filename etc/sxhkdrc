@@ -5,10 +5,10 @@ super + shift + Return
    st -g 80x40 -t floating-st
 
 super + Print
-  maim -u -s > $HOME/var/pictures/scrots/$(date '+%a_%b_%d-%H:%M').png
+  maim -u -d 1 > $HOME/var/pictures/scrots/$(date '+%a_%b_%d-%H:%M').png
 
 super + v
-  firefox
+  qutebrowser
 
 super + shift + v
   notify-send "vol" "$($HOME/bin/vol -g)%"
@@ -40,10 +40,10 @@ XF86AudioLowerVolume
 XF86AudioMute
   $HOME/bin/vol -m
 
-super + shift + j
+super + shift + k
   $HOME/bin/vol -i 1%
 
-super + shift + k
+super + shift + j
   $HOME/bin/vol -d 1%
 
 super + shift + m
@@ -72,3 +72,27 @@ super + shift + l
 
 super + shift + h
   sudo $HOME/bin/brness -d 1%
+
+super + w
+  $HOME/bin/wcmv -u 20
+
+super + a
+  $HOME/bin/wcmv -l 20
+
+super + s
+  $HOME/bin/wcmv -d 20
+
+super + d
+  $HOME/bin/wcmv -r 20
+
+super + ctrl + w
+  $HOME/bin/wrsz w -10
+
+super + ctrl + s
+  $HOME/bin/wrsz w +10
+
+super + ctrl + d
+  $HOME/bin/wrsz +10 h
+
+super + ctrl + a
+  $HOME/bin/wrsz -10 h

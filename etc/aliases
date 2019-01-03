@@ -30,8 +30,10 @@ find_font() {
 mklatex() {
     for file in $@; do
         pdflatex "$file"
-        rm "${file%.tex}".aux "${file%.tex}".log
+        local name="${file%.tex}"
+        rm -rf "${name}.aux" "${name}.log" "${name}.out"
     done
+    unset file, name
 }
 
 # tfw you're too lazy to type cd or cat or clear
@@ -52,7 +54,7 @@ resourcesh() {
     source $HOME/etc/aliases
 
     case "$SHELL" in
-        *ksh*) source $HOME/etc/kshrc;;
+        *mksh*) source $HOME/etc/mkshrc;;
         *bash*) source $HOME/etc/bashrc;;
     esac
 }
@@ -73,7 +75,7 @@ a ll="ls -w $(ls | wc -l)"
 a fm="ranger"
 a mf="ranger"
 # python 2 is obselete
-a pip="pip3"
+#a pip="pip3"
 a ff="find_font"
 a mklatex="mklatex"
 a c="c"
@@ -81,7 +83,7 @@ a c="c"
 # make aliases
 a mkci="make clean install"
 a mkic="make clean install" # more like a typo
-a mk="make"
+[ -z "$(command -v mk)" ] && a mk="make"
 a mki="make install"
 a mka="make all"
 a mku="make uninstall"
@@ -147,4 +149,5 @@ a gD="cd $HOME/var/downloads"
 a gC="cd $HOME/var/cache"
 a gV="cd $HOME/var"
 a gO="cd $HOME/opt"
+a gU="cd $HOME/usr"
 a gr="cd /"

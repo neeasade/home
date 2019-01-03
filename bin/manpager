@@ -1,0 +1,2 @@
+#!/bin/dash
+exec nvim -c "set ft=man ts=2 nonu noma nolist" "$@"

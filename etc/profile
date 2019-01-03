@@ -2,18 +2,18 @@
 # $HOME/etc/profile
 # source our shellrc
 case $SHELL in
-    *ksh*) source $HOME/etc/kshrc;;
-    *bash*) source $HOME/etc/bashrc;;
+    *mksh*) . $HOME/etc/mkshrc;;
+    *bash*) . $HOME/etc/bashrc;;
 esac
 
 # exporting variables
 export EDITOR=nvim
 export VISUAL=nvim
 export TERMINAL="tabbed -c -r 2 st -w ''"
-#export MANPAGER="nvim -c 'set ft=man nonu ts=2'"
+export MANPAGER=$HOME/bin/manpager
 
 # path variables
-export PATH=$PATH:$HOME/bin/:$HOME/.local/bin:$HOME/usr/local
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/usr/local
 export PATH=$PATH:$HOME/usr/local/bin
 export PATH=$PATH:$HOME/opt/texlive/bin/x86_64-linux
 export PATH=$PATH:$HOME/opt/cargo/bin

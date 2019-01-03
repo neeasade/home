@@ -6,10 +6,10 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 //static char *font = "xos4 Terminus:antialias=true:autohint=false:style=Regular";
-static char *font = "scientifica:style=bold";
+//static char *font = "scientifica:style=bold";
 //static char *font = "dina:size=6";
 //static char *font = "ShureTechMono NerdFont:size=9";
-//static char *font = "ShureTechMono NerdFont:size=10";
+static char *font = "ShureTechMono NerdFont:size=10";
 //static char *font = "montecarlo:size=9:style=Regular";
 //static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
 //static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font
@@ -23,7 +23,7 @@ static char *font = "scientifica:style=bold";
 //#include "themes/viking.h"
 #include "/home/the_human/var/cache/tm/colors/colors_st.h"
 
-static int borderpx = 20;
+static int borderpx = 15;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -66,12 +66,12 @@ static unsigned int actionfps = 60;
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
  * attribute.
  */
-static unsigned int blinktimeout = 800;
+static unsigned int blinktimeout = 1000;
 
 /*
  * thickness of underline and bar cursors
  */
-static unsigned int cursorthickness = 1;
+static unsigned int cursorthickness = 3;
 
 /*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling
@@ -106,7 +106,7 @@ unsigned int tabspaces = 4;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 2;
+static unsigned int cursorshape = 4;
 static unsigned int defaultrcs = 256;
 
 /*
@@ -114,7 +114,7 @@ static unsigned int defaultrcs = 256;
  */
 
 static unsigned int cols = 80;
-static unsigned int rows = 40;
+static unsigned int rows = 24;
 
 /*
  * Default colour and shape of the mouse cursor

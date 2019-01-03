@@ -45,7 +45,7 @@ set_dwm_info_current_layout(int i) {
 
 void
 toggle_dwm_info_ws(int ws, int bool) {
-    // toggles whether the given tag has clients or not 
+    // toggles whether the given tag has clients or not
     // NOTE: bool should only be either '1' or 0'
     char buf[20];
     snprintf(buf, sizeof(buf), "/tmp/dwm_info/ws%d", ws);

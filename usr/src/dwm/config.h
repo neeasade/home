@@ -1,16 +1,13 @@
 /* See LICENSE file for copyright and license details. */
 /* appearance */
-static const unsigned int BORDERPX  = 0;        /* border pixel of windows */
+static const unsigned int BORDERPX  = 1;        /* border pixel of windows */
 static const unsigned int GAP_PX    = 6;        /* useless gaps in px */
 static const unsigned int start_borders = 3; //0 means no borders and yes gaps. 1 means no gaps and yes borders. 2 means no borders and no gaps, 3 means gaps and borders
-static const unsigned int snap      = 0;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int BAR_HEIGHT         = 20; // in pixels
+static const unsigned int snap      = 10;       /* snap pixel */
+static const int BAR_HEIGHT         = 25; // in pixels
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int bar_gap            = 0; // whether to have gaps around bar
-static const int two_borders        = 1;        /* whether use two borders */ //TODO
+static const int bar_gap            = 1; // whether to have gaps around bar
 static const int monocle_fullscreen = 0;       /* whether to disable border and gap in monocle layout */ //TODO
-//static const int float_border 			= 1; // 0 means keep border no matter the number of client is in floating. 1 means no border if only one floating client is present.
 //static const char *fonts[]          = {"Terminus (TTF):size=9" };
 static const char *fonts[]          = { "scientifica:size=10" };
 static const char dmenufont[]       = "scientifica :size=10";
@@ -35,6 +32,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     iscentered     isfloating   isbordered   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            0,             1,           1,            -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
+	{ "qutebrowser",  NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
 	{ "feh",      NULL,       "feh",      0,            1,             1,		    0,            -1 },
 	{ "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "st",       NULL,       "todoterm", 0,            0,             1,           0,            -1 },
@@ -53,8 +51,8 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static int NUM_LAYOUTS = 8;
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[]=",      NULL },    /* first entry is default */
+	{ "><>",      tile },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "[]H",      deck  },
@@ -116,8 +114,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_q,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,                       XK_a,      setlayout,      {.v = &layouts[7]} }, */
-    { SUPERKEY,                     XK_1,      setlayout,      {.v = &layouts[0]} }, // tiling
-    { SUPERKEY,                     XK_5,      setlayout,      {.v = &layouts[1]} }, // floating
+    { SUPERKEY,                     XK_5,      setlayout,      {.v = &layouts[0]} }, // tiling
+    { SUPERKEY,                     XK_1,      setlayout,      {.v = &layouts[1]} }, // floating
     { SUPERKEY,                     XK_3,      setlayout,      {.v = &layouts[2]} }, // monocle
     { SUPERKEY,                     XK_2,      setlayout,      {.v = &layouts[3]} }, // bottom stack
     { SUPERKEY,                     XK_4,      setlayout,      {.v = &layouts[4]} }, // deck

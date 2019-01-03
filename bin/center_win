@@ -1,28 +1,13 @@
 #!/bin/dash
+# wmutils script to center window
+wid=$(pfw)
 
-# active window's id
-active_win="$(xdotool getactivewindow)"
+ww=$(wattr w ${wid})
+wh=$(wattr h ${wid})
+bh=$(cat /tmp/dwm_info/bar_height)
+wh=$((wh-bh))
 
-# get screen res
 sw=$(res -w)
 sh=$(res -h)
 
-# write active window's dimensions to a file
-xwininfo -id "$active_win" > /tmp/win_dim
-
-# set window's dimensions to separate vars
-wx=$(grep -e "Absolute upper-left X: " "/tmp/win_dim" | grep -oE '[0-9]+')
-
-## remove our file because we don't need it anymore
-rm -rf /tmp/win_dim
-
-# centered window's dimensions
-# we need to get bar's height so we can center our window vertically
-bh=$(cat /tmp/dwm_info/bar_height)
-gap=$(cat /tmp/dwm_info/gappx)
-bar_gaps=$(cat /tmp/dwm_info/bar_gaps)
-center_x=$((sw-wx))
-[ $bar_gaps = 0 ] && center_y=$((sh - bh)) || center_y=$((sh - bh - gap*2))
-
-# move window to the center position
-xdotool getactivewindow windowmove "$center_x" "$center_y"
+xdotool getactivewindow windowmove $(( (sw-ww)/2 )) $(( (sh-wh)/2 ))

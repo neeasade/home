@@ -18,14 +18,18 @@ fi
 wall_path=$HOME/var/pictures/wallpapers
 # qt5ct stuff
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME=qt5ct
-compton -bc &
+compton -bc --config $HOME/etc/comptonrc &
 #xwinwrap -ov -ni -fs -- mpv x11 -wid WID --keepaspect=no --loop $wall_path/train.webm &
 $HOME/bin/swall -S &
 #feh --no-fehbg --bg-tile $HOME/var/pictures/wallpapers/white_folk_pattern.png &
 #tm -w $wall_path/xmas_trees_row.jpg $wall_path/pink_tree_row_winter.jpg\
 #    $wall_path/river_middle_frozen.jpg $wall_path/snowy_trees_forest.jpg\
 #    $wall_path/winter_tree.jpg &
-dunst -conf $HOME/etc/dunst/dunstrc &
+if [ -f $XDG_CACHE_HOME/tm/colors/dunstrc ]; then
+    dunst -conf $XDG_CACHE_HOME/tm/colors/dunstrc &
+else
+    dunst -conf $HOME/etc/dunst/dunstrc &
+fi
 $HOME/bin/bar &
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log -s $HOME/var/logs/sxhkd.log &
 exec dwm 2> $HOME/var/logs/dwm.log

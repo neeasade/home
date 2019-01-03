@@ -125,7 +125,6 @@ struct Monitor {
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
-	int showbar;
 	int topbar;
 	Client *clients;
 	Client *sel;
@@ -149,7 +148,6 @@ typedef struct {
 
 /* function declarations */
 static void applyrules(Client *c);
-static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
@@ -251,10 +249,8 @@ static int gappx = 0;
 static int bar_gaps = 0;
 static Client *prevzoom = NULL;
 static const char broken[] = "broken";
-static char stext[256];
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
-static int bh, blw = 0;      /* bar geometry */
 static float lrpad;            /* sum of left and right padding for text */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
@@ -293,7 +289,6 @@ struct Pertag {
 	float mfacts[LENGTH(tags) + 1]; /* mfacts per tag */
 	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
 	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
-	int showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
 };
 
 static unsigned int scratchtag = 1 << LENGTH(tags);
@@ -339,72 +334,6 @@ applyrules(Client *c)
 	if (ch.res_name)
 		XFree(ch.res_name);
 	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
-}
-
-int
-applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
-{
-	int baseismin;
-	Monitor *m = c->mon;
-
-	/* set minimum possible */
-	*w = MAX(1, *w);
-	*h = MAX(1, *h);
-	if (interact) {
-		if (*x > sw)
-			*x = sw - WIDTH(c);
-		if (*y > sh)
-			*y = sh - HEIGHT(c);
-		if (*x + *w + 2 * c->bw < 0)
-			*x = 0;
-		if (*y + *h + 2 * c->bw < 0)
-			*y = 0;
-	} else {
-		if (*x >= m->wx + m->ww)
-			*x = m->wx + m->ww - WIDTH(c);
-		if (*y >= m->wy + m->wh)
-			*y = m->wy + m->wh - HEIGHT(c);
-		if (*x + *w + 2 * c->bw <= m->wx)
-			*x = m->wx;
-		if (*y + *h + 2 * c->bw <= m->wy)
-			*y = m->wy;
-	}
-	if (*h < bh)
-		*h = bh;
-	if (*w < bh)
-		*w = bh;
-	if (resizehints || c->isfloating || !c->mon->lt[c->mon->sellt]->arrange) {
-		/* see last two sentences in ICCCM 4.1.2.3 */
-		baseismin = c->basew == c->minw && c->baseh == c->minh;
-		if (!baseismin) { /* temporarily remove base dimensions */
-			*w -= c->basew;
-			*h -= c->baseh;
-		}
-		/* adjust for aspect limits */
-		if (c->mina > 0 && c->maxa > 0) {
-			if (c->maxa < (float)*w / *h)
-				*w = *h * c->maxa + 0.5;
-			else if (c->mina < (float)*h / *w)
-				*h = *w * c->mina + 0.5;
-		}
-		if (baseismin) { /* increment calculation requires this */
-			*w -= c->basew;
-			*h -= c->baseh;
-		}
-		/* adjust for increment value */
-		if (c->incw)
-			*w -= *w % c->incw;
-		if (c->inch)
-			*h -= *h % c->inch;
-		/* restore base dimensions */
-		*w = MAX(*w + c->basew, c->minw);
-		*h = MAX(*h + c->baseh, c->minh);
-		if (c->maxw)
-			*w = MIN(*w, c->maxw);
-		if (c->maxh)
-			*h = MIN(*h, c->maxh);
-	}
-	return *x != c->x || *y != c->y || *w != c->w || *h != c->h;
 }
 
 void
@@ -458,9 +387,8 @@ attachstack(Client *c)
 void
 buttonpress(XEvent *e)
 {
-	unsigned int i, x, click;
+	unsigned int i, click;
 	Arg arg = {0};
-	Client *c;
 	Monitor *m;
 	XButtonPressedEvent *ev = &e->xbutton;
 
@@ -471,27 +399,8 @@ buttonpress(XEvent *e)
 		selmon = m;
 		focus(NULL);
 	}
-	if (ev->window == selmon->barwin) {
-		i = x = 0;
-		do
-			x += TEXTW(tags[i]);
-		while (ev->x >= x && ++i < LENGTH(tags));
-		if (i < LENGTH(tags)) {
-			click = ClkTagBar;
-			arg.ui = 1 << i;
-		} else if (ev->x < x + blw)
-			click = ClkLtSymbol;
-		else if (ev->x > selmon->ww - TEXTW(stext))
-			click = ClkStatusText;
-		else
-			click = ClkWinTitle;
-	} else if ((c = wintoclient(ev->window))) {
-		focus(c);
-		restack(selmon);
-		XAllowEvents(dpy, ReplayPointer, CurrentTime);
-		click = ClkClientWin;
-	}
-	for (i = 0; i < LENGTH(buttons); i++)
+
+    for (i = 0; i < LENGTH(buttons); i++)
 		if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
 		&& CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
 			buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
@@ -672,7 +581,6 @@ createmon(void)
 	m->tagset[0] = m->tagset[1] = 1;
 	m->mfact = mfact;
 	m->nmaster = nmaster;
-	m->showbar = showbar;
 	m->topbar = topbar;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
@@ -687,8 +595,6 @@ createmon(void)
 		m->pertag->ltidxs[i][0] = m->lt[0];
 		m->pertag->ltidxs[i][1] = m->lt[1];
 		m->pertag->sellts[i] = m->sellt;
-
-		m->pertag->showbars[i] = m->showbar;
 	}
 
 	return m;
@@ -1039,7 +945,7 @@ manage(Window w, XWindowAttributes *wa)
 		c->x = (c->mon->mw - WIDTH(c)) / 2;
 		c->y = (c->mon->mh - HEIGHT(c)) / 2;
 	}
-    
+
 	wc.border_width = c->bw;
 
     if (c->isbordered == 0) {
@@ -1058,7 +964,7 @@ manage(Window w, XWindowAttributes *wa)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
-	
+
     /* Use attachaside only when the number of master clients is 1 */
 	if (c->mon->nmaster <= 1) {
 		attachaside(c);
@@ -1265,8 +1171,7 @@ recttomon(int x, int y, int w, int h)
 void
 resize(Client *c, int x, int y, int w, int h, int interact)
 {
-	if (applysizehints(c, &x, &y, &w, &h, interact))
-		resizeclient(c, x, y, w, h);
+	resizeclient(c, x, y, w, h);
 }
 
 void
@@ -1275,7 +1180,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	XWindowChanges wc;
 	unsigned int n;
 	Client *nbc;
-    
+
     /* Gaps stuff */
     unsigned int gapincr = 0;
     unsigned int gapoffset;
@@ -1300,25 +1205,25 @@ resizeclient(Client *c, int x, int y, int w, int h)
                 FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", 0); fclose(fgappx);
                 FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", 0); fclose(fborderpx);
                 system("pkill -9 lemonbar ; pkill -9 bar ; bash ${HOME}/bin/bar &");
-            }    
-        } 
+            }
+        }
 		/* Remove gap (not border) when layout is anything other monocole. */
-		/*else if (selmon->lt[selmon->sellt]->arrange != monocle && n == 1) {	
-			gapoffset = 0; 
+		/*else if (selmon->lt[selmon->sellt]->arrange != monocle && n == 1) {
+			gapoffset = 0;
 			gapincr = 0;
 
-		}*/ else { 
+		}*/ else {
 			gapoffset = gappx;
 			gapincr = 2 * gappx;
 		}
 	}
-    
+
 
     c->oldx = c->x; c->x = wc.x = x + gapoffset;
     c->oldy = c->y; c->y = wc.y = y + gapoffset;
     c->w = wc.width = w - gapincr;
     c->h = wc.height = h - gapincr;
-    
+
     if (c->isbordered == 0) {
         wc.border_width = 0;
     }
@@ -1609,7 +1514,6 @@ setup(void)
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h + 2;
-	bh = drw->fonts->h + 2;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -1771,7 +1675,7 @@ tile(Monitor *m)
 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
 			my += HEIGHT(c);
 			mfacts -= c->cfact;
-		} else {	
+		} else {
 			h = (m->wh - ty) * (c->cfact / sfacts);
 			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
 			ty += HEIGHT(c);
@@ -1792,7 +1696,7 @@ void init () { // start either with borders or gaps.
 	} else if (start_borders == 3) {
 		borderpx = BORDERPX;
 		gappx = GAP_PX;
-  } 
+  }
     bar_gaps = bar_gap;
 	init_dwm_info(gappx, BAR_HEIGHT, topbar, NUM_WORKSPACES, borderpx, bar_gaps);
 }
@@ -1939,7 +1843,7 @@ void updatebarpos(Monitor *m) {
     int nvis = 0;
     m->wy = m->my;
     m->wh = m->mh;
-    
+
     if (!bar_gaps) {
         m->wh -= BAR_HEIGHT;
     } else {
@@ -1947,13 +1851,13 @@ void updatebarpos(Monitor *m) {
     }
 
     m->by = topbar ? m->wy : m->wy + m->wh;
-    
+
     if (!bar_gaps) {
         if (topbar) m->wy += BAR_HEIGHT;
     } else {
         if (topbar) m->wy += BAR_HEIGHT + gappx;
     }
-    
+
     for(c = m->clients; c; c = c->next){
       if(ISVISIBLE(c)) ++nvis;
     }
