@@ -9,11 +9,12 @@
 //static char *font = "scientifica:style=bold";
 //static char *font = "dina:size=6";
 //static char *font = "ShureTechMono NerdFont:size=9";
-static char *font = "ShureTechMono NerdFont:size=10";
+//static char *font = "ShureTechMono NerdFont:size=10";
 //static char *font = "montecarlo:size=9:style=Regular";
 //static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
 //static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font
 //static char *font = "IBM Plex Mono:size=8";
+static char *font = "TerminessTTF Nerd Font:size=11";
 
 //#include "themes/default.h"
 //#include "themes/thicc.h"

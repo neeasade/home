@@ -1,17 +1,24 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]        = "ShureTechMono Nerd Font:size=10";
+//static const char font[]        = "ShureTechMono Nerd Font:size=10";
+//static const char font[]        = "TerminessTTF Nerd Font:size=11";
+static const char font[]        = "scientifica:style=bold:size=8";
+
 //#include "themes/greyscale.h"
 //#include "themes/viking.h"
 #include "/home/the_human/var/cache/tm/colors/colors_tabbed.h"
+
 static const char before[]      = "<";
 static const char after[]       = ">";
 static const char titletrim[]   = "...";
-static const int  tabwidth      = 150; 
+static const int  tabwidth      = 150;
 static const Bool foreground    = True;
 static       Bool urgentswitch  = True;
 static const int  barheight     = 25;
+static const int  leftpadding   = 10;
+static       int  autohide      = 1;
+static const int  numberwin     = 1;
 
 /*
  * Where to place a new tab when it is opened. When npisrelative is True,
@@ -59,6 +66,6 @@ static Key keys[] = {
 
 	{ MODKEY,               XK_u,      focusurgent, { 0 } },
 	{ MODKEY|ShiftMask,     XK_u,      toggle,      { .v = (void*) &urgentswitch } },
-
+    { MODKEY|ShiftMask,     XK_b,      togglebar,   { 0 } },
 	{ 0,                    XK_F11,    fullscreen,  { 0 } },
 };

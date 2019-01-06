@@ -135,6 +135,7 @@ static void updatenumlockmask(void);
 static void updatetitle(int c);
 static int xerror(Display *dpy, XErrorEvent *ee);
 static void xsettitle(Window w, const char *str);
+static void togglebar();
 
 /* variables */
 static int screen;
@@ -315,8 +316,9 @@ void
 drawbar(void)
 {
 	XftColor *col;
-	int c, cc, fc, width, nbh, i;
+	int c, cc, fc, width, i, nbh;
 	char *name = NULL;
+    char title[300];
 
 	if (nclients == 0) {
 		dc.x = 0;
@@ -329,7 +331,12 @@ drawbar(void)
 		return;
 	}
 
-	nbh = nclients > 1 ? vbh : 0;
+    if (autohide) {
+	    nbh = nclients > 1 ? vbh : 0;
+    } else {
+        nbh = vbh;
+    }
+
 	if (bh != nbh) {
 		bh = nbh;
 		for (i = 0; i < nclients; i++)
@@ -367,7 +374,12 @@ drawbar(void)
 		} else {
 			col = clients[c]->urgent ? dc.urg : dc.norm;
 		}
-		drawtext(clients[c]->name, col);
+        if (numberwin) {
+            snprintf(title, sizeof(title), "%d. %s", c + 1, clients[c]->name);
+            drawtext(title, col);
+        } else {
+            drawtext(clients[c]->name, col);
+        }
 		dc.x += dc.w;
 		clients[c]->tabx = dc.x;
 	}
@@ -391,7 +403,7 @@ drawtext(const char *text, XftColor col[ColLast])
 	olen = strlen(text);
 	h = dc.font.ascent + dc.font.descent;
 	y = dc.y + (dc.h / 2) - (h / 2) + dc.font.ascent;
-	x = dc.x + (h / 2);
+	x = dc.x + (h / 2) + leftpadding;
 
 	/* shorten text if necessary */
 	for (len = MIN(olen, sizeof(buf));
@@ -1253,6 +1265,18 @@ xerror(Display *dpy, XErrorEvent *ee)
 	fprintf(stderr, "%s: fatal error: request code=%d, error code=%d\n",
 	        argv0, ee->request_code, ee->error_code);
 	return xerrorxlib(dpy, ee); /* may call exit */
+}
+
+void
+togglebar()
+{
+    if (autohide) {
+        autohide = 0;
+    } else {
+        autohide = 1;
+    }
+
+    drawbar();
 }
 
 void

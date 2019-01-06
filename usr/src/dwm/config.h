@@ -1,17 +1,36 @@
 /* See LICENSE file for copyright and license details. */
 /* appearance */
-static const unsigned int BORDERPX  = 1;        /* border pixel of windows */
-static const unsigned int GAP_PX    = 6;        /* useless gaps in px */
-static const unsigned int start_borders = 3; //0 means no borders and yes gaps. 1 means no gaps and yes borders. 2 means no borders and no gaps, 3 means gaps and borders
-static const unsigned int snap      = 10;       /* snap pixel */
-static const int BAR_HEIGHT         = 25; // in pixels
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const int bar_gap            = 1; // whether to have gaps around bar
-static const int monocle_fullscreen = 0;       /* whether to disable border and gap in monocle layout */ //TODO
-//static const char *fonts[]          = {"Terminus (TTF):size=9" };
-static const char *fonts[]          = { "scientifica:size=10" };
-static const char dmenufont[]       = "scientifica :size=10";
-//theme include
+
+/* border pixel of windows */
+static const unsigned int BORDERPX  = 1;
+
+/* useless gaps in px */
+static const unsigned int GAP_PX    = 6;
+
+/*
+ * 0 means gaps and no borders
+ * 1 means borders and no gaps
+ * 2 means no borders and no gaps
+ * 3 means gaps and borders
+ */
+static const unsigned int start_borders = 3;
+
+/* snap pixel */
+static const unsigned int snap      = 0;
+
+/* bar height in pixels */
+static const int BAR_HEIGHT         = 25;
+
+/* 0 means bottom bar */
+static const int topbar             = 1;
+
+/* 1 means have gaps around bar and root window */
+static const int bar_gap            = 1;
+
+/* whether to disable borders and gap in monocle layout */
+static const int monocle_fullscreen = 0;
+
+/* include themes */
 //#include "themes/thicc.h"
 //#include "themes/pink.h"
 //#include "themes/default.h"
@@ -21,8 +40,10 @@ static const char dmenufont[]       = "scientifica :size=10";
 #include "/home/the_human/var/cache/tm/colors/colors_dwm.h"
 
 /* tagging */
+/* number of workspaces */
 static const int NUM_WORKSPACES = 8;
 static const char *tags[] = { "0", "1", "2", "3", "4", "5", "6", "7" };
+
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -42,17 +63,24 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.60; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+/* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.60;
 
+/* number of clients in master area */
+static const int nmaster     = 1;
+
+/* 1 means respect size hints in tiled resizals */
+static const int resizehints = 1;
+
+/* include layouts */
 #include "layouts.c"
 
+/* number of layouts */
 static int NUM_LAYOUTS = 8;
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      NULL },    /* first entry is default */
-	{ "><>",      tile },    /* no layout function means floating behavior */
+	{ "[]=",      tile },    /* first entry is default */
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "[]H",      deck  },
@@ -114,8 +142,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_q,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,                       XK_a,      setlayout,      {.v = &layouts[7]} }, */
-    { SUPERKEY,                     XK_5,      setlayout,      {.v = &layouts[0]} }, // tiling
-    { SUPERKEY,                     XK_1,      setlayout,      {.v = &layouts[1]} }, // floating
+    { SUPERKEY,                     XK_1,      setlayout,      {.v = &layouts[0]} }, // tiling
+    { SUPERKEY,                     XK_5,      setlayout,      {.v = &layouts[1]} }, // floating
     { SUPERKEY,                     XK_3,      setlayout,      {.v = &layouts[2]} }, // monocle
     { SUPERKEY,                     XK_2,      setlayout,      {.v = &layouts[3]} }, // bottom stack
     { SUPERKEY,                     XK_4,      setlayout,      {.v = &layouts[4]} }, // deck
