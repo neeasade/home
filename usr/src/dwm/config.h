@@ -2,10 +2,10 @@
 /* appearance */
 
 /* border pixel of windows */
-static const unsigned int BORDERPX  = 1;
+static const unsigned int BORDERPX  = 0;
 
 /* useless gaps in px */
-static const unsigned int GAP_PX    = 6;
+static const unsigned int GAP_PX    = 0;
 
 /*
  * 0 means gaps and no borders
@@ -19,13 +19,17 @@ static const unsigned int start_borders = 3;
 static const unsigned int snap      = 0;
 
 /* bar height in pixels */
-static const int BAR_HEIGHT         = 25;
+static const int BAR_HEIGHT         = 12;
 
-/* 0 means bottom bar */
-static const int topbar             = 1;
+/*
+ * 0 means bottom bar
+ * 1 means top bar
+ * 2 means left bar
+ */
+static const int barpos             = 2;
 
 /* 1 means have gaps around bar and root window */
-static const int bar_gap            = 1;
+static const int bar_gap            = 0;
 
 /* whether to disable borders and gap in monocle layout */
 static const int monocle_fullscreen = 0;
@@ -101,16 +105,10 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dash", "-c", "$HOME/bin/menu run", NULL };
-static const char *termcmd[]  = { "tabbed", "-c","-r 2", "st", "-w", "", NULL };
+//static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 static const char *drawst[] = { "dash", "-c", "${HOME}/bin/draw_st", NULL };
-static const char *hiddendmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 1", NULL };
-static const char *dmenudir[] = { "dash", "-c", "${HOME}/bin/dmenu_dir -h 0", NULL };
-static const char *center_win[] = { "bash", "-c", "${HOME}/bin/center_win", NULL };
-static const char *fullwin[] = { "dash", "-c", "${HOME}/bin/fswin", NULL };
 
 #include "zoomswap.c"
 #include "movestack.c"
@@ -118,8 +116,6 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY|ShiftMask,             XK_g,      togglegaps,     {0} },
 	{ MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -151,10 +147,6 @@ static Key keys[] = {
     { SUPERKEY,                     XK_7,      setlayout,      {.v = &layouts[6]} },
     { SUPERKEY,                     XK_8,      setlayout,      {.v = &layouts[7]} },
     { SUPERKEY,                     XK_space,  setlayout,      {0} },
-    { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = hiddendmenudir} },
-    { MODKEY|ShiftMask|ControlMask, XK_f,      spawn,          {.v = dmenudir} },
-    { MODKEY,           XK_c,      spawn,          {.v = center_win} },
-    { MODKEY,                       XK_f,      spawn,          {.v = fullwin} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },

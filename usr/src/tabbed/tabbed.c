@@ -403,7 +403,13 @@ drawtext(const char *text, XftColor col[ColLast])
 	olen = strlen(text);
 	h = dc.font.ascent + dc.font.descent;
 	y = dc.y + (dc.h / 2) - (h / 2) + dc.font.ascent;
-	x = dc.x + (h / 2) + leftpadding;
+
+    if (text != before && text != after) {
+        x = dc.x + (h / 2) + leftpadding;
+    }
+    else {
+        x = dc.x + (h / 2);
+    }
 
 	/* shorten text if necessary */
 	for (len = MIN(olen, sizeof(buf));

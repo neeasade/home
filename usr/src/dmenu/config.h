@@ -9,7 +9,6 @@ static const char *fonts[] = {
 };
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
 static unsigned int borderpx   = 0;
-static char *colborder         = "#ffffff";
 
 #include "/home/the_human/var/cache/tm/colors/colors_dmenu.h"
 

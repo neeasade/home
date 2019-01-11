@@ -26,7 +26,7 @@
 #define TEXTW(X)              (drw_fontset_getwidth(drw, (X)) + lrpad)
 
 /* enums */
-enum { SchemeNorm, SchemeSel, SchemeOut, SchemeLast }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeOut, SchemeBorder, SchemeLast }; /* color schemes */
 
 struct item {
 	char *text;
@@ -724,7 +724,7 @@ setup(void)
 
 		x = info[i].x_org + dmx;
 		y = info[i].y_org + (topbar ? dmy : info[i].height - mh - dmy);
-		mw = (dmw>0 ? dmw : info[i].width);
+		mw = (dmw>0 ? dmw - (borderpx*2) : info[i].width - (borderpx*2));
 		XFree(info);
 	} else
 #endif
@@ -744,7 +744,7 @@ setup(void)
 	swa.override_redirect = True;
 	swa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
     /* create border color */
-    swa.border_pixel = scheme[SchemeNorm][ColFg].pixel;
+    swa.border_pixel = scheme[SchemeBorder][ColBg].pixel;
     swa.event_mask = ExposureMask | KeyPressMask | VisibilityChangeMask;
 	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, borderpx,
 	                    CopyFromParent, CopyFromParent, CopyFromParent,
@@ -775,7 +775,7 @@ static void
 usage(void)
 {
 	fputs("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-	      "             [-h height] [-x xoffset] [-y yoffset] [-w width] [-bpx borderwidth]\n"
+	      "             [-h height] [-x xoffset] [-y yoffset] [-w width] [-bp borderwidth]\n"
           "             [-nb color] [-nf color] [-sb color] [-sf color] [-bc color] [-wi windowid]\n", stderr);
 	exit(1);
 }
@@ -825,12 +825,12 @@ main(int argc, char *argv[])
 			colors[SchemeSel][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-sf"))  /* selected foreground color */
 			colors[SchemeSel][ColFg] = argv[++i];
-        else if (!strcmp(argv[i], "-bc"))
-            colborder = argv[++i];
 		else if (!strcmp(argv[i], "-wi"))   /* embedding window id */
 			embed = argv[++i];
-        else if (!strcmp(argv[i], "-bpx")) /* borderpx */
+        else if (!strcmp(argv[i], "-bp")) /* borderpx */
             borderpx = atoi(argv[++i]);
+        else if (!strcmp(argv[i], "-bc"))
+            colors[SchemeBorder][ColBg] = argv[++i];
 		else
 			usage();
 

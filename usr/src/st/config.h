@@ -5,8 +5,10 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-//static char *font = "xos4 Terminus:antialias=true:autohint=false:style=Regular";
+//static char *font = "terminus:antialias=true:autohint=false:style=Regular";
 //static char *font = "scientifica:style=bold";
+//static char *font = "curie";
+static char *font = "scientifica";
 //static char *font = "dina:size=6";
 //static char *font = "ShureTechMono NerdFont:size=9";
 //static char *font = "ShureTechMono NerdFont:size=10";
@@ -14,7 +16,7 @@
 //static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
 //static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font
 //static char *font = "IBM Plex Mono:size=8";
-static char *font = "TerminessTTF Nerd Font:size=11";
+//static char *font = "TerminessTTF Nerd Font:size=11";
 
 //#include "themes/default.h"
 //#include "themes/thicc.h"
@@ -24,7 +26,7 @@ static char *font = "TerminessTTF Nerd Font:size=11";
 //#include "themes/viking.h"
 #include "/home/the_human/var/cache/tm/colors/colors_st.h"
 
-static int borderpx = 15;
+static int borderpx = 5;
 
 /*
  * What program is execed by st depends of these precedence rules:

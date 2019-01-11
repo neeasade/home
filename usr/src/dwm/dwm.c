@@ -123,7 +123,6 @@ struct Monitor {
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
-	int topbar;
 	Client *clients;
 	Client *sel;
 	Client *stack;
@@ -578,7 +577,6 @@ createmon(void)
 	m->tagset[0] = m->tagset[1] = 1;
 	m->mfact = mfact;
 	m->nmaster = nmaster;
-	m->topbar = topbar;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -1596,8 +1594,6 @@ sigterm(int unused)
 void
 spawn(const Arg *arg)
 {
-	if (arg->v == dmenucmd)
-		dmenumon[0] = '0' + selmon->num;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
@@ -1642,7 +1638,7 @@ void init () { // start either with borders or gaps.
 		gappx = GAP_PX;
   }
     bar_gaps = bar_gap;
-	init_dwm_info(gappx, BAR_HEIGHT, topbar, NUM_WORKSPACES, borderpx, bar_gaps);
+	init_dwm_info(gappx, BAR_HEIGHT, barpos, NUM_WORKSPACES, borderpx, bar_gaps);
 }
 
 void
@@ -1782,28 +1778,35 @@ unmapnotify(XEvent *e)
 	}
 }
 
-void updatebarpos(Monitor *m) {
-    Client *c;
-    int nvis = 0;
-    m->wy = m->my;
-    m->wh = m->mh;
+void
+updatebarpos(Monitor *m)
+{
+    if (barpos >= 2) {
+        m->wx = m->mx;
+        m->ww = m->mw;
 
-    if (!bar_gaps) {
+        /* reduce the window width */
+        m->ww -= BAR_HEIGHT;
+
+        if (barpos == 2) {
+            m->wx += BAR_HEIGHT;
+        }
+        //TODO: right pos
+    } else {
+        m->wy = m->my;
+        m->wh = m->mh;
+
+        /* reduce the window height */
         m->wh -= BAR_HEIGHT;
-    } else {
-        m->wh -= BAR_HEIGHT + gappx;
-    }
 
-    m->by = topbar ? m->wy : m->wy + m->wh;
+        if (bar_gaps) m->wh -= gappx;
+        m->by = barpos == 1 ? m->wy : m->wy + m->wh;
 
-    if (!bar_gaps) {
-        if (topbar) m->wy += BAR_HEIGHT;
-    } else {
-        if (topbar) m->wy += BAR_HEIGHT + gappx;
-    }
+        if (barpos == 1) m->wy += BAR_HEIGHT;
 
-    for(c = m->clients; c; c = c->next){
-      if(ISVISIBLE(c)) ++nvis;
+        if (bar_gaps) {
+            if (barpos == 1) m->wy += gappx;
+        }
     }
 }
 
@@ -2069,7 +2072,7 @@ void warp(const Client *c) {
 	     x < c->x + c->w + c->bw*2 &&
 	     y < c->y + c->h + c->bw*2) ||
 	    (y > c->mon->by && y < c->mon->by + BAR_HEIGHT) ||
-	    (topbar && !y))
+	    (barpos && !y))
 		return;
 
 	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w / 2, c->h / 2);
@@ -2197,14 +2200,18 @@ main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
-void toggleborder () {
-	if (borderpx == 0) borderpx = BORDERPX;
+void
+toggleborder()
+{
+	if (!borderpx) borderpx = BORDERPX;
 	else borderpx = 0;
     FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
 }
 
-void togglegaps () {
-    if (gappx == 0) {
+void
+togglegaps()
+{
+    if (!gappx) {
         gappx = GAP_PX;
         bar_gaps = bar_gap;
         arrange(selmon);
