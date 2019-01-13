@@ -1,0 +1,52 @@
+diff -u a/config.h b/config.h
+--- a/config.h	2019-01-09 22:57:07.763857624 +1000
++++ b/config.h	2019-01-09 22:56:37.117032213 +1000
+@@ -11,7 +11,13 @@
+ static unsigned int borderpx   = 0;
+ static char *colborder         = "#ffffff";
+
+-#include "/home/the_human/var/cache/tm/colors/colors_dmenu.h"
++static const char *colors[SchemeLast][2] = {
++    /*                  fg         bg       */
++    [SchemeNorm] =  { "#959ea6",  "#151516" },
++    [SchemeSel]  =  { "#898b8d", "#505358" },
++    [SchemeOut]  =  { "#000000", "#00ffff" },
++    [SchemeBord]  =  { "#ffffff", "#ffffff" },
++};
+
+ /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
+ static unsigned int lines      = 0;
+diff -u a/dmenu.c b/dmenu.c
+--- a/dmenu.c	2019-01-09 22:42:24.603960581 +1000
++++ b/dmenu.c	2019-01-09 22:56:29.340326248 +1000
+@@ -26,7 +26,7 @@
+ #define TEXTW(X)              (drw_fontset_getwidth(drw, (X)) + lrpad)
+
+ /* enums */
+-enum { SchemeNorm, SchemeSel, SchemeOut, SchemeLast }; /* color schemes */
++enum { SchemeNorm, SchemeSel, SchemeOut, SchemeBord, SchemeLast }; /* color schemes */
+
+ struct item {
+ 	char *text;
+@@ -744,7 +744,7 @@
+ 	swa.override_redirect = True;
+ 	swa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
+     /* create border color */
+-    swa.border_pixel = scheme[SchemeNorm][ColFg].pixel;
++    swa.border_pixel = scheme[SchemeBord][ColFg].pixel;
+     swa.event_mask = ExposureMask | KeyPressMask | VisibilityChangeMask;
+ 	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, borderpx,
+ 	                    CopyFromParent, CopyFromParent, CopyFromParent,
+@@ -825,8 +825,10 @@
+ 			colors[SchemeSel][ColBg] = argv[++i];
+ 		else if (!strcmp(argv[i], "-sf"))  /* selected foreground color */
+ 			colors[SchemeSel][ColFg] = argv[++i];
+-        else if (!strcmp(argv[i], "-bc"))
+-            colborder = argv[++i];
++          else if (!strcmp(argv[i], "-bb"))
++               colors[SchemeBord][ColBg] = argv[++i];
++          else if (!strcmp(argv[i], "-bf"))
++               colors[SchemeBord][ColFg] = argv[++i];
+ 		else if (!strcmp(argv[i], "-wi"))   /* embedding window id */
+ 			embed = argv[++i];
+         else if (!strcmp(argv[i], "-bpx")) /* borderpx */
