@@ -3,7 +3,7 @@
 //static char *font = "scientifica:style=bold";
 //static char *font = "curie";
 //static char *font = "scientifica";
-static char *font = "curie";
+static char *font = "cherry:size=11";
 //static char *font = "dina:size=6";
 //static char *font = "ShureTechMono NerdFont:size=9";
 //static char *font = "ShureTechMono NerdFont:size=10";
