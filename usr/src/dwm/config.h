@@ -1,9 +1,9 @@
 //TODO: add a issticky rule
 /* border pixel of windows */
-static const unsigned int BORDERPX  = 1;
+static const unsigned int BORDERPX  = 2;
 
 /* useless gaps in px */
-static const unsigned int GAP_PX    = 4;
+static const unsigned int GAP_PX    = 6;
 
 /*
  * 0 means gaps and no borders
@@ -59,9 +59,9 @@ static const Rule rules[] = {
 	{ "feh",      NULL,       "feh",      0,            1,             1,		    0,            -1 },
 	{ "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "st",       NULL,       "todoterm", 0,            0,             1,           0,            -1 },
-	{ "Minecraft 1.13", NULL, "Minecraft 1.13", 0, 		1, 		       1, 			1,            -1 },
     { "MuPDF",    NULL,       NULL,       0,            1,             1,           0,            -1 },
     { "mpv",      NULL,       NULL,       0,            1,             1,           0,            -1 },
+    { "st",       NULL,       "scratchpad", 0,          1,             1,           0,            -1 },
 };
 
 /* layout(s) */
@@ -77,8 +77,7 @@ static const int resizehints = 1;
 /* include layouts */
 #include "layouts.c"
 
-/* number of layouts */
-static int NUM_LAYOUTS = 8;
+/* layouts symbol and their function */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */

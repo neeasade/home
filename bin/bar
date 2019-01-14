@@ -37,19 +37,6 @@ init() {
 	$HOME/bin/vol -i 0
 }
 
-layout() {
-    case $(cat /tmp/dwm_info/current_layout) in
-        0) echo "[]=" ;; # tiled
-        1) echo "<><" ;; # floating
-        2) echo "[M]" ;; # monocle
-        3) echo "===" ;; # bstack
-        4) echo "[]H" ;; # deck
-        5) echo "|M|" ;; # center master
-        6) echo "@" ;; # spiral
-        7) echo "//" ;; # dwindle
-    esac 2> /dev/null
-}
-
 wksp() {
     if [ $(cat /tmp/dwm_info/check) -eq 1 ] ; then
         local i=1
@@ -124,7 +111,7 @@ while \
     printf "%s%b%s%b%b%b%b%b%b%s\\n" \
         "%{l} >  $(cat /tmp/bar/day) "\
         "$(wksp) $(cat /tmp/bar/wksp) " \
-        "$(layout) "\
+        "$(cat /tmp/dwm_info/current_layout) "\
         " $(cat /tmp/ytpl_title)   "\
         "%{c}  $(focused_window)"\
         "%{r}" \

@@ -56,8 +56,12 @@ monocle(Monitor *m)
 			n++;
 	if (n > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw);
+    for (c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
+        if (monocle_fullscreen)
+		    resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw);
+        else
+            resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - 2 * gappx, m->wh -2 * c->bw - 2 * gappx);
+    }
 }
 
 void

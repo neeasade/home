@@ -184,7 +184,6 @@ static void propertynotify(XEvent *e);
 static void quit(const Arg *arg);
 static Monitor *recttomon(int x, int y, int w, int h);
 static void resize(Client *c, int x, int y, int w, int h);
-static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
 static void run(void);
@@ -551,7 +550,7 @@ void configurenotify(XEvent *e) {
             for (m = mons; m; m = m->next) {
                 for (c = m->clients; c; c = c->next)
                     if (c->isfullscreen)
-                        resizeclient(c, m->mx, m->my, m->mw, m->mh);
+                        resize(c, m->mx, m->my, m->mw, m->mh);
             }
             focus(NULL);
             arrange(NULL);
@@ -1184,12 +1183,6 @@ recttomon(int x, int y, int w, int h)
 void
 resize(Client *c, int x, int y, int w, int h)
 {
-    resizeclient(c, x, y, w, h);
-}
-
-void
-resizeclient(Client *c, int x, int y, int w, int h)
-{
 	XWindowChanges wc;
 
 	wc.border_width = borderpx;
@@ -1399,7 +1392,7 @@ setfullscreen(Client *c, int fullscreen)
 		c->oldbw = c->bw;
 		c->bw = 0;
 		c->isfloating = 1;
-		resizeclient(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
+		resize(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
 		XRaiseWindow(dpy, c->win);
 	} else if (!fullscreen && c->isfullscreen){
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
@@ -1411,7 +1404,7 @@ setfullscreen(Client *c, int fullscreen)
 		c->y = c->oldy;
 		c->w = c->oldw;
 		c->h = c->oldh;
-		resizeclient(c, c->x, c->y, c->w, c->h);
+		resize(c, c->x, c->y, c->w, c->h);
 		arrange(c->mon);
 	}
 }
@@ -1419,11 +1412,6 @@ setfullscreen(Client *c, int fullscreen)
 void
 setlayout(const Arg *arg)
 {
-	for(int i = 0 ; i < NUM_LAYOUTS ; i++ )
-        if (&layouts[i] == arg->v) {
-            set_dwm_info_current_layout(i);
-            break;
-}
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
 		selmon->sellt ^= 1;
 	if (arg && arg->v)
@@ -1431,6 +1419,8 @@ setlayout(const Arg *arg)
 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
 	if (selmon->sel)
 		arrange(selmon);
+
+    set_dwm_info_current_layout(selmon->ltsymbol);
 }
 
 void setcfact(const Arg *arg) {
@@ -2181,7 +2171,6 @@ restartbar(void)
 int
 main(int argc, char *argv[])
 {
-	init();
 	if (argc == 2 && !strcmp("-v", argv[1]))
 		die("dwm-"VERSION);
 	else if (argc != 1)
@@ -2192,7 +2181,9 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	checkotherwm();
 	setup();
+	init();
 	scan();
+    set_dwm_info_current_layout(selmon->ltsymbol);
 	run();
 	if(restart) execvp(argv[0], argv);
 	cleanup();
