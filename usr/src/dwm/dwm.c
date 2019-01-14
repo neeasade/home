@@ -53,8 +53,8 @@
 #define ISVISIBLE(C)            ISVISIBLEONTAG(C, C->mon->tagset[C->mon->seltags] || C->issticky)
 #define LENGTH(X)               (sizeof X / sizeof X[0])
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
-#define WIDTH(X)                ((X)->w + 2 * (X)->bw + gappx)
-#define HEIGHT(X)               ((X)->h + 2 * (X)->bw + gappx)
+#define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+#define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
 #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
 
 /* enums */
@@ -1191,40 +1191,13 @@ void
 resizeclient(Client *c, int x, int y, int w, int h)
 {
 	XWindowChanges wc;
-    /* number of clients in the window */
-	unsigned int n;
-	Client *nbc;
-
-    /* gaps variables */
-    unsigned int gapincr = 0;
-    unsigned int gapoffset;
 
 	wc.border_width = borderpx;
 
-	/* get number of clients for the selected monitor */
-	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
-
-	/* do nothing if layout is floating or if the current window is floating */
-	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) gapoffset = 0;
-	else {
-		/* remove border and gap if layout is monocle */
-		if (monocle_fullscreen) {
-            if (selmon->lt[selmon->sellt]->arrange == monocle) {
-                gapoffset = 0;
-                gapincr = -2 * borderpx;
-                wc.border_width = 0;
-                restartbar();
-            }
-        } else {
-            gapoffset = gappx;
-            gapincr = gappx * 2;
-        }
-    }
-
-    c->oldx = c->x; c->x = wc.x = x + gapoffset;
-    c->oldy = c->y; c->y = wc.y = y + gapoffset;
-    c->w = wc.width = w - gapincr;
-    c->h = wc.height = h - gapincr;
+    c->oldx = c->x; c->x = wc.x = x;
+    c->oldy = c->y; c->y = wc.y = y;
+    c->w = wc.width = w;
+    c->h = wc.height = h;
 
     /* don't set border if the client is not bordered */
     if (!c->isbordered) wc.border_width = 0;

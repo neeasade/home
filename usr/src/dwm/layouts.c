@@ -11,12 +11,12 @@ static void spiral(Monitor *mon);
 void
 tile(Monitor *m)
 {
-	unsigned int i, n, h, mw, my, ty;
+	unsigned int i, n, h, mw, my, ty, ns;
 	float mfacts = 0, sfacts = 0;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
-		if (n < m->nmaster)
+        if (n < m->nmaster)
 			mfacts += c->cfact;
 		else
 			sfacts += c->cfact;
@@ -24,20 +24,23 @@ tile(Monitor *m)
 	if (n == 0)
 		return;
 
-	if (n > m->nmaster)
+    if (n > m->nmaster) {
 		mw = m->nmaster ? m->ww * m->mfact : 0;
-	else
+        ns = m->nmaster > 0 ? 2 : 1;
+    } else  {
 		mw = m->ww;
-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+        ns = 1;
+    }
+	for (i = 0, my = ty = gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts);
-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw));
-			my += HEIGHT(c);
+			h = (m->wh - my) * (c->cfact / mfacts) - gappx;
+			resize(c, m->wx + gappx, m->wy + my, mw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw));
+			my += HEIGHT(c) + gappx;
 			mfacts -= c->cfact;
 		} else {
-			h = (m->wh - ty) * (c->cfact / sfacts);
-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw));
-			ty += HEIGHT(c);
+			h = (m->wh - ty) * (c->cfact / sfacts) - gappx;
+			resize(c, m->wx + mw + gappx/ns, m->wy + ty, m->ww - mw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw));
+			ty += HEIGHT(c) + gappx;
 			sfacts -= c->cfact;
 		}
 }
@@ -58,9 +61,10 @@ monocle(Monitor *m)
 }
 
 void
-deck(Monitor *m) {
+deck(Monitor *m)
+{
 	int dn;
-	unsigned int i, n, h, mw, my;
+	unsigned int i, n, h, mw, my, ns;
 	Client *c;
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -71,22 +75,28 @@ deck(Monitor *m) {
 	if(dn > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[] %d", dn);
 
-	if(n > m->nmaster)
+    if(n > m->nmaster) {
 		mw = m->nmaster ? m->ww * m->mfact : 0;
-	else
+        ns = m->nmaster > 0 ? 2 : 1;
+    }
+    else {
 		mw = m->ww;
-	for(i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+        ns = 1;
+    }
+
+	for(i = 0, my = gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if(i < m->nmaster) {
-			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw));
-			my += HEIGHT(c);
+			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - gappx;
+			resize(c, m->wx + gappx, m->wy + my, mw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw));
+			my += HEIGHT(c) + gappx;
 		}
 		else
-			resize(c, m->wx + mw, m->wy, m->ww - mw - (2*c->bw), m->wh - (2*c->bw));
+			resize(c, m->wx + mw + gappx/ns, m->wy + gappx, m->ww - mw - (2*c->bw) - gappx*(5-ns)/2, m->wh - (2*c->bw) - gappx*2);
 }
 
 void
-fibonacci(Monitor *mon, int s) {
+fibonacci(Monitor *mon, int s)
+{
 	unsigned int i, n, nx, ny, nw, nh;
 	Client *c;
 
@@ -138,7 +148,7 @@ fibonacci(Monitor *mon, int s) {
 				nw = mon->ww - nw;
 			i++;
 		}
-		resize(c, nx, ny, nw - 2 * c->bw, nh - 2 * c->bw);
+		resize(c, nx + gappx, ny + gappx, nw - 2 * c->bw - gappx*2, nh - 2 * c->bw - gappx*2);
 	}
 }
 
@@ -161,25 +171,26 @@ bstack(Monitor *m) {
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 	if (n == 0)
 		return;
-	if (n > m->nmaster) {
-		mh = m->nmaster ? m->mfact * m->wh : 0;
-		tw = m->ww / (n - m->nmaster);
-		ty = m->wy + mh;
+	if (n > m->nmaster) { /* there are clients in the stack */
+		mh = m->nmaster ? m->mfact * m->wh : gappx;
+		tw = (m->ww - (n - m->nmaster + 1) * gappx) / (n - m->nmaster);
+		ty = m->wy + mh + gappx;
 	} else {
 		mh = m->wh;
 		tw = m->ww;
 		ty = m->wy;
 	}
-	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-		if (i < m->nmaster) {
-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw));
-			mx += WIDTH(c);
-		} else {
-			h = m->wh - mh;
-			resize(c, tx, ty, tw - (2 * c->bw), h - (2 * c->bw));
-			if (tw != m->ww)
-				tx += WIDTH(c);
+	for (i = 0, mx = tx = gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+		if (i < m->nmaster) { // Modifies master windows
+			w = (m->ww - mx) / (MIN(n, m->nmaster) - i) - gappx;
+			resize(c, m->wx + mx, m->wy + gappx, w - (2 * c->bw), mh - 2 * (c->bw + gappx));
+			mx += WIDTH(c) + gappx;
+		} else { // Modifies stack windows
+			h = m->wh - mh - gappx;
+            if (barpos == 2) tx = m->wx + gappx;
+			resize(c, tx, ty - gappx, tw - (2 * c->bw), h - (2 * c->bw));
+			if (tw != m->ww) // if there's more than one client in the stack!
+				tx += WIDTH(c) + gappx;
 		}
 	}
 }
@@ -219,22 +230,21 @@ centeredmaster(Monitor *m)
 	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 	if (i < m->nmaster) {
 		/* nmaster clients are stacked vertically, in the center
-		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-		resize(c, m->wx + mx, m->wy + my, mw - (2*c->bw), h - (2*c->bw));
-		my += HEIGHT(c);
+		 * of the screen
+         */
+		h = (m->wh - my) / (MIN(n, m->nmaster) - i) - gappx*2;
+		resize(c, m->wx + mx + gappx, m->wy + my + gappx, mw - (2*c->bw) - gappx, h - (2*c->bw));
+		my += HEIGHT(c) + gappx;
 	} else {
 		/* stack clients are stacked vertically */
-		if ((i - m->nmaster) % 2 ) {
-			h = (m->wh - ety) / ( (1 + n - i) / 2);
-			resize(c, m->wx, m->wy + ety, tw - (2*c->bw), h - (2*c->bw));
-			ety += HEIGHT(c);
+		if ((i - m->nmaster) % 2) {
+			h = (m->wh - ety) / ( (1 + n - i) / 2) - gappx*2;
+			resize(c, m->wx + gappx, m->wy + ety + gappx, tw - (2*c->bw) - gappx, h - (2*c->bw));
+			ety += HEIGHT(c) + gappx;
 		} else {
-			h = (m->wh - oty) / ((1 + n - i) / 2);
-			resize(c, m->wx + mx + mw, m->wy + oty, tw - (2*c->bw), h - (2*c->bw));
-			oty += HEIGHT(c);
+			h = (m->wh - oty) / ((1 + n - i) / 2) - gappx*2;
+			resize(c, m->wx + mx + mw + gappx, m->wy + oty + gappx, tw - (2*c->bw) - gappx, h - (2*c->bw));
+			oty += HEIGHT(c) + gappx;
 		}
 	}
 }
-
-
