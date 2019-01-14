@@ -1,6 +1,5 @@
 #!/bin/dash
 # brightness script.
-# TODO: find a way to do the below syntax in dash without cat
 sub_dir=$(ls /sys/class/backlight)
 max_brightness=$(cat /sys/class/backlight/${sub_dir}/max_brightness)
 current_brightness=$(cat /sys/class/backlight/${sub_dir}/brightness)
@@ -37,7 +36,7 @@ usage() {
     echo "help\n--------\n[-h] echo this message\n[-d] decrease brightness by percent\n[-i] increase brightness by percent\n[-s] set brightness in percent\n[-g] get brightness in percent\n"
 }
 
-case "$1" in
+case $1 in
     -h) usage;;
     -i) inc $2;;
     -d) dec $2;;

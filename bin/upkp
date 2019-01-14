@@ -1,0 +1,8 @@
+#!/bin/dash
+
+dest=/tmp/archive
+{ [ -d ${dest} ] && rm -rf ${dest}; mkdir -p ${dest}; }
+upk "${1}" ${dest}
+ranger ${dest}
+
+rm -rf ${dest}

@@ -1,0 +1,12 @@
+#!/bin/dash
+# extract different type of archives
+
+archive_type=$(file -ib "${1}")
+archive_name="${1}"
+dest="${2}"
+
+case ${archive_type} in
+    (*tar*|*gzip*|*xz*) [ ! -d "${dest}" ] && mkdir -p "${dest}"; tar xfv "${arhive_name}" -C "${dest}";;
+    (*zip*) unzip "${archive_name}" -d "${dest}";;
+    (*7z*) 7z x -o"${dest}" "${archive_name}";;
+esac

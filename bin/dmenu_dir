@@ -2,7 +2,7 @@
 # ls and cd in dmenu
 # -h 1 = hide dotfiles
 
-case "$1" in
+case $1 in
     -h) hidden=$2;;
     *) hidden=1;;
 esac
@@ -14,7 +14,7 @@ cwd() {
 }
 
 get_dir() {
-    case "$hidden" in
+    case $hidden in
         1)
             echo "..\n$(ls -pw $(ls $pwd | wc -l) $pwd)" | menu sel -p "$(cwd)";;
         0)
@@ -31,7 +31,7 @@ open_file() {
     # get the mime type of the file
     local file_type="$(file -ib "$1")"
 
-    case "$file_type" in
+    case $file_type in
         *pdf*) mupdf "$1";;
         *image*) feh "$1";;
         *video*) mpv "$1";;

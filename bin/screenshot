@@ -7,8 +7,8 @@ upload() {
     local url="$(curl -F file="@${tmp_image}" https://0x0.st)"
     # remove newline before copying it to clipboard
     echo "$url" | head -n 1 | tr -d "\n" | xclip -sel "clip"
-    [ -n "$url" ] &&\
-        notify-send "scrot taken!" "url in clipboard" ||\
+    [ -n "$url" ] &&
+        notify-send "scrot taken!" "url in clipboard" ||
         notify-send "error" "check if your internet is on"
 }
 
@@ -33,6 +33,10 @@ case $capture in
     *) notify-send "error" "invalid option"; exit;;
 esac
 
-upload
+case $1 in
+    (-u) upload;;
+    (-s) cp $tmp_image $HOME/var/pictures/scrots/scrot_$(date '+%b_%d-%H:%M').png
+        notify-send "scrot taken";;
+esac
 
 rm -rf $tmp_image

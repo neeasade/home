@@ -1,6 +1,8 @@
 #!/bin/dash
 # uses compton to invert current window
-alias compton="compton --config $HOME/etc/comptonrc"
+alias compton="compton -b --conf $HOME/etc/comptonrc"
+[ $(cat /tmp/dwm_info/gappx) -ne 0 ] && alias compton='compton -c'
+
 cur_win_id="$(xdotool getactivewindow)"
 cur_win_class="$(xprop -id $cur_win_id | grep WM_CLASS)"
 cur_win_class="$(echo "$cur_win_class" | awk 'NF>1{print $NF}')"
@@ -13,13 +15,13 @@ prv_win="$(cat $HOME/tmp/prvinvwin)"
 
 if [ $cur_win_class = $prv_win ]; then
     if [ $inv_check -eq 1 ]; then
-        compton -bc &
+        compton &
         echo 0 > $HOME/tmp/invchk
         exit
     fi
 fi
 
-compton -bc --invert-color-include "class_g="$cur_win_class"" &
+compton --invert-color-include "class_g="$cur_win_class"" &
 echo 1 > $HOME/tmp/invchk
 echo $cur_win_class > $HOME/tmp/prvinvwin
 exit

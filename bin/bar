@@ -1,8 +1,4 @@
-#!/bin/bash
-# d w m  bar
-# took from github.com/mitchweaver/bin
-# heavily modified some base aspects to fit my style
-
+#!/bin/dash
 # on exit, kill all children
 trap 'pkill -P $$' EXIT
 LC_ALL=""
@@ -11,149 +7,83 @@ init() {
     # get colors
     . $HOME/var/cache/tm/colors/colors.sh
 
-    colordetails=$color7
-    #colordetailsbg=$color0
-    #colorwsbg=$color0
-    colorws=$color8
-    colorwscurrent=$color7
-    colorwindowname=$color15
-    #colorwindownamebg=$color0
+    colorwscurrent=$color5
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar
     mkdir -p /tmp/bar
-    touch /tmp/bar/ram
-    touch /tmp/bar/cpu
+
     # wait for dwm to start
     while ! pgrep dwm > /dev/null ; do
         sleep 0.1
     done
 
     # if zero, bar is disabled
-    [ $(< /tmp/dwm_info/bar_height) -eq 0 ] && exit
+    [ $(cat /tmp/dwm_info/bar_height) -eq 0 ] && exit
 
     echo 1 > /tmp/dwm_info/check
 
-    num_ws=$(< /tmp/dwm_info/num_ws)
+    # geometry
+    w=$(res -w)
+    local sh=$(res -h)
+    h=$(cat /tmp/dwm_info/bar_height)
+    x=0
+    y=$(( sh - h ))
 
-    sw=$(res -w)
-    sh=$(res -h)
-
-    bar_gaps=$(< /tmp/dwm_info/bar_gaps)
-    [ $bar_gaps -eq 1 ] && gap=$(< /tmp/dwm_info/gappx) || gap=0
-    [ $bar_gaps -eq 1 ] && borpx=$(< /tmp/dwm_info/borderpx) || borpx=0
-
-    w=$(echo "$sw - $gap * 2" | bc -l)
-    h=$(< /tmp/dwm_info/bar_height)
-    [ $bar_gaps -eq 1 ] && x=$gap || x=0
-
-    if [ $(< /tmp/dwm_info/top_bar) -eq 0 ] ; then
-        [ $gap -gt 0 ] &&
-            y=$gap ||
-            y=0
-    else
-        [ $gap -gt 0 ] &&
-            y=$( echo "$sh - $h - $gap -$borpx" | bc -l ) ||
-            y=$(( $sh - $h - $borpx))
-    fi
-
-    [ $(< /tmp/dwm_info/top_bar) -eq 1 ] && line="o" || line="u"
-
-    ft1="TerminessTTF Nerd Font:size=9"
-    ft2="ShureTechMono Nerd Font:size=9"
-    ft3="dina:size=6"
-    ft4="scientifica:style=bold:size=8"
-    ft5="TerminessTTF Nerd Font:size=8"
+    # fonts
+    #ft="cherry:pixelsize=10"
+    ft='scientifica:pixelsize=11:style=bold'
 
 	# get the current volume
 	$HOME/bin/vol -i 0
-
-    unset res sw sh gap tmp
 }
 
 layout() {
-    case $(< /tmp/dwm_info/current_layout) in
-        0) echo -en "\\ufa6f" ;; # tiled
-        1) echo -en "\\ue28e" ;; # floating
-        2) echo -en "\\uf6a1" ;; # monocle
-        3) echo -en "\\uf0c9" ;; # bstack
-        4) echo -en "\\uf04c" ;; # deck
-        5) echo -en "\\ufb87" ;; # center master
-        6) echo -en "\\ue62e" ;; # spiral
-        7) echo -en "\\uf306" ;; # dwindle
+    case $(cat /tmp/dwm_info/current_layout) in
+        0) echo "[]=" ;; # tiled
+        1) echo "<><" ;; # floating
+        2) echo "[M]" ;; # monocle
+        3) echo "===" ;; # bstack
+        4) echo "[]H" ;; # deck
+        5) echo "|M|" ;; # center master
+        6) echo "@" ;; # spiral
+        7) echo "//" ;; # dwindle
     esac 2> /dev/null
 }
 
 wksp() {
-    local wksp_array=( I II III IV V VI VII VIII )
-    if [ $(< /tmp/dwm_info/check) -eq 1 ] ; then
-        for i in $(seq $num_ws || jot $num_ws) ; do
-        local wkspicon=$(( $i - 1 ))
-        [ $(< /tmp/dwm_info/ws"$i") -eq 1 ] &&
-            ws=" %{T1}%{F$colorws}${wksp_array[$wkspicon]}%{F-}%{T-} " ||
-            ws=""
+    if [ $(cat /tmp/dwm_info/check) -eq 1 ] ; then
+        local i=1
+        while [ $i -le $(cat /tmp/dwm_info/num_ws) ]; do
+            [ $(cat /tmp/dwm_info/ws"$i") -eq 1 ] && ws=" $i " || ws=""
 
-        [ $(< /tmp/dwm_info/current_ws) -eq $i ] &&
-            ws=" %{T1}%{F$colorwscurrent}${wksp_array[$wkspicon]}%{F-}%{T-} " ||
-            ws="$ws"
-        buffer=$buffer$ws
+            [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
+                ws=" %{F$colorwscurrent}$i%{F-} "
+
+            buffer=$buffer$ws
+            i=$((i+1))
         done
         echo -n "$buffer" > /tmp/bar/wksp
-        echo -n 0 > /tmp/dwm_info/check
     fi 2> /dev/null
-
-    unset i
-}
-
-print_header() {
-    echo -ne "%{B$color7}%{F$color0} $@ %{B-}%{F-}"
-}
-
-print_detail() {
-    echo -ne "%{F$color7} $@ %{F-}"
 }
 
 get_bat() {
     local percent=`$HOME/bin/bat -p`
     local status=`$HOME/bin/bat -s`
     [ ${status} = "Charging" ] && color=$color1 || color=$color7
-    [ ${status} != "Unknown" ] && echo "$(print_header battery)$(print_detail $percent)" > /tmp/bar/bat || touch /tmp/bar/bat
+    [ ${status} != "Unknown" ] && echo "$percent%" > /tmp/bar/bat || touch /tmp/bar/bat
     unset color
 }
 
 focused_window() {
-    local cwin="$(xdotool getactivewindow getwindowname)"
+    local winn="$(xdotool getactivewindow getwindowname | tr '[:upper:]' '[:lower:]')"
+    local lenwinn=${#winn}
+    local formatname=""
 
-    case "$cwin" in
-        *Firefox*)
-            cwin="$(echo "$cwin" | sed -e 's/ - Mozilla Firefox//')"
-            cwin="ff: "$cwin"";;
-        *"- mpv"*)
-            cwin="$(echo "$cwin" | sed -e 's/ - mpv//')"
-            cwin="mpv: "${cwin}"";;
-    esac
-
-    local lencwin=${#cwin}
-    if [ $lencwin -gt 80 ]; then
-        local win=${cwin:0:50}
-        local formatname="%{T3}%{F$colorwindowname} $win... %{F-}%{B-}%{T-}"
-    elif [ -n "$cwin" ]; then
-        local formatname="%{T3}%{F$colorwindowname} $cwin %{F-}%{B-}%{T-}"
-    elif [ -z "$cwin" ]; then
-        local formatname=""
-    fi
+    [ ${lenwinn} -ge 60 ] && winn="`echo "$winn" | cut -b 1-55`..."
+    [ -n "${winn}" ] && formatname=" $winn "
     echo $formatname
 }
 
-ytpl_title() {
-    local socket=/tmp/mpv_ytpl.socket
-    local title="$(cat /tmp/ytpl_title 2> /dev/null)"
-    if [ -n "${title}" ] && [ -S ${socket} ]; then
-        echo "$(print_header " \uf16a ")$(print_detail " ${title} ")" >\
-        /tmp/bar/ytpl_title
-    else
-        echo "" > /tmp/bar/ytpl_title
-    fi
-}
 
 launch_daemons() {
 	# time_daemon
@@ -163,9 +93,8 @@ launch_daemons() {
     done' > /dev/null 2>&1 &
 
     # date_daemon
-    bash -c 'while true; do
-        cur_month="$(date +%b)"
-        cur_month=${cur_month,*}
+    dash -c 'while true; do
+        cur_month="$(date +%b | tr [:upper:] [:lower:])"
         cur_date="$(date +%d)"
         echo "$cur_month $cur_date" > /tmp/bar/date
         sleep 300
@@ -184,49 +113,30 @@ launch_daemons() {
         esac
         sleep 300
     done' &
-
-    # ram and cpu usage daemon
-    #python $HOME/bin/usage &
-
-    # weather_daemon
-#    dash -c 'while true; do
-#        curl -s https://wttr.in/chennai?m0TQP > /tmp/bar/raw_weather
-#        [ -z "$(cat /tmp/bar/raw_weather)" ] && continue
-#        temp="$(head -n 2 /tmp/bar/raw_weather | grep -oE "[0-9]+")"
-#        temp=$(echo "$temp" | head -n 1 | tr -d "\n")
-#        echo "   weather $(( $temp + 273 ))K   " > /tmp/bar/weather
-#        sleep 300
-#    done' &
 }
 
 init
 launch_daemons
 
 while \
-    printf " %s%b%s%b%b%b%b%b%b%s \\n" \
-        "%{T4}$(print_header " \uf5f5 ")$(print_detail " $(< /tmp/bar/day) ")%{T-}%{F-}"\
-        "$(print_header " \uf085 ")$(wksp) $(< /tmp/bar/wksp)" \
-        "$(ytpl_title) $(< /tmp/bar/ytpl_title) "\
-        "$(< /tmp/bar/temp)" \
-        "%{r}  %{T1}%{F$colordetails}"\
-        "$(get_bat)$(< /tmp/bar/bat)"\
-        "$(print_header " \uf028 ")$(print_detail " $(< /tmp/bar/vol) ")"\
-        "$(print_header " \uf64f ")$(print_detail " $(< /tmp/bar/time) ")"\
-        "$(print_header " \uf073 ")$(print_detail " $(< /tmp/bar/date)")%{T-}%{F-}%{B-}"
+    printf "%s%b%s%b%b%b%b%b%b%s\\n" \
+        "%{l} ]  $(cat /tmp/bar/day) "\
+        "$(wksp) $(cat /tmp/bar/wksp) " \
+        "$(layout) "\
+        " $(cat /tmp/ytpl_title)   "\
+        "%{c}  $(focused_window)"\
+        "%{r}" \
+        "$(get_bat)$(cat /tmp/bar/bat)" \
+        " $(cat /tmp/bar/vol)% "\
+        " $(cat /tmp/bar/time) "\
+        " $(cat /tmp/bar/date) "
     do sleep 0.5
 done 2> /dev/null | \
 
 lemonbar -db \
-         -f "$ft1" \
-         -f "$ft2" \
-         -f "$ft3" \
-         -f "$ft4" \
-         -f "$ft5" \
+         -f "$ft" \
          -g ${w}x${h}+${x}+${y} \
          -n bar \
-         -u 2 \
-         -U $color5 \
-         #-B $color0 \
+         -B $color0 \
          -F $color7 \
-         -r $borpx \
-         -R $color5 > /dev/null 2>&1
+         -S > /dev/null 2>&1

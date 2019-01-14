@@ -11,3 +11,5 @@ echo 1 > /tmp/dwm_info/check
 
 $HOME/bin/bar &
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log -s $HOME/var/logs/sxhkd.log &
+[ $(cat /tmp/dwm_info/gappx) -ne 0 ] && alias compton='compton -c'
+compton -b --config $HOME/etc/comptonrc

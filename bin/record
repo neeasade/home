@@ -5,7 +5,7 @@
 # Records a selected rectangle with ffmpeg.
 #
 
-[ $# -eq 0 ] && video_path="$HOME/var/videos/captures/record-$(date '+%a_%b_%d-%H:%M')" || video_path=$1
+[ $# -eq 0 ] && video_path="$HOME/var/videos/captures/record-$(date '+%b_%d-%H:%M')" || video_path=$1
 set $(slop -q -o -f '%x %y %w %h')
 
 ffmpeg -y -f x11grab -s ${3}x${4} \

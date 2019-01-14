@@ -51,13 +51,8 @@ def play_audio(word):
         return
     audio_url = get_audio_url(audio_file)
 
-    # download the wav file
-    try:
-        urllib.request.urlretrieve(audio_url, filename="/tmp/audio.wav")
-    except:
-        return
     # play the audio in mpv
-    play_mpv = subprocess.Popen("mpv /tmp/audio.wav 2> /dev/null", shell=True)
+    play_mpv = subprocess.Popen(f"mpv {audio_url} 2> /dev/null", shell=True)
     play_mpv.wait()
 
     return True

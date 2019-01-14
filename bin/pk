@@ -1,0 +1,13 @@
+#!/bin/dash
+# archive file using various programs like zip, tar and 7z
+
+archive_type="${1}"; shift
+
+src="${1}"
+archive_name="${2}"
+
+case ${archive_type} in
+    (zip) [ -d "${src}" ] && src="${src}/*"; 7za a -mx=9 "${archive_name}" "${src}";;
+    (tar)  tar cfv "${archive_name}" "${src}";;
+    (7z) zip -r "${archive_name}" "${src}";;
+esac

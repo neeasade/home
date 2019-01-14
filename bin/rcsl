@@ -7,7 +7,7 @@ sltools="dwm dmenu st tabbed"
 compile() {
     cd ${base_dir}/${1}
     echo "compiling ${1}"
-    make clean install
+    make clean install && make clean
 }
 
 compl_all() {

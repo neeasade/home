@@ -37,9 +37,9 @@ def shortdef(data):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-s", "--synonym", help="get the synonym of words",\
+parser.add_argument("-s", "--synonym", help="get the synonym of words",
                     metavar="word1 word2", nargs="+")
-parser.add_argument("-d", "--definition", help="get the definition of words",\
+parser.add_argument("-d", "--definition", help="get the definition of words",
                     metavar="word1 word2", nargs="+")
 args = parser.parse_args()
 

@@ -9,7 +9,7 @@ sh=$(res -h)
 dmenu_w=$((sw / 2))
 dmenu_lines=$((sw / 50))
 dmenu_x=$((sw / 2 - dmenu_w / 2))
-dmenu_y=$((sh / 5 - dmenu_lines))
+dmenu_y=$((sh / 5 + dmenu_lines))
 
 . $HOME/var/cache/tm/colors/colors.sh
 
@@ -19,19 +19,19 @@ selfg=$color15
 normbg=$color0
 normfg=$color7
 borderpx=$(cat /tmp/dwm_info/borderpx)
-borcol=$color5
+borcol=$color8
 
 app_run() {
-    dmenu_run -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
+    dmenu_run -bp $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
         -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
-        -sb "$selbg" -sf "$selfg" -i -p "run:"
+        -sb "$selbg" -sf "$selfg" -i -bc "$borcol" -p "run:"
     exit
 }
 
 sel() {
-    dmenu -bpx $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
+    dmenu -bp $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
         -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
-        -sb "$selbg" -sf "$selfg" -i -p "select:" "$@"
+        -sb "$selbg" -sf "$selfg" -i -bc "$borcol" -p "select:" "$@"
     exit
 }
 
