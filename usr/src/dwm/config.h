@@ -1,11 +1,9 @@
-/* See LICENSE file for copyright and license details. */
-/* appearance */
-
+//TODO: add a issticky rule
 /* border pixel of windows */
-static const unsigned int BORDERPX  = 0;
+static const unsigned int BORDERPX  = 1;
 
 /* useless gaps in px */
-static const unsigned int GAP_PX    = 0;
+static const unsigned int GAP_PX    = 4;
 
 /*
  * 0 means gaps and no borders
@@ -19,7 +17,7 @@ static const unsigned int start_borders = 3;
 static const unsigned int snap      = 0;
 
 /* bar height in pixels */
-static const int BAR_HEIGHT         = 12;
+static const int BAR_HEIGHT         = 14;
 
 /*
  * 0 means bottom bar
@@ -45,8 +43,8 @@ static const int monocle_fullscreen = 0;
 
 /* tagging */
 /* number of workspaces */
-static const int NUM_WORKSPACES = 8;
-static const char *tags[] = { "0", "1", "2", "3", "4", "5", "6", "7" };
+static const int NUM_WORKSPACES = 9;
+static const char *tags[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
 
 
 static const Rule rules[] = {
@@ -96,10 +94,15 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod1Mask
 #define SUPERKEY Mod4Mask
-#define TAGKEYS(KEY,TAG) \
+/*#define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, */
+#define TAGKEYS(KEY,TAG)\
+	{ MODKEY,                       KEY,      comboview,      {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      combotag,       {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -148,6 +151,7 @@ static Key keys[] = {
     { SUPERKEY,                     XK_8,      setlayout,      {.v = &layouts[7]} },
     { SUPERKEY,                     XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+    { MODKEY|ShiftMask,             XK_s,      togglesticky,   {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -162,8 +166,8 @@ static Key keys[] = {
 	TAGKEYS(                        XK_6,                      5)
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
-/*	TAGKEYS(                        XK_9,                      8)
-	TAGKEYS(                        XK_0,                      9) */
+	TAGKEYS(                        XK_9,                      8)
+  /*  TAGKEYS(                        XK_0,                      9) */
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {1} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
 };

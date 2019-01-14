@@ -66,14 +66,6 @@ wksp() {
     fi 2> /dev/null
 }
 
-get_bat() {
-    local percent=`$HOME/bin/bat -p`
-    local status=`$HOME/bin/bat -s`
-    [ ${status} = "Charging" ] && color=$color1 || color=$color7
-    [ ${status} != "Unknown" ] && echo "$percent%" > /tmp/bar/bat || touch /tmp/bar/bat
-    unset color
-}
-
 focused_window() {
     local winn="$(xdotool getactivewindow getwindowname | tr '[:upper:]' '[:lower:]')"
     local lenwinn=${#winn}
@@ -86,33 +78,43 @@ focused_window() {
 
 
 launch_daemons() {
-	# time_daemon
-    dash -c 'while true; do
-        date "+%H:%M" > /tmp/bar/time
+    timed() {
+        while true; do
+            date "+%H:%M" > /tmp/bar/time
         sleep 59
-    done' > /dev/null 2>&1 &
+        done
+    }
 
     # date_daemon
-    dash -c 'while true; do
-        cur_month="$(date +%b | tr [:upper:] [:lower:])"
-        cur_date="$(date +%d)"
-        echo "$cur_month $cur_date" > /tmp/bar/date
-        sleep 300
-    done' &
+    dated() {
+        while true; do
+            cur_month="$(date +%b | tr '[:upper:]' '[:lower:]')"
+            cur_date="$(date +%d)"
+            echo "$cur_month $cur_date" > /tmp/bar/date
+            sleep 300
+        done
+    }
 
     # day_daemon
-    dash -c 'while true; do
-        case $(date +%u) in
-            1) echo mo > /tmp/bar/day;;
-            2) echo tu > /tmp/bar/day;;
-            3) echo we > /tmp/bar/day;;
-            4) echo th > /tmp/bar/day;;
-            5) echo fr > /tmp/bar/day;;
-            6) echo sa > /tmp/bar/day;;
-            7) echo su > /tmp/bar/day;;
-        esac
-        sleep 300
-    done' &
+    dayd() {
+        while true; do
+            echo $(date +%a | tr '[:upper:]' '[:lower:]' | cut -b1-2) > /tmp/bar/day
+            sleep 300
+        done
+    }
+
+    batd() {
+        while true; do
+            percent=`$HOME/bin/bat -p`
+            status=`$HOME/bin/bat -s`
+            [ ${status} = "Charging" ] && color=$color1 || color=$color7
+            [ ${status} != "Unknown" ] && echo "$percent%" > /tmp/bar/bat || return
+            sleep 5
+        done
+    }
+
+    for d in timed dated dayd batd; do $d & done
+    unset d
 }
 
 init
@@ -120,13 +122,13 @@ launch_daemons
 
 while \
     printf "%s%b%s%b%b%b%b%b%b%s\\n" \
-        "%{l} ]  $(cat /tmp/bar/day) "\
+        "%{l} >  $(cat /tmp/bar/day) "\
         "$(wksp) $(cat /tmp/bar/wksp) " \
         "$(layout) "\
         " $(cat /tmp/ytpl_title)   "\
         "%{c}  $(focused_window)"\
         "%{r}" \
-        "$(get_bat)$(cat /tmp/bar/bat)" \
+        "$(cat /tmp/bar/bat 2> /dev/null)" \
         " $(cat /tmp/bar/vol)% "\
         " $(cat /tmp/bar/time) "\
         " $(cat /tmp/bar/date) "

@@ -1,14 +1,9 @@
-/* See LICENSE file for copyright and license details. */
-
-/*
- * appearance
- *
- * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
- */
+/* fonts */
 //static char *font = "terminus:antialias=true:autohint=false:style=Regular";
 //static char *font = "scientifica:style=bold";
 //static char *font = "curie";
-static char *font = "scientifica";
+//static char *font = "scientifica";
+static char *font = "curie";
 //static char *font = "dina:size=6";
 //static char *font = "ShureTechMono NerdFont:size=9";
 //static char *font = "ShureTechMono NerdFont:size=10";
@@ -18,6 +13,7 @@ static char *font = "scientifica";
 //static char *font = "IBM Plex Mono:size=8";
 //static char *font = "TerminessTTF Nerd Font:size=11";
 
+/* include themes */
 //#include "themes/default.h"
 //#include "themes/thicc.h"
 //#include "themes/base16-ocean.h"
@@ -26,7 +22,10 @@ static char *font = "scientifica";
 //#include "themes/viking.h"
 #include "/home/the_human/var/cache/tm/colors/colors_st.h"
 
-static int borderpx = 5;
+
+/* inner padding */
+static int borderpx = 2;
+
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -36,7 +35,7 @@ static int borderpx = 5;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/sh";
+static char *shell = "/bin/mksh";
 char *utmp = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
@@ -62,8 +61,8 @@ static unsigned int tripleclicktimeout = 600;
 int allowaltscreen = 1;
 
 /* frames per second st should at maximum draw to the screen */
-static unsigned int xfps = 60;
-static unsigned int actionfps = 60;
+static unsigned int xfps = 5000;
+static unsigned int actionfps = 5000;
 
 /*
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
@@ -117,7 +116,7 @@ static unsigned int defaultrcs = 256;
  */
 
 static unsigned int cols = 80;
-static unsigned int rows = 24;
+static unsigned int rows = 40;
 
 /*
  * Default colour and shape of the mouse cursor

@@ -50,7 +50,7 @@
 #define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
                                * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
 #define ISVISIBLEONTAG(C, T)    ((C->tags & T))
-#define ISVISIBLE(C)            ISVISIBLEONTAG(C, C->mon->tagset[C->mon->seltags])
+#define ISVISIBLE(C)            ISVISIBLEONTAG(C, C->mon->tagset[C->mon->seltags] || C->issticky)
 #define LENGTH(X)               (sizeof X / sizeof X[0])
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw + gappx)
@@ -92,7 +92,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isbordered;
+	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isbordered, issticky;
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -111,7 +111,6 @@ typedef struct {
 	void (*arrange)(Monitor *);
 } Layout;
 
-typedef struct Pertag Pertag;
 struct Monitor {
 	char ltsymbol[16];
 	float mfact;
@@ -128,7 +127,6 @@ struct Monitor {
 	Client *stack;
 	Monitor *next;
 	const Layout *lt[2];
-	Pertag *pertag;
 };
 
 typedef struct {
@@ -185,7 +183,7 @@ static Client *nexttiled(Client *c);
 static void propertynotify(XEvent *e);
 static void quit(const Arg *arg);
 static Monitor *recttomon(int x, int y, int w, int h);
-static void resize(Client *c, int x, int y, int w, int h, int interact);
+static void resize(Client *c, int x, int y, int w, int h);
 static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
@@ -209,7 +207,9 @@ static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void togglegaps();
+static void restartbar(void);
 static void togglefloating(const Arg *arg);
+static void togglesticky(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -231,9 +231,14 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
-static void init();
+static void init(void);
 static void toggleborder();
 static void update_ws_bools(Monitor *m);
+
+static void keyrelease(XEvent *e);
+static void combotag(const Arg *arg);
+static void comboview(const Arg *arg);
+
 
 /* variables */
 static int borderpx = 0;
@@ -247,12 +252,14 @@ static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
 static void (*handler[LASTEvent]) (XEvent *) = {
 	[ButtonPress] = buttonpress,
+	[ButtonRelease] = keyrelease,
 	[ClientMessage] = clientmessage,
 	[ConfigureRequest] = configurerequest,
 	[ConfigureNotify] = configurenotify,
 	[DestroyNotify] = destroynotify,
 	[EnterNotify] = enternotify,
 	[FocusIn] = focusin,
+	[KeyRelease] = keyrelease,
 	[KeyPress] = keypress,
 	[MappingNotify] = mappingnotify,
 	[MapRequest] = maprequest,
@@ -274,20 +281,57 @@ static Window root, wmcheckwin;
 #include "config.h"
 #include "dwm_info.c"
 
-struct Pertag {
-	unsigned int curtag, prevtag; /* current and previous tag */
-	int nmasters[LENGTH(tags) + 1]; /* number of windows in master area */
-	float mfacts[LENGTH(tags) + 1]; /* mfacts per tag */
-	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
-	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
-};
-
 static unsigned int scratchtag = 1 << LENGTH(tags);
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
 /* function implementations */
+static int combo = 0;
+
+void
+keyrelease(XEvent *e) {
+	combo = 0;
+}
+
+void
+combotag(const Arg *arg) {
+	if(selmon->sel && arg->ui & TAGMASK) {
+		if (combo) {
+			selmon->sel->tags |= arg->ui & TAGMASK;
+		} else {
+			combo = 1;
+			selmon->sel->tags = arg->ui & TAGMASK;
+		}
+		focus(NULL);
+		arrange(selmon);
+	}
+}
+
+void
+comboview(const Arg *arg) {
+	unsigned newtags = arg->ui & TAGMASK;
+    int i;
+
+	if (combo) {
+		selmon->tagset[selmon->seltags] |= newtags;
+	} else {
+		selmon->seltags ^= 1;	/*toggle tagset*/
+		combo = 1;
+        if (newtags) {
+			selmon->tagset[selmon->seltags] = newtags;
+            if (arg->ui == ~0)
+                set_dwm_info_current_workspace(0);
+            else {
+                for (i = 0; !(arg->ui & 1 << i); i++);
+                set_dwm_info_current_workspace(i+1);
+            }
+        }
+	}
+	focus(NULL);
+	arrange(selmon);
+}
+
 void
 applyrules(Client *c)
 {
@@ -571,7 +615,6 @@ Monitor *
 createmon(void)
 {
 	Monitor *m;
-	unsigned int i;
 
 	m = ecalloc(1, sizeof(Monitor));
 	m->tagset[0] = m->tagset[1] = 1;
@@ -580,17 +623,6 @@ createmon(void)
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
-	m->pertag = ecalloc(1, sizeof(Pertag));
-	m->pertag->curtag = m->pertag->prevtag = 1;
-
-	for (i = 0; i <= LENGTH(tags); i++) {
-		m->pertag->nmasters[i] = m->nmaster;
-		m->pertag->mfacts[i] = m->mfact;
-
-		m->pertag->ltidxs[i][0] = m->lt[0];
-		m->pertag->ltidxs[i][1] = m->lt[1];
-		m->pertag->sellts[i] = m->sellt;
-	}
 
 	return m;
 }
@@ -849,7 +881,7 @@ grabkeys(void)
 void
 incnmaster(const Arg *arg)
 {
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
+	selmon->nmaster = MAX(selmon->nmaster + arg->i, 0);
 	arrange(selmon);
 }
 
@@ -937,15 +969,16 @@ manage(Window w, XWindowAttributes *wa)
 	}
 
 	if (c->iscentered) {
-		c->x = (c->mon->mw - WIDTH(c)) / 2;
-		c->y = (c->mon->mh - HEIGHT(c)) / 2;
+		c->x = (c->mon->mw - WIDTH(c) - (gappx*2 + borderpx*2)) / 2;
+		c->y = (c->mon->mh - HEIGHT(c) - (gappx*2 + borderpx*2)) / 2;
+
+        if (barpos <= 1) c->y += BAR_HEIGHT;
+        else c->x += BAR_HEIGHT;
 	}
 
 	wc.border_width = c->bw;
 
-    if (c->isbordered == 0) {
-        wc.border_width = 0;
-    }
+    if (!c->isbordered) wc.border_width = 0;
 
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
@@ -1067,7 +1100,7 @@ movemouse(const Arg *arg)
 			&& (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
 				togglefloating(NULL);
 			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
-				resize(c, nx, ny, c->w, c->h, 1);
+				resize(c, nx, ny, c->w, c->h);
 			break;
 		}
 	} while (ev.type != ButtonRelease);
@@ -1149,7 +1182,7 @@ recttomon(int x, int y, int w, int h)
 }
 
 void
-resize(Client *c, int x, int y, int w, int h, int interact)
+resize(Client *c, int x, int y, int w, int h)
 {
     resizeclient(c, x, y, w, h);
 }
@@ -1158,55 +1191,43 @@ void
 resizeclient(Client *c, int x, int y, int w, int h)
 {
 	XWindowChanges wc;
+    /* number of clients in the window */
 	unsigned int n;
 	Client *nbc;
 
-    /* Gaps stuff */
+    /* gaps variables */
     unsigned int gapincr = 0;
     unsigned int gapoffset;
 
-	wc.border_width = c->bw;
+	wc.border_width = borderpx;
 
-	/* Get number of clients for the selected monitor */
+	/* get number of clients for the selected monitor */
 	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
 
-	/* Do nothing if layout is floating */
-	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
-		gapoffset = 0;
-        gapincr = 0;
-	} else {
-		/* Remove border and gap if layout is monocle */
-		if (monocle_fullscreen == 1) {
+	/* do nothing if layout is floating or if the current window is floating */
+	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) gapoffset = 0;
+	else {
+		/* remove border and gap if layout is monocle */
+		if (monocle_fullscreen) {
             if (selmon->lt[selmon->sellt]->arrange == monocle) {
                 gapoffset = 0;
                 gapincr = -2 * borderpx;
                 wc.border_width = 0;
-                /* Write new gappx and borderpx and restart bar */
-                FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", 0); fclose(fgappx);
-                FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", 0); fclose(fborderpx);
-                system("pkill -9 lemonbar ; pkill -9 bar ; bash ${HOME}/bin/bar &");
+                restartbar();
             }
+        } else {
+            gapoffset = gappx;
+            gapincr = gappx * 2;
         }
-		/* Remove gap (not border) when layout is anything other monocole. */
-		/*else if (selmon->lt[selmon->sellt]->arrange != monocle && n == 1) {
-			gapoffset = 0;
-			gapincr = 0;
-
-		}*/ else {
-			gapoffset = gappx;
-			gapincr = 2 * gappx;
-		}
-	}
-
+    }
 
     c->oldx = c->x; c->x = wc.x = x + gapoffset;
     c->oldy = c->y; c->y = wc.y = y + gapoffset;
     c->w = wc.width = w - gapincr;
     c->h = wc.height = h - gapincr;
 
-    if (c->isbordered == 0) {
-        wc.border_width = 0;
-    }
+    /* don't set border if the client is not bordered */
+    if (!c->isbordered) wc.border_width = 0;
 
     XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
     configure(c);
@@ -1255,7 +1276,7 @@ resizemouse(const Arg *arg)
 					togglefloating(NULL);
 			}
 			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
-				resize(c, c->x, c->y, nw, nh, 1);
+				resize(c, c->x, c->y, nw, nh);
 			break;
 		}
 	} while (ev.type != ButtonRelease);
@@ -1431,9 +1452,9 @@ setlayout(const Arg *arg)
             break;
 }
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
-		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag] ^= 1;
+		selmon->sellt ^= 1;
 	if (arg && arg->v)
-		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
+		selmon->lt[selmon->sellt] = (Layout *)arg->v;
 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
 	if (selmon->sel)
 		arrange(selmon);
@@ -1467,7 +1488,7 @@ setmfact(const Arg *arg)
 	f = arg->f < 1.0 ? arg->f + selmon->mfact : arg->f - 1.0;
 	if (f < 0.1 || f > 0.9)
 		return;
-	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag] = f;
+	selmon->mfact = f;
 	arrange(selmon);
 }
 
@@ -1560,7 +1581,7 @@ showhide(Client *c)
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
 		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
-			resize(c, c->x, c->y, c->w, c->h, 0);
+			resize(c, c->x, c->y, c->w, c->h);
 		showhide(c->snext);
 	} else {
 		/* hide clients bottom up */
@@ -1623,23 +1644,7 @@ tagmon(const Arg *arg)
 	sendmon(selmon->sel, dirtomon(arg->i));
 }
 
-void init () { // start either with borders or gaps.
-	if (start_borders == 1) {
-		borderpx = BORDERPX;
-		gappx = 0;
-	} else if (start_borders == 0) {
-		borderpx = 0;
-		gappx = GAP_PX;
-	} else if (start_borders == 2) {
-		borderpx = 0;
-		gappx = 0;
-	} else if (start_borders == 3) {
-		borderpx = BORDERPX;
-		gappx = GAP_PX;
-  }
-    bar_gaps = bar_gap;
-	init_dwm_info(gappx, BAR_HEIGHT, barpos, NUM_WORKSPACES, borderpx, bar_gaps);
-}
+
 
 void
 togglefloating(const Arg *arg)
@@ -1651,7 +1656,7 @@ togglefloating(const Arg *arg)
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
 	if (selmon->sel->isfloating)
 		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
-			selmon->sel->w, selmon->sel->h, 0);
+			selmon->sel->w, selmon->sel->h);
 	arrange(selmon);
 }
 
@@ -1678,6 +1683,15 @@ togglescratch(const Arg *arg)
 }
 
 void
+togglesticky(const Arg *arg)
+{
+	if (!selmon->sel)
+		return;
+	selmon->sel->issticky = !selmon->sel->issticky;
+	arrange(selmon);
+}
+
+void
 toggletag(const Arg *arg)
 {
 	unsigned int newtags;
@@ -1696,30 +1710,9 @@ void
 toggleview(const Arg *arg)
 {
 	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
-	int i;
 
 	if (newtagset) {
 		selmon->tagset[selmon->seltags] = newtagset;
-
-		if (newtagset == ~0) {
-			selmon->pertag->prevtag = selmon->pertag->curtag;
-			selmon->pertag->curtag = 0;
-		}
-
-		/* test if the user did not select the same tag */
-		if (!(newtagset & 1 << (selmon->pertag->curtag - 1))) {
-			selmon->pertag->prevtag = selmon->pertag->curtag;
-			for (i = 0; !(newtagset & 1 << i); i++) ;
-			selmon->pertag->curtag = i + 1;
-		}
-
-		/* apply settings for this view */
-		selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
-		selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
-		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
-		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
-		selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
 
 		focus(NULL);
 		arrange(selmon);
@@ -1980,7 +1973,6 @@ updatesizehints(Client *c)
 	c->isfixed = (c->maxw && c->maxh && c->maxw == c->minw && c->maxh == c->minh);
 }
 
-
 void
 updatetitle(Client *c)
 {
@@ -2024,37 +2016,23 @@ updatewmhints(Client *c)
 void
 view(const Arg *arg)
 {
-	int i;
-	unsigned int tmptag;
+    int i;
 
 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
 		return;
 	selmon->seltags ^= 1; /* toggle sel tagset */
-	if (arg->ui & TAGMASK) {
+    if (arg->ui & TAGMASK) {
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-		selmon->pertag->prevtag = selmon->pertag->curtag;
+        if (arg->ui == ~0)
+            set_dwm_info_current_workspace(0);
+        else {
+            for (i = 0; !(arg->ui & 1 << i); i++);
+            set_dwm_info_current_workspace(i+1);
+        }
+    }
 
-		if (arg->ui == ~0) {
-			selmon->pertag->curtag = 0;
-			set_dwm_info_current_workspace(0);
-		} else {
-			for (i = 0; !(arg->ui & 1 << i); i++) ;
-			selmon->pertag->curtag = i + 1;
-			set_dwm_info_current_workspace(i + 1);
-		}
-	} else {
-		tmptag = selmon->pertag->prevtag;
-		selmon->pertag->prevtag = selmon->pertag->curtag;
-		selmon->pertag->curtag = tmptag;
-	}
 
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
-	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
-	selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
-	selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
-	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
-	focus(NULL);
+    focus(NULL);
 	arrange(selmon);
 }
 
@@ -2178,6 +2156,55 @@ zoom(const Arg *arg)
 	arrange(c->mon);
 }
 
+void
+init(void)
+{
+    // start either with borders or gaps.
+	if (start_borders == 1) {
+		borderpx = BORDERPX;
+		gappx = 0;
+	} else if (start_borders == 0) {
+		borderpx = 0;
+		gappx = GAP_PX;
+	} else if (start_borders == 2) {
+		borderpx = 0;
+		gappx = 0;
+	} else if (start_borders == 3) {
+		borderpx = BORDERPX;
+		gappx = GAP_PX;
+  }
+    bar_gaps = bar_gap;
+	init_dwm_info(gappx, BAR_HEIGHT, barpos, NUM_WORKSPACES, borderpx, bar_gaps);
+}
+
+void
+toggleborder()
+{
+	if (!borderpx) borderpx = BORDERPX;
+	else borderpx = 0;
+
+    restartbar();
+    arrange(selmon);
+}
+
+void
+togglegaps()
+{
+    if (!gappx) gappx = GAP_PX;
+    else gappx = 0;
+
+    restartbar();
+    arrange(selmon);
+}
+
+void
+restartbar(void)
+{
+    FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
+    FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", 0); fclose(fborderpx);
+    system("pkill -9 lemonbar ; pkill -9 bar ; bash ${HOME}/bin/bar &");
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -2198,32 +2225,4 @@ main(int argc, char *argv[])
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
-}
-
-void
-toggleborder()
-{
-	if (!borderpx) borderpx = BORDERPX;
-	else borderpx = 0;
-    FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
-}
-
-void
-togglegaps()
-{
-    if (!gappx) {
-        gappx = GAP_PX;
-        bar_gaps = bar_gap;
-        arrange(selmon);
-    } else {
-        gappx = 0;
-        bar_gaps = 0;
-        arrange(selmon);
-    }
-    // write our new gap config so our bar can read it
-    FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
-    updatebarpos(mons);
-
-    // restart bar with our new gaps so it resizes
-    system("pkill -9 lemonbar ; pkill -9 bar ; bash ${HOME}/bin/bar &");
 }
