@@ -1,9 +1,9 @@
 //TODO: add a issticky rule
 /* border pixel of windows */
-static const unsigned int BORDERPX  = 2;
+static const unsigned int BORDERPX  = 1;
 
 /* useless gaps in px */
-static const unsigned int GAP_PX    = 6;
+static const unsigned int GAP_PX    = 10;
 
 /*
  * 0 means gaps and no borders
@@ -17,19 +17,24 @@ static const unsigned int start_borders = 3;
 static const unsigned int snap      = 0;
 
 /* bar height in pixels */
-static const int BAR_HEIGHT         = 14;
+static const int BAR_HEIGHT         = 20;
 
 /*
  * 0 means bottom bar
  * 1 means top bar
  * 2 means left bar
  */
-static const int barpos             = 2;
+static const int barpos             = 0;
 
 /* 1 means have gaps around bar and root window */
-static const int bar_gap            = 0;
+static const int bar_gap            = 1;
 
-/* whether to disable borders and gap in monocle layout */
+/* whether to disable borders and gap if only a single window is open. does not
+ * apply to monocle
+ */
+static const int fullscreen_one_window = 0;
+
+/* whether to fullscreen windows in monocle mode */
 static const int monocle_fullscreen = 0;
 
 /* include themes */
@@ -39,7 +44,7 @@ static const int monocle_fullscreen = 0;
 //#include "themes/base16-ocean-dark.h"
 //#include "themes/greyscale.h"
 //#include "themes/viking.h"
-#include "/home/the_human/var/cache/tm/colors/colors_dwm.h"
+#include "/home/viz/var/cache/tm/colors/colors_dwm.h"
 
 /* tagging */
 /* number of workspaces */
@@ -55,7 +60,8 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     iscentered     isfloating   isbordered   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            0,             1,           1,            -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
-	{ "qutebrowser",  NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
+	{ "qutebrowser",NULL,     NULL,       1 << 1,       0,             0,           1,            -1 },
+    { "Chromium", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
 	{ "feh",      NULL,       "feh",      0,            1,             1,		    0,            -1 },
 	{ "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "st",       NULL,       "todoterm", 0,            0,             1,           0,            -1 },

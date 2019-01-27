@@ -71,17 +71,10 @@ _rm_desktop() {
 _PS1_details="\[$(tput sgr0)\]\[\$(_set_wn)\]${_cyn}\$(_branch)\[\$(_rm_desktop)\]\[\033[0m\]"
 
 # prompts
-case "$(whoami)" in
-    the_human)
-        export PS1="${_red}t${_grn}h${_ylw}e${_blu}_${_pnk}h${_cyn}u${_dred}\
-m${_dpnk}a${_dblu}n ${_dblu}\W${_PS1_details} "
-    ;;
-    root)
-        export PS1="${_red}r${_pnk}o${_blu}o${_grn}t ${_dgrn}\W${_PS1_details} "
-    ;;
-esac
 #export PS1="]${_PS1_details} "
-#export PS1="\$${_PS1_details} "
+export PS1="\$${_PS1_details} "
+
+[ $(whoami) = root ] && export PS1=\#\ 
 
 # source aliases
 source $HOME/etc/aliases
@@ -103,5 +96,5 @@ if [ "$TERM" = "linux" ]; then
     [ -f $HOME/var/cache/tm/colors/colors_tty.sh ] &&\
         source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
     clear # we have to clear the console to see the changes
-    [ $(sudo $HOME/bin/brness -g) -gt 10 ] && brness -s 10%
+    #[ $(sudo $HOME/bin/brness -g) -gt 10 ] && brness -s 10%
 fi

@@ -1,16 +1,18 @@
 /* modifier 0 means no modifier */
 static int surfuseragent    = 1;  /* Append Surf version to default WebKit user agent */
 static char *fulluseragent  = ""; /* Or override the whole user agent string */
-static char *scriptfile     = "~/.surf/script.js";
-static char *styledir       = "~/.surf/styles/";
-static char *certdir        = "~/.surf/certificates/";
-static char *cachedir       = "~/.surf/cache/";
-static char *cookiefile     = "~/.surf/cookies.txt";
+static char *scriptfile     = "~/etc/surf/script.js";
+static char *styledir       = "~/etc/surf/styles/";
+static char *certdir        = "~/etc/surf/certificates/";
+static char *cachedir       = "~/var/cache/surf/";
+static char *cookiefile     = "~/etc/surf/cookies.txt";
 
 /* Search Engines*/
 static SearchEngine searchengines[] = {
-    { "g",   "https://www.google.com/search?q=%s"   },
-    { "ddg",   "https://www.duckduckgo.com/?q=%s"   },
+    { "ddg", "https://www.duckduckgo.com/?q=%s"   },
+    { "g",   "https://www.google.com/search?q=%s" },
+    { "r",   "https://www.reddit.com/r/%s"        },
+    { "u",   "https://www.reddit.com/u/%s"        },
 
 };
 
@@ -32,7 +34,7 @@ static Parameter defconfig[ParameterLast] = {
 	[DiskCache]           =       { { .i = 1 },     },
 	[DNSPrefetch]         =       { { .i = 0 },     },
 	[FileURLsCrossAccess] =       { { .i = 0 },     },
-	[FontSize]            =       { { .i = 12 },    },
+	[FontSize]            =       { { .i = 16 },    },
 	[FrameFlattening]     =       { { .i = 0 },     },
 	[Geolocation]         =       { { .i = 0 },     },
 	[HideBackground]      =       { { .i = 0 },     },
@@ -76,10 +78,10 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 /* SETPROP(readprop, setprop, prompt)*/
 #define SETPROP(r, s, p) { \
         .v = (const char *[]){ "/bin/sh", "-c", \
-             ". ${HOME}/bin/menu ;" \
+             ". ${HOME}/var/cache/tm/colors/colors.sh; "\
              "prop=\"$(printf '%b' \"$(xprop -id $1 $2 " \
              "| sed \"s/^$2(STRING) = //;s/^\\\"\\(.*\\)\\\"$/\\1/\")\" " \
-             "| dmenu -p \"$4\" -wi $1)\" && xprop -id $1 -f $3 8s -set $3 \"$prop\"", \
+             "| dmenu -fn cherry\:pixelsize=11 -nb $color0 -nf $color7 -sb $color8 -sf $color15 -l 10 -p \"$4\" -wi $1)\" && xprop -id $1 -f $3 8s -set $3 \"$prop\"", \
              "surf-setprop", winid, r, s, p, NULL \
         } \
 }
@@ -204,4 +206,4 @@ static Button buttons[] = {
 	{ OnMedia,      MODKEY,         1,      clickexternplayer, { 0 },       1 },
 };
 
-#define HOMEPAGE "file:///home/the_human/var/cache/homepage.html"
+#define HOMEPAGE "file:///home/viz/var/cache/homepage.html"

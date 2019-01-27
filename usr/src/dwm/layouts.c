@@ -31,6 +31,7 @@ tile(Monitor *m)
 		mw = m->ww;
         ns = 1;
     }
+
 	for (i = 0, my = ty = gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			h = (m->wh - my) * (c->cfact / mfacts) - gappx;
@@ -54,13 +55,13 @@ monocle(Monitor *m)
 	for (c = m->clients; c; c = c->next)
 		if (ISVISIBLE(c))
 			n++;
+
 	if (n > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
+    else /* need this for the fifo. */
+        snprintf(m->ltsymbol, sizeof m->ltsymbol, "[M]");
     for (c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
-        if (monocle_fullscreen)
-		    resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw);
-        else
-            resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - 2 * gappx, m->wh -2 * c->bw - 2 * gappx);
+        resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - 2 * gappx, m->wh -2 * c->bw - 2 * gappx);
     }
 }
 

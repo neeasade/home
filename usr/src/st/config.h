@@ -3,7 +3,7 @@
 //static char *font = "scientifica:style=bold";
 //static char *font = "curie";
 //static char *font = "scientifica";
-static char *font = "cherry:size=11";
+static char *font = "cherry:pixelsize=11";
 //static char *font = "dina:size=6";
 //static char *font = "ShureTechMono NerdFont:size=9";
 //static char *font = "ShureTechMono NerdFont:size=10";
@@ -20,11 +20,11 @@ static char *font = "cherry:size=11";
 //#include "themes/greyscale.h"
 //#include "themes/bubblegum-theme.h"
 //#include "themes/viking.h"
-#include "/home/the_human/var/cache/tm/colors/colors_st.h"
+#include "/home/viz/var/cache/tm/colors/colors_st.h"
 
 
 /* inner padding */
-static int borderpx = 2;
+static int borderpx = 5;
 
 
 /*
@@ -74,6 +74,14 @@ static unsigned int blinktimeout = 1000;
  * thickness of underline and bar cursors
  */
 static unsigned int cursorthickness = 3;
+
+/*
+ * 1: custom-draw (without using the font) most of the lines/blocks characters
+ *    for gapless alignment between cells. This includes all the codepoints at
+ *    U+2500 - U+259F except dashes, diagonals and shades.
+ * 0: disable (render all glyphs normally from the font).
+ */
+const int boxdraw = 0;
 
 /*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling

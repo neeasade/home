@@ -8,7 +8,7 @@ static const char font[]        = "scientifica:style=bold:size=8";
 /* themes */
 //#include "themes/greyscale.h"
 //#include "themes/viking.h"
-#include "/home/the_human/var/cache/tm/colors/colors_tabbed.h"
+#include "/home/viz/var/cache/tm/colors/colors_tabbed.h"
 
 static const char before[]      = "<";
 static const char after[]       = ">";
@@ -16,10 +16,10 @@ static const char titletrim[]   = "...";
 static const int  tabwidth      = 150;
 static const Bool foreground    = True;
 static       Bool urgentswitch  = True;
-static const int  barheight     = 25;
-static const int  leftpadding   = 10;
+static const int  barheight     = 20;
+static const int  leftpadding   = 5;
 static const int  autohide      = 1;
-static const int  numberwin     = 1;
+static const int  numberwin     = 0;
 
 /*
  * Where to place a new tab when it is opened. When npisrelative is True,

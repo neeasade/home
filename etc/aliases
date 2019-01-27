@@ -1,56 +1,55 @@
 # vim:ft=sh
-# functions and linux/openbsd specific things
-# this script is mostly POSIX because I might source this file
-# no matter what shell I use
-# I alias functions too because I might need to launch those functions with sudo
+
+alias a="alias"
 
 case $(uname) in
     Linux)
-    alias ls="ls -FN --color=auto --group-directories-first"
-    alias sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7 --ascii_colors 8 11 7 8 8 8"
-    alias doas="sudo " # I know they aren't the same
+    a ls="ls -FN --color=auto --group-directories-first"
+    a sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7 --ascii_colors 8 11 7 8 8 8"
     ;;
     OpenBSD)
-    alias sudo="doas"
-    alias sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7 --ascii_colors 5 7 5 5 5 5"
-    alias lsblk="df -h"
-    alias ls="ls -FN"
+    a sudo="doas"
+    a sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7 --ascii_colors 5 7 5 5 5 5"
+    a lsblk="df -h"
     ;;
 esac
-# ls -F prints @ after symlinks, * after executables, / after dirs, | after FIFOs
-# thank you OpenBSD's man pages
 
-# fallback to my fetch script if neofetch is not installed
-[ -z "$(command -v neofetch)" ] && alias sf="$HOME/bin/fetch"
+[ -z "$(command -v neofetch)" ] && a sf="$HOME/bin/fetch"
 
 find_font() {
     fc-list | grep "$1"
 }
 
 mklatex() {
-    for file in $@; do
-        pdflatex "$file"
-        local name="${file%.tex}"
-        rm -rf "${name}.aux" "${name}.log" "${name}.out"
-    done
-    unset file, name
+    local file
+    for file in $@; do pdflatex "$file"; local name="${file%.tex}"; rm -rf "${name}.aux" "${name}.log" "${name}.out"; done
 }
 
-# tfw you're too lazy to type cd or cat or clear
 c() {
-    if [ -d "$1" ]; then
-        cd "$1"
-    elif [ -f "$1" ]; then
+    if [ -f "$1" ]; then
         cat "$1"
     elif [ $# -eq 0 ]; then
         clear
     else
-        echo "no such file or directory"
+        cd "$1"
     fi
 }
 
-# function to resource shellrc and aliases
-resourcesh() {
+v() {
+    local e
+    local editor
+
+    for e in "nvim -i $HOME/var/cache/shada" vim vis vi ed $EDITOR; do [ -n $(command -v $e) ] && { editor=$e; break; }; done
+
+    [ -f *"$@"* ] && $editor *"$@"* || {
+        local f="$(find . -iname *"$@"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && $editor "$f" || {
+            local f="$(find . -iname *"$@"* -maxdepth 2 | head -n 1)"
+            [ -f "$f" ] && $editor "$f" || $editor "$@"
+        }
+    }
+} 2> /dev/null
+
+resource() {
     source $HOME/etc/aliases
 
     case "$SHELL" in
@@ -59,51 +58,48 @@ resourcesh() {
     esac
 }
 
-# aliases
-alias a="alias"
-a python="/usr/bin/python3"
-# I now have a script for launching pacwoman
-# I still have the alias commented for some reason
-#a pacwoman="python ${HOME}/usr/src/pacwoman/pacwoman.py"
-# shorthand for launching python and perl
+python() {
+    local i
+    for i in python3 python2 python; do [ -n $(command -v $i) ] && { a python=$i; break; }; done
+}
+
+fm() {
+    local f
+    for f in ranger fff nnn noice; do [ -n $(command -v $f) ] && { a fm=$i; break; }; done
+}
+
+pip() {
+    local p
+    for p in pip3 pip2 pip; do [ -n $(command -v $p) ] && { a pip=$p; break; }; done
+}
+
 a py="python"
 a pl="perl"
 
-a v="nvim"
 a l="ls -l"
 a ll="ls -w $(ls | wc -l)"
-a fm="ranger"
-a mf="ranger"
-# python 2 is obselete
-#a pip="pip3"
+a mf="fm"
+a r='ranger'
 a ff="find_font"
-a mklatex="mklatex"
-a c="c"
 
-# make aliases
 a mkci="make clean install"
-a mkic="make clean install" # more like a typo
+a mkic="make clean install"
 [ -z "$(command -v mk)" ] && a mk="make"
 a mki="make install"
 a mka="make all"
 a mku="make uninstall"
+a mkc="make clean"
 
 a mpf="mupdf"
-a sx="startx"
-a c="c"
-# allows the user to use aliases with sudo
 a sudo="sudo "
 a aliases="alias"
 a quit="exit"
-# sometimes it's quicker to do :q! than exit
 a :q="exit"
 a :q!="exit"
-# I got no time for steam locomotive but I admit that it's a nice joke
 a sl="ls"
 
-# assuming /etc/sudoers set correctly
 a brness="sudo $HOME/bin/brness"
-# saner defaults
+
 a df="df -h"
 a du="du -h"
 a mv="mv -iv"
@@ -121,14 +117,10 @@ a fc-cache="fc-cache --verbose"
 a cd..="cd .."
 a c..="cd .."
 
-# reload configs
 a resxhkd="[ -n $(pgrep sxhkd) ] && pkill -9 sxhkd;\
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\
--s $HOME/var/logs/sxhkd.log & disown"
-a resourcesh="resourcesh"
+-s $HOME/var/logs/sxhkd.log &"
 
-# git aliases
-# interactive mode is really nice imo
 a commit="git commit --interactive -m"
 a diff="git diff"
 
@@ -136,8 +128,6 @@ a datenow="date +'%a %d %b %Y %H:%M'"
 a killall="pkill -9"
 a killx="pkill -15 Xorg"
 
-# aliases for switching to specific dirs
-# if the last letter is uppercase, it means they are in the home dir
 a gH="cd $HOME"
 a gB="cd $HOME/bin"
 a gS="cd $HOME/usr/src"
@@ -150,4 +140,5 @@ a gC="cd $HOME/var/cache"
 a gV="cd $HOME/var"
 a gO="cd $HOME/opt"
 a gU="cd $HOME/usr"
+a gP="cd $HOME/usr/ports"
 a gr="cd /"

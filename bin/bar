@@ -23,11 +23,23 @@ init() {
     echo 1 > /tmp/dwm_info/check
 
     # geometry
-    w=$(res -w)
+    local sw=$(res -w)
     local sh=$(res -h)
     h=$(cat /tmp/dwm_info/bar_height)
-    x=0
-    y=$(( sh - h ))
+    extra_args=""
+
+    if [ $(cat /tmp/dwm_info/barpos)  -le 1 ]; then
+        [ $(cat /tmp/dwm_info/barpos) -eq 0 ] && y=$(cat /tmp/dwm_info/gappx)
+        [ $(cat /tmp/dwm_info/barpos) -eq 1 ] && y=$(( $sh - $h ))
+        w=$(($sw - 200))
+    elif [ $(cat /tmp/dwm_info/barpos) -eq 2 ]; then
+        x=0
+        y=$(( sh - h ))
+        w=$sw
+        extra_args="-S"
+    fi
+
+    x=$(( $sw / 2 - $w / 2 ))
 
     # fonts
     #ft="cherry:pixelsize=10"
@@ -128,4 +140,6 @@ lemonbar -db \
          -n bar \
          -B $color0 \
          -F $color7 \
-         -S > /dev/null 2>&1
+         -r $(cat /tmp/dwm_info/borderpx)\
+         -R $color5 \
+         ${extra_args} #> /dev/null 2>&1

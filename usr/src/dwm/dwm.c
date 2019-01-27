@@ -242,7 +242,6 @@ static void comboview(const Arg *arg);
 /* variables */
 static int borderpx = 0;
 static int gappx = 0;
-static int bar_gaps = 0;
 static Client *prevzoom = NULL;
 static const char broken[] = "broken";
 static int screen;
@@ -312,6 +311,7 @@ comboview(const Arg *arg) {
 	unsigned newtags = arg->ui & TAGMASK;
     int i;
 
+
 	if (combo) {
 		selmon->tagset[selmon->seltags] |= newtags;
 	} else {
@@ -329,6 +329,7 @@ comboview(const Arg *arg) {
 	}
 	focus(NULL);
 	arrange(selmon);
+    set_dwm_info_current_layout(selmon->ltsymbol);
 }
 
 void
@@ -387,7 +388,6 @@ arrange(Monitor *m)
 void
 arrangemon(Monitor *m)
 {
-    //strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 	if (m->lt[m->sellt]->arrange)
 		m->lt[m->sellt]->arrange(m);
 }
@@ -400,7 +400,8 @@ attach(Client *c)
 }
 
 void
-attachaside(Client *c) {
+attachaside(Client *c)
+{
 	Client *at = nexttagged(c);
 	if(!at) {
 		attach(c);
@@ -992,12 +993,7 @@ manage(Window w, XWindowAttributes *wa)
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
 
-    /* Use attachaside only when the number of master clients is 1 */
-	if (c->mon->nmaster <= 1) {
-		attachaside(c);
-	}	else {
-		attach(c);
-	}
+    attachaside(c);
 	attachstack(c);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
 		(unsigned char *) &(c->win), 1);
@@ -1183,14 +1179,33 @@ recttomon(int x, int y, int w, int h)
 void
 resize(Client *c, int x, int y, int w, int h)
 {
+    int n;
+    unsigned int offset = 0, incr = 0;
+    Client *nbc;
 	XWindowChanges wc;
 
-	wc.border_width = borderpx;
+	wc.border_width = c->bw = borderpx;
 
-    c->oldx = c->x; c->x = wc.x = x;
-    c->oldy = c->y; c->y = wc.y = y;
-    c->w = wc.width = w;
-    c->h = wc.height = h;
+    /* get number of clients in the tag */
+	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
+
+    /* disable borders and gaps if
+     * the number of clients is 1 and fullscreen_one_window is set
+     * or if monocle_fullscreen is set and the layout used is monocle
+     */
+
+    int is_monocle = selmon->lt[selmon->sellt]->arrange == monocle ? 1 : 0;
+    if ((n == 1 && fullscreen_one_window && !is_monocle)||
+        (monocle_fullscreen && is_monocle)) {
+        incr = 2 * (gappx+borderpx);
+        offset = gappx;
+        wc.border_width = 0;
+    }
+
+    c->oldx = c->x; c->x = wc.x = x - offset;
+    c->oldy = c->y; c->y = wc.y = y - offset;
+    c->w = wc.width = w + incr;
+    c->h = wc.height = h + incr;
 
     /* don't set border if the client is not bordered */
     if (!c->isbordered) wc.border_width = 0;
@@ -1246,7 +1261,7 @@ resizemouse(const Arg *arg)
 			break;
 		}
 	} while (ev.type != ButtonRelease);
-	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1, c->h + c->bw - 1);
+    XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1, c->h + c->bw - 1);
 	XUngrabPointer(dpy, CurrentTime);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 	if ((m = recttomon(c->x, c->y, c->w, c->h)) != selmon) {
@@ -1755,12 +1770,12 @@ updatebarpos(Monitor *m)
         /* reduce the window height */
         m->wh -= BAR_HEIGHT;
 
-        if (bar_gaps) m->wh -= gappx;
+        if (bar_gap && gappx > 0) m->wh -= gappx;
         m->by = barpos == 1 ? m->wy : m->wy + m->wh;
 
         if (barpos == 1) m->wy += BAR_HEIGHT;
 
-        if (bar_gaps) {
+        if (bar_gap && gappx > 0) {
             if (barpos == 1) m->wy += gappx;
         }
     }
@@ -2130,14 +2145,12 @@ init(void)
 		borderpx = 0;
 		gappx = GAP_PX;
 	} else if (start_borders == 2) {
-		borderpx = 0;
-		gappx = 0;
+		borderpx = gappx = 0;
 	} else if (start_borders == 3) {
 		borderpx = BORDERPX;
 		gappx = GAP_PX;
   }
-    bar_gaps = bar_gap;
-	init_dwm_info(gappx, BAR_HEIGHT, barpos, NUM_WORKSPACES, borderpx, bar_gaps);
+	init_dwm_info(gappx, BAR_HEIGHT, barpos, NUM_WORKSPACES, borderpx, bar_gap);
 }
 
 void
@@ -2164,8 +2177,8 @@ void
 restartbar(void)
 {
     FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
-    FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", 0); fclose(fborderpx);
-    system("pkill -9 lemonbar ; pkill -9 bar ; bash ${HOME}/bin/bar &");
+    FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
+    system("pkill -9 lemonbar ; pkill -9 bar ; dash ${HOME}/bin/bar &");
 }
 
 int
@@ -2179,9 +2192,9 @@ main(int argc, char *argv[])
 		fputs("warning: no locale support\n", stderr);
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
+	init();
 	checkotherwm();
 	setup();
-	init();
 	scan();
     set_dwm_info_current_layout(selmon->ltsymbol);
 	run();

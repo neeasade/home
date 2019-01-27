@@ -32,11 +32,11 @@ open_file() {
     local file_type="$(file -ib "$1")"
 
     case $file_type in
-        *pdf*) mupdf "$1";;
-        *image*) feh "$1";;
-        *video*) mpv "$1";;
-        *text*) "$TERMINAL" $EDITOR "$1";;
-        *binary*) sh "$1";;
+        (*pdf*) mupdf "$1";;
+        (*image*) feh "$1";;
+        (*video*) mpv "$1";;
+        (*text*) "$TERMINAL" $EDITOR "$1";;
+        (*) case $(file "$1") in (*archive*) st -e upkp "$1"; notify-send "asd";; esac;;
     esac
 }
 

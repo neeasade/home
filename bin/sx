@@ -1,0 +1,3 @@
+#!/bin/dash
+# startx using xinit
+xinit "${HOME}/etc/xinitrc" -- /usr/bin/X :1
