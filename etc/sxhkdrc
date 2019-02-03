@@ -1,98 +1,59 @@
-Print
-  $HOME/bin/screenshot
+# window manipulation
+# move
+super + {w,a,s,d}
+    $HOME/bin/wcmv {-u 20,-l 20,-d 20,-r 20}
 
+super + shift + {w,a,s,d}
+    $HOME/bin/wcmv {-u 40,-l 40,-d 40,-r 40}
+
+# resize
+super + ctrl + {w,s,d,a}
+    $HOME/bin/wrsz {w -10,w +10,+10 h,-10 h}
+
+super + ctrl + shift + {w,s,d,a}
+    $HOME/bin/wrsz {w -40,w +40,+40 h,-40 h}
+
+alt + {c,f,u,p,b}
+    $HOME/bin/{center_win,fswin,invcurwin,menu run,restartbar}
+
+# application launching
 super + shift + Return
-   st -g 80x40 -t floating-st
+    st -g 80x40 -t floating-st
 
-super + Print
-  maim -u -d 1 > $HOME/var/pictures/scrots/$(date '+%a_%b_%d-%H:%M').png
+alt + shift + Return
+    tabbed -c -r 2 st -w ''
+
+super + {f,r}
+    st -e 'ranger'
 
 super + v
-  qutebrowser
-
-super + shift + v
-  notify-send "vol" "$($HOME/bin/vol -g)%"
-
-super + f
-  thunar
-
-super + button3
-  $HOME/bin/draw_st
-
-super + ctrl + r
-  $HOME/bin/record
-
-super + r
-  st -e 'ranger'
-
-super + shift + r
-  surf $HOME/opt/rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/doc/rust/html/book/2018-edition/
-
-super + u
-  $HOME/bin/invcurwin
-
-XF86AudioRaiseVolume
-  $HOME/bin/vol -i 5%
-
-XF86AudioLowerVolume
-  $HOME/bin/vol -d 5%
-
-XF86AudioMute
-  $HOME/bin/vol -m
-
-super + shift + k
-  $HOME/bin/vol -i 1%
-
-super + shift + j
-  $HOME/bin/vol -d 1%
-
-super + shift + m
-  $HOME/bin/vol -m
-
-super + shift + u
-  $HOME/bin/vol -u
+    chromium
 
 super + x
-  $HOME/bin/turnoff
+    $HOME/bin/turnoff
 
-super + shift + v
-  dash -c 'notify-send "current vol" `$HOME/bin/vol -g`'
+# dmenu dirs
+alt + shift + f
+    $HOME/bin/dmenu_dir -h 1
 
+alt + shift + ctrl + f
+    $HOME/bin/dmenu_dir -h 0
+
+# print screen
+Print
+    $HOME/bin/screenshot -u
+
+super + Print
+    $HOME/bin/screenshot -s
+
+# disable mouse
 super + shift + ctrl + m
-  $HOME/bin/togmouse
+    $HOME/bin/togmouse
 
-alt + b
-  $HOME/bin/restartbar
+# volume
+super + shift + {k,j,m,u}
+    $HOME/bin/vol {-i 1%,-d 1%,-m,-u}
 
-super + shift + w
-  $HOME/bin/weather
-
-super + shift + l
-  sudo $HOME/bin/brness -i 1%
-
-super + shift + h
-  sudo $HOME/bin/brness -d 1%
-
-super + w
-  $HOME/bin/wcmv -u 20
-
-super + a
-  $HOME/bin/wcmv -l 20
-
-super + s
-  $HOME/bin/wcmv -d 20
-
-super + d
-  $HOME/bin/wcmv -r 20
-
-super + ctrl + w
-  $HOME/bin/wrsz w -10
-
-super + ctrl + s
-  $HOME/bin/wrsz w +10
-
-super + ctrl + d
-  $HOME/bin/wrsz +10 h
-
-super + ctrl + a
-  $HOME/bin/wrsz -10 h
+# brness
+super + shift + {l,h}
+    sudo $HOME/bin/brness {-i 1%,-d 1%}

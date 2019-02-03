@@ -9,6 +9,6 @@
 set $(slop -q -o -f '%x %y %w %h')
 
 ffmpeg -y -f x11grab -s ${3}x${4} \
-    -r 30 -i :0.0+${1},${2} -qscale 0 \
+    -r 30 -i :1.0+${1},${2} -qscale 0 \
     $video_path.mp4 \
 > /dev/null 2>&1

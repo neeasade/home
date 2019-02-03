@@ -1,15 +1,11 @@
 #!/bin/mksh
 # vim:ft=sh
-# $HOME/etc/mkshrc
-# if not run interactive, exit
 [[ $- != *i* ]] && return
 
-# some mksh specific stuff
-# echo is better. read the fucking manual
 alias echo='builtin print'
 unalias r
 . $HOME/etc/aliases
-set -o vi-tabcomplete # just to be sure
+set -o vi-tabcomplete
 set -o nohup bgnice trackall
 alias !!='\\builtin fc -e -'
 
@@ -33,8 +29,6 @@ cd() {
 
 # history
 HISTFILE="$HOME/var/cache/mksh_history"
-# if this set to a really large number, mksh might not start at all. refer the
-# manual to know more
 HISTSIZE=100000
 
 # vi mode
@@ -67,7 +61,6 @@ _branch() {
     esac
 }
 
-# set the terminal's window terminal to the current working dir
 _set_wn() {
     if [ "$TERM" != "linux" ]; then
         local cwd="${PWD/$HOME/\~}"
@@ -112,8 +105,6 @@ _get_cwd() {
 
 # prompts
 PS2='... '
-# single quotes are used to expand the function's echo statement
-# mksh cannot do colors in prompt like bash does so functions has been used
 #export PS1=']$(_PS1_details)$(_PS1_command) '
 export PS1='\$$(_PS1_details)$(_PS1_command) '
 
@@ -123,7 +114,7 @@ if [ "$TERM" = "linux" ]; then
         setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
 
     [ -f $HOME/var/cache/tm/colors/colors_tty.sh ] &&
-        source $HOME/var/cache/tm/colors/colors_tty.sh 2> /dev/null
+        source $HOME/var/cache/tm/colors/colors_tty.sh 
     clear
-    [ $(sudo $HOME/bin/brness -g 2> /dev/null) -gt 10 ] && brness -s 10% 2> /dev/null
-fi
+    [ $(brness -g) -gt 10 ] && brness -s 10%
+fi 2> /dev/null

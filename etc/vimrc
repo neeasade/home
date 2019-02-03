@@ -17,6 +17,7 @@ Plugin 'ervandew/supertab' " using tab for completion is better
 Plugin 'vitalk/vim-shebang'
 Plugin 'w0rp/ale' "linter
 Plugin 'racer-rust/vim-racer'
+Plugin 'dylanaraps/fff.vim'
 
 " Beautify
 Plugin 'ryanoasis/vim-devicons'
@@ -51,6 +52,7 @@ set ruler
 " indentation
 set tabstop=4
 set shiftwidth=4
+set smarttab
 set et
 
 " encoding for making lives easier
@@ -96,10 +98,13 @@ set splitright
 
 " set columns limit to 80
 set columns=80
-set tw=80
+"set tw=80
 
 " remove cursor styling
 set guicursor=
+
+set noswapfile
+set autoread
 
 " Plugin's config
 

@@ -63,7 +63,7 @@ while [ $# -gt 0 ]; do
            play "${1}" "${shuff}";;
         pause) pause;;
         skip) skip;;
-        die|end) rm -rf ${socket} && pkill -15 mpv && exit;;
+        die|end) rm -rf ${socket} /tmp/ytpl_title && pkill -15 mpv && exit;;
     esac
     shift
 done

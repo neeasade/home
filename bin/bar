@@ -7,7 +7,6 @@ init() {
     # get colors
     . $HOME/var/cache/tm/colors/colors.sh
 
-    colorwscurrent=$color5
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar
     mkdir -p /tmp/bar
@@ -23,23 +22,11 @@ init() {
     echo 1 > /tmp/dwm_info/check
 
     # geometry
-    local sw=$(res -w)
     local sh=$(res -h)
     h=$(cat /tmp/dwm_info/bar_height)
-    extra_args=""
-
-    if [ $(cat /tmp/dwm_info/barpos)  -le 1 ]; then
-        [ $(cat /tmp/dwm_info/barpos) -eq 0 ] && y=$(cat /tmp/dwm_info/gappx)
-        [ $(cat /tmp/dwm_info/barpos) -eq 1 ] && y=$(( $sh - $h ))
-        w=$(($sw - 200))
-    elif [ $(cat /tmp/dwm_info/barpos) -eq 2 ]; then
-        x=0
-        y=$(( sh - h ))
-        w=$sw
-        extra_args="-S"
-    fi
-
-    x=$(( $sw / 2 - $w / 2 ))
+    x=0
+    y=$(( sh - h ))
+    w=$(res -w)
 
     # fonts
     #ft="cherry:pixelsize=10"
@@ -56,7 +43,7 @@ wksp() {
             [ $(cat /tmp/dwm_info/ws"$i") -eq 1 ] && ws=" $i " || ws=""
 
             [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" %{F$colorwscurrent}$i%{F-} "
+                ws=" %{F$color5}$i%{F-} "
 
             buffer=$buffer$ws
             i=$((i+1))
@@ -69,6 +56,15 @@ focused_window() {
     local winn="$(xdotool getactivewindow getwindowname | tr '[:upper:]' '[:lower:]')"
     local lenwinn=${#winn}
     local formatname=""
+
+    remove_name() {
+        echo ${winn} | sed -e "s/ - $1//"
+    }
+
+    case "${winn}" in
+        (*" - chromium"*) winn="chromium: `remove_name "chromium"`";;
+        (*" - firefox"*) winn="ff: `remove_name "firefox"`";;
+    esac
 
     [ ${lenwinn} -ge 60 ] && winn="`echo "$winn" | cut -b 1-55`..."
     [ -n "${winn}" ] && formatname=" $winn "
@@ -124,7 +120,7 @@ while \
         "%{l} >  $(cat /tmp/bar/day) "\
         "$(wksp) $(cat /tmp/bar/wksp) " \
         "$(cat /tmp/dwm_info/current_layout) "\
-        " $(cat /tmp/ytpl_title)   "\
+        " $(cat /tmp/ytpl_title | cut -b1-30)...   "\
         "%{c}  $(focused_window)"\
         "%{r}" \
         "$(cat /tmp/bar/bat 2> /dev/null)" \
@@ -142,4 +138,4 @@ lemonbar -db \
          -F $color7 \
          -r $(cat /tmp/dwm_info/borderpx)\
          -R $color5 \
-         ${extra_args} #> /dev/null 2>&1
+         -S > /dev/null 2>&1

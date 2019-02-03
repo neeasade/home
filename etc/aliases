@@ -22,7 +22,7 @@ find_font() {
 
 mklatex() {
     local file
-    for file in $@; do pdflatex "$file"; local name="${file%.tex}"; rm -rf "${name}.aux" "${name}.log" "${name}.out"; done
+    for file in $@; do xelatex "$file"; local name="${file%.tex}"; rm -rf ${name}.{aux,out,log}; done
 }
 
 c() {
@@ -39,7 +39,7 @@ v() {
     local e
     local editor
 
-    for e in "nvim -i $HOME/var/cache/shada" vim vis vi ed $EDITOR; do [ -n $(command -v $e) ] && { editor=$e; break; }; done
+    for e in "nvim -i $HOME/var/cache/shada" "vim -i $HOME/var/cache/viminfo" vis vi ed $EDITOR; do [ -n "$(command -v $e)" ] && { editor=$e; break; }; done
 
     [ -f *"$@"* ] && $editor *"$@"* || {
         local f="$(find . -iname *"$@"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && $editor "$f" || {
@@ -58,20 +58,13 @@ resource() {
     esac
 }
 
-python() {
-    local i
-    for i in python3 python2 python; do [ -n $(command -v $i) ] && { $i "$@"; break; }; done
-}
+for i in python3 python2 python; do [ -n "$(command -v $i)" ] && { a python="$i"; break; }; done
 
-fm() {
-    local f
-    for f in fff ranger nnn noice; do [ -n $(command -v $f) ] && { $f "$@"; break; }; done
-}
+for f in fff ranger nnn noice; do [ -n "$(command -v $f)" ] && { a fm="${f}"; break; }; done
 
-pip() {
-    local p
-    for p in pip3 pip2 pip; do [ -n $(command -v $p) ] && { $p "$@"; break; }; done
-}
+for p in pip3 pip2 pip; do [ -n "$(command -v $p)" ] && { a pip="$p";break; }; done
+
+unset i, p, f
 
 a py="python"
 a pl="perl"
@@ -99,7 +92,6 @@ a :q!="exit"
 a sl="ls"
 
 a brness="sudo $HOME/bin/brness"
-
 a df="df -h"
 a du="du -h"
 a mv="mv -iv"

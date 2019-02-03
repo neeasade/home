@@ -1,5 +1,5 @@
 #!/bin/dash
-autils_path="$HOME/usr/src/pacwoman/autils"
+autils_path="$HOME/usr/src/py/pacwoman/autils"
 
 usage() {
     echo "usage\n---------------\n"

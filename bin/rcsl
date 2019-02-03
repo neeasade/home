@@ -1,7 +1,7 @@
 #!/bin/dash
 # script to recompile suckless software
 
-base_dir="$HOME/usr/src"
+base_dir="$HOME/usr/src/c"
 sltools="dwm dmenu st tabbed"
 
 compile() {

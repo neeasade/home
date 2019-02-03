@@ -44,7 +44,7 @@ get_wm() {
     # assuming that the setup is using xinitrc
     # let's get the last line
     # the second word will be our window manager
-    local wm_name=$(tail -n 1 $HOME/.xinitrc | cut -d ' ' -f 2)
+    local wm_name=$(tail -n 1 $HOME/etc/xinitrc | cut -d ' ' -f 2)
 
     echo $wm_name
 }
