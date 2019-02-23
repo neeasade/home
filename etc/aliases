@@ -2,17 +2,9 @@
 
 alias a="alias"
 
-case $(uname) in
-    Linux)
-    a ls="ls -FN --color=auto --group-directories-first"
-    a sf="neofetch --ascii_distro crux_small --colors 8 8 7 8 8 7 --ascii_colors 8 11 7 8 8 8"
-    ;;
-    OpenBSD)
-    a sudo="doas"
-    a sf="neofetch --ascii_distro openbsd_small --colors 5 5 7 5 5 7 --ascii_colors 5 7 5 5 5 5"
-    a lsblk="df -h"
-    ;;
-esac
+a ls="ls -F"
+a nvim="nvim -i $HOME/var/cache/shada"
+a vim="vim -i $HOME/var/cache/viminfo"
 
 [ -z "$(command -v neofetch)" ] && a sf="$HOME/bin/fetch"
 
@@ -39,7 +31,7 @@ v() {
     local e
     local editor
 
-    for e in "nvim -i $HOME/var/cache/shada" "vim -i $HOME/var/cache/viminfo" vis vi ed $EDITOR; do [ -n "$(command -v $e)" ] && { editor=$e; break; }; done
+    for e in nvim vim vis vi ed $EDITOR; do [ -n "$(command -v $e)" ] && { editor=$e; break; }; done
 
     [ -f *"$@"* ] && $editor *"$@"* || {
         local f="$(find . -iname *"$@"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && $editor "$f" || {
@@ -70,7 +62,7 @@ a py="python"
 a pl="perl"
 
 a l="ls -l"
-a ll="ls -w $(ls | wc -l)"
+a ll="ls -1"
 a mf="fm"
 a r='ranger'
 a ff="find_font"
@@ -84,7 +76,6 @@ a mku="make uninstall"
 a mkc="make clean"
 
 a mpf="mupdf"
-a sudo="sudo "
 a aliases="alias"
 a quit="exit"
 a :q="exit"

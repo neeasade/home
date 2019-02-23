@@ -91,6 +91,6 @@ echo ${dpnk}os: ${dwht}$(get_distro_name)${null}
 echo ${dpnk}wm: ${dwht}$(get_wm)${null}
 echo ${dpnk}term: ${dwht}$terminal${null}
 echo ${dpnk}sh: ${dwht}${SHELL}${null}
-echo ${dpnk}uptime: ${dwht}$(get_uptime)${null}
+#echo ${dpnk}uptime: ${dwht}$(get_uptime)${null}
 echo ${dpnk}pkg_cnt: ${dwht}$(get_package_count)${null}
 echo ${red}* ${blu}* ${grn}* ${ylw}* ${cyn}* ${pnk}*${null}

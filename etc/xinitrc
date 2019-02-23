@@ -6,8 +6,9 @@ usermodmap=$HOME/etc/xmodmap
 xset +fp $HOME/usr/fonts
 [ -d /etc/X11/xinit/xinitrc.d ] && { for f in /etc/X11/xinitrc.d/?*.sh; do [ -x "$f" ] && . "$f"; done; unset f; }
 
-swall -S &
-[ -f $XDG_CACHE_HOME/tm/colors/dunstrc ] &&  { dunst -conf $XDG_CACHE_HOME/tm/colors/dunstrc & } || dunst -conf $HOME/etc/dunst/dunstrc &
-bar &
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log -s $HOME/var/logs/sxhkd.log &
+[ -f $XDG_CACHE_HOME/tm/dunstrc ] &&  { dunst -conf $XDG_CACHE_HOME/tm/dunstrc & } || dunst -conf $HOME/etc/dunst/dunstrc &
+xbanish &
+swall -S &
+$HOME/bin/bar &
 exec dwm 2> $HOME/var/logs/dwm.log

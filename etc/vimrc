@@ -78,7 +78,8 @@ nnoremap <F8> :SyntasticCheck<CR>
 set nocompatible
 
 " colorscheme
-colorscheme viking
+"colorscheme viking
+colorscheme roman
 
 " yank to clipboard
 set clipboard=unnamedplus

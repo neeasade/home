@@ -7,6 +7,16 @@ case $1 in
     *) hidden=1;;
 esac
 
+ls() {
+    local result
+    local i
+    for i in *; do
+        result="${result}\n${i}"
+    done
+
+    echo $result
+}
+
 cwd() {
     current_dir="$PWD"
     current_dir=`echo "$PWD" | sed -e "s|$HOME|~|"`
@@ -16,9 +26,9 @@ cwd() {
 get_dir() {
     case $hidden in
         1)
-            echo "..\n$(ls -pw $(ls $pwd | wc -l) $pwd)" | menu sel -p "$(cwd)";;
+            echo "..$(ls)" | menu sel -p "$(cwd)";;
         0)
-            echo "..\n$(ls -pAw $(ls -A $pwd | wc -l) $pwd)" | menu sel -p "$(cwd)";;
+            echo "..$(ls)" | menu sel -p "$(cwd)";;
     esac
 }
 

@@ -29,8 +29,8 @@ super + {f,r}
 super + v
     chromium
 
-super + x
-    $HOME/bin/turnoff
+super + {x,i}
+    $HOME/bin/{turnoff,view_image}
 
 # dmenu dirs
 alt + shift + f

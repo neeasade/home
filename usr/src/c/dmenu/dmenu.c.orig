@@ -844,10 +844,7 @@ main(int argc, char *argv[])
             borderpx = atoi(argv[++i]);
         else if (!strcmp(argv[i], "-bc"))
             colors[SchemeBorder][ColBg] = argv[++i];
-        else if (!strcmp(argv[i], "-it")) {
-            const char *text = argv[++i];
-            insert(text, strlen(text));
-        } else
+		else
 			usage();
 
 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())

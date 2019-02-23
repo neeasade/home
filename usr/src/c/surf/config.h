@@ -3,9 +3,9 @@ static int surfuseragent    = 1;  /* Append Surf version to default WebKit user 
 static char *fulluseragent  = ""; /* Or override the whole user agent string */
 static char *scriptfile     = "~/etc/surf/script.js";
 static char *styledir       = "~/etc/surf/styles/";
-static char *certdir        = "~/etc/surf/certificates/";
+static char *certdir        = "~/var/cache/surf/certificates/";
 static char *cachedir       = "~/var/cache/surf/";
-static char *cookiefile     = "~/etc/surf/cookies.txt";
+static char *cookiefile     = "~/var/cache/surf/cookies.txt";
 
 /* Search Engines*/
 static SearchEngine searchengines[] = {
@@ -78,19 +78,31 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 /* SETPROP(readprop, setprop, prompt)*/
 #define SETPROP(r, s, p) { \
         .v = (const char *[]){ "/bin/sh", "-c", \
-             ". ${HOME}/var/cache/tm/colors/colors.sh; "\
+             ". ${HOME}/var/cache/tm/colors.sh; " \
              "prop=\"$(printf '%b' \"$(xprop -id $1 $2 " \
-             "| sed \"s/^$2(STRING) = //;s/^\\\"\\(.*\\)\\\"$/\\1/\")\" " \
-             "| dmenu -fn cherry\:pixelsize=11 -nb $color0 -nf $color7 -sb $color8 -sf $color15 -l 10 -p \"$4\" -wi $1)\" && xprop -id $1 -f $3 8s -set $3 \"$prop\"", \
+            "| sed \"s/^$2(STRING) = //;s/^\\\"\\(.*\\)\\\"$/\\1/\";" \
+            " cat ~/etc/surf/bookmarks)\" " \
+            "| dmenu -l 10 -p \"$4\" -wi $1)\" " \
+            "&& xprop -id $1 -f $3 8s -set $3 \"$prop\"", \
              "surf-setprop", winid, r, s, p, NULL \
         } \
 }
 
+/* same for find */
+#define SETPROPFIND(r, s, p) { \
+        .v = (const char *[]){ "/bin/sh", "-c", \
+             ". ${HOME}/var/cache/tm/colors.sh; "\
+             "prop=\"$(printf '%b' \"$(xprop -id $1 $2 " \
+             "| sed \"s/^$2(STRING) = //;s/^\\\"\\(.*\\)\\\"$/\\1/\")\" " \
+            "| dmenu -l 10 -p \"$4\" -wi $1)\" && " \
+            "xprop -id $1 -f $3 8s -set $3 \"$prop\"", \
+             "surf-setprop", winid, r, s, p, NULL \
+        } \
+}
 /* DOWNLOAD(URI, referer) */
 #define DOWNLOAD(u, r) { \
-        .v = (const char *[]){ "st", "-e", "/bin/sh", "-c",\
-             "curl -g -L -J -O -A \"$1\" -b \"$2\" -c \"$2\"" \
-             " -e \"$3\" \"$4\"; read", \
+        .v = (const char *[]){ "st -t surf-download", "-e", "/bin/sh", "-c",\
+            "cd $XDG_DOWNLOAD_DIR && wget \$@\" && exit ", \
              "surf-download", useragent, cookiefile, r, u, NULL \
         } \
 }
@@ -141,10 +153,8 @@ static SiteSpecific certs[] = {
 static Key keys[] = {
 	/* modifier              keyval          function    arg */
 	{ MODKEY,                GDK_KEY_o,      spawn,      SETPROP("_SURF_URI", "_SURF_GO", PROMPT_GO) },
-	{ MODKEY,                GDK_KEY_f,      spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
-	{ MODKEY,                GDK_KEY_slash,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
+	{ MODKEY,                GDK_KEY_slash,  spawn,      SETPROPFIND("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
 
-	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },
 
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_r,      reload,     { .i = 1 } },
@@ -159,18 +169,10 @@ static Key keys[] = {
 	{ MODKEY,                GDK_KEY_j,      scroll,     { .i = 'd' } },
 	{ MODKEY,                GDK_KEY_k,      scroll,     { .i = 'u' } },
 	{ MODKEY,                GDK_KEY_b,      scroll,     { .i = 'U' } },
-	{ MODKEY,                GDK_KEY_space,  scroll,     { .i = 'D' } },
-	{ MODKEY,                GDK_KEY_i,      scroll,     { .i = 'r' } },
-	{ MODKEY,                GDK_KEY_u,      scroll,     { .i = 'l' } },
 
-
-	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_j,      zoom,       { .i = -1 } },
-	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_k,      zoom,       { .i = +1 } },
-	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_q,      zoom,       { .i = 0  } },
 	{ MODKEY,                GDK_KEY_minus,  zoom,       { .i = -1 } },
-	{ MODKEY,                GDK_KEY_plus,   zoom,       { .i = +1 } },
+	{ MODKEY,                GDK_KEY_equal,  zoom,       { .i = +1 } },
 
-	{ MODKEY,                GDK_KEY_p,      clipboard,  { .i = 1 } },
 	{ MODKEY,                GDK_KEY_y,      clipboard,  { .i = 0 } },
 
 	{ MODKEY,                GDK_KEY_n,      find,       { .i = +1 } },

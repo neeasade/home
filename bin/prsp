@@ -14,7 +14,7 @@ home = os.getenv("HOME")
 with open(f"{home}/etc/startpage/homepage.html", "r") as homepage_template:
     homepage_template = homepage_template.read()
 
-with open(f"{home}/var/cache/tm/colors/colors.css", "r") as colors:
+with open(f"{home}/var/cache/tm/colors.css", "r") as colors:
     colors = colors.read()
 
 with open(f"{home}/etc/startpage/style.css", "r") as style_template:

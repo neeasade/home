@@ -1,17 +1,8 @@
 #!/bin/dash
 # view images from url using feh, dmenu and curl
-tmp_image="/tmp/image.png"
 
-download() {
-    curl $1 > $tmp_image
-}
+# get url
+url="$(cat /dev/null | menu sel -p 'url:')"
 
-show() {
-    download $1
-    feh $tmp_image
-}
-
-[ $# -eq 0 ] && url="$(/dev/null | menu sel -p 'enter url:')" || url="$1"
-
-show $url
-rm -rf $tmp_image
+# needs feh compiled with url support
+feh "${url}"

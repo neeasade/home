@@ -2,7 +2,7 @@
 #
 # wrapper script around couple of scripts
 
-[ -n "$1" ] && tm -c "$HOME/etc/colors/${1}"
+[ -n "$1" ] && tm "$HOME/etc/colors/${1}"
 
 # do all the things which need to be done after running tm
 
@@ -14,5 +14,8 @@ $HOME/bin/prsp
 
 # restart dwm
 xdotool key alt+shift+q
-[ -n $(pgrep bar) ] && pkill bar
+[ -n $(pgrep bar) ] && pkill -9 bar
 $HOME/bin/bar &
+
+[ -n $(pgrep dunst) ] && pkill -9 dunst
+dunst -conf $HOME/var/cache/tm/dunstrc &

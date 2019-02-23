@@ -20,7 +20,7 @@ dejunk() {
 search() {
     case ${os} in
         (*arch*) pacman -Ss ${@};;
-        (*void*) xbps-query -s ${@};;
+        (*void*) xbps-query -Rs ${@};;
     esac
 }
 

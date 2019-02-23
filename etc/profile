@@ -2,16 +2,24 @@
 case $SHELL in
     (*mksh*) . $HOME/etc/mkshrc;;
     (*bash*) . $HOME/etc/bashrc;;
+    (*) . $HOME/etc/aliases;;
 esac
 
-for e in "nvim -i $HOME/var/cache/shada" "vim -i $HOME/var/cache/viminfo" vis vi ed; do [ -n $(command -v $e) ] && { export EDITOR=$e; export VISUAL=$e; break; }; done
+for e in nvim vim vis vi ed; do
+    [ -n "$(command -v $e)" ] && {
+        export EDITOR=$e;
+        export VISUAL=$e;
+        break; }
+done
+
 export TERMINAL="tabbed -c -r 2 st -w ''"
 export MANPAGER=$HOME/usr/local/manpager
 
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/usr/local
-export PATH=$PATH:$HOME/usr/local/bin
-export PATH=$PATH:$HOME/opt/texlive/bin/x86_64-linux
-export PATH=$PATH:$HOME/opt/cargo/bin
+export PATH=$HOME/opt/busybox/bin:$PATH
+export PATH=$HOME/bin:$HOME/usr/local:$PATH
+export PATH=$HOME/usr/local/bin:$PATH
+export PATH=$HOME/opt/texlive/bin/x86_64-linux:$PATH
+export PATH=$HOME/opt/cargo/bin:$PATH
 
 export MANPATH=$MANPATH:$HOME/usr/share/man:$HOME/usr/man:$HOME/usr/local/share/man
 export MANPATH=$MANPATH:$HOME/opt/texlive/texmf-dist/doc/man
@@ -31,9 +39,11 @@ export MAIL="$HOME/var/mail/inbox"
 
 export CPATH="$HOME/usr/local/include:$HOME/usr/include"
 
-export PYTHONUSERBASE="$PYTHONUSERBASE:$HOME/usr/lib/python3"
-export PYTHONPATH="$PYTHONPATH:$HOME/usr/lib/python3"
+export PYTHONUSERBASE="$HOME/usr/lib/python3"
+export PYTHONPATH="$HOME/usr/lib/python3"
 export PYTHONSTARTUP="$HOME/etc/pythonrc"
 
 export NVIM_LOG_FILE="$HOME/var/logs/nvim.log"
 export LESSHISTFILE="$HOME/var/cache/lesshst"
+
+export WEECHAT_HOME="$HOME/etc/weechat"

@@ -1,21 +1,23 @@
 #!/bin/mksh
 # vim:ft=sh
-[[ $- != *i* ]] && return
+case $- { (*i*) ;; (*) return;; }
+
+. $HOME/etc/aliases
 
 alias echo='builtin print'
-unalias r
-. $HOME/etc/aliases
+alias !!='\\builtin fc -e -'
+
 set -o vi-tabcomplete
 set -o nohup bgnice trackall
-alias !!='\\builtin fc -e -'
+
+unalias r w
 
 # dont freeze the shell when C-s is pressed
 stty -ixon
 
 cd() {
-    if [ $# -eq 0 ] ; then
-        builtin cd ${HOME}
-    else
+    [ $# -eq 0 ] &&
+        builtin cd ${HOME} || {
         builtin cd "$@" ||
         builtin cd "$@"* ||
         builtin cd *"$@" ||
@@ -24,8 +26,8 @@ cd() {
             builtin cd "$(find . -maxdepth $(($i + 1)) -mindepth $i -type d -iname "*$@*" | head -n 1)" &&
                 break
         done
-    fi 2> /dev/null
-}
+    }
+} 2> /dev/null
 
 # history
 HISTFILE="$HOME/var/cache/mksh_history"
@@ -36,41 +38,28 @@ set -o vi
 
 # check the current git branch
 _branch() {
-    local branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/')"
-    local branch_status=0
-
-    # branch_status=0 => unmodified
-    # branch_status=1 => modified
-    # branch_status=2 => the local repo is ahead
+    local branch="$(git branch | grep \* | tr -d '*')"
 
     [ -z $branch ] && return
 
-    case "$(git status -uno 2> /dev/null)" in
-        *"Changes to be committed"* | *"not staged"*)
-        branch_status=1;;
-        *"ahead of"*)
-        branch_status=2;;
-        *"up to date"*)
-        branch_status=0;;
-    esac
-
-    case $branch_status in
-    0) echo -n "$branch";;
-    1) echo -n "${branch}+";;
-    2) echo -n "${branch}^";;
-    esac
-}
+    case "$(git status -uno 2> /dev/null)" {
+        (*"Changes to be committed"* | *"not staged"*) echo -n "${branch}+";;
+        (*"ahead of"*) echo -n "${branch}^";;
+        (*"up to date"*) echo -n "${branch}";;
+        (*) echo -n "${branch}";;
+    }
+} 2> /dev/null
 
 _set_wn() {
-    if [ "$TERM" != "linux" ]; then
+    [ "$TERM" != "linux" ] && {
         local cwd="${PWD/$HOME/\~}"
-        echo -ne "\033]0;mksh: $cwd\a" 2> /dev/null
-    fi
-}
+        echo -ne "\033]0;mksh: $cwd\a"
+    }
+} 2> /dev/null
 
 # delete Desktop folder
 # I HATE IT
-_rm_desktop() {
+_rm_jnk() {
     [ -d $XDG_DESKTOP_HOME ] && rm -rf $XDG_DESKTOP_HOME
     [ -d $HOME/Desktop ] && rm -rf $HOME/Desktop
     [ -d $HOME/Downloads ] &&
@@ -78,25 +67,15 @@ _rm_desktop() {
     # im not sure if this is safe but hey, I hate them
     [ -d $HOME/.dbus ] && rm -rf $HOME/.dbus
     [ -d $HOME/.pki ] && rm -rf $HOME/.pki
+    [ -f $HOME/.wget-hsts ] && rm -rf $HOME/.wget-hsts
 } > /dev/null
 
 _PS1_details() {
-#    RET=$?
     echo -ne "$(tput setaf 6)$(_branch)$(tput sgr 0)"
-
-#    exit_code() {
-#        [ $RET -ne 0 ] && echo ':('
-#    }
-#
-#    rprompt() {
-#        printf "%*s" $COLUMNS "$(tput setaf 1)$(exit_code)$(tput sgr 0)"
-#    }
-#
-#    echo -ne "$(tput sc; rprompt; tput rc)"
 }
 
 _PS1_command() {
-    echo -ne "$(_set_wn)$(_rm_desktop)"
+    echo -ne "$(_set_wn)$(_rm_jnk)"
 }
 
 _get_cwd() {
@@ -104,17 +83,19 @@ _get_cwd() {
 }
 
 # prompts
-PS2='... '
 #export PS1=']$(_PS1_details)$(_PS1_command) '
-export PS1='\$$(_PS1_details)$(_PS1_command) '
+#export PS1='\$$(_PS1_details)$(_PS1_command) '
+export PS1='%$(_PS1_details)$(_PS1_command) '
+PS2='... '
 
 # console stuff
-if [ "$TERM" = "linux" ]; then
+[ "$TERM" = "linux" ] && {
     [ -f $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf ] &&
         setfont $HOME/var/fonts/terminus-font-4.46/ter-v12n.psf
 
-    [ -f $HOME/var/cache/tm/colors/colors_tty.sh ] &&
-        source $HOME/var/cache/tm/colors/colors_tty.sh 
+    [ -f $XDG_CACHE_HOME/tm/tty.sh ] &&
+        source $XDG_CACHE_HOME/tm/tty.sh
+
     clear
     [ $(brness -g) -gt 10 ] && brness -s 10%
-fi 2> /dev/null
+} 2> /dev/null

@@ -1,14 +1,14 @@
 /* See LICENSE file for copyright and license details. */
 
 /* font */
-//static const char font[]        = "ShureTechMono Nerd Font:size=10";
+//static const char font[]        = "Share Tech Mono:size=10";
 //static const char font[]        = "TerminessTTF Nerd Font:size=11";
 static const char font[]        = "scientifica:style=bold:size=8";
 
 /* themes */
 //#include "themes/greyscale.h"
 //#include "themes/viking.h"
-#include "/home/viz/var/cache/tm/colors/colors_tabbed.h"
+#include "/home/viz/var/cache/tm/tabbed.h"
 
 static const char before[]      = "<";
 static const char after[]       = ">";
@@ -16,8 +16,8 @@ static const char titletrim[]   = "...";
 static const int  tabwidth      = 150;
 static const Bool foreground    = True;
 static       Bool urgentswitch  = True;
-static const int  barheight     = 20;
-static const int  leftpadding   = 5;
+static const int  barheight     = 30;
+static const int  leftpadding   = 15;
 static const int  autohide      = 1;
 static const int  numberwin     = 0;
 
@@ -49,7 +49,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_k,      rotate,      { .i = -1 } },
 	{ MODKEY|ShiftMask,     XK_h,      movetab,     { .i = -1 } },
 	{ MODKEY|ShiftMask,     XK_l,      movetab,     { .i = +1 } },
-	{ MODKEY,               XK_Tab,    rotate,      { .i = 0 } },
+//	{ MODKEY,               XK_Tab,    rotate,      { .i = 0 } },
 
 //	{ MODKEY,               XK_grave,  spawn,       SETPROP("_TABBED_SELECT_TAB") },
 //	{ MODKEY,               XK_1,      move,        { .i = 0 } },

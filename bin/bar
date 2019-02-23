@@ -5,7 +5,7 @@ LC_ALL=""
 
 init() {
     # get colors
-    . $HOME/var/cache/tm/colors/colors.sh
+    . $HOME/var/cache/tm/colors.sh
 
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar
@@ -29,8 +29,7 @@ init() {
     w=$(res -w)
 
     # fonts
-    #ft="cherry:pixelsize=10"
-    ft='scientifica:pixelsize=11:style=bold'
+    ft='cherry:pixelsize=11'
 
 	# get the current volume
 	$HOME/bin/vol -i 0
@@ -43,7 +42,7 @@ wksp() {
             [ $(cat /tmp/dwm_info/ws"$i") -eq 1 ] && ws=" $i " || ws=""
 
             [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" %{F$color5}$i%{F-} "
+                ws=" %{F$color4}$i%{F-} "
 
             buffer=$buffer$ws
             i=$((i+1))
@@ -52,13 +51,25 @@ wksp() {
     fi 2> /dev/null
 }
 
-focused_window() {
+title() {
+    shorten() {
+        echo `echo "${@}" | cut -c1-50`...
+    }
+
+    [ -S /tmp/mpv_ytpl.socket ] && [ -f /tmp/ytpl_title ] && {
+        yt_title=$(cat /tmp/ytpl_title)
+
+        [ ${#yt_title} -ge 60 ] && yt_title="$(shorten "$yt_title")"
+
+        echo "${yt_title}"
+        return
+    }
+
     local winn="$(xdotool getactivewindow getwindowname | tr '[:upper:]' '[:lower:]')"
-    local lenwinn=${#winn}
     local formatname=""
 
     remove_name() {
-        echo ${winn} | sed -e "s/ - $1//"
+        echo "${winn}" | sed -e "s/ - $1//"
     }
 
     case "${winn}" in
@@ -66,9 +77,9 @@ focused_window() {
         (*" - firefox"*) winn="ff: `remove_name "firefox"`";;
     esac
 
-    [ ${lenwinn} -ge 60 ] && winn="`echo "$winn" | cut -b 1-55`..."
-    [ -n "${winn}" ] && formatname=" $winn "
-    echo $formatname
+    [ ${#winn} -ge 60 ] && winn=`shorten "${winn}"`
+    [ -n "${winn}" ] && formatname=" ${winn} "
+    echo "${formatname}"
 }
 
 
@@ -93,7 +104,7 @@ launch_daemons() {
     # day_daemon
     dayd() {
         while true; do
-            echo $(date +%a | tr '[:upper:]' '[:lower:]' | cut -b1-2) > /tmp/bar/day
+            echo $(date +%a | tr '[:upper:]' '[:lower:]' | cut -c1-2) > /tmp/bar/day
             sleep 300
         done
     }
@@ -120,8 +131,7 @@ while \
         "%{l} >  $(cat /tmp/bar/day) "\
         "$(wksp) $(cat /tmp/bar/wksp) " \
         "$(cat /tmp/dwm_info/current_layout) "\
-        " $(cat /tmp/ytpl_title | cut -b1-30)...   "\
-        "%{c}  $(focused_window)"\
+        "%{c}  $(title)"\
         "%{r}" \
         "$(cat /tmp/bar/bat 2> /dev/null)" \
         " $(cat /tmp/bar/vol)% "\
@@ -136,6 +146,4 @@ lemonbar -db \
          -n bar \
          -B $color0 \
          -F $color7 \
-         -r $(cat /tmp/dwm_info/borderpx)\
-         -R $color5 \
          -S > /dev/null 2>&1

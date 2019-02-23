@@ -6,16 +6,18 @@ static int fuzzy = 1;
 
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
-	"xos4 Terminus:size=8"
+	"cherry:pixelsize=11"
 }
 ;
+
 /* -p  option; prompt to the left of input field */
 static const char *prompt      = NULL;
+
 /* border width in pixels. can be overriden with the -bp flag */
 static unsigned int borderpx   = 0;
 
 /* includ theme */
-#include "/home/viz/var/cache/tm/colors/colors_dmenu.h"
+#include "/home/viz/var/cache/tm/dmenu.h"
 
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 static unsigned int lines      = 0;

@@ -330,36 +330,36 @@ drawbar(void)
 		return;
 	}
 
-    if (autohide) {
-	    nbh = nclients > 1 ? vbh : 0;
-    } else {
-        nbh = vbh;
-    }
+    if (autohide) nbh = nclients > 1 ? vbh : 0;
+    else nbh = vbh;
 
 	if (bh != nbh) {
 		bh = nbh;
 		for (i = 0; i < nclients; i++)
 			XMoveResizeWindow(dpy, clients[i]->win, 0, bh, ww, wh - bh);
 	}
+
 	if (bh == 0)
 		return;
 
 	width = ww;
 	cc = ww / tabwidth;
-	if (nclients > cc)
+
+    if (nclients > cc)
 		cc = (ww - TEXTW(before) - TEXTW(after)) / tabwidth;
 
 	if ((fc = getfirsttab()) + cc < nclients) {
 		dc.w = TEXTW(after);
 		dc.x = width - dc.w;
-		drawtext(after, dc.sel);
+		drawtext(after, dc.norm);
 		width -= dc.w;
 	}
+
 	dc.x = 0;
 
 	if (fc > 0) {
 		dc.w = TEXTW(before);
-		drawtext(before, dc.sel);
+		drawtext(before, dc.norm);
 		dc.x += dc.w;
 		width -= dc.w;
 	}
@@ -373,15 +373,18 @@ drawbar(void)
 		} else {
 			col = clients[c]->urgent ? dc.urg : dc.norm;
 		}
+
         if (numberwin) {
             snprintf(title, sizeof(title), "%d. %s", c + 1, clients[c]->name);
             drawtext(title, col);
         } else {
             drawtext(clients[c]->name, col);
         }
+
 		dc.x += dc.w;
 		clients[c]->tabx = dc.x;
 	}
+
 	XCopyArea(dpy, dc.drawable, win, dc.gc, 0, 0, ww, bh, 0, 0);
 	XSync(dpy, False);
 }
@@ -394,8 +397,9 @@ drawtext(const char *text, XftColor col[ColLast])
 	XftDraw *d;
 	XRectangle r = { dc.x, dc.y, dc.w, dc.h };
 
-	XSetForeground(dpy, dc.gc, col[ColBG].pixel);
+    XSetForeground(dpy, dc.gc, col[ColBG].pixel);
 	XFillRectangles(dpy, dc.drawable, dc.gc, &r, 1);
+
 	if (!text)
 		return;
 
@@ -403,15 +407,11 @@ drawtext(const char *text, XftColor col[ColLast])
 	h = dc.font.ascent + dc.font.descent;
 	y = dc.y + (dc.h / 2) - (h / 2) + dc.font.ascent;
 
-    if (text != before && text != after) {
-        x = dc.x + (h / 2) + leftpadding;
-    }
-    else {
-        x = dc.x + (h / 2);
-    }
+    if (text != before && text != after) x = dc.x + (h / 2) + leftpadding;
+    else x = dc.x + (h / 2);
 
 	/* shorten text if necessary */
-	for (len = MIN(olen, sizeof(buf));
+	for (len = MIN(olen, sizeof(buf)-leftpadding);
 		len && textnw(text, len) > dc.w - h; len--);
 
 	if (!len)

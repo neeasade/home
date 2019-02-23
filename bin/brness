@@ -32,15 +32,10 @@ get_bright() {
     echo $(( bright * 100 / max_brightness ))
 }
 
-usage() {
-    echo "help\n--------\n[-h] echo this message\n[-d] decrease brightness by percent\n[-i] increase brightness by percent\n[-s] set brightness in percent\n[-g] get brightness in percent\n"
-}
-
 case $1 in
     -h) usage;;
     -i) inc $2;;
     -d) dec $2;;
     -s) set_per_bright $2;;
     -g) get_bright;;
-    *) usage;;
 esac

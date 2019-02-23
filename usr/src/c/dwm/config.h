@@ -3,7 +3,7 @@
 static const unsigned int BORDERPX  = 1;
 
 /* useless gaps in px */
-static const unsigned int GAP_PX    = 10;
+static const unsigned int GAP_PX    = 6;
 
 /*
  * 0 means gaps and no borders
@@ -32,10 +32,10 @@ static const int bar_gap            = 0;
 /* whether to disable borders and gap if only a single window is open. does not
  * apply to monocle
  */
-static const int fullscreen_one_window = 0;
+static const int fullscreen_one_window = 1;
 
 /* whether to fullscreen windows in monocle mode */
-static const int monocle_fullscreen = 0;
+static const int monocle_fullscreen = 1;
 
 /* include themes */
 //#include "themes/thicc.h"
@@ -44,12 +44,12 @@ static const int monocle_fullscreen = 0;
 //#include "themes/base16-ocean-dark.h"
 //#include "themes/greyscale.h"
 //#include "themes/viking.h"
-#include "/home/viz/var/cache/tm/colors/colors_dwm.h"
+#include "/home/viz/var/cache/tm/dwm.h"
 
 /* tagging */
 /* number of workspaces */
-static const int NUM_WORKSPACES = 9;
-static const char *tags[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
+static const int NUM_WORKSPACES     = 9;
+static const char *tags[]           = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
 
 
 static const Rule rules[] = {
@@ -65,6 +65,7 @@ static const Rule rules[] = {
 	{ "feh",      NULL,       "feh",      0,            1,             1,		    0,            -1 },
 	{ "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "st",       NULL,       "todoterm", 0,            0,             1,           0,            -1 },
+    { "st",       NULL,       "surf-download", 0,       1,             1,           1,            -1 },
     { "MuPDF",    NULL,       NULL,       0,            1,             1,           0,            -1 },
     { "mpv",      NULL,       NULL,       0,            1,             1,           0,            -1 },
     { "st",       NULL,       "scratchpad", 0,          1,             1,           0,            -1 },

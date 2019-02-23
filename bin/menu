@@ -6,14 +6,17 @@
 sw=$(res -w)
 sh=$(res -h)
 
-dmenu_w=$((sw / 2))
-dmenu_lines=$((sw / 50))
-dmenu_x=$((sw / 2 - dmenu_w / 2))
-dmenu_y=$((sh / 5 + dmenu_lines))
+w=$((sw / 2))
 
-. $HOME/var/cache/tm/colors/colors.sh
+[ -n "$(command -v bc)" ] && w=$(echo "$sw / 2.3" | bc)
 
-font="ShureTechMono Nerd Font:size=10"
+l=$((sw / 50))
+x=$((sw / 2 - w / 2))
+y=$((sh / 3 - l))
+
+. $HOME/var/cache/tm/colors.sh
+
+font="Share Tech Mono:size=10"
 selbg=$color8
 selfg=$color15
 normbg=$color0
@@ -21,25 +24,32 @@ normfg=$color7
 borderpx=$(cat /tmp/dwm_info/borderpx)
 borcol=$color8
 
-app_run() {
-    dmenu_run -bp $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
-        -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
-        -sb "$selbg" -sf "$selfg" -i -bc "$borcol" -p "run:"
-    exit
+sel() {
+    dmenu -bp $borderpx -x $x -y $y -w $w \
+        -l $l -fn "$font" -nf "$normfg" -nb "$normbg" \
+        -sb "$selbg" -sf "$selfg" -i -bc "$borcol" -p "select:" "$@"
 }
 
-sel() {
-    dmenu -bp $borderpx -x $dmenu_x -y $dmenu_y -w $dmenu_w\
-        -l $dmenu_lines -fn "$font" -nf "$normfg" -nb "$normbg"\
-        -sb "$selbg" -sf "$selfg" -i -bc "$borcol" -p "select:" "$@"
-    exit
+run() {
+    surf() { tabbed -c surf -e; }
+    draw() { draw_st; }
+    st() { tabbed -c -r 2 st -w ''; }
+    todo() { st -e todo -i; }
+    $(echo "surf
+chromium
+st
+draw
+screenshot
+turnoff
+record
+todo
+dmenu_dir
+view_image
+subs" | sel -p "run:")
 }
 
 case $1 in
-    "sel")
-        shift; sel "$@"
-        ;;
-    "run")
-        app_run
-        ;;
+    ("sel") shift; sel "$@";;
+    ("run") run;;
+    (*) run;;
 esac
