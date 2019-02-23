@@ -1,0 +1,9 @@
+#!/bin/dash
+title="${1}"
+shift
+body="${@}"
+
+gdbus call -e -d "org.freedesktop.Notifications" -o \
+    /org/freedesktop/Notifications -m \
+    org.freedesktop.Notifications.Notify "" 0 "" "${title}" \
+    "${body}"  "[]" "{}" 5000
