@@ -30,13 +30,13 @@ dmenu: dmenu.o drw.o util.o
 
 clean:
 	@echo cleaning
-	@rm -f dmenu $(OBJ) dmenu-$(VERSION).tar.gz *.orig
+	@rm -f dmenu $(OBJ) dmenu-$(VERSION).tar.gz *.{rej,orig}
 
 dist: clean
 	@echo creating dist tarball
 	@mkdir -p dmenu-$(VERSION)
 	@cp LICENSE Makefile README arg.h config.def.h config.mk dmenu.1 \
-		drw.h util.h dmenu_path dmenu_run $(SRC) \
+		drw.h util.h dmenu_run $(SRC) \
 		dmenu-$(VERSION)
 	@tar -cf dmenu-$(VERSION).tar dmenu-$(VERSION)
 	@gzip dmenu-$(VERSION).tar
@@ -45,7 +45,6 @@ dist: clean
 install: all
 	@echo installing executables to $(DESTDIR)$(PREFIX)/bin
 	@mkdir -p $(DESTDIR)$(PREFIX)/bin
-	@cp -f dmenu dmenu_path dmenu_run $(DESTDIR)$(PREFIX)/bin
 	@chmod 755 $(DESTDIR)$(PREFIX)/bin/dmenu
 	@echo installing manual pages to $(DESTDIR)$(MANPREFIX)/man1
 	@mkdir -p $(DESTDIR)$(MANPREFIX)/man1

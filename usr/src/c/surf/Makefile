@@ -31,7 +31,7 @@ surf: $(OBJ)
 
 clean:
 	@echo cleaning
-	@rm -f surf $(OBJ)
+	@rm -f surf $(OBJ) *.{orig,rej}
 
 distclean: clean
 	@echo cleaning dist

@@ -107,6 +107,7 @@ sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\
 
 a commit="git commit --interactive -m"
 a diff="git diff"
+a conf='git --git-dir=$HOME/usr/repos/home --work-tree=$HOME'
 
 a datenow="date +'%a %d %b %Y %H:%M'"
 a killall="pkill -9"
