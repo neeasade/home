@@ -45,9 +45,20 @@ v() {
 resource() {
     source $HOME/etc/aliases
 
-    case "$SHELL" in
-        *mksh*) source $HOME/etc/mkshrc;;
-        *bash*) source $HOME/etc/bashrc;;
+    case $SHELL in
+        (*mksh*) source $HOME/etc/mkshrc;;
+        (*bash*) source $HOME/etc/bashrc;;
+    esac
+}
+
+conf() {
+    g() { git --git-dir=$HOME/usr/repos/home --work-tree=$HOME  "${@}"; }
+
+    case ${1} in
+        (commit) shift; g commit --interactive -m "${@}";;
+        (push) g push origin master;;
+        (list) g ls-tree -r HEAD --name-only | less;;
+        (*) g "${@}";;
     esac
 }
 
@@ -107,7 +118,6 @@ sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\
 
 a commit="git commit --interactive -m"
 a diff="git diff"
-a conf='git --git-dir=$HOME/usr/repos/home --work-tree=$HOME'
 
 a datenow="date +'%a %d %b %Y %H:%M'"
 a killall="pkill -9"

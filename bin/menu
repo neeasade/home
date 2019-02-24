@@ -33,7 +33,7 @@ sel() {
 run() {
     surf() { tabbed -c surf -e; }
     draw() { draw_st; }
-    st() { tabbed -c -r 2 st -w ''; }
+    st() { tabbed -c -r 2 st -w '' "${@}"; }
     todo() { st -e todo -i; }
     $(echo "surf
 chromium
