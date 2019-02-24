@@ -1,1 +1,1 @@
-etc/bashrc
+/home/viz/etc/bashrc

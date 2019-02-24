@@ -27,16 +27,16 @@ init() {
 wksp() {
     [ $(cat /tmp/dwm_info/check) -eq 1 ]  && {
         local i=1
-        while [ $i -le $(cat /tmp/dwm_info/num_ws) ]; do
-            [ $(cat /tmp/dwm_info/ws"$i") -eq 1 ] && ws=" $i " || ws=""
+        while [ ${i} -le $(cat /tmp/dwm_info/num_ws) ]; do
+            [ $(cat /tmp/dwm_info/ws"$i") -eq 1 ] && ws=" ${i} " || ws=""
 
             [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" %{F$color4}$i%{F-} "
+                ws=" %{F${color4}}${i}%{F-} "
 
-            buffer=$buffer$ws
+            buffer="${buffer}${ws}"
             i=$((i+1))
         done
-        echo "$buffer" > /tmp/bar/wksp
+        echo "${buffer}" > /tmp/bar/wksp
     } 2> /dev/null
 }
 
@@ -48,7 +48,7 @@ title() {
     [ -S /tmp/mpv_ytpl.socket ] && [ -f /tmp/ytpl_title ] && {
         yt_title=$(cat /tmp/ytpl_title)
 
-        [ ${#yt_title} -ge 60 ] && yt_title="$(shorten "$yt_title")"
+        [ ${#yt_title} -ge 60 ] && yt_title="$(shorten "${yt_title}")"
 
         echo "${yt_title}"
         return
@@ -81,10 +81,8 @@ launchd() {
 
     # date_daemon
     dated() {
-        while true; do
-            cur_month="$(date +%b | tr '[:upper:]' '[:lower:]')"
-            cur_date="$(date +%d)"
-            echo "$cur_month $cur_date" > /tmp/bar/date
+        while echo "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')" \
+            > /tmp/bar/date; do
             sleep 300
         done
     }
@@ -99,11 +97,8 @@ launchd() {
     }
 
     batd() {
-        while true; do
-            percent=`$HOME/bin/bat -p`
-            status=`$HOME/bin/bat -s`
-            [ ${status} = "Charging" ] && color=$color1 || color=$color7
-            [ ${status} != "Unknown" ] && echo "$percent%" > /tmp/bar/bat || return
+        [ `bat -s` = "Unknown" ] && return; [ `bat -s` = "Charging" ] && ind="^"
+        while echo "`bat -p`%${ind}" > /tmp/bar/bat; do
             sleep 5
         done
     }
@@ -125,9 +120,9 @@ while \
         " $(cat /tmp/bar/date) "
     do sleep 0.5; done 2> /dev/null | \
 lemonbar -db \
-         -f "$ft" \
+         -f ${ft} \
          -g ${w}x${h}+${x}+${y} \
          -n bar \
-         -B $color0 \
-         -F $color7 \
+         -B ${color0} \
+         -F ${color7} \
          -S > /dev/null 2>&1

@@ -13,7 +13,7 @@ for e in nvim vim vis vi ed; do
 done
 
 export TERMINAL="tabbed -c -r 2 st -w ''"
-export MANPAGER=$HOME/usr/local/manpager
+export MANPAGER=$HOME/usr/local/bin/manpager
 
 export PATH=$HOME/opt/busybox/bin:$PATH
 export PATH=$HOME/bin:$HOME/usr/local:$PATH
@@ -47,3 +47,5 @@ export NVIM_LOG_FILE="$HOME/var/logs/nvim.log"
 export LESSHISTFILE="$HOME/var/cache/lesshst"
 
 export WEECHAT_HOME="$HOME/etc/weechat"
+
+export GNUPGHOME="$HOME/etc/gnupg"

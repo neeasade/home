@@ -1,1 +1,1 @@
-etc/profile
+/home/viz/etc/profile

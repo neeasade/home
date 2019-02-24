@@ -2,7 +2,7 @@
 # youtube "playlist" player
 # the videos are stored in a plain text file separated with new lines
 # I use this script to play music and not videos, so ytdl will only download audio
-default_plpath="$HOME/etc/ytplaylist"
+default_plpath="$HOME/var/music/"
 socket="/tmp/mpv_ytpl.socket"
 
 set_prop() {
@@ -58,9 +58,9 @@ while [ $# -gt 0 ]; do
             if [ -S ${socket} ]  && [ -n $(pgrep -x mpv) ]; then
                 echo 'mpv already playing!' && exit 0
             fi
-           shift
-           [ "${1}" = "shuffle" ] && { shuff=true; shift; } || shuff=false
-           play "${1}" "${shuff}";;
+            shift
+            [ "${1}" = "shuffle" ] && { shuff=true; shift; } || shuff=false
+            play "${1}" "${shuff}";;
         pause) pause;;
         skip) skip;;
         die|end) rm -rf ${socket} /tmp/ytpl_title && pkill -15 mpv && exit;;

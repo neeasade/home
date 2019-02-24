@@ -1,4 +1,4 @@
-//TODO: add a issticky rule
+// TODO: add a issticky rule
 /* border pixel of windows */
 static const unsigned int BORDERPX  = 1;
 
@@ -10,8 +10,9 @@ static const unsigned int GAP_PX    = 6;
  * 1 means borders and no gaps
  * 2 means no borders and no gaps
  * 3 means gaps and borders
+ *
  */
-static const unsigned int start_borders = 3;
+static const unsigned int start_borders = 1;
 
 /* snap pixel */
 static const unsigned int snap      = 0;
@@ -23,19 +24,15 @@ static const int BAR_HEIGHT         = 18;
  * 0 means bottom bar
  * 1 means top bar
  * 2 means left bar
+ *
  */
 static const int barpos             = 2;
 
 /* 1 means have gaps around bar and root window */
 static const int bar_gap            = 0;
 
-/* whether to disable borders and gap if only a single window is open. does not
- * apply to monocle
- */
+/* whether to disable borders and gap if only a single window is open */
 static const int fullscreen_one_window = 1;
-
-/* whether to fullscreen windows in monocle mode */
-static const int monocle_fullscreen = 1;
 
 /* include themes */
 //#include "themes/thicc.h"
@@ -71,7 +68,6 @@ static const Rule rules[] = {
     { "st",       NULL,       "scratchpad", 0,          1,             1,           0,            -1 },
 };
 
-/* layout(s) */
 /* factor of master area size [0.05..0.95] */
 static const float mfact     = 0.60;
 
@@ -87,8 +83,8 @@ static const int resizehints = 1;
 /* layouts symbol and their function */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[]=",      tile },
+	{ "><>",      NULL },
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "[]H",      deck  },
@@ -100,27 +96,23 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod1Mask
 #define SUPERKEY Mod4Mask
-/*#define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, */
 #define TAGKEYS(KEY,TAG)\
 	{ MODKEY,                       KEY,      comboview,      {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      combotag,       {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-//static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 static const char *drawst[] = { "dash", "-c", "${HOME}/bin/draw_st", NULL };
 
 #include "zoomswap.c"
 #include "movestack.c"
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY|ShiftMask,             XK_g,      togglegaps,     {0} },
@@ -139,14 +131,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-/*  { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_c,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_q,      setlayout,      {.v = &layouts[5]} },
-	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[6]} },
-	{ MODKEY,                       XK_a,      setlayout,      {.v = &layouts[7]} }, */
     { SUPERKEY,                     XK_1,      setlayout,      {.v = &layouts[0]} }, // tiling
     { SUPERKEY,                     XK_5,      setlayout,      {.v = &layouts[1]} }, // floating
     { SUPERKEY,                     XK_3,      setlayout,      {.v = &layouts[2]} }, // monocle
@@ -173,13 +157,13 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-  /*  TAGKEYS(                        XK_0,                      9) */
+  /*TAGKEYS(                        XK_0,                      9) */
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {1} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
 };
 
 /* button definitions */
-/* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* click can be ClkClientWin or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },

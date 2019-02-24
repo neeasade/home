@@ -1,3 +1,0 @@
-#!/bin/dash
-
-python3 $HOME/usr/src/py/tm/main.py $@

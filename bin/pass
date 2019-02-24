@@ -12,10 +12,10 @@ account=""
 alias gpg2="gpg2 -r ${gpg_user} --quiet --yes --batch"
 
 usage() {
-    printf 'pass show   <account> -- show the password for <account>\n'
-    printf 'pass insert <account> -- insert password for <account>\n'
-    printf 'pass list             -- list all accounts\n'
-    printf 'pass move <old> <new> -- move <old> account to <new> account\n'
+    printf 'pass show   <account>   -- show the password for <account>\n'
+    printf 'pass insert <account>   -- insert password for <account>\n'
+    printf 'pass list               -- list all accounts\n'
+    printf 'pass move   <old> <new> -- move <old> account to <new> account\n'
 }
 
 die() {
@@ -23,7 +23,8 @@ die() {
 }
 
 encrypt() {
-    printf '%s\n' "${passwd}" | gpg2 --encrypt --output "${passwd_storage}/${account}"
+    printf '%s\n' "${passwd}" | gpg2 --encrypt \
+        --output "${passwd_storage}/${account}"
 }
 
 decrypt() {
@@ -39,17 +40,13 @@ readpw() {
 }
 
 insert() {
-    [ -r "${passwd_storage}/${1}" ] &&
-        die "${1} already present!"
-
+    [ -r "${passwd_storage}/${1}" ] && die "${1} already present!"
     account="${1}"
     readpw; encrypt
 }
 
 show() {
-    [ ! -r "${passwd_storage}/${1}" ] &&
-        die "${1} not present!"
-
+    [ ! -r "${passwd_storage}/${1}" ] && die "${1} not present!"
     account="${1}"
     decrypt
 }
@@ -60,7 +57,7 @@ list() {
 }
 
 case ${1} in
-    (insert) insert "${2}";;
+    (insert|add) insert "${2}";;
     (show) show "${2}";;
     (list) list;;
     (move) mv "${passwd_storage}/${2}" "${passwd_storage}/${3}";;

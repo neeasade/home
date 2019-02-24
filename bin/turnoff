@@ -6,8 +6,7 @@ selected_option="$(echo $options | menu sel)"
 
 [ -f $HOME/tmp/bkup.lock ] && { notify-send "bkup is running!"; exit 1; }
 
-case "$selected_option" in
-    poweroff) sudo poweroff;;
-    reboot) sudo reboot;;
-    "kill x") pkill -15 Xorg;;
+case ${selected_option} in
+    (poweroff|reboot) sudo ${selected_option};;
+    ("kill x") pkill -15 Xorg;;
 esac

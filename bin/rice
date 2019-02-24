@@ -14,7 +14,7 @@ $HOME/bin/prsp
 
 # restart dwm
 xdotool key alt+shift+q
-[ -n $(pgrep bar) ] && pkill -9 bar
+[ -n "$(pgrep bar)" ] && pkill -9 bar
 $HOME/bin/bar &
 
 [ -n $(pgrep dunst) ] && pkill -9 dunst

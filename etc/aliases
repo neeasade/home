@@ -9,6 +9,7 @@ a vim="vim -i $HOME/var/cache/viminfo"
 [ -z "$(command -v neofetch)" ] && a sf="$HOME/bin/fetch"
 
 find_font() {
+    [ $# -eq 0 ] && return
     fc-list | grep "$1"
 }
 

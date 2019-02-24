@@ -1197,8 +1197,7 @@ resize(Client *c, int x, int y, int w, int h)
     int is_monocle = selmon->lt[selmon->sellt]->arrange == monocle ? 1 : 0;
     int is_float   = selmon->lt[selmon->sellt]->arrange == NULL ? 1 : 0;
 
-    if (!is_float && ((n == 1 && fullscreen_one_window && !is_monocle) ||
-        (monocle_fullscreen && is_monocle))) {
+    if (!is_float && ((n == 1 || is_monocle) && fullscreen_one_window)) {
         incr = 2 * (gappx+borderpx);
         offset = gappx;
         wc.border_width = 0;

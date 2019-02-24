@@ -1,13 +1,9 @@
 #!/bin/sh
 cd $HOME
-
-usermodmap=$HOME/etc/xmodmap
-[ -f "$usermodmap" ] && xmodmap "$usermodmap"
+xmodmap $HOME/etc/xmodmap
 xset +fp $HOME/usr/fonts
-[ -d /etc/X11/xinit/xinitrc.d ] && { for f in /etc/X11/xinitrc.d/?*.sh; do [ -x "$f" ] && . "$f"; done; unset f; }
-
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log -s $HOME/var/logs/sxhkd.log &
-[ -f $XDG_CACHE_HOME/tm/dunstrc ] &&  { dunst -conf $XDG_CACHE_HOME/tm/dunstrc & } || dunst -conf $HOME/etc/dunst/dunstrc &
+dunst -conf $XDG_CACHE_HOME/tm/dunstrc &
 xbanish &
 swall -S &
 $HOME/bin/bar &
