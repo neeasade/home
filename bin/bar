@@ -25,13 +25,26 @@ init() {
 }
 
 wksp() {
+    roman() {
+        if [ ${1} -le 3 ]; then
+            printf `yes 'I' | head -n ${1} | tr -d '\n'`
+        elif [ ${1} -eq 4 ]; then
+            printf 'IV'
+        elif [ ${1} -eq 5 ]; then
+            printf 'V'
+        elif [ ${1} -le 8 ]; then
+            printf 'V%s' `yes 'I' | head -n $((${1}-5)) | tr -d '\n'`
+        fi
+    }
+
     [ $(cat /tmp/dwm_info/check) -eq 1 ]  && {
         local i=1
         while [ ${i} -le $(cat /tmp/dwm_info/num_ws) ]; do
-            [ $(cat /tmp/dwm_info/ws"$i") -eq 1 ] && ws=" ${i} " || ws=""
+            [ $(cat /tmp/dwm_info/ws${i}) -eq 1 ] && ws=" `roman ${i}` " || ws=""
 
             [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" %{F${color4}}${i}%{F-} "
+                ws=" [`roman ${i}`] " ||
+                ws=" `roman ${i}` "
 
             buffer="${buffer}${ws}"
             i=$((i+1))
@@ -48,7 +61,7 @@ title() {
     [ -S /tmp/mpv_ytpl.socket ] && [ -f /tmp/ytpl_title ] && {
         yt_title=$(cat /tmp/ytpl_title)
 
-        [ ${#yt_title} -ge 60 ] && yt_title="$(shorten "${yt_title}")"
+        [ ${#yt_title} -ge 40 ] && yt_title="$(shorten "${yt_title}")"
 
         echo "${yt_title}"
         return
@@ -66,7 +79,7 @@ title() {
         (*" - firefox"*) winn="ff: `remove_name "firefox"`";;
     esac
 
-    [ ${#winn} -ge 60 ] && winn=`shorten "${winn}"`
+    [ ${#winn} -ge 40 ] && winn=`shorten "${winn}"`
     [ -n "${winn}" ] && formatname=" ${winn} "
     echo "${formatname}"
 }
@@ -109,15 +122,16 @@ launchd() {
 init; launchd
 
 while \
-    echo "%{l} >  $(cat /tmp/bar/day) " \
-        "$(wksp) $(cat /tmp/bar/wksp) " \
-        "$(cat /tmp/dwm_info/current_layout) " \
-        "%{c}  $(title)" \
-        "%{r}" \
-        "$(cat /tmp/bar/bat 2> /dev/null)" \
-        " $(cat /tmp/bar/vol)% " \
-        " $(cat /tmp/bar/time) " \
-        " $(cat /tmp/bar/date) "
+    echo "%{l} $(title)" \
+         "%{r}" \
+         "$(wksp) $(cat /tmp/bar/wksp) " \
+         "$(cat /tmp/dwm_info/current_layout) " \
+         "%{B${color5}}%{F${color0}}" \
+         "$(cat /tmp/bar/bat 2> /dev/null)" \
+         " $(cat /tmp/bar/vol)% " \
+         " $(cat /tmp/bar/day) " \
+         " $(cat /tmp/bar/time) " \
+         " $(cat /tmp/bar/date)  %{B-}%{F-}"
     do sleep 0.5; done 2> /dev/null | \
 lemonbar -db \
          -f ${ft} \

@@ -13,14 +13,14 @@ set numberwidth=1
 
 hi Normal       ctermbg=NONE   ctermfg=7
 hi Cursor       ctermbg=NONE   ctermfg=8
-hi Directory    ctermbg=NONE   ctermfg=4
+hi Directory    ctermbg=NONE   ctermfg=5
 hi ErrorMsg     ctermbg=NONE   ctermfg=1
 hi VertSplit    ctermbg=NONE   ctermfg=0    cterm=NONE
 hi LineNr       ctermbg=NONE   ctermfg=8
 hi SignColumn   ctermbg=NONE   ctermfg=NONE cterm=NONE
 hi NonText      ctermbg=NONE   ctermfg=0
 hi Pmenu        ctermbg=8      ctermfg=7
-hi PmenuSel     ctermbg=8      ctermfg=4
+hi PmenuSel     ctermbg=8      ctermfg=5
 hi PmenuSbar    ctermbg=8      ctermfg=8
 hi PmenuThumb   ctermbg=8      ctermfg=8
 hi Search       ctermbg=8      ctermfg=15
@@ -35,7 +35,7 @@ hi TabLineSel   ctermbg=0      ctermfg=15
 hi TabLineFill  ctermbg=0      ctermfg=NONE
 hi Title        ctermbg=NONE   ctermfg=15
 hi Visual       ctermbg=8      ctermfg=15
-hi WildMenu     ctermbg=NONE   ctermfg=4    cterm=NONE
+hi WildMenu     ctermbg=NONE   ctermfg=5    cterm=NONE
 hi WarningMsg   ctermbg=NONE   ctermfg=11   cterm=NONE
 hi DIffAdd      ctermbg=NONE   ctermfg=2
 hi DiffDelete   ctermbg=NONE   ctermfg=1
@@ -43,24 +43,24 @@ hi DiffChange   ctermbg=NONE   ctermfg=1
 hi EndOfBuffer  ctermbg=NONE   ctermfg=0
 hi LineNr       ctermbg=NONE   ctermfg=8
 hi CursorLine   ctermbg=NONE   ctermfg=NONE cterm=NONE
-hi CursorLineNr ctermbg=0      ctermfg=4    cterm=NONE
+hi CursorLineNr ctermbg=0      ctermfg=5    cterm=NONE
 hi MatchParen   ctermbg=8      ctermfg=15
-hi ModeMsg      ctermbg=NONE   ctermfg=4
+hi ModeMsg      ctermbg=NONE   ctermfg=5
 hi NormalNC     ctermbg=NONE   ctermfg=15   cterm=NONE
 
 " language syntax
 hi Comment      ctermbg=NONE   ctermfg=8    cterm=NONE
-hi Constant     ctermbg=NONE   ctermfg=4    cterm=NONE
-hi String       ctermbg=NONE   ctermfg=4    cterm=NONE
-hi Character    ctermbg=NONE   ctermfg=4    cterm=NONE
-hi Number       ctermbg=NONE   ctermfg=4    cterm=NONE
-hi Boolean      ctermbg=NONE   ctermfg=4    cterm=NONE
-hi Float        ctermbg=NONE   ctermfg=4    cterm=NONE
+hi Constant     ctermbg=NONE   ctermfg=5    cterm=NONE
+hi String       ctermbg=NONE   ctermfg=5    cterm=NONE
+hi Character    ctermbg=NONE   ctermfg=5    cterm=NONE
+hi Number       ctermbg=NONE   ctermfg=5    cterm=NONE
+hi Boolean      ctermbg=NONE   ctermfg=5    cterm=NONE
+hi Float        ctermbg=NONE   ctermfg=5    cterm=NONE
 hi Identifier   ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Function     ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Conditional  ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Repeat       ctermbg=NONE   ctermfg=7   cterm=NONE
-hi Label        ctermbg=NONE   ctermfg=4   cterm=NONE
+hi Label        ctermbg=NONE   ctermfg=5   cterm=NONE
 hi Operator     ctermbg=NONE   ctermfg=15  cterm=NONE
 hi Keyword      ctermbg=NONE   ctermfg=15  cterm=NONE
 hi Exception    ctermbg=NONE   ctermfg=7   cterm=NONE
@@ -68,7 +68,7 @@ hi Include      ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Define       ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Macro        ctermbg=NONE   ctermfg=7   cterm=NONE
 hi PreCondit    ctermbg=NONE   ctermfg=7   cterm=NONE
-hi Type         ctermbg=NONE   ctermfg=4   cterm=NONE
+hi Type         ctermbg=NONE   ctermfg=5   cterm=NONE
 hi StorageClass ctermbg=NONE   ctermfg=7   cterm=NONE
 hi PreProc      ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Structure    ctermbg=NONE   ctermfg=7   cterm=NONE

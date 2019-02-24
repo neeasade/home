@@ -71,7 +71,7 @@ _rm_jnk() {
 } > /dev/null
 
 _PS1_details() {
-    echo -ne "$(tput setaf 6)$(_branch)$(tput sgr 0)"
+    echo -ne "$(tput setaf 5)$(_branch)$(tput sgr 0)"
 }
 
 _PS1_command() {

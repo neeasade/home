@@ -45,8 +45,8 @@ static const int fullscreen_one_window = 1;
 
 /* tagging */
 /* number of workspaces */
-static const int NUM_WORKSPACES     = 9;
-static const char *tags[]           = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
+static const int NUM_WORKSPACES     = 8;
+static const char *tags[]           = { "0", "1", "2", "3", "4", "0", "1", "2", "3", "4" };
 
 
 static const Rule rules[] = {
@@ -73,9 +73,6 @@ static const float mfact     = 0.60;
 
 /* number of clients in master area */
 static const int nmaster     = 1;
-
-/* 1 means respect size hints in tiled resizals */
-static const int resizehints = 1;
 
 /* include layouts */
 #include "layouts.c"
