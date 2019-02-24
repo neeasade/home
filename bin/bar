@@ -1,42 +1,31 @@
 #!/bin/dash
-# on exit, kill all children
 trap 'pkill -P $$' EXIT
-LC_ALL=""
 
 init() {
-    # get colors
     . $HOME/var/cache/tm/colors.sh
 
+    [ -d /tmp/bar ] && rm -rf /tmp/bar; mkdir -p /tmp/bar
 
-    [ -d /tmp/bar ] && rm -rf /tmp/bar
-    mkdir -p /tmp/bar
-
-    # wait for dwm to start
     while ! pgrep dwm > /dev/null ; do
         sleep 0.1
     done
 
-    # if zero, bar is disabled
     [ $(cat /tmp/dwm_info/bar_height) -eq 0 ] && exit
 
     echo 1 > /tmp/dwm_info/check
 
-    # geometry
     local sh=$(res -h)
     h=$(cat /tmp/dwm_info/bar_height)
     x=0
     y=$(( sh - h ))
     w=$(res -w)
 
-    # fonts
     ft='cherry:pixelsize=11'
-
-	# get the current volume
-	$HOME/bin/vol -i 0
+	vol -i 0
 }
 
 wksp() {
-    if [ $(cat /tmp/dwm_info/check) -eq 1 ] ; then
+    [ $(cat /tmp/dwm_info/check) -eq 1 ]  && {
         local i=1
         while [ $i -le $(cat /tmp/dwm_info/num_ws) ]; do
             [ $(cat /tmp/dwm_info/ws"$i") -eq 1 ] && ws=" $i " || ws=""
@@ -47,8 +36,8 @@ wksp() {
             buffer=$buffer$ws
             i=$((i+1))
         done
-        echo -n "$buffer" > /tmp/bar/wksp
-    fi 2> /dev/null
+        echo "$buffer" > /tmp/bar/wksp
+    } 2> /dev/null
 }
 
 title() {
@@ -83,11 +72,10 @@ title() {
 }
 
 
-launch_daemons() {
+launchd() {
     timed() {
-        while true; do
-            date "+%H:%M" > /tmp/bar/time
-        sleep 59
+        while date "+%H:%M" > /tmp/bar/time; do
+            sleep 59
         done
     }
 
@@ -103,8 +91,9 @@ launch_daemons() {
 
     # day_daemon
     dayd() {
-        while true; do
-            echo $(date +%a | tr '[:upper:]' '[:lower:]' | cut -c1-2) > /tmp/bar/day
+        while \
+            echo $(date +%a | tr '[:upper:]' '[:lower:]' | cut -c1-2) \
+            > /tmp/bar/day; do
             sleep 300
         done
     }
@@ -119,27 +108,22 @@ launch_daemons() {
         done
     }
 
-    for d in timed dated dayd batd; do $d & done
-    unset d
+    local d; for d in timed dated dayd batd; do $d & done
 }
 
-init
-launch_daemons
+init; launchd
 
 while \
-    printf "%s%b%s%b%b%b%b%b%b%s\\n" \
-        "%{l} >  $(cat /tmp/bar/day) "\
+    echo "%{l} >  $(cat /tmp/bar/day) " \
         "$(wksp) $(cat /tmp/bar/wksp) " \
-        "$(cat /tmp/dwm_info/current_layout) "\
-        "%{c}  $(title)"\
+        "$(cat /tmp/dwm_info/current_layout) " \
+        "%{c}  $(title)" \
         "%{r}" \
         "$(cat /tmp/bar/bat 2> /dev/null)" \
-        " $(cat /tmp/bar/vol)% "\
-        " $(cat /tmp/bar/time) "\
+        " $(cat /tmp/bar/vol)% " \
+        " $(cat /tmp/bar/time) " \
         " $(cat /tmp/bar/date) "
-    do sleep 0.5
-done 2> /dev/null | \
-
+    do sleep 0.5; done 2> /dev/null | \
 lemonbar -db \
          -f "$ft" \
          -g ${w}x${h}+${x}+${y} \
