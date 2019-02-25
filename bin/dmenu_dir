@@ -11,6 +11,7 @@ ls() {
     local result
     local i
     for i in *; do
+        [ -d "${i}" ] && i="${i}/"
         result="${result}\n${i}"
     done
 

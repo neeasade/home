@@ -43,8 +43,8 @@ wksp() {
             [ $(cat /tmp/dwm_info/ws${i}) -eq 1 ] && ws=" `roman ${i}` " || ws=""
 
             [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" [`roman ${i}`] " ||
-                ws=" `roman ${i}` "
+                ws=" [`roman ${i}`] " #||
+                #ws=" `roman ${i}` "
 
             buffer="${buffer}${ws}"
             i=$((i+1))
@@ -128,10 +128,10 @@ while \
          "$(cat /tmp/dwm_info/current_layout) " \
          "%{B${color5}}%{F${color0}}" \
          "$(cat /tmp/bar/bat 2> /dev/null)" \
-         " $(cat /tmp/bar/vol)% " \
+         "$(cat /tmp/bar/vol)% " \
          " $(cat /tmp/bar/day) " \
          " $(cat /tmp/bar/time) " \
-         " $(cat /tmp/bar/date)  %{B-}%{F-}"
+         " $(cat /tmp/bar/date) %{B-}%{F-}"
     do sleep 0.5; done 2> /dev/null | \
 lemonbar -db \
          -f ${ft} \

@@ -68,6 +68,8 @@ for f in fff ranger nnn noice; do [ -n "$(command -v $f)" ] && { a fm="${f}"; br
 
 for p in pip3 pip2 pip; do [ -n "$(command -v $p)" ] && { a pip="$p";break; }; done
 
+for i in doas "sudo "; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
+
 unset i, p, f
 
 a py="python"
@@ -111,6 +113,7 @@ a fc-cache="fc-cache --verbose"
 
 a cd..="cd .."
 a c..="cd .."
+a c.="cd .."
 
 a resxhkd="[ -n $(pgrep sxhkd) ] && pkill -9 sxhkd;\
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\

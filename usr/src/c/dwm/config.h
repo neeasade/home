@@ -46,7 +46,7 @@ static const int fullscreen_one_window = 1;
 /* tagging */
 /* number of workspaces */
 static const int NUM_WORKSPACES     = 8;
-static const char *tags[]           = { "0", "1", "2", "3", "4", "0", "1", "2", "3", "4" };
+static const char *tags[]           = { "0", "1", "2", "3", "4", "0", "1", "2" };
 
 
 static const Rule rules[] = {
@@ -106,9 +106,6 @@ static const Layout layouts[] = {
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 static const char *drawst[] = { "dash", "-c", "${HOME}/bin/draw_st", NULL };
-
-#include "zoomswap.c"
-#include "movestack.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
