@@ -1,25 +1,19 @@
-" vim config
-
-" set the runtime path to include Vundle and initialize
 set rtp+=~/etc/vim/bundle/Vundle.vim
 set rtp+=~/etc/vim
-call vundle#begin("~/etc/vim/plugins")
+call vundle#begin('~/etc/vim/plugins')
 
 Plugin 'VundleVim/Vundle.vim'
 
-" General
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'davidhalter/jedi-vim' "because python
-Plugin 'rust-lang/rust.vim' "rust yummy
-"Plugin 'justmao945/vim-clang' "C is good
-Plugin 'vim-syntastic/syntastic' " it saves me some time
-Plugin 'ervandew/supertab' " using tab for completion is better
+Plugin 'davidhalter/jedi-vim'
+Plugin 'rust-lang/rust.vim'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'ervandew/supertab'
 Plugin 'vitalk/vim-shebang'
-Plugin 'w0rp/ale' "linter
+Plugin 'w0rp/ale'
 Plugin 'racer-rust/vim-racer'
 Plugin 'dylanaraps/fff.vim'
 
-" Beautify
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'ryanoasis/vim-webdevicons'
 Plugin 'morhetz/gruvbox'
@@ -28,94 +22,66 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'chriskempson/base16-vim'
 Plugin 'junegunn/goyo.vim'
 Plugin 'vmchale/ion-vim'
-" no vimairline for ya
 
 call vundle#end()
 filetype plugin indent on
 
-" nvim is better. change my mind
 if !has('nvim')
   set ttymouse=xterm2
 endif
 
-" for moar colors
 syntax on
 filetype plugin on
 
-" because I can't live without enabling it
-" hybridnumber > number > relativenumber
 set number
 set relativenumber
 set ruler
 "set cursorline " its kind of slow
 
-" indentation
 set tabstop=4
 set shiftwidth=4
 set smarttab
 set et
 
-" encoding for making lives easier
 set encoding=utf-8
 
-" hide statusbar. I don't like it. change my mind
 set laststatus=0
 
-" better search imo
 set ignorecase
 set smartcase
 
-" maps C-x Esc to go to normal mode while in :term
 tnoremap <C-x><Esc> <C-\><C-N>
 
-" set 256 colors
 set t_Co=256
 
-" keybindings
 nnoremap <F8> :SyntasticCheck<CR>
 
-" be improved
 set nocompatible
 
-" colorscheme
-"colorscheme viking
 colorscheme roman
 
-" yank to clipboard
 set clipboard=unnamedplus
 
-" set window's title
-" title is set to the full path of the file
 set title titlestring=nvim:\ %F titlelen=80
 
-" remove trailing whitespaces before writing
 autocmd BufWritePre * %s/\s\+$//e
 
-" disable line numbers in terminal
 autocmd TermOpen * setlocal nonumber norelativenumber
 
-" split stuff
 set splitright
 
-" set columns limit to 80
 set columns=80
-"set tw=80
 
-" remove cursor styling
 set guicursor=
 
 set noswapfile
 set autoread
 
-" Plugin's config
-
-"devicons
 let g:webdevicons_enable = 1
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_ctrlp = 1
 
-"syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -126,14 +92,10 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 autocmd VimEnter * SyntasticToggleMode
 
-"jedi-vim
 let g:jedi#completions_command = "<C-x><Tab>"
 
-"rust-lang
 let g:rustfmt_autosave = 1 "enable rust format
 
-"linter
-"completition
 let g:ale_completion_enabled = 1
 hi ALEErrorSign ctermbg=NONE ctermfg=1 cterm=NONE
 hi ALEWarningSign ctermbg=NONE ctermfg=11 cterm=NONE
@@ -142,7 +104,6 @@ hi ALEWarning ctermbg=NONE ctermfg=11 cterm=NONE
 let g:ale_sign_error = ">"
 let g:ale_sign_warning = "-"
 
-"indentguides config
 let g:indentLine_setColors = 1
 let g:indentLine_char = '|'
 let g:indentLine_first_char = "|"
@@ -151,10 +112,6 @@ let g:indentLine_showFirstLevelIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal', 'json', 'mail']
 let g:indentLine_bufTypeExclude = ['man', 'help', 'terminal', 'json', 'mail']
 let g:indentLine_bufNameExclude = ['NERD_tree.*', 'term://*', "man:*"]
-
-" racer
-let g:racer_cmd = "/home/the_human/opt/cargo/bin/racer"
-let g:racer_experimental_compeleter = 1
 
 filetype indent on
 

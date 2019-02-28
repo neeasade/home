@@ -55,7 +55,7 @@ wksp() {
 
 title() {
     shorten() {
-        echo `echo "${@}" | cut -c1-50`...
+        echo `echo "${@}" | cut -c1-40`...
     }
 
     [ -S /tmp/mpv_ytpl.socket ] && [ -f /tmp/ytpl_title ] && {

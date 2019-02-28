@@ -1,5 +1,4 @@
 # vim:ft=sh
-
 alias a="alias"
 
 a ls="ls -F"
@@ -96,7 +95,7 @@ a :q="exit"
 a :q!="exit"
 a sl="ls"
 
-a brness="sudo $HOME/bin/brness"
+a brness="sudo brness"
 a df="df -h"
 a du="du -h"
 a mv="mv -iv"
