@@ -2202,18 +2202,24 @@ void
 init(void)
 {
     // start either with borders or gaps.
-	if (start_borders == 1) {
-		borderpx = BORDERPX;
-		gappx = 0;
-	} else if (start_borders == 0) {
-		borderpx = 0;
-		gappx = GAP_PX;
-	} else if (start_borders == 2) {
-		borderpx = gappx = 0;
-	} else if (start_borders == 3) {
-		borderpx = BORDERPX;
-		gappx = GAP_PX;
-  }
+    switch(start_borders) {
+    case 1:
+        borderpx = BORDERPX;
+        gappx = 0;
+        break;
+    case 0:
+        borderpx = 0;
+        gappx = GAP_PX;
+        break;
+    case 2:
+        borderpx = gappx = 0;
+        break;
+    case 3:
+        borderpx = BORDERPX;
+        gappx = GAP_PX;
+        break;
+    }
+
 	init_dwm_info(gappx, BAR_HEIGHT, barpos, NUM_WORKSPACES, borderpx, bar_gap);
 }
 
