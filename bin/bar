@@ -25,26 +25,15 @@ init() {
 }
 
 wksp() {
-    roman() {
-        if [ ${1} -le 3 ]; then
-            printf `yes 'I' | head -n ${1} | tr -d '\n'`
-        elif [ ${1} -eq 4 ]; then
-            printf 'IV'
-        elif [ ${1} -eq 5 ]; then
-            printf 'V'
-        elif [ ${1} -le 8 ]; then
-            printf 'V%s' `yes 'I' | head -n $((${1}-5)) | tr -d '\n'`
-        fi
-    }
-
     [ $(cat /tmp/dwm_info/check) -eq 1 ]  && {
         local i=1
         while [ ${i} -le $(cat /tmp/dwm_info/num_ws) ]; do
-            [ $(cat /tmp/dwm_info/ws${i}) -eq 1 ] && ws=" `roman ${i}` " || ws=""
+            # check if occupied
+            [ $(cat /tmp/dwm_info/ws${i}) -eq 1 ] && ws="%{F${color5}}+ %{F-}" || ws="+ "
 
+            # check if current
             [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
-                ws=" [`roman ${i}`] " #||
-                #ws=" `roman ${i}` "
+                ws="* "
 
             buffer="${buffer}${ws}"
             i=$((i+1))

@@ -12,7 +12,7 @@ static const unsigned int GAP_PX    = 6;
  * 3 means gaps and borders
  *
  */
-static const unsigned int start_borders = 1;
+static const unsigned int start_borders = 3;
 
 /* snap pixel */
 static const unsigned int snap      = 0;

@@ -7,6 +7,6 @@ swall() {
 }
 
 case $1 in
-    (-S) swall $XDG_CACHE_HOME/wall $(cat $HOME/tmp/wall);;
+    (set) swall $XDG_CACHE_HOME/wall $(cat $HOME/tmp/wall);;
     (*) swall "$2" "$1";;
 esac > /dev/null

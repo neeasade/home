@@ -18,25 +18,35 @@ mklatex() {
 }
 
 c() {
-    if [ -f "$1" ]; then
-        cat "$1"
-    elif [ $# -eq 0 ]; then
-        clear
-    else
-        cd "$1"
-    fi
+    [ $# -eq 0 ] && { clear; return 0; }
+
+    local p
+
+    # simple expand
+    for p in "${@}" "${@}"* *"${@}" *"${@}"*; do
+        if [ -f "${p}" ]; then
+            cat "${p}"; return 0;
+        elif [ -d "${p}" ]; then
+            cd "${p}"; return 0;
+        fi
+    done
+
+    # see through dirs
+    for i in 0 1 2 3 4 5 6 7 8; do
+        p="$(find . -maxdepth $(($i + 1)) -mindepth $i -type d -iname "*$@*" | head -n 1)"
+        if [ -f "${p}" ]; then
+            cat "${p}"
+        elif [ -d "${p}" ]; then
+            cd "${p}"
+        fi && break
+    done
 }
 
 v() {
-    local e
-    local editor
-
-    for e in nvim vim vis vi ed $EDITOR; do [ -n "$(command -v $e)" ] && { editor=$e; break; }; done
-
-    [ -f *"$@"* ] && $editor *"$@"* || {
-        local f="$(find . -iname *"$@"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && $editor "$f" || {
+    [ -f *"$@"* ] && "${EDITOR}" *"$@"* || {
+        local f="$(find . -iname *"$@"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && "${EDITOR}" "$f" || {
             local f="$(find . -iname *"$@"* -maxdepth 2 | head -n 1)"
-            [ -f "$f" ] && $editor "$f" || $editor "$@"
+            [ -f "$f" ] && "${EDITOR}" "$f" || "${EDITOR}" "$@"
         }
     }
 } 2> /dev/null

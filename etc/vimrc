@@ -7,21 +7,15 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'rust-lang/rust.vim'
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'vitalk/vim-shebang'
-Plugin 'w0rp/ale'
-Plugin 'racer-rust/vim-racer'
 Plugin 'dylanaraps/fff.vim'
+Plugin 'autozimu/LanguageClient-neovim'
+Plugin 'Shougo/deoplete.nvim'
 
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'ryanoasis/vim-webdevicons'
-Plugin 'morhetz/gruvbox'
-Plugin 'vim-scripts/twilight256.vim'
 Plugin 'Yggdroot/indentLine'
-Plugin 'chriskempson/base16-vim'
 Plugin 'junegunn/goyo.vim'
-Plugin 'vmchale/ion-vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -54,8 +48,6 @@ tnoremap <C-x><Esc> <C-\><C-N>
 
 set t_Co=256
 
-nnoremap <F8> :SyntasticCheck<CR>
-
 set nocompatible
 
 colorscheme roman
@@ -82,16 +74,6 @@ let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_ctrlp = 1
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-autocmd VimEnter * SyntasticToggleMode
-
 let g:jedi#completions_command = "<C-x><Tab>"
 
 let g:rustfmt_autosave = 1 "enable rust format
@@ -112,6 +94,11 @@ let g:indentLine_showFirstLevelIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal', 'json', 'mail']
 let g:indentLine_bufTypeExclude = ['man', 'help', 'terminal', 'json', 'mail']
 let g:indentLine_bufNameExclude = ['NERD_tree.*', 'term://*', "man:*"]
+
+let g:deoplete#enable_at_startup = 1
+let g:LanguageClient_serverCommands = {
+            \ 'rust': ['rustup', 'run', 'nightly', 'rls']
+            \}
 
 filetype indent on
 

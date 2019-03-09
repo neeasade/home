@@ -1,27 +1,8 @@
-#!/usr/bin/python3
-#
-# a script to prepare my startpage
-# this is done due to the fact that firefox
-# doesn't allow to reference local files
-# as start page anymore
-# put together in five minutes
-# so don't expect quality code
-import re
-import os
+#!/bin/bash
 
-home = os.getenv("HOME")
+style=`< "${HOME}/etc/startpage/style.css"`
+style="${style/ICOLORS/`< "${HOME}/var/cache/tm/colors.css"`}"
 
-with open(f"{home}/etc/startpage/homepage.html", "r") as homepage_template:
-    homepage_template = homepage_template.read()
+html=`< "${HOME}/etc/startpage/homepage.html"`
 
-with open(f"{home}/var/cache/tm/colors.css", "r") as colors:
-    colors = colors.read()
-
-with open(f"{home}/etc/startpage/style.css", "r") as style_template:
-    style_template = style_template.read()
-
-style = re.sub("ICOLORS", colors, style_template)
-homepage = re.sub("XCSS", style, homepage_template)
-
-with open(f"{home}/var/cache/homepage.html", "w") as homepage_file:
-    homepage_file.write(homepage)
+echo "${html/XCSS/"${style}"}" > "${HOME}/var/cache/homepage.html"
