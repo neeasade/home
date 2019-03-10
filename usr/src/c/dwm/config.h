@@ -80,8 +80,8 @@ static const int nmaster     = 1;
 /* layouts symbol and their function */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },
 	{ "><>",      NULL },
+	{ "[]=",      tile },
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "[]H",      deck  },

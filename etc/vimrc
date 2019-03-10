@@ -5,10 +5,7 @@ call vundle#begin('~/etc/vim/plugins')
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'rust-lang/rust.vim'
-"Plugin 'vim-syntastic/syntastic'
-Plugin 'ervandew/supertab'
 Plugin 'vitalk/vim-shebang'
 Plugin 'dylanaraps/fff.vim'
 Plugin 'autozimu/LanguageClient-neovim'
@@ -74,8 +71,6 @@ let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_ctrlp = 1
 
-let g:jedi#completions_command = "<C-x><Tab>"
-
 let g:rustfmt_autosave = 1 "enable rust format
 
 let g:ale_completion_enabled = 1
@@ -87,8 +82,8 @@ let g:ale_sign_error = ">"
 let g:ale_sign_warning = "-"
 
 let g:indentLine_setColors = 1
-let g:indentLine_char = '|'
-let g:indentLine_first_char = "|"
+let g:indentLine_char = '│'
+let g:indentLine_first_char = "│"
 let g:indentLine_bgcolor_term = 0
 let g:indentLine_showFirstLevelIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal', 'json', 'mail']
@@ -97,7 +92,8 @@ let g:indentLine_bufNameExclude = ['NERD_tree.*', 'term://*', "man:*"]
 
 let g:deoplete#enable_at_startup = 1
 let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'nightly', 'rls']
+            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+            \ 'python': ['/home/viz/usr/lib/python3/bin/pyls'],
             \}
 
 filetype indent on

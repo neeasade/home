@@ -1,12 +1,12 @@
 #!/bin/dash
 # script to set wallpaper
 swall() {
-    cp "$1" $XDG_CACHE_HOME/wall 2> /dev/null
-    hsetroot -$2 "$1"
-    echo $2 > $HOME/tmp/wall
+    cp "$2" $XDG_CACHE_HOME/wall 2> /dev/null
+    hsetroot -$1 "$2"
+    echo $1 > $HOME/tmp/wall
 }
 
 case $1 in
-    (set) swall $XDG_CACHE_HOME/wall $(cat $HOME/tmp/wall);;
-    (*) swall "$2" "$1";;
+    (set) swall $(cat $HOME/tmp/wall) $XDG_CACHE_HOME/wall;;
+    (*) swall "$1" "$2";;
 esac > /dev/null
