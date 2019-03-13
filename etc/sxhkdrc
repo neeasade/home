@@ -29,8 +29,8 @@ super + {f,r}
 super + v
     chromium
 
-super + {x,i}
-    $HOME/bin/{turnoff,view_image}
+super + {x,i,n}
+    $HOME/bin/{turnoff,view_image,mbar}
 
 # dmenu dirs
 alt + shift + f
@@ -51,8 +51,8 @@ super + shift + ctrl + m
     $HOME/bin/togmouse
 
 # volume
-super + shift + {k,j,m,u}
-    $HOME/bin/vol {-i 1%,-d 1%,-m,-u}
+super + shift + {k,j,m,u,v}
+    $HOME/bin/vol {-i 1%,-d 1%,-m,-u,-n}
 
 # brness
 super + shift + {l,h}

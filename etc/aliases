@@ -19,11 +19,11 @@ mklatex() {
 
 c() {
     [ $# -eq 0 ] && { clear; return 0; }
-
     local p
+    local i
 
     # simple expand
-    for p in "${@}" "${@}"* *"${@}" *"${@}"*; do
+    for p in "${@}" "${@}*" "*${@}" "*${@}*"; do
         if [ -f "${p}" ]; then
             cat "${p}"; return 0;
         elif [ -d "${p}" ]; then
@@ -77,7 +77,7 @@ for f in fff ranger nnn noice; do [ -n "$(command -v $f)" ] && { a fm="${f}"; br
 
 for p in pip3 pip2 pip; do [ -n "$(command -v $p)" ] && { a pip="$p";break; }; done
 
-for i in doas "sudo "; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
+for i in 'doas ' 'sudo '; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
 
 unset i, p, f
 
@@ -119,6 +119,7 @@ a feh="feh --no-fehbg"
 a rmf="rm -f"
 a info="info --vi-keys"
 a fc-cache="fc-cache --verbose"
+a grep="grep -i"
 
 a cd..="cd .."
 a c..="cd .."

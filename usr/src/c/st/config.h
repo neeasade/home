@@ -25,7 +25,7 @@ static char *font = "cherry:pixelsize=11";
 
 
 /* inner padding */
-static int borderpx = 10;
+static int borderpx = 8;
 
 
 /*

@@ -15,15 +15,26 @@ done
 export TERMINAL="tabbed -c -r 2 st -w ''"
 export MANPAGER=$HOME/usr/local/bin/manpager
 
-export PATH=$HOME/opt/busybox/bin:$PATH
-export PATH=$HOME/bin:$HOME/usr/local:$PATH
-export PATH=$HOME/usr/local/bin:$PATH
-export PATH=$HOME/opt/texlive/bin/x86_64-linux:$PATH
-export PATH=$HOME/opt/cargo/bin:$PATH
+for p in \
+    "${HOME}/opt/texlive/bin/x86_64-linux" \
+    "${HOME}/{usr/local/,opt/{busybox,cargo}/,}bin"; do
+    set -- ${p}
+    for i in ${@}; do export PATH="${i}:${PATH}"; done
+done
 
-export MANPATH=$MANPATH:$HOME/usr/share/man:$HOME/usr/man:$HOME/usr/local/share/man
+unset p
+
+for m in \
+	"${HOME}/usr/{{local/,}share/,}man" \
+	"${HOME}/opt/texlive/texmf-dist/doc/man"; do
+    set -- ${m}
+    for i in ${@}; do export MANPATH="${MANPATH}:${i}"; done
+done
+
+unset m
+unset i
+
 export MANPATH=$MANPATH:$HOME/opt/texlive/texmf-dist/doc/man
-export INFOPATH=$INFOPATH:$HOME/opt/texlive/texmf-dist/doc/info
 
 export XDG_CACHE_HOME="$HOME/var/cache"
 export XDG_CONFIG_HOME="$HOME/etc"

@@ -18,7 +18,7 @@ static const unsigned int start_borders = 3;
 static const unsigned int snap      = 0;
 
 /* bar height in pixels */
-static const int BAR_HEIGHT         = 18;
+static const int BAR_HEIGHT         = 0;
 
 /*
  * 0 means bottom bar
@@ -26,7 +26,7 @@ static const int BAR_HEIGHT         = 18;
  * 2 means left bar
  *
  */
-static const int barpos             = 2;
+static const int barpos             = 1;
 
 /* 1 means have gaps around bar and root window */
 static const int bar_gap            = 0;
