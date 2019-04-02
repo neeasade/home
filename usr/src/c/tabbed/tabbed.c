@@ -1018,10 +1018,10 @@ setup(void)
 	wmatom[XEmbed] = XInternAtom(dpy, "_XEMBED", False);
 
 	/* init appearance */
-	wx = 0;
-	wy = 0;
-	ww = 800;
-	wh = 600;
+	wx = 10;
+	wy = 10;
+	ww = 500;
+	wh = 460;
 	isfixed = 0;
 
 	if (geometry) {

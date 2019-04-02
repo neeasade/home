@@ -6,10 +6,10 @@ case $SHELL in
 esac
 
 for e in nvim vim vis vi ed; do
-    [ -n "$(command -v $e)" ] && {
-        export EDITOR=$e;
-        export VISUAL=$e;
-        break; }
+    case $(type -p "${e}") in
+        (*"not found"*) continue;;
+        (*) export EDITOR="${e}"; export VISUAL="${e}"; break;;
+    esac
 done
 
 export TERMINAL="tabbed -c -r 2 st -w ''"
@@ -17,7 +17,7 @@ export MANPAGER=$HOME/usr/local/bin/manpager
 
 for p in \
     "${HOME}/opt/texlive/bin/x86_64-linux" \
-    "${HOME}/{usr/local/,opt/{busybox,cargo}/,}bin"; do
+    "${HOME}/{usr/local/,opt/cargo/,}bin"; do
     set -- ${p}
     for i in ${@}; do export PATH="${i}:${PATH}"; done
 done
@@ -49,6 +49,7 @@ export CARGO_HOME="$HOME/opt/cargo"
 export MAIL="$HOME/var/mail/inbox"
 
 export CPATH="$HOME/usr/local/include:$HOME/usr/include"
+export LD_LIBRARY_PATH="$HOME/usr/local/lib"
 
 export PYTHONUSERBASE="$HOME/usr/lib/python3"
 export PYTHONPATH="$HOME/usr/lib/python3"
@@ -60,3 +61,5 @@ export LESSHISTFILE="$HOME/var/cache/lesshst"
 export WEECHAT_HOME="$HOME/etc/weechat"
 
 export GNUPGHOME="$HOME/etc/gnupg"
+
+[ -n "$(command -v clang)" ] && export CC=clang

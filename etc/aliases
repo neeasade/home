@@ -1,7 +1,7 @@
 # vim:ft=sh
 alias a="alias"
 
-a ls="ls -F"
+a ls="ls -F --color=never"
 a nvim="nvim -i $HOME/var/cache/shada"
 a vim="vim -i $HOME/var/cache/viminfo"
 
@@ -33,7 +33,7 @@ c() {
 
     # see through dirs
     for i in 0 1 2 3 4 5 6 7 8; do
-        p="$(find . -maxdepth $(($i + 1)) -mindepth $i -type d -iname "*$@*" | head -n 1)"
+        p="$(find . -maxdepth $((i + 1)) -mindepth $i -type d -iname "*$@*" | head -n 1)"
         if [ -f "${p}" ]; then
             cat "${p}"
         elif [ -d "${p}" ]; then
@@ -60,6 +60,11 @@ resource() {
     esac
 }
 
+resxhkd() {
+    [ -n "$(pgrep -x sxhkd)" ] && pkill -9 sxhkd
+    sxhkd -c $HOME/etc/sxhkdrc &
+}
+
 conf() {
     g() { git --git-dir=$HOME/usr/repos/home --work-tree=$HOME  "${@}"; }
 
@@ -77,7 +82,7 @@ for f in fff ranger nnn noice; do [ -n "$(command -v $f)" ] && { a fm="${f}"; br
 
 for p in pip3 pip2 pip; do [ -n "$(command -v $p)" ] && { a pip="$p";break; }; done
 
-for i in 'doas ' 'sudo '; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
+for i in doas 'sudo '; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
 
 unset i, p, f
 
@@ -105,7 +110,6 @@ a :q="exit"
 a :q!="exit"
 a sl="ls"
 
-a brness="sudo brness"
 a df="df -h"
 a du="du -h"
 a mv="mv -iv"
@@ -124,10 +128,6 @@ a grep="grep -i"
 a cd..="cd .."
 a c..="cd .."
 a c.="cd .."
-
-a resxhkd="[ -n $(pgrep sxhkd) ] && pkill -9 sxhkd;\
-sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/logs/sxhkd.log\
--s $HOME/var/logs/sxhkd.log &"
 
 a commit="git commit --interactive -m"
 a diff="git diff"

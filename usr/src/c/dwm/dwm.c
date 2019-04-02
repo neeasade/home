@@ -421,7 +421,9 @@ attachstack(Client *c)
 	c->mon->stack = c;
 }
 
-void buttonpress(XEvent *e) {
+void
+buttonpress(XEvent *e)
+{
     unsigned int i, click;
     Arg arg = {0};
     Client *c;

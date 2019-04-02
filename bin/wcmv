@@ -1,51 +1,8 @@
 #!/bin/dash
 # move floating windows around
+eval `xdotool getactivewindow getwindowgeometry --shell`
 
-get_wind() {
-    # a function to get window dimensions
-    local active_window="$(xdotool getactivewindow)"
-    echo "$(xwininfo -id ${active_window})" > /tmp/wind
+[ ${1} = x ] && nx=x || nx=$(( X ${1} ))
+[ ${2} = y ] && ny=y || ny=$(( Y ${2} ))
 
-    case "${1}" in
-        -x)
-            echo "$(grep 'Absolute upper-left X' '/tmp/wind' | grep -Eo\
-            '[0-9]+')";;
-        -y)
-            echo "$(grep 'Absolute upper-left Y' '/tmp/wind' | grep -Eo\
-            '[0-9]+')";;
-        -w) echo "$(grep 'Width' '/tmp/wind' | grep -Eo '[0-9]x')";;
-        -h) echo "$(grep 'Height' '/tmp/wind' | grep -Eo '[0-9]x')";;
-    esac
-
-    rm -rf /tmp/wind
-}
-
-move_left() {
-    local x=`get_wind -x`
-    xdotool getactivewindow windowmove $(( x - ${1} )) y
-}
-
-move_right() {
-    local x=`get_wind -x`
-    xdotool getactivewindow windowmove $(( x + ${1} )) y
-}
-
-move_up() {
-    local y=`get_wind -y`
-    xdotool getactivewindow windowmove x $(( y - ${1} ))
-}
-
-move_down() {
-    local y=`get_wind -y`
-    xdotool getactivewindow windowmove x $(( y + ${1} ))
-}
-
-while [ $# -gt 0 ]; do
-    case "${1}" in
-        -l) shift; move_left ${1};;
-        -r) shift; move_right ${1};;
-        -u) shift; move_up ${1};;
-        -d) shift; move_down ${1};;
-    esac
-    shift
-done
+xdotool getactivewindow windowmove ${nx} ${ny}

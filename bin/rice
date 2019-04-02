@@ -17,5 +17,4 @@ xdotool key alt+shift+q
 [ -n "$(pgrep bar)" ] && pkill -9 bar
 $HOME/bin/bar &
 
-[ -n $(pgrep dunst) ] && pkill -9 dunst
-dunst -conf $HOME/var/cache/tm/dunstrc &
+cp $HOME/var/cache/tm/zathurarc $HOME/etc/zathura

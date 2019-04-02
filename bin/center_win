@@ -1,13 +1,8 @@
 #!/bin/dash
 # wmutils script to center window
-wid=$(pfw)
-
-ww=$(wattr w ${wid})
-wh=$(wattr h ${wid})
-bh=$(cat /tmp/dwm_info/bar_height)
-wh=$((wh-bh))
+eval `xdotool getactivewindow getwindowgeometry --shell`
 
 sw=$(res -w)
 sh=$(res -h)
 
-xdotool getactivewindow windowmove $(( (sw-ww)/2 )) $(( (sh-wh)/2 ))
+xdotool getactivewindow windowmove $(( (sw-WIDTH)/2 )) $(( (sh-HEIGHT)/2 ))

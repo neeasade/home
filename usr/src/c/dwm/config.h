@@ -3,7 +3,7 @@
 static const unsigned int BORDERPX  = 1;
 
 /* useless gaps in px */
-static const unsigned int GAP_PX    = 6;
+static const unsigned int GAP_PX    = 2;
 
 /*
  * 0 means gaps and no borders
@@ -26,7 +26,7 @@ static const int BAR_HEIGHT         = 0;
  * 2 means left bar
  *
  */
-static const int barpos             = 1;
+static const int barpos             = 2;
 
 /* 1 means have gaps around bar and root window */
 static const int bar_gap            = 0;
@@ -80,8 +80,8 @@ static const int nmaster     = 1;
 /* layouts symbol and their function */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "><>",      NULL },
 	{ "[]=",      tile },
+	{ "><>",      NULL },
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "[]H",      deck  },
@@ -99,13 +99,10 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      combotag,       {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
 /* commands */
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
-static const char *drawst[] = { "dash", "-c", "${HOME}/bin/draw_st", NULL };
+static const char *drawst[] = { "dash", "-c", "/home/viz/bin/draw_st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */

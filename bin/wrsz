@@ -1,12 +1,8 @@
 #!/bin/dash
 # window resize
 # depends on wmutils and xdotool
-wid=$(pfw)
-ww=$(wattr w ${wid})
-wh=$(wattr h ${wid})
-w=${1}
-h=${2}
+eval `xdotool getactivewindow getwindowgeometry --shell`
 
-[ ${w} != 'w' ] && nw=$(( ww ${w} )) || nw=w
-[ ${h} != 'h' ] && nh=$(( wh ${h} )) || nh=h
+[ ${1} != 'w' ] && nw=$(( WIDTH ${1} )) || nw=w
+[ ${2} != 'h' ] && nh=$(( HEIGHT ${2} )) || nh=h
 xdotool getactivewindow windowsize ${nw} ${nh}

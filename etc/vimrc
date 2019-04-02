@@ -73,14 +73,6 @@ let g:webdevicons_enable_ctrlp = 1
 
 let g:rustfmt_autosave = 1 "enable rust format
 
-let g:ale_completion_enabled = 1
-hi ALEErrorSign ctermbg=NONE ctermfg=1 cterm=NONE
-hi ALEWarningSign ctermbg=NONE ctermfg=11 cterm=NONE
-hi ALEError ctermbg=NONE ctermfg=1 cterm=NONE
-hi ALEWarning ctermbg=NONE ctermfg=11 cterm=NONE
-let g:ale_sign_error = ">"
-let g:ale_sign_warning = "-"
-
 let g:indentLine_setColors = 1
 let g:indentLine_char = '│'
 let g:indentLine_first_char = "│"
@@ -95,6 +87,11 @@ let g:LanguageClient_serverCommands = {
             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
             \ 'python': ['/home/viz/usr/lib/python3/bin/pyls'],
             \}
+let g:LanguageClient_diagnosticsDisplay = {
+    \ 1: { "name": "Error", "texthl": "ALEError", "signText": ">", "signTexthl": "ALEErrorSign", "virtualTexthl": "Error", },
+    \ 2: { "name": "Warning", "texthl": "ALEWarning", "signText": "!", "signTexthl": "ALEWarningSign", "virtualTexthl": "Warning", },
+    \ 3: { "name": "Information", "texthl": "ALEInfo", "signText": "i", "signTexthl": "ALEInfoSign", "virtualTexthl": "Todo", },
+    \ 4: { "name": "Hint", "texthl": "ALEInfo", "signText": "~", "signTexthl": "ALEInfoSign", "virtualTexthl": "Todo", }, }
 
 filetype indent on
 

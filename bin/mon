@@ -1,18 +1,16 @@
 #!/bin/dash
 # set of commands which should be run when I plug in my monitor
-primary=$(xrandr --nograb --current | grep primary | cut -d ' ' -f1)
-echo $primary
-case ${primary} in
-    eDP1) xrandr --auto --output DP1 --mode 1600x900 --primary; xrandr -s 1600x900;;
-    DP1) xrandr --auto --output eDP1 --mode 1366x768 --primary; xrandr -s 1366x768;;
+#primary=$(xrandr --nograb --current | grep primary | cut -d ' ' -f1)
+#echo $primary
+#case ${primary} in
+#    eDP1) xrandr --auto --output DP1 --mode 1600x900 --primary; xrandr -s 1600x900;;
+#    DP1) xrandr --auto --output eDP1 --mode 1366x768 --primary; xrandr -s 1366x768;;
+#esac
+
+case ${1} in
+    (on) xrandr --auto --output DP1 --mode 1600x900 --primary --right-of eDP1;;
+    (off) xrandr --auto --output eDP1 --mode 1366x768 --primary;;
 esac
 
-# restartbar
-[ -n "$(pgrep -x bar)" ] && pkill -9 bar
-bar &
-
 # set wallpaper again
-swall -S
-
-# for some reason, I have to rerun xmodmap
-xmodmap $HOME/etc/xmodmap
+swall set

@@ -81,4 +81,4 @@ hi Error        ctermbg=NONE   ctermfg=7   cterm=bold
 hi Todo         ctermbg=NONE   ctermfg=7   cterm=bold
 hi Statement    ctermbg=NONE   ctermfg=7   cterm=NONE
 
-autocmd BufRead,BufNewFile * syn match parens /[(){}]/ | hi parens cterm=NONE ctermfg=15 ctermbg=0
+autocmd BufRead,BufNewFile * syn match parens /;:[(){}]/ | hi parens cterm=NONE ctermfg=15 ctermbg=0

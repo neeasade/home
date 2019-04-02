@@ -1,5 +1,6 @@
 #!/bin/dash
 # simple dash script which increases the volume of Master (ALSA)
+notify=0
 
 usage() {
     echo "help\n----------\n[-h] echo this message\n[-i] increase volume by percent"
@@ -31,7 +32,7 @@ unmute() {
 }
 
 get() {
-    echo "$(cat /tmp/bar/vol)"
+    echo "$(cat /tmp/vol)"
 }
 
 case $1 in
@@ -47,6 +48,6 @@ case $1 in
 esac
 
 # get current volume and output that to a file which will be used by the bar
-amixer sget Master | awk -F '[][]' '{ print $2 }' | sed -e 's/%//' | tr -d '\n' > /tmp/bar/vol
+amixer sget Master | awk -F '[][]' '{ print $2 }' | sed -e 's/%//' | tr -d '\n' > /tmp/vol
 
 [ ${notify} -eq 1 ] && notify-send "volume" "$(get)%"

@@ -1,6 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_cnt =7
 let g:netrw_dirhist_1='/home/viz/tmp'
 let g:netrw_dirhist_2='/home/viz/usr/src/py/pysh/.git'
 let g:netrw_dirhist_3='/home/viz/etc/vim'
 let g:netrw_dirhist_4='/home/viz/etc/colors'
+let g:netrw_dirhist_5='/home/viz/usr/src/py/pysh/src/builtins'
+let g:netrw_dirhist_6='/home/viz/usr/src/py/pysh/.git'
+let g:netrw_dirhist_7='/home/viz/usr/src/rust/tm'

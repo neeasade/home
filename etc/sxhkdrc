@@ -1,10 +1,10 @@
 # window manipulation
 # move
 super + {w,a,s,d}
-    $HOME/bin/wcmv {-u 20,-l 20,-d 20,-r 20}
+    $HOME/bin/wcmv {x -20,-20 y,x +20,+20 y}
 
 super + shift + {w,a,s,d}
-    $HOME/bin/wcmv {-u 40,-l 40,-d 40,-r 40}
+    $HOME/bin/wcmv {x -40,-40 y,x +40,+40 y}
 
 # resize
 super + ctrl + {w,s,d,a}
@@ -24,10 +24,10 @@ alt + shift + Return
     tabbed -c -r 2 st -w ''
 
 super + {f,r}
-    st -e 'ranger'
+    st -e 'fff'
 
-super + v
-    chromium
+super + {v,l}
+    {chromium-browser,slock}
 
 super + {x,i,n}
     $HOME/bin/{turnoff,view_image,mbar}

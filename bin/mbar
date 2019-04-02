@@ -1,9 +1,13 @@
 #!/bin/dash
 # minimal bar
 [ -n "$(pgrep -x lemonbar)" ] && { pkill -9 lemonbar; exit; }
+[ -d "${HOME}/tmp/bar" ] && rm -rf "${HOME}/tmp/bar"
+mkdir -p "${HOME}/tmp/bar"
 
 . "${HOME}/var/cache/tm/colors.sh"
 vol -i 0%
+w=$(res -w)
+h=$(res -h)
 
 wksp() {
     [ $(cat /tmp/dwm_info/check) -eq 1 ]  && {
@@ -17,19 +21,18 @@ wksp() {
             buffer="${buffer}${ws}"
             i=$((i+1))
         done
-        echo "${buffer}" > /tmp/bar/wksp
+        echo "${buffer}" > ${HOME}/tmp/bar/wksp
     }
 } 2> /dev/null
 
-while \
-    echo "%{c}$(wksp)$(cat /tmp/bar/wksp)" \
-         "%{r} $(date +'%H:%M') "
-do sleep 0.5; done | \
+(echo "%{l} $(wksp)$(cat ${HOME}/tmp/bar/wksp)" \
+         "%{r} $(date +'%H:%M') ";
+sleep 2;) |
     lemonbar -db \
              -f 'cherry:pixelsize=11' \
-             -g '125x18+1220+730' \
+             -g "140x18+$((w-170))+$((h-40))" \
              -B ${color0} \
              -F ${color7} \
-             -R ${color5} \
+             -R ${color8} \
              -r 1 \
              -n "bar"

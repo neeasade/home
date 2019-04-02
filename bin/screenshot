@@ -20,21 +20,22 @@ copy() {
 }
 
 grab_screen() {
-    maim -u -d 1 --quiet > $tmp_image
+    sleep 1;
+    xscreenshot | ff2png > ${tmp_image}
 }
 
-grab_area() {
-    maim -s > $tmp_image
-}
+#grab_area() {
+#    maim -s > $tmp_image
+#}
 
 grab_window() {
-    maim -i $(xdotool getactivewindow) -d 1 > $tmp_image
+    xscreenshot $(xdotool getactivewindow) | ff2png > ${tmp_image}
 }
 
-capture="$(echo "grab area\ngrab window\ngrab screen" | menu sel)"
+capture="$(echo "grab window\ngrab screen" | menu sel)"
 
 case $capture in
-    (*area*) grab_area;;
+    #(*area*) grab_area;;
     (*win*) grab_window;;
     (*screen*) grab_screen;;
     (*) notify-send "error" "invalid option"; exit;;
