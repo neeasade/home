@@ -5,8 +5,8 @@ const char *colorname[] = {
 	[2] = "#X7",  /* green   */
 	[3] = "#X7", /* yellow  */
 	[4] = "#X7",   /* blue    */
-	[5] = "#X7",/* magenta */
-	[6] = "#X6",   /* cyan    */
+	[5] = "#X5",/* magenta */
+	[6] = "#X7",   /* cyan    */
 	[7] = "#X7",  /* white   */
 
 	/* 8 bright colors */
