@@ -1018,8 +1018,8 @@ setup(void)
 	wmatom[XEmbed] = XInternAtom(dpy, "_XEMBED", False);
 
 	/* init appearance */
-	wx = 10;
-	wy = 10;
+	wx = 100;
+	wy = 100;
 	ww = 500;
 	wh = 460;
 	isfixed = 0;

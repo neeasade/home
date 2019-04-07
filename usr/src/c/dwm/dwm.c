@@ -2222,6 +2222,7 @@ init(void)
     case 2:
         borderpx = gappx = 0;
         break;
+    default:
     case 3:
         borderpx = BORDERPX;
         gappx = GAP_PX;

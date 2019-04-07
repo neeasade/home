@@ -1,4 +1,2 @@
 #!/bin/dash
-geo=$($HOME/opt/cargo/bin/hacksaw)
-
-tabbed -c -n floating-st -g "${geo}" -r 2 st -w '' -t floating-st &
+tabbed -c -n floating-st -g `hacksaw -n` -r 2 st -w '' -t floating-st &

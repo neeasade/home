@@ -3,14 +3,12 @@
 
 tmp_image="/tmp/grab.png"
 
-[ -z $(command -v dunst) ] && alias notify-send=echo
-
 upload() {
     local url="$(curl -F file="@${tmp_image}" https://0x0.st)"
     echo "$url" | head -n 1 | tr -d "\n" | xclip -sel "clip"
+
     [ -n "$url" ] &&
-        notify-send "scrot taken!" "url in clipboard" ||
-        notify-send "error" "check if your internet is on"
+        notify-send 'scrot taken!' 'url in clipboard'
 }
 
 copy() {
@@ -24,18 +22,18 @@ grab_screen() {
     xscreenshot | ff2png > ${tmp_image}
 }
 
-#grab_area() {
-#    maim -s > $tmp_image
-#}
-
-grab_window() {
-    xscreenshot $(xdotool getactivewindow) | ff2png > ${tmp_image}
+grab_area() {
+    xscreenshot -g `hacksaw -n` | ff2png > ${tmp_image}
 }
 
-capture="$(echo "grab window\ngrab screen" | menu sel)"
+grab_window() {
+    xscreenshot -w $(xdotool getactivewindow) | ff2png > ${tmp_image}
+}
+
+capture="$(echo "grab area\ngrab window\ngrab screen" | menu sel)"
 
 case $capture in
-    #(*area*) grab_area;;
+    (*area*) grab_area;;
     (*win*) grab_window;;
     (*screen*) grab_screen;;
     (*) notify-send "error" "invalid option"; exit;;

@@ -102,7 +102,6 @@ static const Layout layouts[] = {
 /* commands */
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
-static const char *drawst[] = { "dash", "-c", "/home/viz/bin/draw_st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -160,5 +159,4 @@ static Button buttons[] = {
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-	{ ClkRootWin, 		    0, 		        Button3, 	    spawn, 		    {.v = drawst} },
 };
