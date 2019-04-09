@@ -39,6 +39,7 @@ run() {
 chromium
 st
 draw
+dosbox
 screenshot
 turnoff
 record

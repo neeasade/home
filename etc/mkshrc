@@ -77,9 +77,6 @@ PS2='... '
 
 # console stuff
 [ "$TERM" = "linux" ] && {
-    [ -f $XDG_CACHE_HOME/tm/tty.sh ] &&
-        source $XDG_CACHE_HOME/tm/tty.sh
-
     clear
     [ $(brness -g) -gt 20 ] && sudo brness -s 20%
 } 2> /dev/null
