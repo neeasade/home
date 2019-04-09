@@ -1,24 +1,25 @@
 # vim:ft=sh
 alias a="alias"
 
-a ls="ls -F --color=never"
-a nvim="nvim -i $HOME/var/cache/shada"
-a vim="vim -i $HOME/var/cache/viminfo"
+a nvim="nvim -i ${HOME}/var/cache/shada"
+a vim="vim -i ${HOME}/var/cache/viminfo"
 
-[ -z "$(command -v neofetch)" ] && a sf="$HOME/bin/fetch"
+[ -z "$(command -v neofetch)" ] && a sf="${HOME}/bin/fetch"
 
 find_font() {
-    [ $# -eq 0 ] && return
-    fc-list | grep "$1"
+    [ ${#} -eq 0 ] && return
+    fc-list | grep "${1}"
 }
 
 mklatex() {
     local file
-    for file in $@; do xelatex "$file"; local name="${file%.tex}"; rm -rf ${name}.{aux,out,log}; done
+    for file in ${@}; do
+        xelatex "${file}"; rm -rf ${file%.tex}.{aux,out,log}
+    done
 }
 
 c() {
-    [ $# -eq 0 ] && { clear; return 0; }
+    [ ${#} -eq 0 ] && { clear; return 0; }
     local p
     local i
 
@@ -33,7 +34,7 @@ c() {
 
     # see through dirs
     for i in 0 1 2 3 4 5 6 7 8; do
-        p="$(find . -maxdepth $((i + 1)) -mindepth $i -type d -iname "*$@*" | head -n 1)"
+        p="$(find . -maxdepth $((i + 1)) -mindepth $i -type d -iname "*${@}*" | head -n 1)"
         if [ -f "${p}" ]; then
             cat "${p}"
         elif [ -d "${p}" ]; then
@@ -43,48 +44,48 @@ c() {
 }
 
 v() {
-    [ -f *"$@"* ] && "${EDITOR}" *"$@"* || {
-        local f="$(find . -iname *"$@"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && "${EDITOR}" "$f" || {
-            local f="$(find . -iname *"$@"* -maxdepth 2 | head -n 1)"
-            [ -f "$f" ] && "${EDITOR}" "$f" || "${EDITOR}" "$@"
+    [ -f *"${@}"* ] && "${EDITOR}" *"$@"* || {
+        local f="$(find . -iname *"${@}"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && "${EDITOR}" "$f" || {
+            local f="$(find . -iname *"${@}"* -maxdepth 2 | head -n 1)"
+            [ -f "$f" ] && "${EDITOR}" "$f" || "${EDITOR}" "${@}"
         }
     }
 } 2> /dev/null
 
 resource() {
-    source $HOME/etc/aliases
+    source ${HOME}/etc/aliases
 
-    case $SHELL in
-        (*mksh*) source $HOME/etc/mkshrc;;
-        (*bash*) source $HOME/etc/bashrc;;
+    case ${SHELL} in
+    (*mksh*) source ${HOME}/etc/mkshrc;;
+    (*bash*) source ${HOME}/etc/bashrc;;
     esac
 }
 
 resxhkd() {
     [ -n "$(pgrep -x sxhkd)" ] && pkill -9 sxhkd
-    sxhkd -c $HOME/etc/sxhkdrc &
+    sxhkd -c ${HOME}/etc/sxhkdrc &
 }
 
 conf() {
-    g() { git --git-dir=$HOME/usr/repos/home --work-tree=$HOME  "${@}"; }
+    g() { git --git-dir=${HOME}/usr/repos/home --work-tree=$HOME  "${@}"; }
 
     case ${1} in
-        (commit) shift; g commit --interactive -m "${@}";;
-        (push) g push origin master;;
-        (list) g ls-tree -r HEAD --name-only | less;;
-        (*) g "${@}";;
+    (commit) shift; g commit --interactive -m "${@}";;
+    (push) g push origin master;;
+    (list) g ls-tree -r HEAD --name-only | less;;
+    (*) g "${@}";;
     esac
 }
 
-for i in python3 python2 python; do [ -n "$(command -v $i)" ] && { a python="$i"; break; }; done
+for i in python3 python2 python; do [ -n "$(command -v ${i})" ] && { a python=${i}; break; }; done
 
-for f in fff ranger nnn noice; do [ -n "$(command -v $f)" ] && { a fm="${f}"; break; }; done
+for f in fff ranger nnn noice; do [ -n "$(command -v ${f})" ] && { a fm=${f}; break; }; done
 
-for p in pip3 pip2 pip; do [ -n "$(command -v $p)" ] && { a pip="$p";break; }; done
+for p in pip3 pip2 pip; do [ -n "$(command -v ${p})" ] && { a pip="${p}";break; }; done
 
 for i in doas 'sudo '; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
 
-unset i, p, f
+unset i p f
 
 a py="python"
 a pl="perl"
@@ -136,17 +137,17 @@ a datenow="date +'%a %d %b %Y %H:%M'"
 a killall="pkill -9"
 a killx="pkill -15 Xorg"
 
-a gH="cd $HOME"
-a gB="cd $HOME/bin"
-a gS="cd $HOME/usr/src"
-a gR="cd $HOME/usr/repos"
-a gT="cd $HOME/tmp"
-a gW="cd $HOME/var/pictures/wallpapers"
-a gE="cd $HOME/etc"
-a gD="cd $HOME/var/downloads"
-a gC="cd $HOME/var/cache"
-a gV="cd $HOME/var"
-a gO="cd $HOME/opt"
-a gU="cd $HOME/usr"
-a gP="cd $HOME/usr/ports"
+a gH="cd ${HOME}"
+a gB="cd ${HOME}/bin"
+a gS="cd ${HOME}/usr/src"
+a gR="cd ${HOME}/usr/repos"
+a gT="cd ${HOME}/tmp"
+a gW="cd ${HOME}/var/pictures/wallpapers"
+a gE="cd ${HOME}/etc"
+a gD="cd ${HOME}/var/downloads"
+a gC="cd ${HOME}/var/cache"
+a gV="cd ${HOME}/var"
+a gO="cd ${HOME}/opt"
+a gU="cd ${HOME}/usr"
+a gP="cd ${HOME}/usr/ports"
 a gr="cd /"
