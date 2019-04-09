@@ -1,10 +1,10 @@
 /* fonts */
 //static char *font = "terminus:antialias=true:autohint=false:style=Regular";
 //static char *font = "scientifica:style=bold";
-static char *font = "curie";
+//static char *font = "curie";
 //static char *font = "scientifica";
 //static char *font = "cherry:pixelsize=11";
-//static char *font = "Ttyp0:pixelsize=12";
+static char *font = "Ttyp0:pixelsize=12";
 //static char *font = "dina:size=6";
 //static char *font = "Share Tech Mono:size=9";
 //static char *font = "Share Tech Mono:size=10";
@@ -15,17 +15,11 @@ static char *font = "curie";
 //static char *font = "TerminessTTF Nerd Font:size=11";
 
 /* include themes */
-//#include "themes/default.h"
-//#include "themes/thicc.h"
-//#include "themes/base16-ocean.h"
-//#include "themes/greyscale.h"
-//#include "themes/bubblegum-theme.h"
-//#include "themes/viking.h"
 #include "/home/viz/var/cache/tm/st.h"
 
 
 /* inner padding */
-static int borderpx = 8;
+static int borderpx = 6;
 
 
 /*
@@ -110,14 +104,6 @@ char *termname = "st-256color";
  */
 unsigned int tabspaces = 4;
 
-/*
- * Default shape of cursor
- * 2: Block ("█")
- * 4: Underline ("_")
- * 6: Bar ("|")
- * 7: Snowman ("☃")
- */
-static unsigned int cursorshape = 4;
 static unsigned int defaultrcs = 256;
 
 /*

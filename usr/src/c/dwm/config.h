@@ -1,4 +1,3 @@
-// TODO: add a issticky rule
 /* border pixel of windows */
 static const unsigned int BORDERPX  = 1;
 

@@ -1,0 +1,8 @@
+#!/bin/dash
+# print random shit to the screen
+
+while read -r line; do
+    case ${line} in
+    ([A-z0-9]) echo ${line};;
+    esac
+done < /dev/urandom

@@ -3,7 +3,8 @@ cd $HOME
 xmodmap $HOME/etc/xmodmap
 xset +fp $HOME/usr/fonts
 sxhkd -c $HOME/etc/sxhkdrc -r $HOME/var/log/sxhkd.log -s $HOME/var/log/sxhkd.log &
-swall set &
+#swall set &
+hsetroot -solid \#dde0e2
 
 [ $(xrandr --nograb --current | grep -o \* | wc -l) = 2 ] && mon on
 

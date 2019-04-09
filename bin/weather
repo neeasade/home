@@ -4,10 +4,10 @@
 
 # get data if not present already
 [ ! -f /tmp/bar/raw_weather ] &&\
-    curl -s https://wttr.in/chennai?m0TQP > /tmp/bar/raw_weather
+    curl -s https://wttr.in/chennai?m0TQP > ~/tmp/raw_weather
 
 # get the weather conditon
-weather_cond=`cat /tmp/bar/raw_weather | head -n 1 | grep -oE "[ A-Za-z]+"`
+weather_cond=`cat ~/tmp/raw_weather | head -n 1 | grep -oE "[ A-Za-z]+"`
 weather_condition=""
 
 for word in $weather_cond; do
@@ -16,9 +16,9 @@ done
 
 # get the current temperature
 if [ -f /tmp/bar/weather ]; then
-    temperature=`cat /tmp/bar/weather | grep -oE "[0-9]+" | tr -d '\n'`
+    temperature=`cat ~/tmp/weather | grep -oE "[0-9]+" | tr -d '\n'`
 else
-    temperature=`cat /tmp/bar/raw_weather | head -n 1 | grep -oE "[0-9]+" | head -n 1 | tr -d '\n'`
+    temperature=`cat ~/tmp/raw_weather | head -n 1 | grep -oE "[0-9]+" | head -n 1 | tr -d '\n'`
     temperature=$((temperature+273))
 fi
 

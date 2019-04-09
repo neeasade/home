@@ -21,9 +21,6 @@ if !has('nvim')
   set ttymouse=xterm2
 endif
 
-syntax on
-filetype plugin on
-
 set number
 set relativenumber
 set ruler

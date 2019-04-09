@@ -70,7 +70,8 @@ _get_cwd() {
 
 # prompts
 #export PS1=']$(_PS1_details)$(_PS1_command) '
-export PS1='\$$(_PS1_command) '
+#export PS1='\$$(_PS1_command) '
+export PS1=';$(_PS1_command) '
 #export PS1='%$(_PS1_command &)$(_PS1_details) '
 PS2='... '
 
