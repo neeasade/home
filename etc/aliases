@@ -1,6 +1,7 @@
 # vim:ft=sh
 alias a="alias"
 
+a ls="ls -F"
 a nvim="nvim -i ${HOME}/var/cache/shada"
 a vim="vim -i ${HOME}/var/cache/viminfo"
 

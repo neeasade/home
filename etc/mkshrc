@@ -70,9 +70,3 @@ _PS1_command() {
 export PS1=';$(_PS1_command) '
 #export PS1='%$(_PS1_command &)$(_PS1_details) '
 PS2='... '
-
-# console stuff
-[ "${TERM}" = "linux" ] && {
-    clear
-    [ $(brness -g) -gt 20 ] && sudo brness -s 20%
-} 2> /dev/null

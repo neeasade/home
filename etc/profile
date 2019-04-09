@@ -1,19 +1,19 @@
 #!/bin/sh
-case $SHELL in
-    (*mksh*) . $HOME/etc/mkshrc;;
-    (*bash*) . $HOME/etc/bashrc;;
-    (*) . $HOME/etc/aliases;;
+case ${SHELL} in
+(*mksh*) . ${HOME}/etc/mkshrc;;
+(*bash*) . ${HOME}/etc/bashrc;;
+(*) . ${HOME}/etc/aliases;;
 esac
 
 for e in nvim vim vis vi ed; do
     case $(type -p "${e}") in
-        (*"not found"*) continue;;
-        (*) export EDITOR="${e}"; export VISUAL="${e}"; break;;
+    (*"not found"*) continue;;
+    (*) export EDITOR="${e}"; export VISUAL="${e}"; break;;
     esac
 done
 
 export TERMINAL="tabbed -c -r 2 st -w ''"
-export MANPAGER=$HOME/usr/local/bin/manpager
+export MANPAGER=${HOME}/usr/local/bin/manpager
 
 for p in \
     "${HOME}/opt/texlive/bin/x86_64-linux" \
@@ -34,32 +34,36 @@ done
 unset m
 unset i
 
-export MANPATH=$MANPATH:$HOME/opt/texlive/texmf-dist/doc/man
+export MANPATH=$MANPATH:${HOME}/opt/texlive/texmf-dist/doc/man
 
-export XDG_CACHE_HOME="$HOME/var/cache"
-export XDG_CONFIG_HOME="$HOME/etc"
+export XDG_CACHE_HOME="${HOME}/var/cache"
+export XDG_CONFIG_HOME="${HOME}/etc"
 export XDG_DESKTOP_DIR="/non/existent"
-export XDG_DOWNLOAD_DIR="$HOME/var/downloads"
-export XDG_DATA_HOME="$HOME/var/lib"
-export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+export XDG_DOWNLOAD_DIR="${HOME}/var/downloads"
+export XDG_DATA_HOME="${HOME}/var/lib"
+export XAUTHORITY="${XDG_CACHE_HOME}/Xauthority"
 
-export RUSTUP_HOME="$HOME/opt/rustup"
-export CARGO_HOME="$HOME/opt/cargo"
+export RUSTUP_HOME="${HOME}/opt/rustup"
+export CARGO_HOME="${HOME}/opt/cargo"
 
-export MAIL="$HOME/var/mail/inbox"
+export MAIL="${HOME}/var/mail/inbox"
 
-export CPATH="$HOME/usr/local/include:$HOME/usr/include"
-export LD_LIBRARY_PATH="$HOME/usr/local/lib"
+export CPATH="${HOME}/usr/local/include:$HOME/usr/include"
+export LD_LIBRARY_PATH="${HOME}/usr/local/lib"
 
-export PYTHONUSERBASE="$HOME/usr/lib/python3"
-export PYTHONPATH="$HOME/usr/lib/python3"
-export PYTHONSTARTUP="$HOME/etc/pythonrc"
+export PYTHONUSERBASE="${HOME}/usr/lib/python3"
+export PYTHONPATH="${HOME}/usr/lib/python3"
+export PYTHONSTARTUP="${HOME}/etc/pythonrc"
 
-export NVIM_LOG_FILE="$HOME/var/logs/nvim.log"
-export LESSHISTFILE="$HOME/var/cache/lesshst"
+export NVIM_LOG_FILE="${HOME}/var/logs/nvim.log"
+export LESSHISTFILE="${HOME}/var/cache/lesshst"
 
-export WEECHAT_HOME="$HOME/etc/weechat"
+export WEECHAT_HOME="${HOME}/etc/weechat"
 
-export GNUPGHOME="$HOME/etc/gnupg"
+export GNUPGHOME="${HOME}/etc/gnupg"
 
 [ -n "$(command -v clang)" ] && export CC=clang
+
+case $(tty) in
+(*1*) sx;;
+esac
