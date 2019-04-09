@@ -1,8 +1,8 @@
 #!/bin/mksh
 # vim:ft=sh
-case $- { (*i*) ;; (*) return;; }
+case ${-} { (*i*) ;; (*) return;; }
 
-. $HOME/etc/aliases
+. ${HOME}/etc/aliases
 
 alias echo='builtin print'
 alias !!='\\builtin fc -e -'
@@ -16,7 +16,7 @@ unalias r w
 stty -ixon
 
 # history
-HISTFILE="$HOME/var/cache/mksh_history"
+HISTFILE="${HOME}/var/cache/mksh_history"
 HISTSIZE=100000
 
 # vi mode
@@ -37,23 +37,23 @@ set -o vi
 #} 2> /dev/null
 
 _set_wn() {
-    [ "$TERM" != "linux" ] && {
-        local cwd="${PWD/$HOME/\~}"
-        echo -ne "\033]0;mksh: $cwd\a"
+    [ "${TERM}" != "linux" ] && {
+        local cwd="${PWD/${HOME}/\~}"
+        echo -ne "\033]0;mksh: ${cwd}\a"
     }
 } 2> /dev/null
 
 # delete Desktop folder
 # I HATE IT
 _rm_jnk() {
-    [ -d $XDG_DESKTOP_HOME ] && rm -rf $XDG_DESKTOP_HOME
-    [ -d $HOME/Desktop ] && rm -rf $HOME/Desktop
-    [ -d $HOME/Downloads ] &&
-        [ -z "$(ls $HOME/Downloads)" ] && rm -rf $HOME/Downloads
+    [ -d ${XDG_DESKTOP_HOME} ] && rm -rf ${XDG_DESKTOP_HOME}
+    [ -d ${HOME}/Desktop ] && rm -rf ${HOME}/Desktop
+    [ -d ${HOME}/Downloads ] &&
+        [ -z "$(ls ${HOME}/Downloads)" ] && rm -rf ${HOME}/Downloads
     # im not sure if this is safe but hey, I hate them
-    [ -d $HOME/.dbus ] && rm -rf $HOME/.dbus
-    [ -d $HOME/.pki ] && rm -rf $HOME/.pki
-    [ -f $HOME/.wget-hsts ] && rm -rf $HOME/.wget-hsts
+    [ -d ${HOME}/.dbus ] && rm -rf ${HOME}/.dbus
+    [ -d ${HOME}/.pki ] && rm -rf ${HOME}/.pki
+    [ -f ${HOME}/.wget-hsts ] && rm -rf ${HOME}/.wget-hsts
 } > /dev/null
 
 #_PS1_details() {
@@ -64,10 +64,6 @@ _PS1_command() {
     _set_wn; _rm_jnk
 }
 
-_get_cwd() {
-    echo -ne "${PWD/$HOME/\~}"
-}
-
 # prompts
 #export PS1=']$(_PS1_details)$(_PS1_command) '
 #export PS1='\$$(_PS1_command) '
@@ -76,7 +72,7 @@ export PS1=';$(_PS1_command) '
 PS2='... '
 
 # console stuff
-[ "$TERM" = "linux" ] && {
+[ "${TERM}" = "linux" ] && {
     clear
     [ $(brness -g) -gt 20 ] && sudo brness -s 20%
 } 2> /dev/null
