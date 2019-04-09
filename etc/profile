@@ -13,7 +13,7 @@ for e in nvim vim vis vi ed; do
 done
 
 export TERMINAL="tabbed -c -r 2 st -w ''"
-export MANPAGER=${HOME}/usr/local/bin/manpager
+export MANPAGER=less
 
 for p in \
     "${HOME}/opt/texlive/bin/x86_64-linux" \
