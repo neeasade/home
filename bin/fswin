@@ -19,4 +19,4 @@ xdotool key alt+shift+space
 # now let's resize the window
 # just as an edge case, let's move the window to 0 0
 xdotool windowmove ${activewin} 0 0
-xdotool windowsize ${activewin} $sw $sh
+xdotool windowsize ${activewin} ${sw} ${sh}

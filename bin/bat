@@ -1,25 +1,26 @@
 #!/bin/dash
 # a battery thingy
 base_dir='/sys/class/power_supply/'
-# check if its BAT0 or BAT1
-[ -d "${base_dir}/BAT0" ] && bat_dir='BAT0' || bat_dir='BAT1'
+for i in 0 1 2 3; do
+    [ -d "${base_dir}/BAT${i}" ] && { base_dir="${base_dir}/BAT${i}"; break; }
+done
 
 get_status() {
     # get the battery status
     # is charging or discharging
-    local status="$(cat "${base_dir}/${bat_dir}/status")"
+    local status="$(cat "${base_dir}/status")"
     echo ${status}
 }
 
 get_percent() {
-    local percent="$(cat "${base_dir}/${bat_dir}/capacity")"
+    local percent="$(cat "${base_dir}/capacity")"
     echo ${percent}
 }
 
-while [ $# -gt 0 ]; do
-    case "$1" in
-        -p) get_percent;;
-        -s) get_status;;
+while [ ${#} -gt 0 ]; do
+    case ${1} in
+    (-p) get_percent;;
+    (-s) get_status;;
     esac
     shift
 done

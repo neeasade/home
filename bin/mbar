@@ -30,7 +30,7 @@ wksp() {
 sleep 2;) |
     lemonbar -db \
              -f 'cherry:pixelsize=11' \
-             -g "140x18+$((w-170))+$((h-40))" \
+             -g "140x18+$((w - 170))+$((h - 40))" \
              -B ${color0} \
              -F ${color7} \
              -R ${color8} \

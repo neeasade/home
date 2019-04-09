@@ -35,16 +35,16 @@ get() {
     echo "$(cat /tmp/vol)"
 }
 
-case $1 in
-    (-n) notify=1;;
-    (-h) usage;;
-    (-i) inc $2; shift;;
-    (-d) dec $2; shift;;
-    (-m) mute;;
-    (-u) unmute;;
-    (-s) setvol $2; shift;;
-    (-g) get;;
-    (*) usage;;
+case ${1} in
+(-n) notify=1;;
+(-h) usage;;
+(-i) inc ${2}; shift;;
+(-d) dec ${2}; shift;;
+(-m) mute;;
+(-u) unmute;;
+(-s) setvol ${2}; shift;;
+(-g) get;;
+(*) usage;;
 esac
 
 # get current volume and output that to a file which will be used by the bar

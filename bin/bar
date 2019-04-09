@@ -2,7 +2,7 @@
 trap 'pkill -P $$' EXIT
 
 init() {
-    . $HOME/var/cache/tm/colors.sh
+    . ${HOME}/var/cache/tm/colors.sh
 
     [ -d /tmp/bar ] && rm -rf /tmp/bar; mkdir -p /tmp/bar
 
@@ -17,7 +17,7 @@ init() {
     local sh=$(res -h)
     h=$(cat /tmp/dwm_info/bar_height)
     x=0
-    y=$(( sh - h ))
+    y=$((sh - h))
     w=$(res -w)
 
     ft='cherry:pixelsize=11'
@@ -32,11 +32,11 @@ wksp() {
             [ $(cat /tmp/dwm_info/ws${i}) -eq 1 ] && ws="%{F${color5}}+ %{F-}" || ws="+ "
 
             # check if current
-            [ $(cat /tmp/dwm_info/current_ws) -eq $i ] &&
+            [ $(cat /tmp/dwm_info/current_ws) -eq ${i} ] &&
                 ws="* "
 
             buffer="${buffer}${ws}"
-            i=$((i+1))
+            i=$((i + 1))
         done
         echo "${buffer}" > /tmp/bar/wksp
     } 2> /dev/null
@@ -63,9 +63,9 @@ title() {
         echo "${winn}" | sed -e "s/ - $1//"
     }
 
-    case "${winn}" in
-        (*" - chromium"*) winn="chromium: `remove_name "chromium"`";;
-        (*" - firefox"*) winn="ff: `remove_name "firefox"`";;
+    case ${winn} in
+    (*" - chromium"*) winn="chromium: `remove_name "chromium"`";;
+    (*" - firefox"*) winn="ff: `remove_name "firefox"`";;
     esac
 
     [ ${#winn} -ge 40 ] && winn=`shorten "${winn}"`

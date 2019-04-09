@@ -6,8 +6,8 @@ ww=`res -w`
 wh=`res -h`
 w=$((200 + `echo "${@}" | wc -m`))
 h=50
-x=$((ww - 125 - w/2))
-y=$((wh - 40 - (h/2)))
+x=$((ww - 125 - w / 2))
+y=$((wh - 40 - (h / 2)))
 
 (echo "%{c}${@}"; sleep 2) | \
     lemonbar -db \

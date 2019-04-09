@@ -57,9 +57,9 @@ list() {
 }
 
 case ${1} in
-    (insert|add) insert "${2}";;
-    (show) show "${2}";;
-    (list) list;;
-    (move) mv "${passwd_storage}/${2}" "${passwd_storage}/${3}";;
-    (*) usage;;
+(insert|add) insert "${2}";;
+(show) show "${2}";;
+(list) list;;
+(move) mv "${passwd_storage}/${2}" "${passwd_storage}/${3}";;
+(*) usage;;
 esac

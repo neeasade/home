@@ -3,6 +3,6 @@
 # depends on wmutils and xdotool
 eval `xdotool getactivewindow getwindowgeometry --shell`
 
-[ ${1} != 'w' ] && nw=$(( WIDTH ${1} )) || nw=w
-[ ${2} != 'h' ] && nh=$(( HEIGHT ${2} )) || nh=h
+[ ${1} != 'w' ] && nw=$((WIDTH ${1})) || nw=w
+[ ${2} != 'h' ] && nh=$((HEIGHT ${2})) || nh=h
 xdotool getactivewindow windowsize ${nw} ${nh}

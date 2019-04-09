@@ -8,13 +8,13 @@ usage() {
 }
 
 remindme() {
-    local message="$2"
-    local time_="$1"
+    local message="${2}"
+    local time_="${1}"
     time_=$((time_ * 60))
 
     local tmp=1
-    while [ $tmp -lt $time_ ]; do
-        tmp=$((tmp+1))
+    while [ ${tmp} -lt ${time_} ]; do
+        tmp=$((tmp + 1))
         sleep 1
     done
     # that loop is to wait for the timer to reach
@@ -22,7 +22,7 @@ remindme() {
     echo "notification sent"
 }
 
-case $1 in
-    -t) interval="$2"; shift 2; remindme $interval "$@";;
-    *) usage;;
+case ${1} in
+(-t) interval="${2}"; shift 2; remindme $interval "${@}";;
+(*) usage;;
 esac

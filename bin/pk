@@ -6,7 +6,7 @@ archive_name="${2}"
 archive_type=${2#*\.}
 
 case ${archive_type} in
-    (*7z*) [ -d "${src}" ] && src="${src}/*"; 7za a -mx=9 "${archive_name}" "${src}";;
-    (*tar*)  tar czfv "${archive_name}" "${src}";;
-    (*zip*) zip -r "${archive_name}" "${src}";;
+(*7z*) [ -d "${src}" ] && src="${src}/*"; 7za a -mx=9 "${archive_name}" "${src}";;
+(*tar*)  tar czfv "${archive_name}" "${src}";;
+(*zip*) zip -r "${archive_name}" "${src}";;
 esac
