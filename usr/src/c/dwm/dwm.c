@@ -55,7 +55,7 @@
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
-#define TAGMASK                 ((1 << LENGTH(tags)) - 1)
+#define TAGMASK                 ((1 << num_tags) - 1)
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
@@ -232,13 +232,10 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void init(void);
 static void toggleborder();
-static void update_ws_bools(Monitor *m);
+static void updatetagbools(Monitor *m);
 static void movestack(const Arg *arg);
 static Client * findbefore(Client *c);
-
 static void keyrelease(XEvent *e);
-static void combotag(const Arg *arg);
-static void comboview(const Arg *arg);
 
 
 /* variables */
@@ -279,12 +276,9 @@ static Window root, wmcheckwin;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
-#include "dwm_info.c"
+#include "info.c"
 
-static unsigned int scratchtag = 1 << LENGTH(tags);
-
-/* compile-time check if all tags fit into an unsigned int bit array. */
-struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+static unsigned int scratchtag = 1 << num_tags;
 
 /* function implementations */
 static int combo = 0;
@@ -295,7 +289,7 @@ keyrelease(XEvent *e) {
 }
 
 void
-combotag(const Arg *arg) {
+tag(const Arg *arg) {
 	if(selmon->sel && arg->ui & TAGMASK) {
 		if (combo) {
 			selmon->sel->tags |= arg->ui & TAGMASK;
@@ -309,29 +303,28 @@ combotag(const Arg *arg) {
 }
 
 void
-comboview(const Arg *arg) {
+view(const Arg *arg) {
 	unsigned newtags = arg->ui & TAGMASK;
     int i;
 
-
-	if (combo) {
+	if (combo)
 		selmon->tagset[selmon->seltags] |= newtags;
-	} else {
+	else {
 		selmon->seltags ^= 1;	/*toggle tagset*/
 		combo = 1;
         if (newtags) {
 			selmon->tagset[selmon->seltags] = newtags;
             if (arg->ui == ~0)
-                set_dwm_info_current_workspace(0);
+                infocurrenttag(0);
             else {
                 for (i = 0; !(arg->ui & 1 << i); i++);
-                set_dwm_info_current_workspace(i+1);
+                infocurrenttag(i + 1);
             }
         }
 	}
 	focus(NULL);
 	arrange(selmon);
-    set_dwm_info_current_layout(selmon->ltsymbol);
+    infocurrentlayout(selmon->ltsymbol);
 }
 
 void
@@ -1295,7 +1288,7 @@ restack(Monitor *m) {
 			}
 	}
 	XSync(dpy, False);
-	update_ws_bools(m);
+	updatetagbools(m);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 	if (m == selmon && (m->tagset[m->seltags] & m->sel->tags) && selmon->lt[selmon->sellt] != &layouts[2])
 		warp(m->sel);
@@ -1440,7 +1433,7 @@ setlayout(const Arg *arg)
 	if (selmon->sel)
 		arrange(selmon);
 
-    set_dwm_info_current_layout(selmon->ltsymbol);
+    infocurrentlayout(selmon->ltsymbol);
 }
 
 void setcfact(const Arg *arg) {
@@ -1612,16 +1605,6 @@ spawn(const Arg *arg)
 		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[0]);
 		perror(" failed");
 		exit(EXIT_SUCCESS);
-	}
-}
-
-void
-tag(const Arg *arg)
-{
-	if (selmon->sel && arg->ui & TAGMASK) {
-        selmon->sel->tags = arg->ui & TAGMASK;
-        focus(NULL);
-        arrange(selmon);
 	}
 }
 
@@ -1901,7 +1884,7 @@ updatenumlockmask(void)
 	XFreeModifiermap(modmap);
 }
 
-void update_ws_bools(Monitor *m) {
+void updatetagbools(Monitor *m) {
     unsigned int i, occ = 0, urg = 0;
     Client *c;
     for (c = m->clients; c; c = c->next) {
@@ -1909,12 +1892,12 @@ void update_ws_bools(Monitor *m) {
         // TODO: incorporate this urgent into lemonbar
         if (c->isurgent) urg |= c->tags;
     }
-    for (i = 0; i < LENGTH(tags); i++) {
+    for (i = 0; i < num_tags; i++) {
         // true if tag has clients, false if not
         if (occ & 1 << i) {
-            toggle_dwm_info_ws(i+1, 1);
+            infotogtag(i + 1, 1);
         } else {
-            toggle_dwm_info_ws(i+1, 0);
+            infotogtag(i + 1, 0);
         }
     }
 }
@@ -2000,29 +1983,6 @@ updatewmhints(Client *c)
 			c->neverfocus = 0;
 		XFree(wmh);
 	}
-}
-
-void
-view(const Arg *arg)
-{
-    int i;
-
-	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
-		return;
-	selmon->seltags ^= 1; /* toggle sel tagset */
-    if (arg->ui & TAGMASK) {
-		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-        if (arg->ui == ~0)
-            set_dwm_info_current_workspace(0);
-        else {
-            for (i = 0; !(arg->ui & 1 << i); i++);
-            set_dwm_info_current_workspace(i+1);
-        }
-    }
-
-
-    focus(NULL);
-	arrange(selmon);
 }
 
 void warp(const Client *c) {
@@ -2212,30 +2172,30 @@ init(void)
     // start either with borders or gaps.
     switch(start_borders) {
     case 1:
-        borderpx = BORDERPX;
+        borderpx = borpx;
         gappx = 0;
         break;
     case 0:
         borderpx = 0;
-        gappx = GAP_PX;
+        gappx = gap_px;
         break;
     case 2:
         borderpx = gappx = 0;
         break;
     default:
     case 3:
-        borderpx = BORDERPX;
-        gappx = GAP_PX;
+        borderpx = borpx;
+        gappx = gap_px;
         break;
     }
 
-	init_dwm_info(gappx, BAR_HEIGHT, barpos, NUM_WORKSPACES, borderpx, bar_gap);
+	initinfo(gappx, BAR_HEIGHT, barpos, num_tags, borderpx, bar_gap);
 }
 
 void
 toggleborder()
 {
-	if (!borderpx) borderpx = BORDERPX;
+	if (!borderpx) borderpx = borpx;
 	else borderpx = 0;
 
     restartbar();
@@ -2245,7 +2205,7 @@ toggleborder()
 void
 togglegaps()
 {
-    if (!gappx) gappx = GAP_PX;
+    if (!gappx) gappx = gap_px;
     else gappx = 0;
 
     restartbar();
@@ -2275,7 +2235,7 @@ main(int argc, char *argv[])
 	checkotherwm();
 	setup();
 	scan();
-    set_dwm_info_current_layout(selmon->ltsymbol);
+    infocurrentlayout(selmon->ltsymbol);
 	run();
 	if(restart) execvp(argv[0], argv);
 	cleanup();

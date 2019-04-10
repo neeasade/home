@@ -1,8 +1,8 @@
 /* border pixel of windows */
-static const unsigned int BORDERPX  = 1;
+static const unsigned int borpx     = 1;
 
 /* useless gaps in px */
-static const unsigned int GAP_PX    = 2;
+static const unsigned int gap_px    = 2;
 
 /*
  * 0 means gaps and no borders
@@ -34,19 +34,11 @@ static const int bar_gap            = 0;
 static const int fullscreen_one_window = 1;
 
 /* include themes */
-//#include "themes/thicc.h"
-//#include "themes/pink.h"
-//#include "themes/default.h"
-//#include "themes/base16-ocean-dark.h"
-//#include "themes/greyscale.h"
-//#include "themes/viking.h"
 #include "/home/viz/var/cache/tm/dwm.h"
 
 /* tagging */
 /* number of workspaces */
-static const int NUM_WORKSPACES     = 8;
-static const char *tags[]           = { "0", "1", "2", "3", "4", "0", "1", "2" };
-
+static const int num_tags          = 8;
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -84,18 +76,15 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "[]H",      deck  },
-	{ "|M|",      centeredmaster },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
 };
 
 /* key definitions */
 #define MODKEY Mod1Mask
 #define SUPERKEY Mod4Mask
 #define TAGKEYS(KEY,TAG)\
-	{ MODKEY,                       KEY,      comboview,      {.ui = 1 << TAG} }, \
+	{ MODKEY,                       KEY,      view,      {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      combotag,       {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      tag,       {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* commands */
@@ -125,9 +114,6 @@ static Key keys[] = {
     { SUPERKEY,                     XK_3,      setlayout,      {.v = &layouts[2]} }, // monocle
     { SUPERKEY,                     XK_2,      setlayout,      {.v = &layouts[3]} }, // bottom stack
     { SUPERKEY,                     XK_4,      setlayout,      {.v = &layouts[4]} }, // deck
-    { SUPERKEY,                     XK_6,      setlayout,      {.v = &layouts[5]} },
-    { SUPERKEY,                     XK_7,      setlayout,      {.v = &layouts[6]} },
-    { SUPERKEY,                     XK_8,      setlayout,      {.v = &layouts[7]} },
     { SUPERKEY,                     XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
     { MODKEY|ShiftMask,             XK_s,      togglesticky,   {0} },
