@@ -3,7 +3,7 @@
 
 include config.mk
 
-SRC = drw.c dwm.c util.c
+SRC = drw.c dwm.c util.c info.c
 OBJ = ${SRC:.c=.o}
 
 all: options dwm
@@ -30,7 +30,7 @@ dwm: ${OBJ}
 
 clean:
 	@echo cleaning
-	@rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz *.{orig,rej}
+	@rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz *.orig *.rej
 
 dist: clean
 	@echo creating dist tarball

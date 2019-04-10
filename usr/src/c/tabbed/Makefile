@@ -31,7 +31,7 @@ config.h:
 
 clean:
 	@echo cleaning
-	@rm -f ${BIN} ${OBJ} tabbed-${VERSION}.tar.gz *.{orig,rej}
+	@rm -f ${BIN} ${OBJ} tabbed-${VERSION}.tar.gz *.orig *.rej
 
 dist: clean
 	@echo creating dist tarball

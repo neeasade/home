@@ -43,6 +43,7 @@
 
 #include "drw.h"
 #include "util.h"
+#include "info.h"
 
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
@@ -276,7 +277,6 @@ static Window root, wmcheckwin;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
-#include "info.c"
 
 static unsigned int scratchtag = 1 << num_tags;
 

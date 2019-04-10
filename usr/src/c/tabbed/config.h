@@ -1,13 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
 /* font */
-//static const char font[]        = "Share Tech Mono:size=10";
-//static const char font[]        = "TerminessTTF Nerd Font:size=11";
-static const char font[]        = "scientifica:style=bold:size=8";
+static const char font[]        = "Ttyp0:pixelsize=12";
 
 /* themes */
-//#include "themes/greyscale.h"
-//#include "themes/viking.h"
 #include "/home/viz/var/cache/tm/tabbed.h"
 
 static const char before[]      = "<";
@@ -16,7 +12,7 @@ static const char titletrim[]   = "...";
 static const int  tabwidth      = 150;
 static const Bool foreground    = True;
 static       Bool urgentswitch  = True;
-static const int  barheight     = 30;
+static const int  barheight     = 20;
 static const int  leftpadding   = 15;
 static const int  autohide      = 1;
 static const int  numberwin     = 0;
@@ -44,28 +40,10 @@ static Key keys[] = {
 	/* modifier             key        function     argument */
 	{ MODKEY|ShiftMask,     XK_Return, focusonce,   { 0 } },
 	{ MODKEY|ShiftMask,     XK_Return, spawn,       { 0 } },
-
 	{ MODKEY|ShiftMask,     XK_j,      rotate,      { .i = +1 } },
 	{ MODKEY|ShiftMask,     XK_k,      rotate,      { .i = -1 } },
 	{ MODKEY|ShiftMask,     XK_h,      movetab,     { .i = -1 } },
 	{ MODKEY|ShiftMask,     XK_l,      movetab,     { .i = +1 } },
-//	{ MODKEY,               XK_Tab,    rotate,      { .i = 0 } },
-
-//	{ MODKEY,               XK_grave,  spawn,       SETPROP("_TABBED_SELECT_TAB") },
-//	{ MODKEY,               XK_1,      move,        { .i = 0 } },
-//	{ MODKEY,               XK_2,      move,        { .i = 1 } },
-//	{ MODKEY,               XK_3,      move,        { .i = 2 } },
-//	{ MODKEY,               XK_4,      move,        { .i = 3 } },
-//	{ MODKEY,               XK_5,      move,        { .i = 4 } },
-//	{ MODKEY,               XK_6,      move,        { .i = 5 } },
-//	{ MODKEY,               XK_7,      move,        { .i = 6 } },
-//	{ MODKEY,               XK_8,      move,        { .i = 7 } },
-//	{ MODKEY,               XK_9,      move,        { .i = 8 } },
-//	{ MODKEY,               XK_0,      move,        { .i = 9 } },
-
 	{ MODKEY,               XK_q,      killclient,  { 0 } },
-
-//	{ MODKEY,               XK_u,      focusurgent, { 0 } },
-//	{ MODKEY|ShiftMask,     XK_u,      toggle,      { .v = (void*) &urgentswitch } },
 	{ MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
 };
