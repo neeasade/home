@@ -33,7 +33,7 @@ static const int bar_gap            = 0;
 /* whether to disable borders and gap if only a single window is open */
 static const int fullscreen_one_window = 1;
 
-/* include themes */
+/* include theme */
 #include "/home/viz/var/cache/tm/dwm.h"
 
 /* tagging */

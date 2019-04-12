@@ -93,7 +93,8 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isbordered, issticky;
+	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate;
+    int isfullscreen, isbordered, issticky;
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -291,9 +292,9 @@ keyrelease(XEvent *e) {
 void
 tag(const Arg *arg) {
 	if(selmon->sel && arg->ui & TAGMASK) {
-		if (combo) {
+		if (combo)
 			selmon->sel->tags |= arg->ui & TAGMASK;
-		} else {
+		else {
 			combo = 1;
 			selmon->sel->tags = arg->ui & TAGMASK;
 		}
