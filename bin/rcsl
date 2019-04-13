@@ -5,16 +5,13 @@ base_dir="$HOME/usr/src/c"
 sltools="dwm dmenu st tabbed"
 
 compile() {
-    cd ${base_dir}/${1}
-    echo "compiling ${1}"
-    make clean install && make clean
-}
-
-compl_all() {
-    for sltool in $sltools; do
-        compile $sltool
+    while [ ${#} -gt 0 ]; do
+        cd ${base_dir}/${1}
+        echo "compiling ${1}"
+        make clean install && make clean
+        shift
     done
 }
 
-[ $# -eq 0 ] && compl_all ||
-    compile "$1"
+[ $# -eq 0 ] && compile "${sltools}" ||
+    compile "${@}"

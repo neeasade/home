@@ -6,9 +6,9 @@
 #
 
 [ $# -eq 0 ] && video_path="$HOME/var/videos/captures/record-$(date '+%b_%d-%H:%M')" || video_path=$1
-#set $(slop -q -o -f '%x %y %w %h')
+set $(hacksaw -n | xgeo)
 
-ffmpeg -y -f x11grab -s $(res -w)x$(res -h) \
-    -r 30 -i :1.0+$(res -w),$(res -h) -qscale 0 \
+ffmpeg -y -f x11grab -s ${3}x${4} \
+    -r 30 -i :1.0+${1},${2} -qscale 0 \
     $video_path.mp4 \
 > /dev/null 2>&1
