@@ -20,8 +20,9 @@ fn main() {
 
     /* ignore = if present */
     if geostring.get(0..1).unwrap() == "=" {
-        geostring = geostring.get(1..).unwrap()
-                                      .to_string();
+        geostring = geostring.get(1..)
+                             .unwrap()
+                             .to_string();
     }
 
     /* check if there's numbers in the string */

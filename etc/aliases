@@ -90,11 +90,11 @@ unset i p f
 
 a py="python"
 a pl="perl"
+a cmd="command"
 
 a l="ls -l"
 a ll="ls -1"
 a mf="fm"
-a r='ranger'
 a ff="find_font"
 
 a mkci="make clean install"
