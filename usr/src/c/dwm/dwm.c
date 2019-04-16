@@ -56,7 +56,7 @@
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
-#define TAGMASK                 ((1 << num_tags) - 1)
+#define TAGMASK                 ((1 << numtags) - 1)
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
@@ -279,18 +279,20 @@ static Window root, wmcheckwin;
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
-static unsigned int scratchtag = 1 << num_tags;
+static unsigned int scratchtag = 1 << numtags;
 
 /* function implementations */
 static int combo = 0;
 
 void
-keyrelease(XEvent *e) {
+keyrelease(XEvent *e)
+{
 	combo = 0;
 }
 
 void
-tag(const Arg *arg) {
+tag(const Arg *arg)
+{
 	if(selmon->sel && arg->ui & TAGMASK) {
 		if (combo)
 			selmon->sel->tags |= arg->ui & TAGMASK;
@@ -304,7 +306,8 @@ tag(const Arg *arg) {
 }
 
 void
-view(const Arg *arg) {
+view(const Arg *arg)
+{
 	unsigned newtags = arg->ui & TAGMASK;
     int i;
 
@@ -956,7 +959,7 @@ manage(Window w, XWindowAttributes *wa)
     c->x = MAX(c->x, c->mon->mx);
     /* only fix client y-offset, if the client center might cover the bar */
     c->y = MAX(c->y, ((c->mon->by == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
-        && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? BAR_HEIGHT : c->mon->my);
+        && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? barheight : c->mon->my);
     c->bw = borderpx;
 
 	if (!strcmp(c->name, scratchpadname)) {
@@ -970,8 +973,8 @@ manage(Window w, XWindowAttributes *wa)
 		c->x = (c->mon->mw - WIDTH(c) - (gappx*2 + borderpx*2)) / 2;
 		c->y = (c->mon->mh - HEIGHT(c) - (gappx*2 + borderpx*2)) / 2;
 
-        if (barpos <= 1) c->y += BAR_HEIGHT;
-        else c->x += BAR_HEIGHT;
+        if (barpos <= 1) c->y += barheight;
+        else c->x += barheight;
 	}
 
 	wc.border_width = c->bw;
@@ -1188,14 +1191,14 @@ resize(Client *c, int x, int y, int w, int h)
 	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
 
     /* disable borders and gaps if
-     * the number of clients is 1 and fullscreen_one_window is set
+     * the number of clients is 1 and fullscreenonewindow is set
      * or if monocle_fullscreen is set and the layout used is monocle
      */
 
     int is_monocle = selmon->lt[selmon->sellt]->arrange == monocle ? 1 : 0;
     int is_float   = selmon->lt[selmon->sellt]->arrange == NULL ? 1 : 0;
 
-    if (!is_float && ((n == 1 || is_monocle) && fullscreen_one_window)) {
+    if (!is_float && ((n == 1 || is_monocle) && fullscreenonewindow)) {
         incr = 2 * (gappx+borderpx);
         offset = gappx;
         wc.border_width = 0;
@@ -1752,25 +1755,25 @@ updatebarpos(Monitor *m)
         m->ww = m->mw;
 
         /* reduce the window width */
-        m->ww -= BAR_HEIGHT;
+        m->ww -= barheight;
 
         if (barpos == 2) {
-            m->wx += BAR_HEIGHT;
+            m->wx += barheight;
         }
-        //TODO: right pos
+        /* TODO: right pos */
     } else {
         m->wy = m->my;
         m->wh = m->mh;
 
         /* reduce the window height */
-        m->wh -= BAR_HEIGHT;
+        m->wh -= barheight;
 
-        if (bar_gap && gappx > 0) m->wh -= gappx;
+        if (bargap && gappx > 0) m->wh -= gappx;
         m->by = barpos == 1 ? m->wy : m->wy + m->wh;
 
-        if (barpos == 1) m->wy += BAR_HEIGHT;
+        if (barpos == 1) m->wy += barheight;
 
-        if (bar_gap && gappx > 0) {
+        if (bargap && gappx > 0) {
             if (barpos == 1) m->wy += gappx;
         }
     }
@@ -1890,11 +1893,10 @@ void updatetagbools(Monitor *m) {
     Client *c;
     for (c = m->clients; c; c = c->next) {
         occ |= c->tags;
-        // TODO: incorporate this urgent into lemonbar
         if (c->isurgent) urg |= c->tags;
     }
-    for (i = 0; i < num_tags; i++) {
-        // true if tag has clients, false if not
+    for (i = 0; i < numtags; i++) {
+        /* true if tag has clients, false if not */
         if (occ & 1 << i) {
             infotogtag(i + 1, 1);
         } else {
@@ -1986,7 +1988,9 @@ updatewmhints(Client *c)
 	}
 }
 
-void warp(const Client *c) {
+void
+warp(const Client *c)
+{
 	int x, y;
 
 	if (!c) {
@@ -1999,7 +2003,7 @@ void warp(const Client *c) {
 	     y > c->y - c->bw &&
 	     x < c->x + c->w + c->bw*2 &&
 	     y < c->y + c->h + c->bw*2) ||
-	    (y > c->mon->by && y < c->mon->by + BAR_HEIGHT) ||
+	    (y > c->mon->by && y < c->mon->by + barheight) ||
 	    (barpos && !y))
 		return;
 
@@ -2170,15 +2174,15 @@ findbefore(Client *c)
 void
 init(void)
 {
-    // start either with borders or gaps.
-    switch(start_borders) {
+    /* start either with borders or gaps */
+    switch(startborders) {
     case 1:
         borderpx = borpx;
         gappx = 0;
         break;
     case 0:
         borderpx = 0;
-        gappx = gap_px;
+        gappx = gaps;
         break;
     case 2:
         borderpx = gappx = 0;
@@ -2186,11 +2190,11 @@ init(void)
     default:
     case 3:
         borderpx = borpx;
-        gappx = gap_px;
+        gappx = gaps;
         break;
     }
 
-	initinfo(gappx, BAR_HEIGHT, barpos, num_tags, borderpx, bar_gap);
+	initinfo(gappx, barheight, barpos, numtags, borderpx, bargap);
 }
 
 void
@@ -2206,7 +2210,7 @@ toggleborder()
 void
 togglegaps()
 {
-    if (!gappx) gappx = gap_px;
+    if (!gappx) gappx = gaps;
     else gappx = 0;
 
     restartbar();

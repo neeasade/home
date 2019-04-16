@@ -2,7 +2,7 @@
 static const unsigned int borpx     = 1;
 
 /* useless gaps in px */
-static const unsigned int gap_px    = 2;
+static const unsigned int gaps      = 2;
 
 /*
  * 0 means gaps and no borders
@@ -11,13 +11,13 @@ static const unsigned int gap_px    = 2;
  * 3 means gaps and borders
  *
  */
-static const unsigned int start_borders = 3;
+static const unsigned int startborders = 3;
 
 /* snap pixel */
 static const unsigned int snap      = 0;
 
 /* bar height in pixels */
-static const int BAR_HEIGHT         = 0;
+static const int barheight          = 0;
 
 /*
  * 0 means bottom bar
@@ -28,17 +28,17 @@ static const int BAR_HEIGHT         = 0;
 static const int barpos             = 2;
 
 /* 1 means have gaps around bar and root window */
-static const int bar_gap            = 0;
+static const int bargap            = 0;
 
 /* whether to disable borders and gap if only a single window is open */
-static const int fullscreen_one_window = 1;
+static const int fullscreenonewindow = 1;
 
 /* include theme */
 #include "/home/viz/var/cache/tm/dwm.h"
 
 /* tagging */
 /* number of workspaces */
-static const int num_tags          = 8;
+static const int numtags          = 8;
 
 static const Rule rules[] = {
 	/* xprop(1):

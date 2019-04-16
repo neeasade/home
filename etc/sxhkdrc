@@ -27,7 +27,7 @@ super + {f,r}
     st -e 'fff'
 
 super + {v,l}
-    {chromium-browser,slock}
+    {chromium-browser --disable-seccomp-filter-sandbox,slock}
 
 super + {x,i,n}
     $HOME/bin/{turnoff,view_image,mbar}

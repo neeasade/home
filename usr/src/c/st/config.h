@@ -4,10 +4,11 @@
 //static char *font = "curie";
 //static char *font = "scientifica";
 //static char *font = "cherry:pixelsize=11";
-static char *font = "Ttyp0:pixelsize=12";
+//static char *font = "Ttyp0:pixelsize=12";
+//static char *font = "PragmataPro:size=11";
 //static char *font = "dina:size=6";
 //static char *font = "Share Tech Mono:size=9";
-//static char *font = "Share Tech Mono:size=10";
+static char *font = "Share Tech Mono:size=10";
 //static char *font = "montecarlo:size=9:style=Regular";
 //static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
 //static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font

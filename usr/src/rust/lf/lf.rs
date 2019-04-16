@@ -21,7 +21,6 @@ fn walk(path: &str, fp: &str) {
         } else {
             p = p.get(fp.len()+1..)
                  .unwrap();
-
             println!("{}", p);
         }
     }
