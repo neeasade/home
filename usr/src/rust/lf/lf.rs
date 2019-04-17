@@ -5,7 +5,7 @@ fn is_in_blacklist(path: &str) -> bool {
     let mut ret = false;
     let blacklist: [&str; 8] = [
                                 "*.git*", "*cache*", "*Cache*", "*wallpapers*",
-                                "*lib*", "opt*", "*target*", "*tmp*"
+                                "*lib*", "opt*", "*target*", "tmp*"
                                ];
     for b in blacklist.iter() {
         if ret { break; }
@@ -16,9 +16,9 @@ fn is_in_blacklist(path: &str) -> bool {
 
         if b.starts_with("*") && b.ends_with("*") {
             ret = path.contains(i);
-        } else if b.starts_with("*") {
-            ret = path.starts_with(i);
         } else if b.ends_with("*") {
+            ret = path.starts_with(i);
+        } else if b.starts_with("*") {
             ret = path.ends_with(i);
         }
     }
