@@ -10,7 +10,6 @@ fn is_in_blacklist(path: &str) -> bool {
     for b in blacklist.iter() {
         if ret { break; }
 
-        let b = b.to_string();
         let i = b.replacen("*", "", 2);
         let i = i.as_str();
 
@@ -26,8 +25,7 @@ fn is_in_blacklist(path: &str) -> bool {
     ret
 }
 
-fn walk(path: &str, fp: &str) {
-    /* helper closurers */
+fn walk(path: &str, fp: &str, check_blacklist: bool) {
     let is_dir = |path: &str| {
         let p = Path::new(path);
 
@@ -42,12 +40,13 @@ fn walk(path: &str, fp: &str) {
         let mut p = p.to_str()
                      .unwrap();
 
-        if is_in_blacklist(&p) {
+        if is_in_blacklist(&p.get(fp.len()+1..).unwrap())
+            && check_blacklist {
             continue;
         }
 
         if is_dir(&p) {
-            walk(p, fp);
+            walk(p, fp, check_blacklist);
         } else {
             p = p.get(fp.len()+1..)
                  .unwrap();
@@ -59,8 +58,13 @@ fn walk(path: &str, fp: &str) {
 fn main() {
     let a: Vec<String> = args().collect();
     let mut path = ".";
+    let mut check_blacklist = true;
+
     if a.len() > 1 {
         path = a[1].as_str();
+        if a.len() > 3 && a[2].as_str() == "-B" {
+            check_blacklist = false;
+        }
     }
 
     let p = canonicalize(&path)
@@ -71,6 +75,7 @@ fn main() {
 
     walk(
          p.to_str().unwrap(),
-         p.to_str().unwrap()
+         p.to_str().unwrap(),
+         check_blacklist
         );
 }
