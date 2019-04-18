@@ -720,8 +720,8 @@ xloadcolor(int i, const char *name, Color *ncolor)
 	if (!name)
 		if (BETWEEN(i, 16, 255))
             name = colorname[7];
-		else
-			name = colorname[i];
+    else
+        name = colorname[i];
 
 	return XftColorAllocName(xw.dpy, xw.vis, xw.cmap, name, ncolor);
 }
