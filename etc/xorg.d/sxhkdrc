@@ -1,20 +1,20 @@
 # window manipulation
 # move
 super + {w,a,s,d}
-    $HOME/bin/wcmv {x -20,-20 y,x +20,+20 y}
+    wcmv {x -20,-20 y,x +20,+20 y}
 
 super + shift + {w,a,s,d}
-    $HOME/bin/wcmv {x -40,-40 y,x +40,+40 y}
+    wcmv {x -40,-40 y,x +40,+40 y}
 
 # resize
 super + ctrl + {w,s,d,a}
-    $HOME/bin/wrsz {w -10,w +10,+10 h,-10 h}
+    wrsz {w -10,w +10,+10 h,-10 h}
 
 super + ctrl + shift + {w,s,d,a}
-    $HOME/bin/wrsz {w -40,w +40,+40 h,-40 h}
+    wrsz {w -40,w +40,+40 h,-40 h}
 
 alt + {c,f,u,p,b}
-    $HOME/bin/{center_win,fswin,invcurwin,menu run,restartbar}
+    {center_win,fswin,invcurwin,menu run,restartbar}
 
 # application launching
 super + shift + Return
@@ -30,30 +30,30 @@ super + {v,l}
     {chromium-browser --disable-seccomp-filter-sandbox,slock}
 
 super + {x,i,n}
-    $HOME/bin/{turnoff,view_image,mbar}
+    {turnoff,view_image,mbar}
 
 # dmenu dirs
 alt + shift + f
-    $HOME/bin/dmenu_dir -h 1
+    dmenu_dir -h 1
 
 alt + shift + ctrl + f
-    $HOME/bin/dmenu_dir -h 0
+    dmenu_dir -h 0
 
 # print screen
 Print
-    $HOME/bin/screenshot -u
+    screenshot -u
 
 super + Print
-    $HOME/bin/screenshot -s
+    screenshot -s
 
 # disable mouse
 super + shift + ctrl + m
-    $HOME/bin/togmouse
+    togmouse
 
 # volume
 super + shift + {k,j,m,u,v}
-    $HOME/bin/vol {-i 1%,-d 1%,-m,-u,-n}
+    vol {-i 1%,-d 1%,-m,-u,-n}
 
 # brness
 super + shift + {l,h}
-    sudo $HOME/bin/brness {-i 1%,-d 1%}
+    sudo brness {-i 1%,-d 1%}

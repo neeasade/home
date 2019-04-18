@@ -1,6 +1,6 @@
-set rtp+=~/etc/vim/bundle/Vundle.vim
-set rtp+=~/etc/vim
-call vundle#begin('~/etc/vim/plugins')
+set rtp+=~/etc/vim.d/bundle/Vundle.vim
+set rtp+=~/etc/vim.d
+call vundle#begin('~/etc/vim.d/plugins')
 
 Plugin 'VundleVim/Vundle.vim'
 

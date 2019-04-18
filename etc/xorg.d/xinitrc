@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${HOME}
+xmodmap ${HOME}/etc/xorg.d/xmodmap
+xset +fp ${HOME}/usr/fonts
+sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \
+      -r ${HOME}/var/log/sxhkd.log  \
+      -s ${HOME}/var/log/sxhkd.log  &
+hsetroot -solid \#dde0e2
+sudo brness -s 10%
+
+[ $(xrandr --nograb --current | grep -o \* | wc -l) = 2 ] && mon on
+
+exec dwm 2> ${HOME}/var/log/dwm.log

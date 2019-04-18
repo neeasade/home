@@ -13,5 +13,5 @@ compile() {
     done
 }
 
-[ $# -eq 0 ] && compile "${sltools}" ||
-    compile "${@}"
+[ $# -eq 0 ] && compile ${sltools} ||
+    compile ${@}
