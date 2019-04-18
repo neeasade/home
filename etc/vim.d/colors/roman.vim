@@ -69,6 +69,7 @@ hi Define       ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Macro        ctermbg=NONE   ctermfg=7   cterm=NONE
 hi PreCondit    ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Type         ctermbg=NONE   ctermfg=5   cterm=NONE
+hi TypeDef      ctermbg=NONE   ctermfg=5   cterm=NONE
 hi StorageClass ctermbg=NONE   ctermfg=7   cterm=NONE
 hi PreProc      ctermbg=NONE   ctermfg=7   cterm=NONE
 hi Structure    ctermbg=NONE   ctermfg=7   cterm=NONE
