@@ -1,0 +1,55 @@
+#!/bin/dash
+# dmenu launcher with my patches
+
+# get resolution, screen height, screen width, etc.
+# resolution stuff stolen from mitch :p
+sw=$(res -w)
+sh=$(res -h)
+
+w=$((sw / 2))
+
+[ -n "$(command -v bc)" ] && w=$(echo "${sw} / 2.3" | bc)
+
+l=$((sw / 50))
+x=$((sw / 2 - w / 2))
+y=$((sh / 3 - l))
+
+. ${HOME}/var/cache/tm/colors.sh
+
+font="Share Tech Mono:size=10"
+selbg=$color8
+selfg=$color15
+normbg=$color0
+normfg=$color7
+borderpx=$(cat /tmp/dwm_info/borderpx)
+borcol=$color8
+
+sel() {
+    dmenu -bp ${borderpx} -x ${x} -y ${y} -w ${w} \
+        -l ${l} -fn "${font}" -nf "${normfg}" -nb "${normbg}" \
+        -sb "${selbg}" -sf "${selfg}" -i -bc "${borcol}" -p "select:" "${@}"
+}
+
+run() {
+    surf() { tabbed -c surf -e; }
+    draw() { draw_st; }
+    st() { tabbed -c -r 2 st -w '' "${@}"; }
+    todo() { st -e todo -i; }
+    $(echo "surf
+chromium
+st
+draw
+dosbox
+screenshot
+turnoff
+record
+todo
+dmenu_dir
+view_image
+subs" | sel -p "run:")
+}
+
+case ${1} in
+("sel") shift; sel "${@}";;
+("run"|*) run;;
+esac

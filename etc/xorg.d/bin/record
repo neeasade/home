@@ -1,0 +1,16 @@
+#!/bin/dash
+#
+# http://github.com/mitchweaver/bin
+#
+# Records a selected rectangle with ffmpeg.
+#
+
+[ $# -eq 0 ] &&
+    video_path="${HOME}/var/videos/captures/record-$(date '+%b_%d-%H:%M')" ||
+    video_path=${1}
+
+set -- $(hacksaw -n | xgeo)
+
+ffmpeg -y -f x11grab -s ${3}x${4} \
+    -r 30 -i :1.0+${1},${2} -qscale 0 \
+    ${video_path}.mp4

@@ -1,0 +1,15 @@
+#!/bin/dash
+# get screen resolution
+
+res="$(xrandr --nograb --current | grep primary | cut -d ' ' -f4)"
+sw=${res%x*}
+sh=${res#*x}
+sw=${sw%.*}
+sh=${sh%.*}
+sh=${sh%+*+*}
+
+case ${1} in
+(-w) echo "${sw}";;
+(-h) echo "${sh}";;
+(*) echo "${sw} ${sh}";;
+esac
