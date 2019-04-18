@@ -5,13 +5,6 @@ case ${SHELL} in
 (*) . ${HOME}/etc/aliases;;
 esac
 
-for e in nvim vim vis vi ed; do
-    case $(type -p "${e}") in
-    (*"not found"*) continue;;
-    (*) export EDITOR="${e}"; export VISUAL="${e}"; break;;
-    esac
-done
-
 export TERMINAL="tabbed -c -r 2 st -w ''"
 export MANPAGER=less
 
@@ -23,6 +16,13 @@ for p in \
 done
 
 unset p
+
+for e in vim nvim vis vi ed; do
+    case $(type -p "${e}") in
+    (*"not found"*) continue;;
+    (*) export EDITOR="${e}"; export VISUAL="${e}"; break;;
+    esac
+done
 
 for m in \
 	"${HOME}/usr/{{local/,}share/,}man" \

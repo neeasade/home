@@ -1,25 +1,8 @@
-set rtp+=~/etc/vim.d/bundle/Vundle.vim
-set rtp+=~/etc/vim.d
-call vundle#begin('~/etc/vim.d/plugins')
+set rtp+=~/usr/local/share/vim/vim81
 
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'rust-lang/rust.vim'
-Plugin 'vitalk/vim-shebang'
-Plugin 'dylanaraps/fff.vim'
-Plugin 'autozimu/LanguageClient-neovim'
-Plugin 'Shougo/deoplete.nvim'
-
-Plugin 'Yggdroot/indentLine'
-Plugin 'junegunn/goyo.vim'
-
-call vundle#end()
-filetype plugin indent on
-
-if !has('nvim')
-  set ttymouse=xterm2
-endif
+syntax on
+filetype indent plugin on
+filetype on
 
 set number
 set relativenumber
@@ -30,6 +13,7 @@ set tabstop=4
 set shiftwidth=4
 set smarttab
 set et
+set backspace=2
 
 set encoding=utf-8
 
@@ -38,8 +22,6 @@ set laststatus=0
 set ignorecase
 set smartcase
 
-tnoremap <C-x><Esc> <C-\><C-N>
-
 set t_Co=256
 
 set nocompatible
@@ -47,50 +29,12 @@ set nocompatible
 colorscheme roman
 
 set clipboard=unnamedplus
-
-set title titlestring=nvim:\ %F titlelen=80
+set title titlestring=vim:\ %F titlelen=80
 
 autocmd BufWritePre * %s/\s\+$//e
 
-autocmd TermOpen * setlocal nonumber norelativenumber
-
 set splitright
-
-set columns=80
-
 set guicursor=
-
 set noswapfile
 set autoread
-
-let g:webdevicons_enable = 1
-let g:webdevicons_enable_nerdtree = 1
-let g:webdevicons_enable_airline_statusline = 1
-let g:webdevicons_enable_ctrlp = 1
-
-let g:rustfmt_autosave = 1 "enable rust format
-
-let g:indentLine_enabled = 0
-let g:indentLine_setColors = 1
-let g:indentLine_char = '│'
-let g:indentLine_first_char = "│"
-let g:indentLine_bgcolor_term = 0
-let g:indentLine_color_term = 8
-let g:indentLine_showFirstLevelIndentLevel = 1
-let g:indentLine_fileTypeExclude = ['man', 'help', 'terminal', 'json', 'mail']
-let g:indentLine_bufTypeExclude = ['man', 'help', 'terminal', 'json', 'mail']
-
-let g:deoplete#enable_at_startup = 1
-let g:LanguageClient_serverCommands = {
-            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-            \ 'python': ['/home/viz/usr/lib/python3/bin/pyls'],
-            \}
-let g:LanguageClient_diagnosticsDisplay = {
-    \ 1: { "name": "Error", "texthl": "ALEError", "signText": ">", "signTexthl": "ALEErrorSign", "virtualTexthl": "Error", },
-    \ 2: { "name": "Warning", "texthl": "ALEWarning", "signText": "!", "signTexthl": "ALEWarningSign", "virtualTexthl": "Warning", },
-    \ 3: { "name": "Information", "texthl": "ALEInfo", "signText": "i", "signTexthl": "ALEInfoSign", "virtualTexthl": "Todo", },
-    \ 4: { "name": "Hint", "texthl": "ALEInfo", "signText": "~", "signTexthl": "ALEInfoSign", "virtualTexthl": "Todo", }, }
-
-filetype indent on
-
-AddShebangPattern! sh ^#!.*/bin/dash\>
+set wildmenu
