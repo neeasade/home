@@ -1,0 +1,22 @@
+diff --git a/cross.cpp b/src/misc/cross.cpp
+index bc4557e..1dc1a74 100644
+--- a/src/misc/cross.cpp
++++ b/src/misc/cross.cpp
+@@ -63,7 +63,7 @@ void Cross::GetPlatformConfigDir(std::string& in) {
+ 	in = "~/Library/Preferences";
+ 	ResolveHomedir(in);
+ #else
+-	in = "~/.dosbox";
++	in = "~/etc/prog.d/dosbox";
+ 	ResolveHomedir(in);
+ #endif
+ 	in += CROSS_FILESPLIT;
+@@ -90,7 +90,7 @@ void Cross::CreatePlatformConfigDir(std::string& in) {
+ 	ResolveHomedir(in);
+ 	//Don't create it. Assume it exists
+ #else
+-	in = "~/.dosbox";
++	in = "~/etc/prog.d/dosbox";
+ 	ResolveHomedir(in);
+ 	mkdir(in.c_str(),0700);
+ #endif
