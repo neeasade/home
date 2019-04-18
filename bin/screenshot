@@ -27,6 +27,7 @@ grab_area() {
 }
 
 grab_window() {
+    sleep 1;
     xscreenshot -w $(xdotool getactivewindow) | ff2png > ${tmp_image}
 }
 

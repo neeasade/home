@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/mksh
 
 style=`< "${HOME}/etc/startpage/style.css"`
 style="${style/ICOLORS/`< "${HOME}/var/cache/tm/colors.css"`}"

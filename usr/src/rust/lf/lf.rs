@@ -25,7 +25,7 @@ fn is_in_blacklist(path: &str) -> bool {
     ret
 }
 
-fn walk(path: &str, fp: &str, check_blacklist: bool) {
+fn walk(path: &str, fp: &str, to_blacklist: bool, to_quote: bool) {
     let is_dir = |path: &str| {
         let p = Path::new(path);
 
@@ -40,42 +40,55 @@ fn walk(path: &str, fp: &str, check_blacklist: bool) {
         let mut p = p.to_str()
                      .unwrap();
 
-        if is_in_blacklist(&p.get(fp.len()+1..).unwrap())
-            && check_blacklist {
+        if to_blacklist  &&
+          is_in_blacklist(&p.get(fp.len()+1..).unwrap()) {
             continue;
         }
 
         if is_dir(&p) {
-            walk(p, fp, check_blacklist);
+            walk(p, fp, to_blacklist, to_quote);
         } else {
             p = p.get(fp.len()+1..)
                  .unwrap();
-            println!("{}", p);
+
+            if to_quote && p.contains(" ") {
+                println!("\"{}\"", p);
+            } else {
+                println!("{}", p);
+            }
         }
     }
 }
 
 fn main() {
-    let a: Vec<String> = args().collect();
+    let argv: Vec<String> = args().collect();
+    let mut n = 1;
+    let mut to_blacklist = true;
+    let mut to_quote = false;
     let mut path = ".";
-    let mut check_blacklist = true;
 
-    if a.len() > 1 {
-        path = a[1].as_str();
-        if a.len() > 3 && a[2].as_str() == "-B" {
-            check_blacklist = false;
+    if argv.len() > 1 {
+        while n != argv.len() {
+            match argv[n].as_str() {
+                "-q" => { to_quote = true; }
+                "-b" => { to_blacklist = false; }
+                _    => { path = argv[n].as_str(); }
+            }
+
+            n += 1;
         }
     }
 
     let p = canonicalize(&path)
-                            .unwrap_or_else(|e| {
-                                eprintln!("error: {}", e);
-                                std::process::exit(1);
-                            });
+                        .unwrap_or_else(|e| {
+                            eprintln!("error: {}", e);
+                            std::process::exit(1);
+                        });
 
     walk(
          p.to_str().unwrap(),
          p.to_str().unwrap(),
-         check_blacklist
+         to_blacklist,
+         to_quote,
         );
 }
