@@ -1,0 +1,14 @@
+./configure --disable-darwin \
+            --disable-selinux \
+            --disable-xsmp \
+            --disable-xsmp-interact \
+            --disable-netbeans \
+            --disable-arabic \
+            --disable-rightleft \
+            --disable-farsi \
+            --disable-gtktest \
+            --disable-icon-cache-update \
+            --disable-desktop-database-update \
+            --disable-gpm \
+            --disable-sysmouse \
+            --prefix=$HOME/usr/local
