@@ -21,7 +21,7 @@ super + shift + Return
     st -g 80x40 -t floating-st
 
 alt + shift + Return
-    tabbed -c -r 2 st -w ''
+    tabbed -r 2 st -w ''
 
 super + {f,r}
     st -e 'fff'

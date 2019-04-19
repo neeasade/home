@@ -46,14 +46,14 @@ _set_wn() {
 # delete Desktop folder
 # I HATE IT
 _rm_jnk() {
-    [ -d ${XDG_DESKTOP_HOME} ] && rm -rf ${XDG_DESKTOP_HOME}
-    [ -d ${HOME}/Desktop ] && rm -rf ${HOME}/Desktop
+    [ -d ${XDG_DESKTOP_HOME} ] && cmd rm -rf ${XDG_DESKTOP_HOME}
+    [ -d ${HOME}/Desktop ] && cmd rm -rf ${HOME}/Desktop
     [ -d ${HOME}/Downloads ] &&
-        [ -z "$(ls ${HOME}/Downloads)" ] && rm -rf ${HOME}/Downloads
+        [ -z "$(ls ${HOME}/Downloads)" ] && cmd rm -rf ${HOME}/Downloads
     # im not sure if this is safe but hey, I hate them
-    [ -d ${HOME}/.dbus ] && rm -rf ${HOME}/.dbus
-    [ -d ${HOME}/.pki ] && rm -rf ${HOME}/.pki
-    [ -f ${HOME}/.wget-hsts ] && rm -rf ${HOME}/.wget-hsts
+    [ -d ${HOME}/.dbus ] && cmd rm -rf ${HOME}/.dbus
+    [ -d ${HOME}/.pki ] && cmd rm -rf ${HOME}/.pki
+    [ -f ${HOME}/.wget-hsts ] && cmd rm -rf ${HOME}/.wget-hsts
 } > /dev/null
 
 #_PS1_details() {

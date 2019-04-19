@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* font */
-static const char font[]        = "Ttyp0:pixelsize=12";
+static const char font[]        = "cherry:pixelsize=11";
 
 /* themes */
 #include "/home/viz/var/cache/tm/tabbed.h"
@@ -12,7 +12,7 @@ static const char titletrim[]   = "...";
 static const int  tabwidth      = 150;
 static const Bool foreground    = True;
 static       Bool urgentswitch  = True;
-static const int  barheight     = 20;
+static const int  barheight     = 30;
 static const int  leftpadding   = 15;
 static const int  autohide      = 1;
 static const int  numberwin     = 0;

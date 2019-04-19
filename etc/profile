@@ -5,7 +5,7 @@ case ${SHELL} in
 (*) . ${HOME}/etc/aliases;;
 esac
 
-export TERMINAL="tabbed -c -r 2 st -w ''"
+export TERMINAL="tabbed -r 2 st -w ''"
 export MANPAGER=less
 
 for p in \

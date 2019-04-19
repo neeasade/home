@@ -1,2 +1,2 @@
 #!/bin/dash
-tabbed -c -n floating-st -g `hacksaw -n` -r 2 st -w '' -t floating-st &
+tabbed -n floating-st -g `hacksaw -n` -r 2 st -w '' -t floating-st &

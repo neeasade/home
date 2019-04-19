@@ -64,7 +64,7 @@ resource() {
 
 resxhkd() {
     [ -n "$(pgrep -x sxhkd)" ] && pkill -9 sxhkd
-    sxhkd -c ${HOME}/etc/sxhkdrc &
+    sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc &
 }
 
 conf() {
