@@ -74,6 +74,7 @@ conf() {
     (commit) shift; g commit --interactive -m "${@}";;
     (push) g push origin master;;
     (list) g ls-tree -r HEAD --name-only | less;;
+    (update-patches) g add ${HOME}/etc/prog.d/patches/*;;
     (*) g "${@}";;
     esac
 }

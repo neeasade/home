@@ -67,5 +67,3 @@ export GNUPGHOME="${HOME}/etc/gnupg"
 case $(tty) in
 (*1*) sx;;
 esac
-
-sh ${HOME}/.nix-profile/etc/profile.d/nix.sh
