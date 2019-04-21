@@ -14,7 +14,7 @@ upload() {
 copy() {
     cp ${tmp_image} ${HOME}/var/pictures/scrots/scrot_$(date '+%b_%d-%H:%M').png
     notify-send "scrot taken!" "picture stored in drive"
-    xclip -sel clipboard -t image/png -i $tmp_image
+    xclip -sel clipboard -t image/png -i ${tmp_image}
 }
 
 grab_screen() {

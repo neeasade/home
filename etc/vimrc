@@ -38,3 +38,5 @@ set guicursor=
 set noswapfile
 set autoread
 set wildmenu
+
+set path+=**

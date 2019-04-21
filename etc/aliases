@@ -81,7 +81,7 @@ conf() {
 
 for i in python3 python2 python; do [ -n "$(command -v ${i})" ] && { a python=${i}; break; }; done
 
-for f in fff ranger nnn noice; do [ -n "$(command -v ${f})" ] && { a fm=${f}; break; }; done
+for f in fff ranger nnn noice; do [ -n "$(command -v ${f})" ] && { a {fm,mf}=${f}; break; }; done
 
 for p in pip3 pip2 pip; do [ -n "$(command -v ${p})" ] && { a pip="${p}";break; }; done
 
@@ -95,11 +95,9 @@ a cmd="command"
 
 a l="ls -l"
 a ll="ls -1"
-a mf="fm"
 a ff="find_font"
 
-a mkci="make clean install"
-a mkic="make clean install"
+a {mkci,mkic}="make clean install"
 [ -z "$(command -v mk)" ] && a mk="make"
 a mki="make install"
 a mka="make all"

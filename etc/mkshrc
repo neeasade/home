@@ -22,20 +22,6 @@ HISTSIZE=100000
 # vi mode
 set -o vi
 
-# check the current git branch
-#_branch() {
-#    local branch="$(git branch | grep \* | tr -d '*')"
-#
-#    [ -z $branch ] && return
-#
-#    case "$(git status -uno 2> /dev/null)" {
-#        (*"Changes to be committed"* | *"not staged"*) echo -n "${branch}+";;
-#        (*"ahead of"*) echo -n "${branch}^";;
-#        (*"up to date"*) echo -n "${branch}";;
-#        (*) echo -n "${branch}";;
-#    }
-#} 2> /dev/null
-
 _set_wn() {
     [ "${TERM}" != "linux" ] && {
         local cwd="${PWD/${HOME}/\~}"
@@ -56,17 +42,13 @@ _rm_jnk() {
     [ -f ${HOME}/.wget-hsts ] && cmd rm -rf ${HOME}/.wget-hsts
 } > /dev/null
 
-#_PS1_details() {
-#    echo -ne "\033[38;5;5m$(_branch)\033[0m"
-#}
-
 _PS1_command() {
     _set_wn; _rm_jnk
 }
 
 # prompts
-#export PS1=']$(_PS1_details)$(_PS1_command) '
+export PS1=']$(_PS1_command) '
 #export PS1='\$$(_PS1_command) '
-export PS1=';$(_PS1_command) '
-#export PS1='%$(_PS1_command &)$(_PS1_details) '
+#export PS1=';$(_PS1_command) '
+#export PS1='%$(_PS1_commands) '
 PS2='... '

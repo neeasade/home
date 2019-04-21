@@ -1,0 +1,72 @@
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o: in function `tlinelen':
+st.c:(.text+0x97): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0xa1): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o: in function `tsetdirt':
+st.c:(.text+0xdd): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x102): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x133): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o:st.c:(.text+0x14a): more undefined references to `term' follow
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o: in function `strhandle':
+st.c:(.text+0x31b2): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x31d0): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x31d7): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x31ed): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3205): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x320b): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3227): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3243): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3249): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x324f): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x326d): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3273): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3289): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o: in function `tputc':
+st.c:(.text+0x33fd): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3520): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3529): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3539): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o:st.c:(.text+0x354e): more undefined references to `term' follow
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o: in function `tputc':
+st.c:(.text+0x3fb7): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3fbe): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x3fe3): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x400c): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x4015): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x4037): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.c:(.text+0x4052): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: st.o:st.c:(.text+0x407c): more undefined references to `term' follow
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o: in function `numlock':
+x.c:(.text+0x2): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o: in function `evcol':
+x.c:(.text+0x10): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x18): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x27): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o: in function `evrow':
+x.c:(.text+0x38): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o:x.c:(.text+0x40): more undefined references to `win' follow
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o: in function `delete_image':
+x.c:(.text+0x2957): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o: in function `xstartdraw':
+x.c:(.text+0x295f): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o: in function `xfinishdraw':
+x.c:(.text+0x2bcf): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2d25): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2d6d): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2d7d): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2d8a): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2d94): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o:x.c:(.text+0x2daf): more undefined references to `win' follow
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o: in function `xfinishdraw':
+x.c:(.text+0x2ddc): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2e07): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2e2d): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2ea0): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2ec4): undefined reference to `term'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2f0e): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2f37): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2f46): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x2fef): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.c:(.text+0x305a): undefined reference to `win'
+/usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/../../../../x86_64-alpine-linux-musl/bin/ld: x.o:x.c:(.text+0x3061): more undefined references to `win' follow
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:30: st] Error 1
