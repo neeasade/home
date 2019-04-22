@@ -539,7 +539,9 @@ configure(Client *c)
 	XSendEvent(dpy, c->win, False, StructureNotifyMask, (XEvent *)&ce);
 }
 
-void configurenotify(XEvent *e) {
+void
+configurenotify(XEvent *e)
+{
     Monitor *m;
     Client *c;
     XConfigureEvent *ev = &e->xconfigure;
@@ -1274,7 +1276,8 @@ resizemouse(const Arg *arg)
 }
 
 void
-restack(Monitor *m) {
+restack(Monitor *m)
+{
 	Client *c;
 	XEvent ev;
 	XWindowChanges wc;
@@ -1888,20 +1891,23 @@ updatenumlockmask(void)
 	XFreeModifiermap(modmap);
 }
 
-void updatetagbools(Monitor *m) {
+void
+updatetagbools(Monitor *m)
+{
     unsigned int i, occ = 0, urg = 0;
     Client *c;
     for (c = m->clients; c; c = c->next) {
         occ |= c->tags;
-        if (c->isurgent) urg |= c->tags;
+        if (c->isurgent)
+            urg |= c->tags;
     }
+
     for (i = 0; i < numtags; i++) {
         /* true if tag has clients, false if not */
-        if (occ & 1 << i) {
+        if (occ & 1 << i)
             infotogtag(i + 1, 1);
-        } else {
+        else
             infotogtag(i + 1, 0);
-        }
     }
 }
 

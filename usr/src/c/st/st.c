@@ -20,6 +20,7 @@
 #include "st.h"
 #include "win.h"
 #include "sixel.h"
+#include "util.h"
 
 #if   defined(__linux)
  #include <pty.h>
@@ -1009,6 +1010,7 @@ treset(void)
 		tclearregion(0, 0, term.col-1, term.row-1);
 		tswapscreen();
 	}
+
     for (im = term.images; im; im = im->next)
     	im->should_delete = 1;
 }
@@ -1068,6 +1070,7 @@ tscrollup(int orig, int n)
 {
 	int i;
 	Line temp;
+    ImageList *im;
 
 	LIMIT(n, 0, term.bot-orig+1);
 
@@ -1080,7 +1083,14 @@ tscrollup(int orig, int n)
 		term.line[i+n] = temp;
 	}
 
-	selscroll(orig, -n);
+	for (im = term.images; im; im = im->next) {
+		if (im->y+im->height/win.ch > term.top)
+			im->y -= n;
+		if (im->y+im->height/win.ch < term.top)
+			im->should_delete = 1;
+	}
+
+    selscroll(orig, -n);
 }
 
 void
@@ -1610,6 +1620,7 @@ csihandle(void)
 {
 	char buf[40];
 	int len;
+    ImageList *im;
 
 	switch (csiescseq.mode[0]) {
 	default:
@@ -1699,6 +1710,13 @@ csihandle(void)
 		tputtab(csiescseq.arg[0]);
 		break;
 	case 'J': /* ED -- Clear screen */
+        /* purge sixels */
+		/* TODO: kinda gross, should probably make this only purge
+		 * visible sixels
+         */
+		for (im = term.images; im; im = im->next)
+			im->should_delete = 1;
+
 		switch (csiescseq.arg[0]) {
 		case 0: /* below */
 			tclearregion(term.c.x, term.c.y, term.col-1, term.c.y);

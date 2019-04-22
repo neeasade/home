@@ -1,5 +1,6 @@
 #!/bin/sh
 cd ${HOME}
+export PATH=${HOME}/etc/xorg.d/bin:${PATH}
 xmodmap ${HOME}/etc/xorg.d/xmodmap
 xset +fp ${HOME}/usr/fonts
 sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \

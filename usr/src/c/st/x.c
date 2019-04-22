@@ -1512,9 +1512,17 @@ xfinishdraw(void)
 	for (im = term.images; im; im = im->next) {
 		if (im->should_delete) {
 			delete_image(im);
-			continue;
+
+			/* prevent the next iteration from
+             * accessing an invalid image pointer
+             */
+			im = term.images;
+			if (im == NULL)
+				break;
+			else
+				continue;
 		}
-		if (!im->pixmap) {
+        if (!im->pixmap) {
 			im->pixmap = (void *)XCreatePixmap(xw.dpy, xw.win, im->width, im->height, DefaultDepth(xw.dpy, xw.scr));
 			XImage ximage = {
 				.format = ZPixmap,
