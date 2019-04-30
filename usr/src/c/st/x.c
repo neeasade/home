@@ -707,8 +707,6 @@ sixd_to_16bit(int x)
 int
 xloadcolor(int i, const char *name, Color *ncolor)
 {
-	XRenderColor color = { .alpha = 0xffff };
-
 	if (!name)
 		if (BETWEEN(i, 16, 255))
             name = colorname[7];
