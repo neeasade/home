@@ -238,7 +238,8 @@ static void updatetagbools(Monitor *m);
 static void movestack(const Arg *arg);
 static Client * findbefore(Client *c);
 static void keyrelease(XEvent *e);
-
+static void updatebarpos(Monitor *m);
+static void togglebar();
 
 /* variables */
 static int borderpx = 0;
@@ -1751,17 +1752,37 @@ unmapnotify(XEvent *e)
 }
 
 void
+togglebar()
+{
+	if (showbar)
+		showbar = 0;
+	else
+		showbar = 1;
+
+	updatebarpos(selmon);
+}
+
+void
 updatebarpos(Monitor *m)
 {
+	int bh = barheight;
+
+	if (showbar)
+		restartbar();
+	else {
+		system("pkill -9 lemonbar");
+		bh = 0;
+	} 
+
     if (barpos >= 2) {
         m->wx = m->mx;
         m->ww = m->mw;
 
         /* reduce the window width */
-        m->ww -= barheight;
+        m->ww -= bh;
 
         if (barpos == 2) {
-            m->wx += barheight;
+            m->wx += bh;
         }
         /* TODO: right pos */
     } else {
@@ -1769,17 +1790,19 @@ updatebarpos(Monitor *m)
         m->wh = m->mh;
 
         /* reduce the window height */
-        m->wh -= barheight;
+        m->wh -= bh;
 
         if (bargap && gappx > 0) m->wh -= gappx;
         m->by = barpos == 1 ? m->wy : m->wy + m->wh;
 
-        if (barpos == 1) m->wy += barheight;
+        if (barpos == 1) m->wy += bh;
 
         if (bargap && gappx > 0) {
             if (barpos == 1) m->wy += gappx;
         }
     }
+
+	arrange(selmon);
 }
 
 void
@@ -2228,7 +2251,7 @@ restartbar(void)
 {
     FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
     FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
-    system("pkill -9 lemonbar ; pkill -9 bar ; dash ${HOME}/bin/bar &");
+    system("pkill -9 lemonbar ; pkill -9 bar ; dash ${HOME}/etc/xorg.d/bin/bar &");
 }
 
 int

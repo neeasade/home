@@ -6,8 +6,11 @@ xset +fp ${HOME}/usr/fonts
 sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \
       -r ${HOME}/var/log/sxhkd.log  \
       -s ${HOME}/var/log/sxhkd.log  &
-hsetroot -solid \#dde0e2
-sudo brness -s 10%
+#hsetroot -solid \#dde0e2 &
+swall set &
+sudo brness -s 40 &
+redshift -l 13:80 &
+emacs --daemon &
 
 [ $(xrandr --nograb --current | grep -o \* | wc -l) = 2 ] && mon on
 

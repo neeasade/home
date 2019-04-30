@@ -1,6 +1,0 @@
-#!/bin/dash
-# a script to restart my bar
-#
-# kill bar if it is already running
-[ -n "$(pgrep -x bar)" ] && pkill -9 bar;
-${HOME}/bin/bar &

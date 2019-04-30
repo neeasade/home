@@ -17,7 +17,10 @@ static const unsigned int startborders = 3;
 static const unsigned int snap      = 0;
 
 /* bar height in pixels */
-static const int barheight          = 0;
+static const int barheight          = 16;
+
+/* show bar or not */
+static       int showbar            = 1;
 
 /*
  * 0 means bottom bar
@@ -25,7 +28,7 @@ static const int barheight          = 0;
  * 2 means left bar
  *
  */
-static const int barpos             = 2;
+static const int barpos             = 1;
 
 /* 1 means have gaps around bar and root window */
 static const int bargap            = 0;
@@ -108,6 +111,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
     { SUPERKEY,                     XK_1,      setlayout,      {.v = &layouts[0]} }, // tiling
     { SUPERKEY,                     XK_5,      setlayout,      {.v = &layouts[1]} }, // floating

@@ -83,7 +83,7 @@ for i in python3 python2 python; do [ -n "$(command -v ${i})" ] && { a python=${
 
 for f in fff ranger nnn noice; do [ -n "$(command -v ${f})" ] && { a {fm,mf}=${f}; break; }; done
 
-for p in pip3 pip2 pip; do [ -n "$(command -v ${p})" ] && { a pip="${p}";break; }; done
+#for p in pip3 pip2 pip; do [ -n "$(command -v ${p})" ] && { a pip="${p}";break; }; done
 
 for i in doas 'sudo '; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
 

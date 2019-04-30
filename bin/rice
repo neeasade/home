@@ -7,12 +7,12 @@
 # do all the things which need to be done after running tm
 
 # lets recompile all the suckless software
-${HOME}/bin/rcsl
+rcsl
 
 # lets prepare the startpage
-${HOME}/bin/prsp
+prsp
 
 # restart dwm
 xdotool key alt+shift+q
 [ -n "$(pgrep bar)" ] && pkill -9 bar
-${HOME}/bin/bar &
+bar &

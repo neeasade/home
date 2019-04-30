@@ -23,6 +23,6 @@ remindme() {
 }
 
 case ${1} in
-(-t) interval="${2}"; shift 2; remindme $interval "${@}";;
+(-t) interval="${2}"; shift 2; remindme ${interval} "${@}";;
 (*) usage;;
 esac

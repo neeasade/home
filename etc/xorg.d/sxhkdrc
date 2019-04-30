@@ -13,8 +13,8 @@ super + ctrl + {w,s,d,a}
 super + ctrl + shift + {w,s,d,a}
     wrsz {w -40,w +40,+40 h,-40 h}
 
-alt + {c,f,u,p,b}
-    {center_win,fswin,invcurwin,menu run,restartbar}
+alt + {c,f,u,p}
+    {center_win,fswin,invcurwin,menu run}
 
 # application launching
 super + shift + Return
@@ -29,8 +29,8 @@ super + {f,r}
 super + {v,l}
     {chromium-browser --disable-seccomp-filter-sandbox,slock}
 
-super + {x,i,n}
-    {turnoff,view_image,mbar}
+super + {x,i,n,e}
+    {turnoff,view_image,mbar,tabbed emacsclient -c -a "" --parent-id}
 
 # dmenu dirs
 alt + shift + f
@@ -56,4 +56,4 @@ super + shift + {k,j,m,u,v}
 
 # brness
 super + shift + {l,h}
-    sudo brness {-i 1%,-d 1%}
+    sudo brness {-i 1,-d 1}

@@ -1,44 +1,16 @@
 #!/bin/dash
 # brightness script.
-sub_dir=$(ls /sys/class/backlight)
-max_brightness=$(cat /sys/class/backlight/${sub_dir}/max_brightness)
-current_brightness=$(cat /sys/class/backlight/${sub_dir}/brightness)
+dir=/sys/class/backlight/intel_backlight
+mb=`cat ${dir}/max_brightness`
+cb=`cat ${dir}/brightness`
 
-set_per_bright() {
-    # assumes that number has a percent sign
-    local brightness_to_be_set=${1%*%}
-    bright=$((brightness_to_be_set * max_brightness / 100))
-
-    [ ${bright} -eq 0 ] && exit
-
-    echo $bright > /sys/class/backlight/${sub_dir}/brightness
+gp() {
+    echo $(((${1} * ${mb}) / 100))
 }
 
-inc() {
-    local inc_bright=${1%*%}
-    inc_bright=$((inc_bright * max_brightness / 100))
-
-    echo $(( inc_bright + current_brightness ))> /sys/class/backlight/${sub_dir}/brightness
-}
-
-dec() {
-    local dec_bright=${1%*%}
-    dec_bright=$((dec_bright * max_brightness / 100))
-    nb=$(( -dec_bright + current_brightness ))
-
-    [ ${nb} -ne 0 ] && echo ${nb} > /sys/class/backlight/${sub_dir}/brightness
-}
-
-get_bright() {
-    local bright
-    bright=$(cat /sys/class/backlight/${sub_dir}/brightness)
-    echo $((bright * 100 / max_brightness))
-}
-
-case $1 in
-(-h) usage;;
-(-i) inc $2;;
-(-d) dec $2;;
-(-s) set_per_bright $2;;
-(-g) get_bright;;
+case ${1} in
+    (-i) echo $((`gp ${2}` + ${cb})) > ${dir}/brightness;;
+    (-d) echo $((-`gp ${2}` + ${cb})) > ${dir}/brightness;;
+    (-s) echo ${2} > ${dir}/brightness;;
+    (-g) echo `gp ${cb}`;;
 esac

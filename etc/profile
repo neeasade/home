@@ -53,7 +53,8 @@ export LD_LIBRARY_PATH="${HOME}/usr/local/lib"
 
 export PYTHONUSERBASE="${HOME}/usr/lib/python3"
 export PYTHONPATH="${HOME}/usr/lib/python3"
-export PYTHONSTARTUP="${HOME}/etc/pythonrc"
+export PYTHONSTARTUP="${HOME}/etc/prog.d/pythonrc"
+export PATH="${PATH}:${HOME}/usr/lib/python3/bin"
 
 export NVIM_LOG_FILE="${HOME}/var/logs/nvim.log"
 export LESSHISTFILE="${HOME}/var/cache/lesshst"
@@ -61,6 +62,9 @@ export LESSHISTFILE="${HOME}/var/cache/lesshst"
 export WEECHAT_HOME="${HOME}/etc/weechat"
 
 export GNUPGHOME="${HOME}/etc/gnupg"
+
+# fix font rendering THANK YOU ZOE. BIG HUG
+export FREETYPE_PROPERTIES="truetype:interpreter-version=38"
 
 [ -n "$(command -v clang)" ] && export CC=clang
 
