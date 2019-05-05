@@ -973,8 +973,8 @@ manage(Window w, XWindowAttributes *wa)
 	}
 
 	if (c->iscentered) {
-		c->x = (c->mon->mw - WIDTH(c) - (gappx*2 + borderpx*2)) / 2;
-		c->y = (c->mon->mh - HEIGHT(c) - (gappx*2 + borderpx*2)) / 2;
+		c->x = (c->mon->mw - WIDTH(c) - (gappx * 2 + borderpx * 2)) / 2;
+		c->y = (c->mon->mh - HEIGHT(c) - (gappx * 2 + borderpx * 2)) / 2;
 
         if (barpos <= 1) c->y += barheight;
         else c->x += barheight;
@@ -1202,7 +1202,7 @@ resize(Client *c, int x, int y, int w, int h)
     int is_float   = selmon->lt[selmon->sellt]->arrange == NULL ? 1 : 0;
 
     if (!is_float && ((n == 1 || is_monocle) && fullscreenonewindow)) {
-        incr = 2 * (gappx+borderpx);
+        incr = 2 * (gappx + borderpx);
         offset = gappx;
         wc.border_width = 0;
     }
@@ -1772,7 +1772,7 @@ updatebarpos(Monitor *m)
 	else {
 		system("pkill -9 lemonbar");
 		bh = 0;
-	} 
+	}
 
     if (barpos >= 2) {
         m->wx = m->mx;
@@ -1792,12 +1792,12 @@ updatebarpos(Monitor *m)
         /* reduce the window height */
         m->wh -= bh;
 
-        if (bargap && gappx > 0) m->wh -= gappx;
+        if (floatbar && gappx > 0) m->wh -= gappx;
         m->by = barpos == 1 ? m->wy : m->wy + m->wh;
 
         if (barpos == 1) m->wy += bh;
 
-        if (bargap && gappx > 0) {
+        if (floatbar && gappx > 0) {
             if (barpos == 1) m->wy += gappx;
         }
     }
@@ -1928,9 +1928,11 @@ updatetagbools(Monitor *m)
     for (i = 0; i < numtags; i++) {
         /* true if tag has clients, false if not */
         if (occ & 1 << i)
-            infotogtag(i + 1, 1);
+            infotag(i + 1, 1);
+        else if (urg & 1 << i)
+            infotag(i + 1, 2);
         else
-            infotogtag(i + 1, 0);
+            infotag(i + 1, 0);
     }
 }
 
@@ -2223,7 +2225,8 @@ init(void)
         break;
     }
 
-	initinfo(gappx, barheight, barpos, numtags, borderpx, bargap);
+	initinfo(gappx, barheight, barpos, numtags, borderpx, floatbar);
+    infocolors(colors);
 }
 
 void
@@ -2249,8 +2252,8 @@ togglegaps()
 void
 restartbar(void)
 {
-    FILE *fgappx = fopen("/tmp/dwm_info/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
-    FILE *fborderpx = fopen("/tmp/dwm_info/borderpx", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
+    FILE *fgappx = fopen("/tmp/dwm_info/misc/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
+    FILE *fborderpx = fopen("/tmp/dwm_info/borders/size", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
     system("pkill -9 lemonbar ; pkill -9 bar ; dash ${HOME}/etc/xorg.d/bin/bar &");
 }
 

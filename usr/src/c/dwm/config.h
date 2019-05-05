@@ -31,7 +31,7 @@ static       int showbar            = 1;
 static const int barpos             = 1;
 
 /* 1 means have gaps around bar and root window */
-static const int bargap            = 0;
+static const int floatbar            = 0;
 
 /* whether to disable borders and gap if only a single window is open */
 static const int fullscreenonewindow = 1;
@@ -85,9 +85,9 @@ static const Layout layouts[] = {
 #define MODKEY Mod1Mask
 #define SUPERKEY Mod4Mask
 #define TAGKEYS(KEY,TAG)\
-	{ MODKEY,                       KEY,      view,      {.ui = 1 << TAG} }, \
+	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,       {.ui = 1 << TAG} }, \
+    { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* commands */

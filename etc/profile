@@ -1,10 +1,4 @@
 #!/bin/sh
-case ${SHELL} in
-(*mksh*) . ${HOME}/etc/mkshrc;;
-(*bash*) . ${HOME}/etc/bashrc;;
-(*) . ${HOME}/etc/aliases;;
-esac
-
 export TERMINAL="tabbed -r 2 st -w ''"
 export MANPAGER=less
 
@@ -14,6 +8,12 @@ for p in \
     set -- ${p}
     for i in ${@}; do export PATH="${i}:${PATH}"; done
 done
+
+case ${SHELL} in
+(*mksh*) . ${HOME}/etc/mkshrc;;
+(*bash*) . ${HOME}/etc/bashrc;;
+(*) . ${HOME}/etc/aliases;;
+esac
 
 unset p
 
@@ -41,7 +41,7 @@ export XDG_CONFIG_HOME="${HOME}/etc/prog.d"
 export XDG_DESKTOP_DIR="/non/existent"
 export XDG_DOWNLOAD_DIR="${HOME}/var/downloads"
 export XDG_DATA_HOME="${HOME}/var/lib"
-export XAUTHORITY="${XDG_CACHE_HOME}/Xauthority"
+export XDG_RUNTIME_DIR="/tmp/xdg_runtime"
 
 export RUSTUP_HOME="${HOME}/opt/rustup"
 export CARGO_HOME="${HOME}/opt/cargo"
@@ -66,8 +66,4 @@ export GNUPGHOME="${HOME}/etc/gnupg"
 # fix font rendering THANK YOU ZOE. BIG HUG
 export FREETYPE_PROPERTIES="truetype:interpreter-version=38"
 
-[ -n "$(command -v clang)" ] && export CC=clang
-
-case $(tty) in
-(*1*) sx;;
-esac
+has clang && export CC=clang

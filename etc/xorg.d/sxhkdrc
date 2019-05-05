@@ -21,7 +21,7 @@ super + shift + Return
     st -g 80x40 -t floating-st
 
 alt + shift + Return
-    tabbed -r 2 st -w ''
+    tab -w st
 
 super + {f,r}
     st -e 'fff'
@@ -30,7 +30,7 @@ super + {v,l}
     {chromium-browser --disable-seccomp-filter-sandbox,slock}
 
 super + {x,i,n,e}
-    {turnoff,view_image,mbar,tabbed emacsclient -c -a "" --parent-id}
+    {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
 
 # dmenu dirs
 alt + shift + f

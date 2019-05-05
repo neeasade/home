@@ -6,22 +6,7 @@ for i in 0 1 2 3; do
     [ -d "${base_dir}/BAT${i}" ] && { base_dir="${base_dir}/BAT${i}"; break; }
 done
 
-get_status() {
-    # get the battery status
-    # is charging or discharging
-    local status="$(cat "${base_dir}/status")"
-    echo ${status}
-}
-
-get_percent() {
-    local percent="$(cat "${base_dir}/capacity")"
-    echo ${percent}
-}
-
-while [ ${#} -gt 0 ]; do
-    case ${1} in
-    (-p) get_percent;;
-    (-s) get_status;;
-    esac
-    shift
-done
+case ${1} in
+(-p) cat ${base_dir}/status;;
+(-s) cat ${base_dir}/capacity;;
+esac

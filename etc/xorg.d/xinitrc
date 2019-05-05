@@ -10,6 +10,8 @@ sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \
 swall set &
 sudo brness -s 40 &
 redshift -l 13:80 &
+
+[ -n "$(pgrep emacs)" ] && pkill -9 emacs
 emacs --daemon &
 
 [ $(xrandr --nograb --current | grep -o \* | wc -l) = 2 ] && mon on

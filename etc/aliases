@@ -5,7 +5,7 @@ a ls="ls -F"
 a nvim="nvim -i ${HOME}/var/cache/shada"
 a vim="vim -i ${HOME}/var/cache/viminfo"
 
-[ -z "$(command -v neofetch)" ] && a sf="${HOME}/bin/fetch"
+has neofetch && a sf="${HOME}/bin/fetch"
 
 find_font() {
     [ ${#} -eq 0 ] && return
@@ -77,15 +77,17 @@ conf() {
     (update-patches) g add ${HOME}/etc/prog.d/patches/*;;
     (*) g "${@}";;
     esac
+
+    unset g
 }
 
-for i in python3 python2 python; do [ -n "$(command -v ${i})" ] && { a python=${i}; break; }; done
+for i in python3 python2 python; do has ${i} && { a python=${i}; break; }; done
 
-for f in fff ranger nnn noice; do [ -n "$(command -v ${f})" ] && { a {fm,mf}=${f}; break; }; done
+for f in fff ranger nnn noice; do has ${f} && { a {fm,mf}=${f}; break; }; done
 
 #for p in pip3 pip2 pip; do [ -n "$(command -v ${p})" ] && { a pip="${p}";break; }; done
 
-for i in doas 'sudo '; do [ -n "$(command -v "${i}")" ] && { a sudo="${i}"; }; done
+for i in doas sudo; do has ${i} && { a sudo="${i} "; }; done
 
 unset i p f
 

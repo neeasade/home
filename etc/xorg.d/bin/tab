@@ -1,0 +1,6 @@
+#!/bin/sh
+
+xid_flag="${1}"
+shift
+
+tabbed "${@}" "${xid_flag}"

@@ -1,6 +1,5 @@
 #!/bin/dash
 # send notification using lemonbar
-. ${HOME}/var/cache/tm/colors.sh
 
 ww=`res -w`
 wh=`res -h`
@@ -9,9 +8,9 @@ h=50
 x=$((ww - 125 - w / 2))
 y=$((wh - 40 - (h / 2)))
 
-(echo "%{c}${@}"; sleep 2) | \
-    lemonbar -db \
-             -g "${w}x${h}+${x}+${y}" \
-             -F "${color7}" \
-             -B "${color0}" \
-             -R "${color8}" -r 1
+(echo "%{c}${@}"; sleep 2) |                                 \
+    lemonbar -db                                             \
+             -g ${w}x${h}+${x}+${y}                          \
+             -F $(cat /tmp/dwm_info/colors/normfg)           \
+             -B $(cat /tmp/dwm_info/colors/normbg)           \
+             -R $(cat /tmp/dwm_info/borders/selcol) -r 1

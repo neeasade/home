@@ -2,20 +2,17 @@
 trap 'pkill -P $$' EXIT
 
 init() {
-    . ${HOME}/var/cache/tm/colors.sh
-
-    [ -d /tmp/bar ] && rm -rf /tmp/bar; mkdir -p /tmp/bar
+    remkd /tmp/bar
 
     while ! pgrep dwm > /dev/null ; do
         sleep 0.1
     done
 
-    [ $(cat /tmp/dwm_info/bar_height) -eq 0 ] && exit
+    h=$(cat /tmp/dwm_info/bar/height)
 
-    echo 1 > /tmp/dwm_info/check
+    [ ${h} -eq 0 ] && exit
 
     local sh=$(res -h)
-    h=$(cat /tmp/dwm_info/bar_height)
     x=0
     y=$((sh - h))
     w=$(res -w)
@@ -25,22 +22,27 @@ init() {
 }
 
 wksp() {
-    [ $(cat /tmp/dwm_info/check) -eq 1 ]  && {
-        local i=1
-        while [ ${i} -le $(cat /tmp/dwm_info/num_tags) ]; do
-            # check if occupied
-            [ $(cat /tmp/dwm_info/tag${i}) -eq 1 ] && ws="x " || ws="+ "
+    local i=1
+    while [ ${i} -le $(cat /tmp/dwm_info/tag/num) ]; do
+        # check if occupied
+        local state=$(cat /tmp/dwm_info/tag/${i})
+        if [ ${state} -eq 1 ]; then
+            ws="x "
+        elif [ ${state} -eq 2 ]; then
+            ws="@ "
+        else
+            ws="+ "
+        fi
 
-            # check if current
-            [ $(cat /tmp/dwm_info/current_tag) -eq ${i} ] &&
-                ws="* "
+        # check if current
+        [ $(cat /tmp/dwm_info/tag/current) -eq ${i} ] &&
+            ws="* "
 
-            buffer="${buffer}${ws}"
-            i=$((i + 1))
-        done
-        echo "${buffer}" > /tmp/bar/wksp
-    } 2> /dev/null
-}
+        buffer="${buffer}${ws}"
+        i=$((i + 1))
+    done
+    echo "${buffer}" > /tmp/bar/wksp
+} 2> /dev/null
 
 title() {
     shorten() {
@@ -99,19 +101,19 @@ launchd() {
 
 init; launchd
 
-while echo \
-         "%{l}  $(cat /tmp/bar/day) " \
-		 " $(title)" \
-         "%{c}" \
-		 "$(wksp) $(cat /tmp/bar/wksp)" \
+while echo                                      \
+         "%{l}  $(cat /tmp/bar/day) "           \
+		 " $(title)"                            \
+         "%{c}"                                 \
+		 "$(wksp) $(cat /tmp/bar/wksp)"         \
          "%{r}$(cat /tmp/bar/bat 2> /dev/null)" \
-         "$(cat /tmp/vol)% " \
-         "$(cat /tmp/bar/time) " \
+         "$(cat /tmp/vol)% "                    \
+         "$(cat /tmp/bar/time) "                \
          "$(cat /tmp/bar/date)  "
-    do sleep 0.5; done 2> /dev/null | \
-lemonbar -db \
-         -f ${ft} \
-         -g ${w}x${h}+${x}+${y} \
-         -n bar \
-         -B ${color0} \
-         -F ${color7} > /dev/null 2>&1
+    do sleep 0.5; done 2> /dev/null             |
+lemonbar -db                                    \
+         -f ${ft}                               \
+         -g ${w}x${h}+${x}+${y}                 \
+         -n bar                                 \
+         -B $(cat /tmp/dwm_info/colors/normbg)  \
+         -F $(cat /tmp/dwm_info/colors/normfg)  > /dev/null 2>&1

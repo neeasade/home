@@ -1137,11 +1137,11 @@ textnw(const char *text, unsigned int len)
 	return ext.xOff;
 }
 
-//void
-//toggle(const Arg *arg)
-//{
-//    *(Bool*) arg->v = !*(Bool*) arg->v;
-//}
+/*void
+toggle(const Arg *arg)
+{
+    *(Bool*) arg->v = !*(Bool*) arg->v;
+}*/
 
 void
 unmanage(int c)
