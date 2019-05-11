@@ -1,0 +1,8 @@
+toggle_statusbar
+set smooth-scroll true
+set window-title-home-tilde true
+set statusbar-basename true
+set selection-clipboard clipboard
+set recolor "true"
+
+include /home/viz/var/cache/tm/zathurarc
