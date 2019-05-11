@@ -3,10 +3,10 @@
 swall() {
     cp "${2}" ${XDG_CACHE_HOME}/wall 2> /dev/null
     hsetroot -${1} "${2}"
-    echo ${1} > ${HOME}/tmp/wall
+    echo ${1} > ${XDG_CACHE_HOME}/wall_type
 }
 
 case ${1} in
-(set) swall $(cat ${HOME}/tmp/wall) ${XDG_CACHE_HOME}/wall;;
+(set) swall $(cat ${XDG_CACHE_HOME}/wall_type) ${XDG_CACHE_HOME}/wall;;
 (*) swall ${1} "${2}";;
 esac > /dev/null

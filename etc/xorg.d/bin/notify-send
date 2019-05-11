@@ -11,6 +11,6 @@ y=$((wh - 40 - (h / 2)))
 (echo "%{c}${@}"; sleep 2) |                                 \
     lemonbar -db                                             \
              -g ${w}x${h}+${x}+${y}                          \
-             -F $(cat /tmp/dwm_info/colors/normfg)           \
-             -B $(cat /tmp/dwm_info/colors/normbg)           \
-             -R $(cat /tmp/dwm_info/borders/selcol) -r 1
+             -F $(cat /tmp/info/dwm/colors/normfg)           \
+             -B $(cat /tmp/info/dwm/colors/normbg)           \
+             -R $(cat /tmp/info/dwm/borders/selcol) -r 1

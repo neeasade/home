@@ -1,11 +1,4 @@
-# vim:ft=sh
-alias a="alias"
-
-a ls="ls -F"
-a nvim="nvim -i ${HOME}/var/cache/shada"
-a vim="vim -i ${HOME}/var/cache/viminfo"
-
-has neofetch && a sf="${HOME}/bin/fetch"
+alias a='alias'
 
 find_font() {
     [ ${#} -eq 0 ] && return
@@ -58,12 +51,13 @@ resource() {
 
     case ${SHELL} in
     (*mksh*) source ${HOME}/etc/mkshrc;;
-    (*bash*) source ${HOME}/etc/bashrc;;
+    (*rc*)   ;;
+    (*)      source ${HOME}/etc/aliases;;
     esac
 }
 
 resxhkd() {
-    [ -n "$(pgrep -x sxhkd)" ] && pkill -9 sxhkd
+    [ "$(pgrep -x sxhkd)" ] && pkill -9 sxhkd
     sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc &
 }
 
@@ -85,59 +79,66 @@ for i in python3 python2 python; do has ${i} && { a python=${i}; break; }; done
 
 for f in fff ranger nnn noice; do has ${f} && { a {fm,mf}=${f}; break; }; done
 
-#for p in pip3 pip2 pip; do [ -n "$(command -v ${p})" ] && { a pip="${p}";break; }; done
+#for p in pip3 pip2 pip; do has && { a pip="${p}";break; }; done
 
 for i in doas sudo; do has ${i} && { a sudo="${i} "; }; done
 
 unset i p f
 
-a py="python"
-a pl="perl"
-a cmd="command"
+a py='python'
+a pl='perl'
+a cmd='command'
 
-a l="ls -l"
-a ll="ls -1"
-a ff="find_font"
+a l='ls -l'
+a ll='ls -1'
+a ff='find_font'
 
-a {mkci,mkic}="make clean install"
-[ -z "$(command -v mk)" ] && a mk="make"
-a mki="make install"
-a mka="make all"
-a mku="make uninstall"
-a mkc="make clean"
+a {mkci,mkic}='make clean install'
+has mk || a mk='make'
+a mki='make install'
+a mka='make all'
+a mku='make uninstall'
+a mkc='make clean'
 
-a mpf="mupdf"
-a aliases="alias"
-a quit="exit"
-a :q="exit"
-a :q!="exit"
-a sl="ls"
+a mpf='mupdf'
+a aliases='alias'
+a quit='exit'
+a :q='exit'
+a :q!='exit'
 
-a df="df -h"
-a du="du -h"
-a mv="mv -iv"
-a rm="rm -rv"
-a cp="cp -rv"
-a ln="ln -sf"
-a mkf="touch"
-a mkd="mkdir -pv"
-a free="free -m"
-a feh="feh --no-fehbg"
-a rmf="rm -f"
-a info="info --vi-keys"
-a fc-cache="fc-cache --verbose"
-a grep="grep -i"
+a df='df -h'
+a du='du -h'
+a mv='mv -iv'
+a rm='rm -rv'
+a cp='cp -rv'
+a ln='ln -sf'
+a mkf='touch'
+a mkd='mkdir -pv'
+a free='free -m'
+a feh='feh --no-fehbg'
+a rmf='rm -f'
+a info='info --vi-keys'
+a fc-cache='fc-cache --verbose'
+a grep='grep -i'
+a su='su -'
+a ls='ls -F'
+a reboot='sudo reboot'
+a poweroff='sudo poweroff'
+a shutdown='sudo shutdown'
+a nvim="nvim -i ${HOME}/var/cache/shada"
+a vim="vim -i ${HOME}/var/cache/viminfo"
 
-a cd..="cd .."
-a c..="cd .."
-a c.="cd .."
+a cd..='cd ..'
+a c..='cd ..'
+a c.='cd ..'
+a sl='ls'
+a {cl,cle}='clear'
 
-a commit="git commit --interactive -m"
-a diff="git diff"
+a commit='git commit --interactive -m'
+a diff='git diff'
 
-a datenow="date +'%a %d %b %Y %H:%M'"
-a killall="pkill -9"
-a killx="pkill -15 Xorg"
+a datenow='date +"%a %d %b %Y %H:%M"'
+a killx='pkill -15 Xorg'
 
 a gH="cd ${HOME}"
 a gB="cd ${HOME}/bin"

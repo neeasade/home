@@ -3,4 +3,10 @@
 xid_flag="${1}"
 shift
 
-tabbed "${@}" "${xid_flag}"
+get_color() {
+    cat /tmp/info/dwm/colors/${1}
+}
+
+tabbed -o `get_color normbg` -O `get_color normfg` \
+       -t `get_color selbg`  -T `get_color selfg`  \
+       "${@}" "${xid_flag}"

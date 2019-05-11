@@ -25,14 +25,16 @@ setvol() {
 
 mute() {
     amixer set Master mute
+    echo 1 > /tmp/info/vol/muted
 }
 
 unmute() {
     amixer set Master unmute
+    echo 0 > /tmp/info/vol/muted
 }
 
 get() {
-    echo "$(cat /tmp/vol)"
+    echo "$(cat /tmp/info/vol/cur)"
 }
 
 case ${1} in
@@ -48,6 +50,7 @@ case ${1} in
 esac
 
 # get current volume and output that to a file which will be used by the bar
-amixer sget Master | awk -F '[][]' '{ print $2 }' | sed -e 's/%//' | tr -d '\n' > /tmp/vol
-
+remkd /tmp/info/vol
+amixer sget Master | awk -F '[][]' '{ print $2 }' | sed -e 's/%//' | tr -d '\n' > /tmp/info/vol/cur
+[ ! -f /tmp/info/vol/muted ] && unmute
 [ ${notify} -eq 1 ] && notify-send "volume" "$(get)%"

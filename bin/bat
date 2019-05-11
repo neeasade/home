@@ -7,6 +7,6 @@ for i in 0 1 2 3; do
 done
 
 case ${1} in
-(-p) cat ${base_dir}/status;;
-(-s) cat ${base_dir}/capacity;;
+(-s) cat ${base_dir}/status;;
+(-p) cat ${base_dir}/capacity;;
 esac

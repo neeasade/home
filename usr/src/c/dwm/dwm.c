@@ -2252,8 +2252,8 @@ togglegaps()
 void
 restartbar(void)
 {
-    FILE *fgappx = fopen("/tmp/dwm_info/misc/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
-    FILE *fborderpx = fopen("/tmp/dwm_info/borders/size", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
+    FILE *fgappx = fopen("/tmp/info/dwm/misc/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
+    FILE *fborderpx = fopen("/tmp/info/dwm/borders/size", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
     system("pkill -9 lemonbar ; pkill -9 bar ; dash ${HOME}/etc/xorg.d/bin/bar &");
 }
 

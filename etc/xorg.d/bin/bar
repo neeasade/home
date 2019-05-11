@@ -2,13 +2,13 @@
 trap 'pkill -P $$' EXIT
 
 init() {
-    remkd /tmp/bar
+    remkd /tmp/info/bar
 
     while ! pgrep dwm > /dev/null ; do
         sleep 0.1
     done
 
-    h=$(cat /tmp/dwm_info/bar/height)
+    h=$(cat /tmp/info/dwm/bar/height)
 
     [ ${h} -eq 0 ] && exit
 
@@ -23,9 +23,9 @@ init() {
 
 wksp() {
     local i=1
-    while [ ${i} -le $(cat /tmp/dwm_info/tag/num) ]; do
+    while [ ${i} -le $(cat /tmp/info/dwm/tag/num) ]; do
         # check if occupied
-        local state=$(cat /tmp/dwm_info/tag/${i})
+        local state=$(cat /tmp/info/dwm/tag/${i})
         if [ ${state} -eq 1 ]; then
             ws="x "
         elif [ ${state} -eq 2 ]; then
@@ -35,13 +35,13 @@ wksp() {
         fi
 
         # check if current
-        [ $(cat /tmp/dwm_info/tag/current) -eq ${i} ] &&
+        [ $(cat /tmp/info/dwm/tag/current) -eq ${i} ] &&
             ws="* "
 
         buffer="${buffer}${ws}"
         i=$((i + 1))
     done
-    echo "${buffer}" > /tmp/bar/wksp
+    echo "${buffer}" > /tmp/info/bar/wksp
 } 2> /dev/null
 
 title() {
@@ -69,14 +69,14 @@ title() {
 
 launchd() {
     timed() {
-        while date "+%H:%M" > /tmp/bar/time; do
+        while date "+%H:%M" > /tmp/info/bar/time; do
             sleep 59
         done
     }
 
     dated() {
         while echo "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')" \
-            > /tmp/bar/date; do
+            > /tmp/info/bar/date; do
             sleep 300
         done
     }
@@ -84,14 +84,14 @@ launchd() {
     dayd() {
         while \
             echo $(date +%a | tr '[:upper:]' '[:lower:]' | cut -c1-2) \
-            > /tmp/bar/day; do
+            > /tmp/info/bar/day; do
             sleep 300
         done
     }
 
     batd() {
         [ `bat -s` = "Unknown" ] && return; [ `bat -s` = "Charging" ] && ind="^"
-        while echo "`bat -p`%${ind}" > /tmp/bar/bat; do
+        while echo "`bat -p`%${ind}" > /tmp/info/bar/bat; do
             sleep 5
         done
     }
@@ -101,19 +101,19 @@ launchd() {
 
 init; launchd
 
-while echo                                      \
-         "%{l}  $(cat /tmp/bar/day) "           \
-		 " $(title)"                            \
-         "%{c}"                                 \
-		 "$(wksp) $(cat /tmp/bar/wksp)"         \
-         "%{r}$(cat /tmp/bar/bat 2> /dev/null)" \
-         "$(cat /tmp/vol)% "                    \
-         "$(cat /tmp/bar/time) "                \
-         "$(cat /tmp/bar/date)  "
-    do sleep 0.5; done 2> /dev/null             |
-lemonbar -db                                    \
-         -f ${ft}                               \
-         -g ${w}x${h}+${x}+${y}                 \
-         -n bar                                 \
-         -B $(cat /tmp/dwm_info/colors/normbg)  \
-         -F $(cat /tmp/dwm_info/colors/normfg)  > /dev/null 2>&1
+while echo                                           \
+         "%{l}  $(cat /tmp/info/bar/day) "           \
+		 " $(title)"                                 \
+         "%{c}"                                      \
+		 "$(wksp) $(cat /tmp/info/bar/wksp)"         \
+         "%{r}$(cat /tmp/info/bar/bat 2> /dev/null)" \
+         "$(cat /tmp/info/vol/cur)% "                \
+         "$(cat /tmp/info/bar/time) "                \
+         "$(cat /tmp/info/bar/date)  "
+    do sleep 0.5; done 2> /dev/null                  |
+lemonbar -db                                         \
+         -f ${ft}                                    \
+         -g ${w}x${h}+${x}+${y}                      \
+         -n bar                                      \
+         -B $(cat /tmp/info/dwm/colors/normbg)       \
+         -F $(cat /tmp/info/dwm/colors/normfg)       > /dev/null 2>&1

@@ -27,7 +27,7 @@ super + {f,r}
     st -e 'fff'
 
 super + {v,l}
-    {chromium-browser --disable-seccomp-filter-sandbox,slock}
+    {chromium-browser,slock}
 
 super + {x,i,n,e}
     {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}

@@ -1,54 +1,54 @@
 #!/bin/mksh
-# vim:ft=sh
 case ${-} { (*i*) ;; (*) return;; }
-
-. ${HOME}/etc/aliases
 
 alias echo='builtin print'
 alias !!='\\builtin fc -e -'
 
+set -o vi
 set -o vi-tabcomplete
 set -o nohup bgnice trackall
 
 unalias r w
 
-# dont freeze the shell when C-s is pressed
 stty -ixon
 
-# history
 HISTFILE="${HOME}/var/cache/mksh_history"
 HISTSIZE=100000
 
-# vi mode
-set -o vi
-
 _set_wn() {
-    [ "${TERM}" != "linux" ] && {
+    [[ ${TERM} != linux ]] && {
         local cwd="${PWD/${HOME}/\~}"
-        echo -ne "\033]0;mksh: ${cwd}\a"
+        echo -ne "\033]]0;mksh: ${cwd}\a"
     }
 } 2> /dev/null
 
-# delete Desktop folder
-# I HATE IT
 _rm_jnk() {
-    [ -d ${XDG_DESKTOP_HOME} ] && cmd rm -rf ${XDG_DESKTOP_HOME}
-    [ -d ${HOME}/Desktop ] && cmd rm -rf ${HOME}/Desktop
-    [ -d ${HOME}/Downloads ] &&
-        [ -z "$(ls ${HOME}/Downloads)" ] && cmd rm -rf ${HOME}/Downloads
-    # im not sure if this is safe but hey, I hate them
-    [ -d ${HOME}/.dbus ] && cmd rm -rf ${HOME}/.dbus
-    [ -d ${HOME}/.pki ] && cmd rm -rf ${HOME}/.pki
-    [ -f ${HOME}/.wget-hsts ] && cmd rm -rf ${HOME}/.wget-hsts
+    _rm_e() {
+        while [ ${#} -gt 0 ]; do
+            [[ -d "${1}" || -f "${1}" ]] && 
+                rm -rf "${1}"
+            shift
+        done
+    }
+    _rm_e ${XDG_DESKTOP_HOME} ${HOME}/{Desktop,.dbus,.pki,.wget-hsts}
+    [[ -d ${HOME}/Downloads ]] &&
+        [[ -z "$(ls ${HOME}/Downloads)" ]] && rm -rf ${HOME}/Downloads
+    unset _rm_e
 } > /dev/null
 
 _PS1_command() {
     _set_wn; _rm_jnk
 }
 
-# prompts
-export PS1=']$(_PS1_command) '
-#export PS1='\$$(_PS1_command) '
-#export PS1=';$(_PS1_command) '
-#export PS1='%$(_PS1_commands) '
-PS2='... '
+_draw_PS1() {
+    case `whoami` {
+    (root) echo -n '# ';;
+    (viz)  echo -n '] '; _PS1_command;;
+    (*)    echo -n '$ ';;
+    }
+}
+
+export PS1='$(_draw_PS1)'
+export PS2='... '
+
+. ${HOME}/etc/aliases
