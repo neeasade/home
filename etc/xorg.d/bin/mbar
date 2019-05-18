@@ -1,8 +1,7 @@
 #!/bin/dash
 # minimal bar
 [ -n "$(pgrep -x lemonbar)" ] && { pkill -9 lemonbar; exit; }
-[ -d "${HOME}/tmp/bar" ] && rm -rf "${HOME}/tmp/bar"
-mkdir -p "${HOME}/tmp/bar"
+remkd /tmp/info/bar
 
 . "${HOME}/var/cache/tm/colors.sh"
 vol -i 0%
@@ -10,22 +9,29 @@ w=$(res -w)
 h=$(res -h)
 
 wksp() {
-    [ $(cat /tmp/dwm_info/check) -eq 1 ]  && {
-        i=1
-        while [ ${i} -le $(cat /tmp/dwm_info/num_tags) ]; do
-            [ $(cat /tmp/dwm_info/tag${i}) -eq 1 ] && ws="%{F${color5}}+ %{F-}" || tag="+ "
+    local i=1
+    while [ ${i} -le $(cat /tmp/info/dwm/tag/num) ]; do
+        # check if occupied
+        local state=$(cat /tmp/info/dwm/tag/${i})
+        if [ ${state} -eq 1 ]; then
+            ws="x "
+        elif [ ${state} -eq 2 ]; then
+            ws="@ "
+        else
+            ws="+ "
+        fi
 
-            [ $(cat /tmp/dwm_info/current_tag) -eq ${i} ] &&
-                tag="* "
+        # check if current
+        [ $(cat /tmp/info/dwm/tag/current) -eq ${i} ] &&
+            ws="* "
 
-            buffer="${buffer}${tag}"
-            i=$((i + 1))
-        done
-        echo "${buffer}" > ${HOME}/tmp/bar/wksp
-    }
+        buffer="${buffer}${ws}"
+        i=$((i + 1))
+    done
+    echo "${buffer}" > /tmp/info/bar/wksp
 } 2> /dev/null
 
-(echo "%{l} $(wksp)$(cat ${HOME}/tmp/bar/wksp)" \
+(echo "%{l} $(wksp)$(cat /tmp/info/bar/wksp)" \
          "%{r} $(date +'%H:%M') ";
 sleep 2;) |
     lemonbar -db \

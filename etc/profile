@@ -1,5 +1,5 @@
 #!/bin/sh
-export TERMINAL="tabbed -r 2 st -w ''"
+export TERMINAL='tabbed -r 2 st -w ""'
 export MANPAGER=less
 
 for p in \
@@ -11,37 +11,32 @@ done
 
 case ${SHELL} in
 (*mksh*) . ${HOME}/etc/mkshrc;;
-(*bash*) . ${HOME}/etc/bashrc;;
-(*) . ${HOME}/etc/aliases;;
+(*)      . ${HOME}/etc/aliases;;
 esac
+
+for p in vim nvim vis vi ed; do
+    has ${p} && {
+        export EDITOR="${e}"
+        export VISUAL="${e}"
+    }
+done
+
+for p in \
+    ${HOME}/usr/{{local/,}share/,}man \
+    ${HOME}/opt/texlive/texmf-dist/doc/man; do
+    export MANPATH="${MANPATH}:${p}"
+done
 
 unset p
 
-for e in vim nvim vis vi ed; do
-    case $(type -p "${e}") in
-    (*"not found"*) continue;;
-    (*) export EDITOR="${e}"; export VISUAL="${e}"; break;;
-    esac
-done
-
-for m in \
-	"${HOME}/usr/{{local/,}share/,}man" \
-	"${HOME}/opt/texlive/texmf-dist/doc/man"; do
-    set -- ${m}
-    for i in ${@}; do export MANPATH="${MANPATH}:${i}"; done
-done
-
-unset m
-unset i
-
-export MANPATH=$MANPATH:${HOME}/opt/texlive/texmf-dist/doc/man
+export MANPATH=${MANPATH}:${HOME}/opt/texlive/texmf-dist/doc/man
 
 export XDG_CACHE_HOME="${HOME}/var/cache"
 export XDG_CONFIG_HOME="${HOME}/etc/prog.d"
-export XDG_DESKTOP_DIR="/non/existent"
+export XDG_DESKTOP_DIR='/non/existent'
 export XDG_DOWNLOAD_DIR="${HOME}/var/downloads"
 export XDG_DATA_HOME="${HOME}/var/lib"
-export XDG_RUNTIME_DIR="/tmp/xdg_runtime"
+export XDG_RUNTIME_DIR='/tmp/xdg_runtime'
 
 export RUSTUP_HOME="${HOME}/opt/rustup"
 export CARGO_HOME="${HOME}/opt/cargo"
@@ -64,6 +59,4 @@ export WEECHAT_HOME="${HOME}/etc/weechat"
 export GNUPGHOME="${HOME}/etc/gnupg"
 
 # fix font rendering THANK YOU ZOE. BIG HUG
-export FREETYPE_PROPERTIES="truetype:interpreter-version=38"
-
-has clang && export CC=clang
+export FREETYPE_PROPERTIES='truetype:interpreter-version=38'

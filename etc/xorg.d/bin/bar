@@ -17,7 +17,6 @@ init() {
     y=$((sh - h))
     w=$(res -w)
 
-    ft='cherry:pixelsize=11'
 	vol -i 0
 }
 
@@ -112,8 +111,8 @@ while echo                                           \
          "$(cat /tmp/info/bar/date)  "
     do sleep 0.5; done 2> /dev/null                  |
 lemonbar -db                                         \
-         -f ${ft}                                    \
+         -f 'ttyp0:pixelsize=9'                      \
          -g ${w}x${h}+${x}+${y}                      \
          -n bar                                      \
-         -B $(cat /tmp/info/dwm/colors/normbg)       \
+         -B '#ffffff'                                \
          -F $(cat /tmp/info/dwm/colors/normfg)       > /dev/null 2>&1

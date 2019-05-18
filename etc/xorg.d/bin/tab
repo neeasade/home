@@ -7,6 +7,6 @@ get_color() {
     cat /tmp/info/dwm/colors/${1}
 }
 
-tabbed -o `get_color normbg` -O `get_color normfg` \
-       -t `get_color selbg`  -T `get_color selfg`  \
+tabbed -t `get_color normbg` -T `get_color normfg` \
+       -o `get_color selbg`  -O `get_color selfg`  \
        "${@}" "${xid_flag}"

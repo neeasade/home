@@ -1,21 +1,20 @@
 alias a='alias'
 
-find_font() {
+find-font() {
     [ ${#} -eq 0 ] && return
     fc-list | grep "${1}"
 }
 
 mklatex() {
-    local file
     for file in ${@}; do
         xelatex "${file}"; rm -rf ${file%.tex}.{aux,out,log}
     done
+
+    unset file
 }
 
 c() {
     [ ${#} -eq 0 ] && { clear; return 0; }
-    local p
-    local i
 
     # simple expand
     for p in "${@}" "${@}*" "*${@}" "*${@}*"; do
@@ -35,6 +34,8 @@ c() {
             cd "${p}"
         fi && break
     done
+
+    unset p i
 }
 
 v() {
@@ -51,7 +52,6 @@ resource() {
 
     case ${SHELL} in
     (*mksh*) source ${HOME}/etc/mkshrc;;
-    (*rc*)   ;;
     (*)      source ${HOME}/etc/aliases;;
     esac
 }
@@ -62,6 +62,7 @@ resxhkd() {
 }
 
 conf() {
+    [ ! -d ${HOME}/usr/repos/home ] && return 0
     g() { git --git-dir=${HOME}/usr/repos/home --work-tree=$HOME  "${@}"; }
 
     case ${1} in
@@ -75,23 +76,18 @@ conf() {
     unset g
 }
 
-for i in python3 python2 python; do has ${i} && { a python=${i}; break; }; done
-
-for f in fff ranger nnn noice; do has ${f} && { a {fm,mf}=${f}; break; }; done
-
-#for p in pip3 pip2 pip; do has && { a pip="${p}";break; }; done
-
+for i in fff ranger nnn noice; do has ${f} && { a {fm,mf}=${f}; break; }; done
 for i in doas sudo; do has ${i} && { a sudo="${i} "; }; done
 
-unset i p f
+unset i
 
-a py='python'
-a pl='perl'
+has python3 && a python='python3'
+has python && a py='perl'
+has perl && a pl='perl'
 a cmd='command'
 
 a l='ls -l'
 a ll='ls -1'
-a ff='find_font'
 
 a {mkci,mkic}='make clean install'
 has mk || a mk='make'
@@ -134,8 +130,10 @@ a c.='cd ..'
 a sl='ls'
 a {cl,cle}='clear'
 
-a commit='git commit --interactive -m'
-a diff='git diff'
+has git && {
+    a commit='git commit --interactive -m'
+    a diff='git diff'
+}
 
 a datenow='date +"%a %d %b %Y %H:%M"'
 a killx='pkill -15 Xorg'

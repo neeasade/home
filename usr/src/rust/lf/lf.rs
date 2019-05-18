@@ -12,13 +12,17 @@ fn is_in_blacklist(path: &str) -> bool {
 
         let i = b.replacen("*", "", 2);
         let i = i.as_str();
+        let stw = b.starts_with("*");
+        let enw = b.ends_with("*");
 
-        if b.starts_with("*") && b.ends_with("*") {
+        if stw && enw {
             ret = path.contains(i);
-        } else if b.ends_with("*") {
+        } else if enw {
             ret = path.starts_with(i);
-        } else if b.starts_with("*") {
+        } else if stw {
             ret = path.ends_with(i);
+        } else {
+            ret = path == b;
         }
     }
 
