@@ -82,7 +82,7 @@ for i in doas sudo; do has ${i} && { a sudo="${i} "; }; done
 unset i
 
 has python3 && a python='python3'
-has python && a py='perl'
+has python && a py='python'
 has perl && a pl='perl'
 a cmd='command'
 

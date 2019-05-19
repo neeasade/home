@@ -1,7 +1,6 @@
 #!/bin/dash
 # minimal bar
 [ -n "$(pgrep -x lemonbar)" ] && { pkill -9 lemonbar; exit; }
-remkd /tmp/info/bar
 
 . "${HOME}/var/cache/tm/colors.sh"
 vol -i 0%
@@ -9,10 +8,11 @@ w=$(res -w)
 h=$(res -h)
 
 wksp() {
-    local i=1
-    while [ ${i} -le $(cat /tmp/info/dwm/tag/num) ]; do
-        # check if occupied
-        local state=$(cat /tmp/info/dwm/tag/${i})
+    read -r num < /tmp/info/dwm/tag/num
+    read -r cur < /tmp/info/dwm/tag/current
+    i=1
+    while [ ${i} -le ${num} ]; do
+        read -r state < /tmp/info/dwm/tag/${i}
         if [ ${state} -eq 1 ]; then
             ws="x "
         elif [ ${state} -eq 2 ]; then
@@ -21,17 +21,17 @@ wksp() {
             ws="+ "
         fi
 
-        # check if current
-        [ $(cat /tmp/info/dwm/tag/current) -eq ${i} ] &&
+        [ ${cur} -eq ${i} ] &&
             ws="* "
 
         buffer="${buffer}${ws}"
         i=$((i + 1))
     done
-    echo "${buffer}" > /tmp/info/bar/wksp
-} 2> /dev/null
+    unset i state
+    echo "${buffer}"
+}
 
-(echo "%{l} $(wksp)$(cat /tmp/info/bar/wksp)" \
+(echo "%{l} $(wksp)"             \
          "%{r} $(date +'%H:%M') ";
 sleep 2;) |
     lemonbar -db \

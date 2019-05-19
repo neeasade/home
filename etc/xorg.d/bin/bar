@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/mksh
 trap 'pkill -P $$' EXIT
 
 init() {
@@ -8,44 +8,47 @@ init() {
         sleep 0.1
     done
 
-    h=$(cat /tmp/info/dwm/bar/height)
+    read -r h < /tmp/info/dwm/bar/height
 
-    [ ${h} -eq 0 ] && exit
+    [[ ${h} -eq 0 ]] && exit
 
     local sh=$(res -h)
     x=0
     y=$((sh - h))
     w=$(res -w)
 
-	vol -i 0
+    vol -i 0
 }
 
 wksp() {
     local i=1
-    while [ ${i} -le $(cat /tmp/info/dwm/tag/num) ]; do
+    read -r num < /tmp/info/dwm/tag/num
+    read -r cur < /tmp/info/dwm/tag/current
+    while [[ ${i} -le ${num} ]]; do
         # check if occupied
-        local state=$(cat /tmp/info/dwm/tag/${i})
-        if [ ${state} -eq 1 ]; then
+        read -r state < /tmp/info/dwm/tag/${i}
+        if [[ ${state} -eq 1 ]]; then
             ws="x "
-        elif [ ${state} -eq 2 ]; then
+        elif [[ ${state} -eq 2 ]]; then
             ws="@ "
         else
             ws="+ "
         fi
 
         # check if current
-        [ $(cat /tmp/info/dwm/tag/current) -eq ${i} ] &&
+        [[ ${cur} -eq ${i} ]] &&
             ws="* "
 
         buffer="${buffer}${ws}"
         i=$((i + 1))
     done
-    echo "${buffer}" > /tmp/info/bar/wksp
-} 2> /dev/null
+    unset i state cur
+    echo -n "${buffer}"
+}
 
 title() {
     shorten() {
-        echo `echo "${@}" | cut -c1-40`...
+        echo -n "${@}" | cut -c1-40
     }
 
     local winn="$(xdotool getactivewindow getwindowname | tr '[:upper:]' '[:lower:]')"
@@ -60,8 +63,8 @@ title() {
     (*" - firefox"*) winn="ff: `remove_name "firefox"`";;
     esac
 
-    [ ${#winn} -ge 40 ] && winn=`shorten "${winn}"`
-    [ -n "${winn}" ] && formatname=" ${winn} "
+    [[ ${#winn} -ge 40 ]] && winn="`shorten "${winn}"`..."
+    [[ -n "${winn}" ]] && formatname=" ${winn} "
     echo "${formatname}"
 }
 
@@ -89,7 +92,7 @@ launchd() {
     }
 
     batd() {
-        [ `bat -s` = "Unknown" ] && return; [ `bat -s` = "Charging" ] && ind="^"
+        [[ `bat -s` = "Unknown" ]] && return; [[ `bat -s` = "Charging" ]] && ind="^"
         while echo "`bat -p`%${ind}" > /tmp/info/bar/bat; do
             sleep 5
         done
@@ -101,18 +104,18 @@ launchd() {
 init; launchd
 
 while echo                                           \
-         "%{l}  $(cat /tmp/info/bar/day) "           \
-		 " $(title)"                                 \
+         "%{l}  $(< /tmp/info/bar/day) "             \
+         " $(title)"                                 \
          "%{c}"                                      \
-		 "$(wksp) $(cat /tmp/info/bar/wksp)"         \
-         "%{r}$(cat /tmp/info/bar/bat 2> /dev/null)" \
-         "$(cat /tmp/info/vol/cur)% "                \
-         "$(cat /tmp/info/bar/time) "                \
-         "$(cat /tmp/info/bar/date)  "
+         "$(wksp)"                                   \
+         "%{r}$(< /tmp/info/bar/bat 2> /dev/null)"   \
+         "$(< /tmp/info/vol/cur)% "                  \
+         "$(< /tmp/info/bar/time) "                  \
+         "$(< /tmp/info/bar/date)  "
     do sleep 0.5; done 2> /dev/null                  |
 lemonbar -db                                         \
          -f 'ttyp0:pixelsize=9'                      \
          -g ${w}x${h}+${x}+${y}                      \
          -n bar                                      \
          -B '#ffffff'                                \
-         -F $(cat /tmp/info/dwm/colors/normfg)       > /dev/null 2>&1
+         -F $(< /tmp/info/dwm/colors/normfg)         > /dev/null 2>&1
