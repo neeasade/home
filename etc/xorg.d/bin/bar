@@ -42,25 +42,22 @@ wksp() {
 }
 
 title() {
-    shorten() {
-        echo -n "${@}" | cut -c1-40
+    typeset -l -Z -L50 winn
+    winn=`xdotool getactivewindow getwindowname`
+
+    [[ -z "${winn}" ]] && return 0
+
+    case ${winn} {
+    (*" - ch"*) winn="chromium: ${winn/- ch*/}";;
+    (*" - fi"*) winn="ff: ${winn/- fi*/}";;
     }
 
-    local winn="$(xdotool getactivewindow getwindowname | tr '[:upper:]' '[:lower:]')"
-    local formatname=""
-
-    case ${winn} in
-    (*" - chromium"*) winn="chromium: ${winn/- chromium//}";;
-    (*" - firefox"*) winn="ff: ${winn/- firefox//}";;
-    esac
-
-    [[ ${#winn} -ge 40 ]] && winn="`shorten "${winn}"`..."
-    [[ -n "${winn}" ]] && formatname=" ${winn} "
-    echo "${formatname}"
+    echo " ${winn} "
 }
 
 
 batd() {
+    echo > /tmp/info/bar/bat
     [[ `bat -s` = "Unknown" ]] && return; [[ `bat -s` = "Charging" ]] && ind="^"
     while echo "`bat -p`%${ind}" > /tmp/info/bar/bat; do
         sleep 5
@@ -74,7 +71,7 @@ while echo                                                               \
          "$(title)"                                                      \
          "%{c}"                                                          \
          "$(wksp)"                                                       \
-         "%{r}$(< /tmp/info/bar/bat 2> /dev/null)"                       \
+         "%{r}$(< /tmp/info/bar/bat)"                                    \
          "$(< /tmp/info/vol/cur)% "                                      \
          "$(date +'%H:%M')"                                              \
          "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')  "
