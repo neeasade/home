@@ -27,22 +27,17 @@ wksp() {
     while [[ ${i} -le ${num} ]]; do
         # check if occupied
         read -r state < /tmp/info/dwm/tag/${i}
-        if [[ ${state} -eq 1 ]]; then
-            ws="x "
-        elif [[ ${state} -eq 2 ]]; then
-            ws="@ "
-        else
-            ws="+ "
-        fi
+        case ${state} {
+        (1) ws='x ';;
+        (2) ws='@ ';;
+        (*) ws='+ ';;
+        }
 
-        # check if current
-        [[ ${cur} -eq ${i} ]] &&
-            ws="* "
-
+        [[ ${cur} -eq ${i} ]] && ws='* '
         buffer="${buffer}${ws}"
         i=$((i + 1))
     done
-    unset i state cur
+    unset i state cur ws
     echo -n "${buffer}"
 }
 
@@ -54,13 +49,9 @@ title() {
     local winn="$(xdotool getactivewindow getwindowname | tr '[:upper:]' '[:lower:]')"
     local formatname=""
 
-    remove_name() {
-        echo "${winn}" | sed -e "s/ - $1//"
-    }
-
     case ${winn} in
-    (*" - chromium"*) winn="chromium: `remove_name "chromium"`";;
-    (*" - firefox"*) winn="ff: `remove_name "firefox"`";;
+    (*" - chromium"*) winn="chromium: ${winn/- chromium//}";;
+    (*" - firefox"*) winn="ff: ${winn/- firefox//}";;
     esac
 
     [[ ${#winn} -ge 40 ]] && winn="`shorten "${winn}"`..."
@@ -69,53 +60,28 @@ title() {
 }
 
 
-launchd() {
-    timed() {
-        while date "+%H:%M" > /tmp/info/bar/time; do
-            sleep 59
-        done
-    }
-
-    dated() {
-        while echo "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')" \
-            > /tmp/info/bar/date; do
-            sleep 300
-        done
-    }
-
-    dayd() {
-        while \
-            echo $(date +%a | tr '[:upper:]' '[:lower:]' | cut -c1-2) \
-            > /tmp/info/bar/day; do
-            sleep 300
-        done
-    }
-
-    batd() {
-        [[ `bat -s` = "Unknown" ]] && return; [[ `bat -s` = "Charging" ]] && ind="^"
-        while echo "`bat -p`%${ind}" > /tmp/info/bar/bat; do
-            sleep 5
-        done
-    }
-
-    local d; for d in timed dated dayd batd; do $d & done
+batd() {
+    [[ `bat -s` = "Unknown" ]] && return; [[ `bat -s` = "Charging" ]] && ind="^"
+    while echo "`bat -p`%${ind}" > /tmp/info/bar/bat; do
+        sleep 5
+    done
 }
 
-init; launchd
+init; batd
 
-while echo                                           \
-         "%{l}  $(< /tmp/info/bar/day) "             \
-         " $(title)"                                 \
-         "%{c}"                                      \
-         "$(wksp)"                                   \
-         "%{r}$(< /tmp/info/bar/bat 2> /dev/null)"   \
-         "$(< /tmp/info/vol/cur)% "                  \
-         "$(< /tmp/info/bar/time) "                  \
-         "$(< /tmp/info/bar/date)  "
-    do sleep 0.5; done 2> /dev/null                  |
-lemonbar -db                                         \
-         -f 'ttyp0:pixelsize=9'                      \
-         -g ${w}x${h}+${x}+${y}                      \
-         -n bar                                      \
-         -B '#ffffff'                                \
-         -F $(< /tmp/info/dwm/colors/normfg)         > /dev/null 2>&1
+while echo                                                               \
+         "%{l}  $(date +'%a' | tr '[:upper:]' '[:lower:]' | cut -c1-2)"  \
+         "$(title)"                                                      \
+         "%{c}"                                                          \
+         "$(wksp)"                                                       \
+         "%{r}$(< /tmp/info/bar/bat 2> /dev/null)"                       \
+         "$(< /tmp/info/vol/cur)% "                                      \
+         "$(date +'%H:%M')"                                              \
+         "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')  "
+    do sleep 0.5; done 2> /dev/null                                      |
+lemonbar -db                                                             \
+         -f 'ttyp0:pixelsize=9'                                          \
+         -g ${w}x${h}+${x}+${y}                                          \
+         -n bar                                                          \
+         -B '#ffffff'                                                    \
+         -F $(< /tmp/info/dwm/colors/normfg)                             > /dev/null 2>&1

@@ -18,7 +18,7 @@ delete_entry() {
 
 show() {
     local i=1
-    local num_entries=$(cat "${cache}" | wc -l)
+    local num_entries=$(wc -l "${cache}")
 
     while [ ${i} -le ${num_entries} ]; do
         echo "${i}. `sed -n "${i}p" "${cache}"`"

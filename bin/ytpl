@@ -20,18 +20,16 @@ play() {
     # if the file is not in default path, then its a full path
     [ ! -f "${path}" ] && path="${file}"
 
-    local links="$(cat ${path})"
-
     # shuffle if necessary
     [ ${shuffle} ] && links=$(echo "${links}" | shuf)
 
-    for link in ${links}; do
+    while read -r link; do
         local title="$(youtube-dl -e ${link})"
         echo "${title}" > /tmp/ytpl_title
         notify-send "now playing" "${title}"
         link="$(echo "${link}" | sed -E 's/http(s)/ytdl/')"
         mpv ${link} --no-video --input-ipc-server=${socket}
-    done
+    done < ${path}
 
     unset link
     rm -rf ${socket} /tmp/ytpl_title
@@ -54,16 +52,16 @@ skip() {
 
 while [ $# -gt 0 ]; do
     case ${1} in
-        play)
-            if [ -S ${socket} ]  && [ -n $(pgrep -x mpv) ]; then
-                echo 'mpv already playing!' && exit 0
-            fi
-            shift
-            [ "${1}" = "shuffle" ] && { shuff=true; shift; } || shuff=false
-            play "${1}" "${shuff}";;
-        pause) pause;;
-        skip) skip;;
-        die|end) rm -rf ${socket} /tmp/ytpl_title && pkill -15 mpv && exit;;
+    (play)
+        if [ -S ${socket} ]  && [ -n $(pgrep -x mpv) ]; then
+            echo 'mpv already playing!' && exit 0
+        fi
+        shift
+        [ "${1}" = "shuffle" ] && { shuff=true; shift; } || shuff=false
+        play "${1}" "${shuff}";;
+    (pause) pause;;
+    (skip) skip;;
+    (die|end) rm -rf ${socket} /tmp/ytpl_title && pkill -15 mpv && exit;;
     esac
     shift
 done

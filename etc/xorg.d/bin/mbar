@@ -13,21 +13,17 @@ wksp() {
     i=1
     while [ ${i} -le ${num} ]; do
         read -r state < /tmp/info/dwm/tag/${i}
-        if [ ${state} -eq 1 ]; then
-            ws="x "
-        elif [ ${state} -eq 2 ]; then
-            ws="@ "
-        else
-            ws="+ "
-        fi
+        case ${state} in
+        (1) ws='x ';;
+        (2) ws='@ ';;
+        (*) ws='+ ';;
+        esac
 
-        [ ${cur} -eq ${i} ] &&
-            ws="* "
-
+        [ ${cur} -eq ${i} ] && ws='* '
         buffer="${buffer}${ws}"
         i=$((i + 1))
     done
-    unset i state
+    unset i state ws
     echo "${buffer}"
 }
 

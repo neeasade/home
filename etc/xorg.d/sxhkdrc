@@ -57,3 +57,6 @@ super + shift + {k,j,m,u,v}
 # brness
 super + shift + {l,h}
     sudo brness {-i 1,-d 1}
+
+super + t
+    ~/tmp/t

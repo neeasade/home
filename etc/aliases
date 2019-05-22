@@ -1,3 +1,4 @@
+#!/bin/sh
 alias a='alias'
 
 find-font() {
@@ -39,13 +40,10 @@ c() {
 }
 
 v() {
-    [ -f *"${@}"* ] && "${EDITOR}" *"$@"* || {
-        local f="$(find . -iname *"${@}"* -maxdepth 1 | head -n 1)"; [ -f "$f" ] && "${EDITOR}" "$f" || {
-            local f="$(find . -iname *"${@}"* -maxdepth 2 | head -n 1)"
-            [ -f "$f" ] && "${EDITOR}" "$f" || "${EDITOR}" "${@}"
-        }
-    }
-} 2> /dev/null
+    [ ${TERM} = 'linux' ] && ${EDITOR} "${@}"
+    has emacsclient && emacsclient -c -a '' "${@}" &
+    [ ${?} -ne 0 ] && ${EDITOR} "${@}"
+}
 
 resource() {
     source ${HOME}/etc/aliases

@@ -1,8 +1,8 @@
 #!/bin/dash
 # brightness script.
 dir=/sys/class/backlight/intel_backlight
-mb=`cat ${dir}/max_brightness`
-cb=`cat ${dir}/brightness`
+read -r mb < ${dir}/max_brightness
+read -r cb < ${dir}/brightness
 
 gp() {
     echo $(((${1} * ${mb}) / 100))

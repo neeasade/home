@@ -14,12 +14,8 @@ case ${SHELL} in
 (*)      . ${HOME}/etc/aliases;;
 esac
 
-for p in vim nvim vis vi ed; do
-    has ${p} && {
-        export EDITOR="${e}"
-        export VISUAL="${e}"
-    }
-done
+export EDITOR='vi'
+export VISUAL='vi'
 
 for p in \
     ${HOME}/usr/{{local/,}share/,}man \
@@ -54,7 +50,7 @@ export PATH="${PATH}:${HOME}/usr/lib/python3/bin"
 export NVIM_LOG_FILE="${HOME}/var/logs/nvim.log"
 export LESSHISTFILE="${HOME}/var/cache/lesshst"
 
-export WEECHAT_HOME="${HOME}/etc/weechat"
+export WEECHAT_HOME="${HOME}/etc/prog.d/weechat"
 
 export GNUPGHOME="${HOME}/etc/gnupg"
 

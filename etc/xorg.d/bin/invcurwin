@@ -7,8 +7,8 @@ cur_win_id="$(xdotool getactivewindow)"
 cur_win_class="$(xprop -id ${cur_win_id} | grep WM_CLASS)"
 cur_win_class="$(echo "${cur_win_class}" | awk 'NF>1{print $NF}')"
 
-inv_check=$(cat ${HOME}/tmp/invchk)
-prv_win="$(cat ${HOME}/tmp/prvinvwin)"
+read -r inv_check < ${HOME}/tmp/invchk
+read -r prv_win < ${HOME}/tmp/prvinvwin
 
 # kill compton before doing anything
 [ -n $(pgrep compton) ] && pkill -9 compton
