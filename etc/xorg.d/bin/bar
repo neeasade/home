@@ -77,7 +77,7 @@ while echo                                                               \
          "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')  "
     do sleep 0.5; done 2> /dev/null                                      |
 lemonbar -db                                                             \
-         -f 'ttyp0:pixelsize=9'                                          \
+         -f 'terminus:pixelsize=9'                                       \
          -g ${w}x${h}+${x}+${y}                                          \
          -n bar                                                          \
          -B '#ffffff'                                                    \

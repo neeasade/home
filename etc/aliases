@@ -96,9 +96,7 @@ a mkc='make clean'
 
 a mpf='mupdf'
 a aliases='alias'
-a quit='exit'
-a :q='exit'
-a :q!='exit'
+a {quit,:q,:q!}='exit'
 
 a df='df -h'
 a du='du -h'
@@ -129,7 +127,7 @@ a sl='ls'
 a {cl,cle}='clear'
 
 has git && {
-    a commit='git commit --interactive -m'
+    a {commmit,commit}='git commit --interactive -m'
     a diff='git diff'
 }
 

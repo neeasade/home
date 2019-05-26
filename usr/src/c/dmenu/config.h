@@ -6,9 +6,8 @@ static int fuzzy = 1;
 
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
-	"cherry:pixelsize=11"
-}
-;
+    "cherry:pixelsize=11"
+};
 
 /* -p  option; prompt to the left of input field */
 static const char *prompt      = NULL;
