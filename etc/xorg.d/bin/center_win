@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # wmutils script to center window
 eval `xdotool getactivewindow getwindowgeometry --shell`
 

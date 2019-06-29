@@ -1,34 +1,28 @@
-#!/bin/dash
+#!/bin/ksh
 # ls and cd in dmenu
 # -h 1 = hide dotfiles
 
-case ${1} in
+case ${1} {
 (-h) hidden=$2;;
 (*) hidden=1;;
-esac
+}
 
 ls() {
     local result
     local i
-    for i in *; do
-        [ -d "${i}" ] && i="${i}/"
+    for i in *; {
+        [[ -d "${i}" ]] && i="${i}/"
         result="${result}\n${i}"
-    done
+    }
 
     echo ${result}
 }
 
-cwd() {
-    current_dir="${PWD}"
-    current_dir=`echo "${PWD}" | sed -e "s|${HOME}|~|"`
-    echo "${current_dir} "
-}
-
 get_dir() {
-    case ${hidden} in
-    (1) echo "..$(ls)" | menu sel -p "$(cwd)";;
-    (0) echo "..$(ls)" | menu sel -p "$(cwd)";;
-    esac
+    case ${hidden} {
+    (1) echo "..$(ls)" | menu sel -p ${PWD/~/\~} ;;
+    (0) echo "..$(ls)" | menu sel -p ${PWD/~/\~} ;;
+    }
 }
 
 cd_dir() {
@@ -37,32 +31,26 @@ cd_dir() {
 }
 
 open_file() {
-    # get the mime type of the file
-    local file_type="$(file -ib "${1}")"
-
-    case $file_type in
-    (*pdf*) zathura "${1}";;
-    (*image*) meh "${1}";;
-    (*video*) mpv "${1}";;
-    (*text*) "${TERMINAL}" ${EDITOR} "${1}";;
+    case `file -ib ${1}` {
+    (*pdf*)   zathura     "${1}" ;;
+    (*image*) meh         "${1}" ;;
+    (*video*) mpv         "${1}" ;;
+    (*text*)  emacsclient "${1}" ;;
     (*)
-        case $(file "${1}") in
+        case `file "${1}"` {
         (*archive*)
             st -e upkp "${1}";;
-        esac;;
-    esac
+        };;
+    }
 }
 
 spawn() {
     local output="$(get_dir)"
 
-    if [ -d "${output}" ]; then
+    [[ -d "${output}" ]] &&
         cd_dir "${output}"
-    elif [ -f "${output}" ]; then
+    [[ -f "${output}" ]] &&
         open_file "${output}"
-    elif [ "${output}" = ot ] || [ "$output" = "open terminal" ]; then
-        ${TERMINAL}
-    fi
 }
 
 spawn

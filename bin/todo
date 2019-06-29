@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # a todo list thingy manager in dash
 # set the cache folder
 [ -n "${XDG_CACHE_HOME}" ] && cache="${XDG_CACHE_HOME}/todo"\

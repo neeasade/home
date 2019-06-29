@@ -1,91 +1,78 @@
-#!/bin/sh
+#!/bin/ksh
 alias a='alias'
 
 find-font() {
-    [ ${#} -eq 0 ] && return
-    fc-list | grep "${1}"
+    [[ ${1} ]] &&
+        fc-list | grep -i "${1}"
 }
 
 mklatex() {
-    for file in ${@}; do
+    local file
+    for file; {
         xelatex "${file}"; rm -rf ${file%.tex}.{aux,out,log}
-    done
-
-    unset file
+    }
 }
 
 c() {
-    [ ${#} -eq 0 ] && { clear; return 0; }
-
-    # simple expand
-    for p in "${@}" "${@}*" "*${@}" "*${@}*"; do
-        if [ -f "${p}" ]; then
-            cat "${p}"; return 0;
-        elif [ -d "${p}" ]; then
-            cd "${p}"; return 0;
+    [[ ! ${1} ]] && { clear; return 0; }
+    local p
+    for p in "${@}" "${@}*" "*${@}" "*${@}*"; {
+        if [[ -f "${p}" ]]; then
+            cat "${p}"; return 0
+        elif [[ -d "${p}" ]]; then
+            cd "${p}"; return 0
         fi
-    done
-
-    # see through dirs
-    for i in 0 1 2 3 4 5 6 7 8; do
-        p="$(find . -maxdepth $((i + 1)) -mindepth $i -type d -iname "*${@}*" | head -n 1)"
-        if [ -f "${p}" ]; then
-            cat "${p}"
-        elif [ -d "${p}" ]; then
-            cd "${p}"
-        fi && break
-    done
-
-    unset p i
+    }
+    echo 'error: no such file or dir' ${1}
 }
 
 v() {
-    [ ${TERM} = 'linux' ] && ${EDITOR} "${@}"
-    has emacsclient && emacsclient -c -a '' "${@}" &
-    [ ${?} -ne 0 ] && ${EDITOR} "${@}"
+    pgrep -x emacs > /dev/null && has emacsclient && {
+        emacsclient -c "${@}" &
+        return 0
+    }
+
+    vi "${@}"
 }
 
 resource() {
-    source ${HOME}/etc/aliases
+    . ${HOME}/etc/aliases
 
-    case ${SHELL} in
-    (*mksh*) source ${HOME}/etc/mkshrc;;
-    (*)      source ${HOME}/etc/aliases;;
-    esac
+    case ${SHELL} {
+    (*ksh*)  . ${HOME}/etc/kshrc   ;;
+    (*)      . ${HOME}/etc/aliases ;;
+    }
 }
 
 resxhkd() {
-    [ "$(pgrep -x sxhkd)" ] && pkill -9 sxhkd
+    pgrep -x sxhkd > /dev/null && pkill -9 sxhkd
     sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc &
 }
 
 conf() {
-    [ ! -d ${HOME}/usr/repos/home ] && return 0
-    g() { git --git-dir=${HOME}/usr/repos/home --work-tree=$HOME  "${@}"; }
+    [[ ! -d ${HOME}/usr/repos/home ]] && return 0
+    g() { git --git-dir=${HOME}/usr/repos/home --work-tree=${HOME}  "${@}"; }
 
-    case ${1} in
+    case ${1} {
     (commit) shift; g commit --interactive -m "${@}";;
     (push) g push origin master;;
     (list) g ls-tree -r HEAD --name-only | less;;
     (update-patches) g add ${HOME}/etc/prog.d/patches/*;;
     (*) g "${@}";;
-    esac
+    }
 
-    unset g
+    unset -f g
 }
 
-for i in fff ranger nnn noice; do has ${f} && { a {fm,mf}=${f}; break; }; done
-for i in doas sudo; do has ${i} && { a sudo="${i} "; }; done
+for i in fff ranger nnn noice; { has ${f} && { a {fm,mf}=${f}; break; }; }
+for i in doas sudo; { has ${i} && { a sudo="${i} "; break; }; }
 
 unset i
 
 has python3 && a python='python3'
-has python && a py='python'
-has perl && a pl='perl'
+has python  && a py='python'
+has perl    && a pl='perl'
 a cmd='command'
-
-a l='ls -l'
-a ll='ls -1'
 
 a {mkci,mkic}='make clean install'
 has mk || a mk='make'
@@ -94,36 +81,34 @@ a mka='make all'
 a mku='make uninstall'
 a mkc='make clean'
 
-a mpf='mupdf'
+has mupdf && a mpf='mupdf'
+has zathura && a mpf='zathura'
 a aliases='alias'
 a {quit,:q,:q!}='exit'
 
 a df='df -h'
 a du='du -h'
 a mv='mv -iv'
-a rm='rm -rv'
+a rm='rm -v'
+a rmd='rm -r'
 a cp='cp -rv'
 a ln='ln -sf'
 a mkf='touch'
 a mkd='mkdir -pv'
 a free='free -m'
-a feh='feh --no-fehbg'
-a rmf='rm -f'
+a rmf='rm -rf'
 a info='info --vi-keys'
 a fc-cache='fc-cache --verbose'
 a grep='grep -i'
 a su='su -'
-a ls='ls -F'
+a {sl,ls}='ls -F'
 a reboot='sudo reboot'
 a poweroff='sudo poweroff'
 a shutdown='sudo shutdown'
 a nvim="nvim -i ${HOME}/var/cache/shada"
 a vim="vim -i ${HOME}/var/cache/viminfo"
 
-a cd..='cd ..'
-a c..='cd ..'
-a c.='cd ..'
-a sl='ls'
+a {cd..,c..,c.}='cd ..'
 a {cl,cle}='clear'
 
 has git && {
@@ -141,10 +126,10 @@ a gR="cd ${HOME}/usr/repos"
 a gT="cd ${HOME}/tmp"
 a gW="cd ${HOME}/var/pictures/wallpapers"
 a gE="cd ${HOME}/etc"
-a gD="cd ${HOME}/var/downloads"
+a gD="cd ${HOME}/usr/doc"
 a gC="cd ${HOME}/var/cache"
 a gV="cd ${HOME}/var"
-a gO="cd ${HOME}/opt"
 a gU="cd ${HOME}/usr"
 a gP="cd ${HOME}/usr/ports"
+a gM="cd ${HOME}/var/music"
 a gr="cd /"

@@ -1,3 +1,4 @@
-#!/bin/dash
-[ -n "${1}" ] && op=cat || op=echo
+#!/bin/sh
+op=echo
+[ -n "${1}" ] && op=cat
 ${op} "${1:-`cat /dev/stdin`}" | curl -F file=@- "http://0x0.st"

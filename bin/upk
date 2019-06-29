@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # extract different type of archives
 
 archive_type=$(file -ib "${1}")

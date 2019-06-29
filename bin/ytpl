@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # youtube "playlist" player
 # the videos are stored in a plain text file separated with new lines
 # I use this script to play music and not videos, so ytdl will only download audio
@@ -53,7 +53,7 @@ skip() {
 while [ $# -gt 0 ]; do
     case ${1} in
     (play)
-        if [ -S ${socket} ]  && [ -n $(pgrep -x mpv) ]; then
+        if [ -S ${socket} ]  && pgrep -x mpv; then
             echo 'mpv already playing!' && exit 0
         fi
         shift

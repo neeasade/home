@@ -2,7 +2,7 @@
 static const unsigned int borpx     = 1;
 
 /* useless gaps in px */
-static const unsigned int gaps      = 2;
+static const unsigned int gaps      = 3;
 
 /*
  * 0 means gaps and no borders
@@ -17,10 +17,10 @@ static const unsigned int startborders = 3;
 static const unsigned int snap      = 0;
 
 /* bar height in pixels */
-static const int barheight          = 0;
+static const int barheight          = 15;
 
 /* show bar or not */
-static       int showbar            = 1;
+static       int showbar            = 0;
 
 /*
  * 0 means bottom bar
@@ -34,7 +34,7 @@ static const int barpos             = 1;
 static const int floatbar            = 0;
 
 /* whether to disable borders and gap if only a single window is open */
-static const int fullscreenonewindow = 1;
+static const int fullscreenonewindow = 0;
 
 /* include theme */
 #include "/home/viz/var/cache/tm/dwm.h"
@@ -53,8 +53,10 @@ static const Rule rules[] = {
     { "Firefox",  NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "qutebrowser",NULL,     NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Chromium", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
+    { "Pale moon", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "feh",      NULL,       "feh",      0,            1,             1,           0,            -1 },
     { "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
+    { "tabbed",   NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "st",       NULL,       "todoterm", 0,            0,             1,           0,            -1 },
     { "st",       NULL,       "surf-download", 0,       1,             1,           1,            -1 },
     { "MuPDF",    NULL,       NULL,       0,            1,             1,           0,            -1 },
@@ -93,7 +95,7 @@ static const Layout layouts[] = {
 /* commands */
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
-static const char *p9[]       = { "dash", "-c", "p9", NULL };
+static const char *p9[]            = { "dash", "-c", "${HOME}/etc/xorg.d/bin/draw_st", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -149,5 +151,5 @@ static Button buttons[] = {
     { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
     { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-    { ClkRootWin,           MODKEY,         Button3,        spawn,          {.v = p9 } },
+    { ClkRootWin,           0,              Button3,        spawn,          {.v = p9 } },
 };

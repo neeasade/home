@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # script to get memory usage
 # TODO: add cpu usage
 

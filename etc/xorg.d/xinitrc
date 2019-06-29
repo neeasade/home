@@ -1,13 +1,13 @@
 #!/bin/sh
 cd ${HOME}
-remkd /tmp/info
+remkd /tmp/info /tmp/info/vol
 export PATH=${HOME}/etc/xorg.d/bin:${PATH}
 xmodmap ${HOME}/etc/xorg.d/xmodmap
 xset +fp ${HOME}/usr/fonts
 sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \
       -r ${HOME}/var/log/sxhkd.log  \
       -s ${HOME}/var/log/sxhkd.log  &
-swall set &
-sudo brness -s 40 &
+. ${HOME}/var/cache/wall &
+sudo brness -s 10 &
 emacs --daemon &
 exec dwm

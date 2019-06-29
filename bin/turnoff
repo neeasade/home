@@ -1,13 +1,12 @@
-#!/bin/dash
+#!/bin/sh
 
-options="lock\nshutdown\nreboot\nkill x"
+options="poweroff\nreboot\nkill x"
 
 selected_option="$(echo ${options} | menu sel)"
 
 [ -f ${HOME}/tmp/bkup.lock ] && { notify-send "bkup is running!"; exit 1; }
 
 case ${selected_option} in
-(shutdown|reboot) sudo ${selected_option};;
-(lock) slock;;
+(poweroff|reboot) sudo ${selected_option};;
 ("kill x") pkill -15 Xorg;;
 esac

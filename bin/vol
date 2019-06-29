@@ -1,26 +1,26 @@
-#!/bin/dash
-# simple dash script which increases the volume of Master (ALSA)
-notify=0
-
+#!/bin/ksh
 usage() {
-    echo "help\n----------\n[-h] echo this message\n[-i] increase volume by percent"
-    echo "[-d] decrease volume by percent\n\
-[-s] set volume in percent\n\
-[-m] mute speakers\n\
-[-u] unmute the speakers\n\
-[-g] print the current volume"
+    cat << EOF
+help
+----
+[-h] echo this help msg
+[-i/d] inc/dec vol
+[-m/u] mute/unmute vol
+[-s/g] set/get volume
+EOF
+    exit 0
 }
 
 inc() {
-    amixer set Master $1+
+    amixer set Master ${1}+
 }
 
 dec() {
-    amixer set Master $1-
+    amixer set Master ${1}-
 }
 
 setvol() {
-    amixer set Master $1
+    amixer set Master ${1}
 }
 
 mute() {
@@ -34,11 +34,10 @@ unmute() {
 }
 
 get() {
-    echo "$(cat /tmp/info/vol/cur)"
+    cat /tmp/info/vol/cur
 }
 
-case ${1} in
-(-n) notify=1;;
+case ${1} {
 (-h) usage;;
 (-i) inc ${2}; shift;;
 (-d) dec ${2}; shift;;
@@ -47,10 +46,10 @@ case ${1} in
 (-s) setvol ${2}; shift;;
 (-g) get;;
 (*) usage;;
-esac
+}
 
-# get current volume and output that to a file which will be used by the bar
-remkd /tmp/info/vol
-amixer sget Master | awk -F '[][]' '{ print $2 }' | sed -e 's/%//' | tr -d '\n' > /tmp/info/vol/cur
-[ ! -f /tmp/info/vol/muted ] && unmute
-[ ${notify} -eq 1 ] && notify-send "volume" "$(get)%"
+vol=`amixer sget Master`
+vol=${vol/%]*/}
+vol=${vol/*[}
+echo ${vol/\%/} > /tmp/info/vol/cur
+[[ ! -f /tmp/info/vol/muted ]] && unmute

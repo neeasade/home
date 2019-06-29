@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # window resize
 # depends on wmutils and xdotool
 eval `xdotool getactivewindow getwindowgeometry --shell`

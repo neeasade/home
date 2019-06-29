@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # uses compton to invert current window
 alias compton="compton -b --conf ${HOME}/etc/comptonrc"
 [ $(cat /tmp/dwm_info/gappx) -ne 0 ] && alias compton='compton -c'
@@ -10,8 +10,7 @@ cur_win_class="$(echo "${cur_win_class}" | awk 'NF>1{print $NF}')"
 read -r inv_check < ${HOME}/tmp/invchk
 read -r prv_win < ${HOME}/tmp/prvinvwin
 
-# kill compton before doing anything
-[ -n $(pgrep compton) ] && pkill -9 compton
+pgrep -x compton && pkill -9 compton
 
 if [ ${cur_win_class} = ${prv_win} ]; then
     if [ ${inv_check} -eq 1 ]; then

@@ -1,19 +1,18 @@
 /* fonts */
-static char *font = "terminus:pixelsize=10";
+//static char *font = "terminus:pixelsize=15";
 //static char *font = "scientifica:style=bold";
 //static char *font = "curie";
-//static char *font = "scientifica";
 //static char *font = "cherry:pixelsize=11";
 //static char *font = "Ttyp0:pixelsize=12";
 //static char *font = "PragmataPro:size=11";
 //static char *font = "dina:size=6";
 //static char *font = "Share Tech Mono:size=9";
-//static char *font = "Share Tech Mono:size=10";
+//static char *font = "Share Tech Mono:pixelsize=14";
 //static char *font = "montecarlo:size=9:style=Regular";
 //static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
 //static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font
 //static char *font = "IBM Plex Mono:size=8";
-//static char *font = "Go Mono:pixelsize=12";
+static char *font = "Go Mono:pixelsize=12";
 
 /* include themes */
 #include "/home/viz/var/cache/tm/st.h"
@@ -29,7 +28,7 @@ static int borderpx = 8;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/mksh";
+static char *shell = "/bin/ksh";
 char *utmp = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 

@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # Made by The_Human
 # dash script which converts audio format of video to mp3 using ffmpeg.
 # made it to convert movies' audio codec to watch in tv

@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # view images from url using feh, dmenu and curl
 
 # get url

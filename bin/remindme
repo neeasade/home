@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # remind me to do something after some time
 
 usage() {

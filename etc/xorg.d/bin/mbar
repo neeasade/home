@@ -1,6 +1,6 @@
-#!/bin/dash
+#!/bin/sh
 # minimal bar
-[ -n "$(pgrep -x lemonbar)" ] && { pkill -9 lemonbar; exit; }
+pgrep -x bar && { pkill -9 lemonbar; exit; }
 
 . "${HOME}/var/cache/tm/colors.sh"
 vol -i 0%
@@ -31,7 +31,7 @@ wksp() {
          "%{r} $(date +'%H:%M') ";
 sleep 2;) |
     lemonbar -db \
-             -f 'cherry:pixelsize=11' \
+             -f 'Share Tech Mono:pixelsize=11' \
              -g "140x18+$((w - 170))+$((h - 40))" \
              -B ${color0} \
              -F ${color7} \

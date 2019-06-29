@@ -27,7 +27,7 @@ super + {f,r}
     st -e 'fff'
 
 super + {v,l}
-    {chromium-browser,slock}
+    {palemoon,slock}
 
 super + {x,i,n,e}
     {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
@@ -51,12 +51,12 @@ super + shift + ctrl + m
     togmouse
 
 # volume
-super + shift + {k,j,m,u,v}
-    vol {-i 1%,-d 1%,-m,-u,-n}
+super + shift + {k,j,m,u}
+    vol {-i 1%,-d 1%,-m,-u}
 
 # brness
 super + shift + {l,h}
-    sudo brness {-i 1,-d 1}
+    sudo brness {-i 1,-d 1,}
 
-super + t
-    ~/tmp/t
+super + shift + {b,t,v}
+    notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%}

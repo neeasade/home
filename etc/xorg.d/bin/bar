@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/bin/ksh
 trap 'pkill -P $$' EXIT
 
 init() {
@@ -8,16 +8,23 @@ init() {
         sleep 0.1
     done
 
+    read -r vis < /tmp/info/dwm/bar/visible
+
+    [[ ${vis} -eq 0 ]] && exit
+
     read -r h < /tmp/info/dwm/bar/height
+    read -r bor < /tmp/info/dwm/borders/size
 
     [[ ${h} -eq 0 ]] && exit
 
-    local sh=$(res -h)
+    sh=$(res -h)
     x=0
+    h=$((h - 2 * bor))
     y=$((sh - h))
-    w=$(res -w)
+    w=$((`res -w` - 2 * bor))
 
     vol -i 0
+    unset sh vis
 }
 
 wksp() {
@@ -28,9 +35,9 @@ wksp() {
         # check if occupied
         read -r state < /tmp/info/dwm/tag/${i}
         case ${state} {
-        (1) ws='x ';;
-        (2) ws='@ ';;
-        (*) ws='+ ';;
+        (1) ws='x ' ;;
+        (2) ws='@ ' ;;
+        (*) ws='+ ' ;;
         }
 
         [[ ${cur} -eq ${i} ]] && ws='* '
@@ -42,14 +49,15 @@ wksp() {
 }
 
 title() {
-    typeset -l -Z -L50 winn
+    typeset -l -Z -L100 winn
     winn=`xdotool getactivewindow getwindowname`
 
     [[ -z "${winn}" ]] && return 0
 
     case ${winn} {
     (*" - ch"*) winn="chromium: ${winn/- ch*/}";;
-    (*" - fi"*) winn="ff: ${winn/- fi*/}";;
+    (*" - fi"*) winn="ff: ${winn/- fi*/}"      ;;
+    (*" - pa"*) winn="pm: ${winn/- pa*/}"      ;;
     }
 
     echo " ${winn} "
@@ -58,27 +66,29 @@ title() {
 
 batd() {
     echo > /tmp/info/bar/bat
-    [[ `bat -s` = "Unknown" ]] && return; [[ `bat -s` = "Charging" ]] && ind="^"
-    while echo "`bat -p`%${ind}" > /tmp/info/bar/bat; do
+    [[ `bat -s` = "Charging" ]] && ind="^"
+    while echo `bat -p`%${ind} > /tmp/info/bar/bat; do
         sleep 5
     done
 }
 
-init; batd
+init; batd &
 
 while echo                                                               \
          "%{l}  $(date +'%a' | tr '[:upper:]' '[:lower:]' | cut -c1-2)"  \
          "$(title)"                                                      \
          "%{c}"                                                          \
          "$(wksp)"                                                       \
-         "%{r}$(< /tmp/info/bar/bat)"                                    \
-         "$(< /tmp/info/vol/cur)% "                                      \
+         "%{r}b$(< /tmp/info/bar/bat)"                                   \
+         "$(< /tmp/info/vol/cur)%"                                       \
          "$(date +'%H:%M')"                                              \
          "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')  "
     do sleep 0.5; done 2> /dev/null                                      |
 lemonbar -db                                                             \
-         -f 'terminus:pixelsize=9'                                       \
+         -f 'Go Mono:pixelsize=12'                                       \
          -g ${w}x${h}+${x}+${y}                                          \
          -n bar                                                          \
-         -B '#ffffff'                                                    \
+         -B $(< /tmp/info/dwm/colors/normbg)                             \
+         -R $(< /tmp/info/dwm/borders/selcol)                            \
+         -r ${bor}                                                       \
          -F $(< /tmp/info/dwm/colors/normfg)                             > /dev/null 2>&1

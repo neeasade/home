@@ -1,8 +1,9 @@
-#!/bin/mksh
+#!/bin/ksh
 
-style=`< "${HOME}/etc/startpage/style.css"`
-style="${style/ICOLORS/`< "${HOME}/var/cache/tm/colors.css"`}"
+read -r style < ${HOME}/etc/startpage/style.css
+read -r _ < ${HOME}/var/cache/tm/colors.css
+style="${style/ICOLORS/${_}}"
 
-html=`< "${HOME}/etc/startpage/homepage.html"`
+read -r < ${HOME}/etc/startpage/homepage.html
 
-echo "${html/XCSS/"${style}"}" > "${HOME}/var/cache/homepage.html"
+echo "${html/XCSS/${style}}" > "${HOME}/var/cache/homepage.html"

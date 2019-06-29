@@ -1,17 +1,15 @@
-#!/bin/dash
-# script to recompile suckless software
+#!/bin/sh
 
-base_dir="$HOME/usr/src/c"
+base_dir="${HOME}/usr/src/c"
 sltools="dwm dmenu st tabbed"
 
 compile() {
-    while [ ${#} -gt 0 ]; do
-        cd ${base_dir}/${1}
-        echo "compiling ${1}"
-        make -j4 clean install && make clean
-        shift
+    for i; do
+        cd ${base_dir}/${i}
+        echo "compiling ${i}"
+        make clean install && make clean
     done
 }
 
-[ $# -eq 0 ] && compile ${sltools} ||
+[ ${#} -eq 0 ] && compile ${sltools} ||
     compile ${@}

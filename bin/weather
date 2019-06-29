@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # a weather notification sender
 # only sends the current weather condition, ie sunny or cloudly and temperature in K
 

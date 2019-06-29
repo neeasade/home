@@ -280,7 +280,8 @@ static Window root, wmcheckwin;
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
-static unsigned int scratchtag = 1 << numtags;
+//static unsigned int scratchtag = 1 << numtags;
+static unsigned int scratchtag = 0;
 
 /* function implementations */
 static int combo = 0;
@@ -436,7 +437,7 @@ buttonpress(XEvent *e)
         focus(NULL);
     }
 
-    if((c = wintoclient(ev->window))) {
+    if ((c = wintoclient(ev->window))) {
         focus(c);
         restack(selmon);
         XAllowEvents(dpy, ReplayPointer, CurrentTime);
@@ -445,7 +446,7 @@ buttonpress(XEvent *e)
 
     for (i = 0; i < LENGTH(buttons); i++)
         if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
-        && CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state)){
+        && CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state)) {
                 buttons[i].func((buttons[i].arg.i == 0) ? &arg : &buttons[i].arg);
         }
 }
@@ -2227,7 +2228,7 @@ init(void)
         break;
     }
 
-    initinfo(gappx, barheight, barpos, numtags, borderpx, floatbar);
+    initinfo(gappx, barheight, barpos, numtags, borderpx, floatbar, showbar);
     infocolors(colors);
 }
 
@@ -2256,7 +2257,7 @@ restartbar(void)
 {
     FILE *fgappx = fopen("/tmp/info/dwm/misc/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
     FILE *fborderpx = fopen("/tmp/info/dwm/borders/size", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
-    system("pkill -9 lemonbar ; pkill -9 bar ; dash ${HOME}/etc/xorg.d/bin/bar &");
+    system("pkill -9 lemonbar; pkill -9 bar; ksh ${HOME}/etc/xorg.d/bin/bar &");
 }
 
 int

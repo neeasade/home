@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # set of commands which should be run when I plug in my monitor
 #primary=$(xrandr --nograb --current | grep primary | cut -d ' ' -f1)
 #echo $primary

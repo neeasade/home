@@ -3,29 +3,35 @@ export TERMINAL='tabbed -r 2 st -w ""'
 export MANPAGER=less
 
 for p in \
-    "${HOME}/opt/texlive/bin/x86_64-linux" \
-    "${HOME}/{usr/local/,opt/cargo/,}bin"; do
+    ${HOME}/opt/texlive/bin/x86_64-linux \
+    ${HOME}/{usr/local/,opt/cargo/,}bin; do
     set -- ${p}
     for i in ${@}; do export PATH="${i}:${PATH}"; done
 done
 
 case ${SHELL} in
-(*mksh*) . ${HOME}/etc/mkshrc;;
-(*)      . ${HOME}/etc/aliases;;
+(*ksh*)
+    . ${HOME}/etc/kshrc
+    export ENV=${HOME}/etc/kshrc
+    ;;
+(*)
+    . ${HOME}/etc/aliases
+    ;;
 esac
 
-export EDITOR='vi'
-export VISUAL='vi'
+export EDITOR=vi
+export VISUAL=vi
 
 for p in \
-    ${HOME}/usr/{{local/,}share/,}man \
-    ${HOME}/opt/texlive/texmf-dist/doc/man; do
+    ${HOME}/usr/{{local/,}share/,}man; do
+    #${HOME}/opt/texlive/texmf-dist/doc/man; do
     export MANPATH="${MANPATH}:${p}"
 done
 
 unset p
 
 export MANPATH=${MANPATH}:${HOME}/opt/texlive/texmf-dist/doc/man
+export INPUTRC="${HOME}/etc/inputrc"
 
 export XDG_CACHE_HOME="${HOME}/var/cache"
 export XDG_CONFIG_HOME="${HOME}/etc/prog.d"
@@ -47,10 +53,7 @@ export PYTHONPATH="${HOME}/usr/lib/python3"
 export PYTHONSTARTUP="${HOME}/etc/prog.d/pythonrc"
 export PATH="${PATH}:${HOME}/usr/lib/python3/bin"
 
-export NVIM_LOG_FILE="${HOME}/var/logs/nvim.log"
 export LESSHISTFILE="${HOME}/var/cache/lesshst"
-
-export WEECHAT_HOME="${HOME}/etc/prog.d/weechat"
 
 export GNUPGHOME="${HOME}/etc/gnupg"
 

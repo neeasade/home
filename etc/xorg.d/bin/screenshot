@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # screenshot utility using maim and 0x0.st
 
 tmp_image="/tmp/grab.png"
@@ -8,12 +8,12 @@ upload() {
     echo "${url}" | head -n 1 | tr -d "\n" | xin
 
     [ -n "${url}" ] &&
-        notify-send 'scrot taken!' 'url in clipboard'
+        notify-send 'scrot taken! url in clipboard'
 }
 
 copy() {
     cp ${tmp_image} ${HOME}/var/pictures/scrots/scrot_$(date '+%b_%d-%H:%M').png
-    notify-send "scrot taken!" "picture stored in drive"
+    notify-send 'scrot taken! picture stored in drive'
     xclip -sel clipboard -t image/png -i ${tmp_image}
 }
 
@@ -37,7 +37,7 @@ case ${capture} in
 (*area*) grab_area;;
 (*win*) grab_window;;
 (*screen*) grab_screen;;
-(*) notify-send "error" "invalid option"; exit;;
+(*) notify-send 'error invalid option'; exit;;
 esac
 
 case ${1} in

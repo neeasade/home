@@ -1,7 +1,6 @@
-#!/bin/dash
+#!/bin/sh
 # remove dir and make it again
-while [ ${#} -ne 0 ]; do
-    [ -d "${1}" ] && rm -rf "${1}"
-    mkdir -p "${1}"
-    shift
+for i; do
+    [ -d "${i}" ] && rm -rf "${i}"
+    mkdir -p "${i}"
 done
