@@ -1,0 +1,135 @@
+diff --git a/lib-src/emacsclient.c b/lib-src/emacsclient.c
+index 702fa40..a44bd7d 100644
+--- a/lib-src/emacsclient.c
++++ b/lib-src/emacsclient.c
+@@ -976,7 +976,7 @@ get_server_config (const char *config_file, struct sockaddr_in *server,
+ 	  char *path = xmalloc (strlen (home) + strlen (config_file)
+ 				+ EXTRA_SPACE);
+ 	  char *z = stpcpy (path, home);
+-	  z = stpcpy (z, "/.emacs.d/server/");
++	  z = stpcpy (z, "/etc/emacs.d/server/");
+ 	  strcpy (z, config_file);
+           config = fopen (path, "rb");
+ 	  free (path);
+@@ -987,7 +987,7 @@ get_server_config (const char *config_file, struct sockaddr_in *server,
+ 	  char *path = xmalloc (strlen (home) + strlen (config_file)
+ 				+ EXTRA_SPACE);
+ 	  char *z = stpcpy (path, home);
+-	  z = stpcpy (z, "/.emacs.d/server/");
++	  z = stpcpy (z, "/etc/emacs.d/server/");
+ 	  strcpy (z, config_file);
+           config = fopen (path, "rb");
+ 	  free (path);
+diff --git a/lisp/erc/erc-compat.el b/lisp/erc/erc-compat.el
+index 243816d..fe56dea 100644
+--- a/lisp/erc/erc-compat.el
++++ b/lisp/erc/erc-compat.el
+@@ -66,7 +66,7 @@ See `erc-encoding-coding-alist'."
+ 	 user-emacs-directory)
+ 	((boundp 'user-init-directory)
+ 	 user-init-directory)
+-	(t "~/.emacs.d/"))
++	(t "~/etc/emacs.d/"))
+   "Directory beneath which additional per-user Emacs-specific files
+ are placed.
+ Note that this should end with a directory separator.")
+diff --git a/lisp/gnus/gnus-group.el b/lisp/gnus/gnus-group.el
+index bcff862..002eb07 100644
+--- a/lisp/gnus/gnus-group.el
++++ b/lisp/gnus/gnus-group.el
+@@ -2462,7 +2462,7 @@ the bug number, and browsing the URL must return mbox output."
+       (with-temp-file tmpfile
+ 	(mm-disable-multibyte)
+ 	(dolist (id ids)
+-	  (let ((file (format "~/.emacs.d/debbugs-cache/%s" id)))
++	  (let ((file (format "~/etc/emacs.d/debbugs-cache/%s" id)))
+ 	    (if (and (not gnus-plugged)
+ 		     (file-exists-p file))
+ 		(insert-file-contents file)
+diff --git a/lisp/net/rcirc.el b/lisp/net/rcirc.el
+index de524d9..e254d37 100644
+--- a/lisp/net/rcirc.el
++++ b/lisp/net/rcirc.el
+@@ -1160,7 +1160,7 @@ If ALL is non-nil, update prompts in all IRC buffers."
+        (or (eq (aref target 0) ?#)
+            (eq (aref target 0) ?&))))
+ 
+-(defcustom rcirc-log-directory "~/.emacs.d/rcirc-log"
++(defcustom rcirc-log-directory "~/etc/emacs.d/rcirc-log"
+   "Directory to keep IRC logfiles."
+   :type 'directory
+   :group 'rcirc)
+diff --git a/lisp/plstore.el b/lisp/plstore.el
+index f24bac3..0e79a02 100644
+--- a/lisp/plstore.el
++++ b/lisp/plstore.el
+@@ -26,7 +26,7 @@
+ ;; Creating:
+ ;;
+ ;; ;; Open a new store associated with ~/.emacs.d/auth.plist.
+-;; (setq store (plstore-open (expand-file-name "~/.emacs.d/auth.plist")))
++;; (setq store (plstore-open (expand-file-name "~/etc/emacs.d/auth.plist")))
+ ;; ;; Both `:host' and `:port' are public property.
+ ;; (plstore-put store "foo" '(:host "foo.example.org" :port 80) nil)
+ ;; ;; No encryption will be needed.
+@@ -44,7 +44,7 @@
+ ;;
+ ;; Searching:
+ ;;
+-;; (setq store (plstore-open (expand-file-name "~/.emacs.d/auth.plist")))
++;; (setq store (plstore-open (expand-file-name "~/etc/emacs.d/auth.plist")))
+ ;;
+ ;; ;; As the entry "foo" associated with "foo.example.org" has no
+ ;; ;; secret properties, no need to decryption.
+diff --git a/lisp/progmodes/js.el b/lisp/progmodes/js.el
+index 9c3f3b3..1a88403 100644
+--- a/lisp/progmodes/js.el
++++ b/lisp/progmodes/js.el
+@@ -505,7 +505,7 @@ for preventing Firefox from stealing the keyboard focus."
+   :group 'js)
+ 
+ (defcustom js-js-tmpdir
+-  "~/.emacs.d/js/js"
++  "~/etc/emacs.d/js/js"
+   "Temporary directory used by `js-mode' to communicate with Mozilla.
+ This directory must be readable and writable by both Mozilla and Emacs."
+   :type 'directory
+diff --git a/lisp/startup.el b/lisp/startup.el
+index 32051c2..be257ab 100644
+--- a/lisp/startup.el
++++ b/lisp/startup.el
+@@ -1206,7 +1206,7 @@ please check its value")
+ 			       (expand-file-name
+ 				"init"
+ 				(file-name-as-directory
+-				 (concat "~" init-file-user "/.emacs.d")))))
++				 (concat "~" init-file-user "/etc/emacs.d")))))
+ 			  (load otherfile t t)
+ 
+ 			  ;; If we did not find the user's init file,
+diff --git a/lisp/subr.el b/lisp/subr.el
+index 54bee8a..0459fd7 100644
+--- a/lisp/subr.el
++++ b/lisp/subr.el
+@@ -2809,7 +2809,7 @@ mode.")
+   (if (eq system-type 'ms-dos)
+       ;; MS-DOS cannot have initial dot.
+       "~/_emacs.d/"
+-    "~/.emacs.d/")
++    "~/etc/emacs.d/")
+   "Directory beneath which additional per-user Emacs-specific files are placed.
+ Various programs in Emacs store information in this directory.
+ Note that this should end with a directory separator.
+diff --git a/src/xterm.c b/src/xterm.c
+index 3cadf69..fbc80bb 100644
+--- a/src/xterm.c
++++ b/src/xterm.c
+@@ -12446,7 +12446,7 @@ x_term_init (Lisp_Object display_name, char *xrm_option, char *resource_name)
+ #if ! GTK_CHECK_VERSION (2, 90, 0)
+         /* Load our own gtkrc if it exists.  */
+         {
+-          const char *file = "~/.emacs.d/gtkrc";
++          const char *file = "~/etc/emacs.d/gtkrc";
+           Lisp_Object s, abs_file;
+ 
+           s = build_string (file);

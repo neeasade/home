@@ -1,0 +1,12 @@
+#!/bin/sh
+# dumb wrapper
+# TODO: make scaling efficient
+eval `tsz`
+
+imgd=`identify -format '%wx%h' "${1}"`
+s='100%'
+
+[ ${YPX} -lt ${imgd#*x} -o ${XPX} -lt ${imgd%x*} ] &&
+   s='10%'
+
+img2sixel -h ${s} -w ${s} "${1}"
