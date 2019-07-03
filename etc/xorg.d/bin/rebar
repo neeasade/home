@@ -1,0 +1,4 @@
+#!/bin/sh
+# restart bar
+pgrep -x bar && pkill -9 bar
+bar &
