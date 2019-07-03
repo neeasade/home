@@ -5,7 +5,7 @@ VERSION = 0.8.1
 
 # paths
 PREFIX = ${HOME}/usr/local
-MANPREFIX = ${HOME}/usr/man
+MANPREFIX = ${PREFIX}/share/man
 
 X11INC = /usr/include/X11
 X11LIB = /usr/lib/X11

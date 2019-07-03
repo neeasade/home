@@ -5,7 +5,7 @@ VERSION = 2.0
 
 # paths
 PREFIX = ${HOME}/usr/local
-MANPREFIX = ${HOME}/usr/man
+MANPREFIX = ${PREFIX}/share/man
 LIBPREFIX = $(PREFIX)/lib/surf
 
 X11INC = /usr/X11R6/include
