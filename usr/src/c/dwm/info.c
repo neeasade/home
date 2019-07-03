@@ -84,7 +84,7 @@ infotag(int tag, int state)
 {
     /* is tag occupied or empty or urgent */
     /* 0 - empty; 1 - occupied; 2 - urgent */
-    char buf[20];
+    char buf[50];
     snprintf(buf, sizeof(buf), "/tmp/info/dwm/tag/%d", tag);
     FILE *f = fopen(buf, "w");
     fprintf(f, "%d", state);

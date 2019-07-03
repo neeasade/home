@@ -966,7 +966,7 @@ manage(Window w, XWindowAttributes *wa)
         && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? barheight : c->mon->my);
     c->bw = borderpx;
 
-    if (!strcmp(c->name, scratchpadname)) {
+    if (!strcmp(c->name, "scratchpad")) {
         c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
         c->isfloating = True;
         c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
@@ -1606,7 +1606,7 @@ sigterm(int unused)
 void
 spawn(const Arg *arg)
 {
-    if (fork() == 0) {
+    if (!fork()) {
         if (dpy)
             close(ConnectionNumber(dpy));
         setsid();
@@ -1761,6 +1761,9 @@ togglebar()
         showbar = 1;
 
     updatebarpos(selmon);
+    FILE *fvisbar = fopen("/tmp/info/dwm/bar/visible", "w");
+    fprintf(fvisbar, "%d", showbar);
+    fclose(fvisbar);
 }
 
 void
@@ -1771,7 +1774,10 @@ updatebarpos(Monitor *m)
     if (showbar)
         restartbar();
     else {
-        system("pkill -9 lemonbar");
+        if (!fork()) {
+            char *arg[] = { "pkill", "-9", "bar", NULL };
+            execvp(arg[0], arg);
+        }
         bh = 0;
     }
 
@@ -2257,7 +2263,10 @@ restartbar(void)
 {
     FILE *fgappx = fopen("/tmp/info/dwm/misc/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
     FILE *fborderpx = fopen("/tmp/info/dwm/borders/size", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
-    system("pkill -9 lemonbar; pkill -9 bar; ksh ${HOME}/etc/xorg.d/bin/bar &");
+    if (!fork()) {
+        char *arg[] = { "sh", "-c", "~/etc/xorg.d/bin/rebar", NULL };
+        execvp(arg[0], arg);
+    }
 }
 
 int

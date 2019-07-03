@@ -54,6 +54,7 @@ static const Rule rules[] = {
     { "qutebrowser",NULL,     NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Chromium", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Pale moon", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
+    { "Basilisk", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "feh",      NULL,       "feh",      0,            1,             1,           0,            -1 },
     { "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "tabbed",   NULL,       "floating-st", 0,         0,             1,           1,            -1 },
@@ -93,8 +94,7 @@ static const Layout layouts[] = {
     { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* commands */
-static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
+static const char *scratchpadcmd[] = { "st", "-t", "scratchpad", "-g", "120x34", NULL };
 static const char *p9[]            = { "dash", "-c", "${HOME}/etc/xorg.d/bin/draw_st", NULL };
 
 static Key keys[] = {
