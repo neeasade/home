@@ -1,5 +1,6 @@
 #!/bin/ksh
 alias a='alias'
+a cmd='command'
 
 find-font() {
     [[ ${1} ]] &&
@@ -64,6 +65,42 @@ conf() {
     unset -f g
 }
 
+has git && {
+    git() {
+        case ${1} {
+        (squash)
+            local cnf
+            read -r 'do you want to continue? ' cnf
+            [[ "${cnf:0:1}" != 'y' ]] && return 0
+            local n=${2}
+            shift 2
+            local msg="${@}"
+            cmd git reset --soft HEAD~${n}
+            cmd git commit -m "${msg}"
+            ;;
+        (add)
+            [[ "${2}" = @(\.|\*) ]] && {
+                echo no
+                return 0
+            }
+            cmd git "${@}"
+            ;;
+        (commit)
+            shift
+            local fnl="${@}"
+            [[ "${2}" = "-i" ]] && {
+                shift
+                fnl='${@} --interactive'
+            }
+            cmd git commit -m "${fnl}"
+            ;;
+        (*)
+            cmd git "${@}"
+            ;;
+        }
+    }
+}
+
 for i in fff ranger nnn noice; { has ${f} && { a {fm,mf}=${f}; break; }; }
 for i in doas sudo; { has ${i} && { a sudo="${i} "; break; }; }
 
@@ -72,7 +109,6 @@ unset i
 has python3 && a python='python3'
 has python  && a py='python'
 has perl    && a pl='perl'
-a cmd='command'
 
 a {mkci,mkic}='make clean install'
 has mk || a mk='make'
@@ -110,11 +146,6 @@ a vim="vim -i ${HOME}/var/cache/viminfo"
 
 a {cd..,c..,c.}='cd ..'
 a {cl,cle}='clear'
-
-has git && {
-    a {commmit,commit}='git commit --interactive -m'
-    a diff='git diff'
-}
 
 a datenow='date +"%a %d %b %Y %H:%M"'
 a killx='pkill -15 Xorg'
