@@ -1,0 +1,48 @@
+#!/bin/sh
+# screenshot utility using maim and 0x0.st
+
+tmp_image="/tmp/grab.png"
+
+upload() {
+    local url="$(curl -F file="@${tmp_image}" https://0x0.st)"
+    echo "${url}" | head -n 1 | tr -d "\n" | xin
+
+    [ -n "${url}" ] &&
+        notify-send 'scrot taken! url in clipboard'
+}
+
+copy() {
+    cp ${tmp_image} ${HOME}/var/pictures/scrots/scrot_$(date '+%b_%d-%H:%M').png
+    notify-send 'scrot taken! picture stored in drive'
+    xclip -sel clipboard -t image/png -i ${tmp_image}
+}
+
+grab_screen() {
+    sleep 1;
+    xscreenshot | ff2png > ${tmp_image}
+}
+
+grab_area() {
+    xscreenshot -g `hacksaw -n` | ff2png > ${tmp_image}
+}
+
+grab_window() {
+    sleep 1;
+    xscreenshot -w $(xdotool getactivewindow) | ff2png > ${tmp_image}
+}
+
+capture="$(echo "grab area\ngrab window\ngrab screen" | menu sel)"
+
+case ${capture} in
+(*area*) grab_area;;
+(*win*) grab_window;;
+(*screen*) grab_screen;;
+(*) notify-send 'error invalid option'; exit;;
+esac
+
+case ${1} in
+(-u) upload;;
+(-s|*) copy;;
+esac
+
+rm -rf $tmp_image

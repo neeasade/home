@@ -1,0 +1,22 @@
+#!/bin/sh
+# a xdotool script which simulates dwm keybinds and makes a window fullscreen
+# depends on xdotool and xrandr (for res)
+
+# get screen res
+sw=$(res -w)
+sh=$(res -h)
+
+# borderpx
+read -r borderpx < /tmp/info/dwm/borders/size
+
+# get active window's id
+activewin="$(xdotool getactivewindow)"
+
+# simulate alt+shift+space which will float a window
+# needed for resizing window
+xdotool key alt+shift+space
+
+# now let's resize the window
+# just as an edge case, let's move the window to 0 0
+xdotool windowmove ${activewin} 0 0
+xdotool windowsize ${activewin} ${sw} ${sh}

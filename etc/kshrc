@@ -1,5 +1,5 @@
 #!/bin/ksh
-[[ ${-} != *i* ]] && exit 0
+[[ ${-} != *i* ]] && return 0
 
 alias echo='builtin print'
 set -o vi

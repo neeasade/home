@@ -1,0 +1,27 @@
+#!/bin/sh
+# toggle mouse
+[ ! -f /tmp/mousetoggle ] && echo "1" > /tmp/mousetoggle
+
+is_turned=$(cat /tmp/mousetoggle)
+
+disable_mouse() {
+    case ${is_turned} in
+    (1) xinput set-prop 12 "Device Enabled" 0
+        echo 0 > /tmp/mousetoggle;;
+    (0) xinput set-prop 12 "Device Enabled" 1
+        echo 1 > /tmp/mousetoggle;;
+    esac
+}
+
+move_mouse() {
+    local sh=$(res -h)
+    local sw=$(res -w)
+
+    case ${is_turned} in
+    (1) xdotool mousemove 0 ${sh};;
+    (0) xdotool mousemove $((sw / 2)) $((sh / 2));;
+    esac
+}
+
+move_mouse
+disable_mouse

@@ -13,7 +13,7 @@ y=$((sh / 3 - l))
 
 . ${HOME}/var/cache/tm/colors.sh
 
-font="Go Mono:pixelsize=12"
+font="Share Tech Mono:size=10"
 read -r selbg < /tmp/info/dwm/colors/selbg
 read -r selfg < /tmp/info/dwm/colors/selfg
 read -r normbg < /tmp/info/dwm/colors/normbg

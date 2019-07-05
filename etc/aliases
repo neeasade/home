@@ -68,6 +68,9 @@ conf() {
 has git && {
     git() {
         case ${1} {
+        (ignore-get)
+            wget -O gitignore https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
+            ;;
         (squash)
             local cnf
             read -r 'do you want to continue? ' cnf
@@ -85,7 +88,7 @@ has git && {
             }
             cmd git "${@}"
             ;;
-        (commit)
+        (com*)
             shift
             local fnl="${@}"
             [[ "${2}" = "-i" ]] && {
@@ -94,12 +97,24 @@ has git && {
             }
             cmd git commit -m "${fnl}"
             ;;
+        (clone)
+            local fnl="${@}"
+            [[ "${2}" = @(*vizs*) ]] && fnl="${@} --depth 1"
+            cmd git ${fnl}
+            ;;
         (*)
             cmd git "${@}"
             ;;
         }
     }
     a diff='cmd git diff'
+}
+
+has emacs && {
+    remacs() {
+        pgrep -x emacs > /dev/null && pkill emacs
+        emacs --daemon
+    }
 }
 
 for i in fff ranger nnn noice; { has ${f} && { a {fm,mf}=${f}; break; }; }

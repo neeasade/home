@@ -1,0 +1,4 @@
+#!/bin/sh
+# take stuff from stdin and put in xclipboard
+
+xclip -selection clip /dev/stdin

@@ -1,0 +1,40 @@
+#!/bin/sh
+# minimal bar
+pgrep -x bar && { pkill -9 lemonbar; exit; }
+
+. "${HOME}/var/cache/tm/colors.sh"
+vol -i 0%
+w=$(res -w)
+h=$(res -h)
+
+wksp() {
+    read -r num < /tmp/info/dwm/tag/num
+    read -r cur < /tmp/info/dwm/tag/current
+    i=1
+    while [ ${i} -le ${num} ]; do
+        read -r state < /tmp/info/dwm/tag/${i}
+        case ${state} in
+        (1) ws='x ';;
+        (2) ws='@ ';;
+        (*) ws='+ ';;
+        esac
+
+        [ ${cur} -eq ${i} ] && ws='* '
+        buffer="${buffer}${ws}"
+        i=$((i + 1))
+    done
+    unset i state ws
+    echo "${buffer}"
+}
+
+(echo "%{l} $(wksp)"             \
+         "%{r} $(date +'%H:%M') ";
+sleep 2;) |
+    lemonbar -db \
+             -f 'Share Tech Mono:pixelsize=11' \
+             -g "140x18+$((w - 170))+$((h - 40))" \
+             -B ${color0} \
+             -F ${color7} \
+             -R ${color8} \
+             -r 1 \
+             -n "bar"

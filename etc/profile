@@ -22,15 +22,7 @@ esac
 export EDITOR=vi
 export VISUAL=vi
 
-for p in \
-    ${HOME}/usr/{{local/,}share/,}man; do
-    #${HOME}/opt/texlive/texmf-dist/doc/man; do
-    export MANPATH="${MANPATH}:${p}"
-done
-
-unset p
-
-export MANPATH=${MANPATH}:${HOME}/opt/texlive/texmf-dist/doc/man
+export MANPATH="/usr/share/man:${HOME}/usr/local/share/man"
 export INPUTRC="${HOME}/etc/inputrc"
 
 export XDG_CACHE_HOME="${HOME}/var/cache"

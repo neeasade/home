@@ -1,0 +1,41 @@
+#!/bin/sh
+
+read -r BPX < /tmp/info/dwm/borders/size
+read -r BCOL < /tmp/info/dwm/borders/selcol
+
+get_id_interactive() {
+    xid=`xwininfo | grep 'Window id: '`
+    echo ${xid} | cut -d':' -f3 | cut -d' ' -f2
+}
+
+resize() {
+    id=`get_id_interactive`
+    set -- `hacksaw -n -s ${BPX} -c ${BCOL} | xgeo`
+
+    xdotool windowsize ${id} ${3} ${4}
+    xdotool windowmove ${id} ${1} ${2}
+}
+
+new() {
+    tabbed -n floating-st -g `hacksaw -n -s ${BPX} -c ${BCOL}` -r 2 st -w '' -t floating-st
+}
+
+delete() {
+    id=`get_id_interactive`
+    xdotool windowclose ${id}
+}
+
+hide() {
+    id=`get_id_interactive`
+    xdotool windowunmap ${id}
+    [ ${?} -eq 0 ] && echo ${id} >> /tmp/info/dwm/misc/hidden
+}
+
+spawn() {
+    eval `xdotool getmouselocation --shell`
+    9menu -bg $(cat /tmp/info/dwm/colors/normbg) -fg $(cat /tmp/info/dwm/colors/normfg) \
+          -geometry 100x100+${X}+${Y} -popup                                            \
+          'New:echo new' 'Resize:echo resize' 'Delete: echo delete' 'Hide: echo hide'
+}
+
+`spawn`
