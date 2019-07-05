@@ -99,6 +99,7 @@ has git && {
             ;;
         }
     }
+    a diff='cmd git diff'
 }
 
 for i in fff ranger nnn noice; { has ${f} && { a {fm,mf}=${f}; break; }; }
