@@ -122,8 +122,7 @@ for i in doas sudo; { has ${i} && { a sudo="${i} "; break; }; }
 
 unset i
 
-has python3 && a python='python3'
-has python  && a py='python'
+has python3 && a {py,python}='python3'
 has perl    && a pl='perl'
 
 a {mkci,mkic}='make clean install'
@@ -156,14 +155,10 @@ a {sl,ls}='ls -F'
 a reboot='sudo reboot'
 a poweroff='sudo poweroff'
 a shutdown='sudo shutdown'
-a nvim="nvim -i ${HOME}/var/cache/shada"
-a vim="vim -i ${HOME}/var/cache/viminfo"
+a datenow='date +"%a %d %b %Y %H:%M"'
 
 a {cd..,c..,c.}='cd ..'
 a {cl,cle}='clear'
-
-a datenow='date +"%a %d %b %Y %H:%M"'
-a killx='pkill -15 Xorg'
 
 a gH="cd ${HOME}"
 a gB="cd ${HOME}/bin"
@@ -173,9 +168,7 @@ a gT="cd ${HOME}/tmp"
 a gW="cd ${HOME}/var/pictures/wallpapers"
 a gE="cd ${HOME}/etc"
 a gD="cd ${HOME}/usr/doc"
+a gd="cd ${HOME}/var/downloads"
 a gC="cd ${HOME}/var/cache"
-a gV="cd ${HOME}/var"
-a gU="cd ${HOME}/usr"
 a gP="cd ${HOME}/usr/ports"
 a gM="cd ${HOME}/var/music"
-a gr="cd /"
