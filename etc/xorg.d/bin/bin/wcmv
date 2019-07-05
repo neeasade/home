@@ -1,8 +1,0 @@
-#!/bin/sh
-# move floating windows around
-eval `xdotool getactivewindow getwindowgeometry --shell`
-
-[ ${1} = x ] && nx=x || nx=$((X ${1}))
-[ ${2} = y ] && ny=y || ny=$((Y ${2}))
-
-xdotool getactivewindow windowmove ${nx} ${ny}

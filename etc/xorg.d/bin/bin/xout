@@ -1,4 +1,0 @@
-#!/bin/sh
-# echo stuff in xclip to stdout
-
-xclip -o -selection clip
