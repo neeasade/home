@@ -11,6 +11,15 @@ EOF
     exit 0
 }
 
+write() {
+    local vol
+    vol=`amixer sget Master`
+    vol=${vol/%]*/}
+    vol=${vol/*[}
+    echo ${vol/\%/} > /tmp/info/vol/cur
+    [[ ! -f /tmp/info/vol/muted ]] && unmute
+}
+
 inc() {
     amixer set Master ${1}+
 }
@@ -34,6 +43,7 @@ unmute() {
 }
 
 get() {
+    [[ ! -f /tmp/info/vol/cur ]] && write
     cat /tmp/info/vol/cur
 }
 
@@ -47,9 +57,3 @@ case ${1} {
 (-g) get;;
 (*) usage;;
 }
-
-vol=`amixer sget Master`
-vol=${vol/%]*/}
-vol=${vol/*[}
-echo ${vol/\%/} > /tmp/info/vol/cur
-[[ ! -f /tmp/info/vol/muted ]] && unmute
