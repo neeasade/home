@@ -34,9 +34,7 @@ _rm_jnk() {
                 rm -rf "${i}"
         }
     }
-    _rm_e ${XDG_DESKTOP_HOME} ${HOME}/{Desktop,.dbus,.pki,.wget-hsts}
-    [[ -d ${HOME}/Downloads ]] &&
-        [[ -z "$(ls ${HOME}/Downloads)" ]] && rm -rf ${HOME}/Downloads
+    _rm_e ${HOME}/{.dbus,.wget-hsts}
     unset -f _rm_e
 } > /dev/null
 
