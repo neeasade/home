@@ -1,8 +1,0 @@
-#!/bin/sh
-# view images from url using feh, dmenu and curl
-
-# get url
-url="$(cat /dev/null | menu sel -p 'url:')"
-
-# needs feh compiled with url support
-feh "${url}"
