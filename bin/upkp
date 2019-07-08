@@ -3,6 +3,6 @@
 dest=/tmp/archive
 remkd ${dest}
 upk "${1}" ${dest}
-fff ${dest}
+filet ${dest}
 
 rm -rf ${dest}
