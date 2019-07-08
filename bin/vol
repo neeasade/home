@@ -47,6 +47,8 @@ get() {
     cat /tmp/info/vol/cur
 }
 
+write
+
 case ${1} {
 (-h) usage;;
 (-i) inc ${2}; shift;;
