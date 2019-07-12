@@ -40,10 +40,10 @@ export MAIL="${HOME}/var/mail/inbox"
 export CPATH="${HOME}/usr/local/include:$HOME/usr/include"
 export LD_LIBRARY_PATH="${HOME}/usr/local/lib"
 
-export PYTHONUSERBASE="${HOME}/usr/lib/python3"
-export PYTHONPATH="${HOME}/usr/lib/python3"
+export PYTHONUSERBASE="${HOME}/usr/local/lib/python3"
+export PYTHONPATH="${HOME}/usr/local/lib/python3"
 export PYTHONSTARTUP="${HOME}/etc/prog.d/pythonrc"
-export PATH="${PATH}:${HOME}/usr/lib/python3/bin"
+export PATH="${PATH}:${HOME}/usr/local/lib/python3/bin"
 
 export LESSHISTFILE="${HOME}/var/cache/lesshst"
 
