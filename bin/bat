@@ -1,13 +1,17 @@
 #!/bin/sh
 # a battery thingy
-base_dir='/sys/class/power_supply/'
+[ ! -e ${HOME}/var/cache/bat ] && {
+    base_dir='/sys/class/power_supply/'
 
-for i in 0 1 2 3; do
-    [ -d "${base_dir}/BAT${i}" ] && {
-        base_dir="${base_dir}/BAT${i}"
-        break
-    }
-done
+    for i in 0 1 2 3; do
+        [ -d "${base_dir}/BAT${i}" ] && {
+            base_dir="${base_dir}/BAT${i}"
+        }
+    done
+    echo ${base_dir} > ${HOME}/var/cache/bat
+}
+
+read -r base_dir < ${HOME}/var/cache/bat
 
 case ${1} in
 (-s) cat ${base_dir}/status   ;;
