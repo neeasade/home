@@ -1,7 +1,7 @@
 #!/bin/sh
 # a battery thingy
 [ ! -e ${HOME}/var/cache/bat ] && {
-    base_dir='/sys/class/power_supply/'
+    base_dir='/sys/class/power_supply'
 
     for i in 0 1 2 3; do
         [ -d "${base_dir}/BAT${i}" ] && {
