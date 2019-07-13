@@ -18,14 +18,16 @@ c.aliases = {"q": "quit", "q!": "quit", "re": "config-source"}
 c.backend = "webengine"
 
 # bindings
-config.bind("Q", "record-macro")
-config.bind("q", "tab-close")
-config.bind("<Ctrl-k>", "completion-item-focus prev", mode="command")
-config.bind("<Ctrl-j>", "completion-item-focus next", mode="command")
-config.bind("<Ctrl-F>", "hint links", mode="hint")
-config.bind("<Ctrl-R>", "hint --rapid links tab-bg", mode="hint")
-config.bind("<Ctrl-j>", "prompt-item-focus next", mode="prompt")
-config.bind("<Ctrl-k>", "prompt-item-focus prev", mode="prompt")
+def bind(key, command, mode="normal"):
+    config.bind(key, command, mode)
+
+bind("Q", "record-macro")
+bind("q", "tab-close")
+bind("T", "undo")
+bind("<Ctrl-j>", "completion-item-focus next", mode="command")
+bind("<Ctrl-k>", "completion-item-focus prev", mode="command")
+bind("<Ctrl-j>", "prompt-item-focus next", mode="prompt")
+bind("<Ctrl-k>", "prompt-item-focus prev", mode="prompt")
 
 # fonts
 c.zoom.default = "120%"
@@ -70,7 +72,7 @@ c.statusbar.padding = {"top": 2, "bottom": 2, "left": 5, "right": 5}
 c.statusbar.position = "bottom"
 c.statusbar.widgets = ["keypress", "progress", "url"]
 
-# tabs
+# tabbar
 c.tabs.background = False
 c.tabs.close_mouse_button = "none"
 c.tabs.close_mouse_button_on_bar = "ignore"
@@ -83,18 +85,18 @@ c.tabs.mode_on_change = "normal"
 c.tabs.mousewheel_switching = False  # i dont even have one
 c.tabs.new_position.related = "last"
 c.tabs.new_position.unrelated = "last"
-c.tabs.padding = {"top": 10, "bottom": 10, "left": 45, "right": 5}
+c.tabs.padding = {"top": 10, "bottom": 10, "left": 10, "right": 10}
 c.tabs.pinned.shrink = False
 c.tabs.position = "top"
 c.tabs.select_on_remove = "last-used"
 c.tabs.show = "multiple" # or switching
 c.tabs.show_switching_delay = 800
 c.tabs.tabs_are_windows = False # would be True if qutebrowser supported XEmbed BUT NO
-c.tabs.title.alignment = "left"
+c.tabs.title.alignment = "center"
 c.tabs.title.format = "{audio} {title}"
 c.tabs.title.format_pinned = "{title}"
 c.tabs.max_width = -1
-c.tabs.min_width = -1
+c.tabs.min_width = 100
 c.tabs.width = 20
 c.tabs.wrap = True
 
