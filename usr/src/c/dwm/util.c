@@ -17,7 +17,8 @@ ecalloc(size_t nmemb, size_t size)
 }
 
 void
-die(const char *fmt, ...) {
+die(const char *fmt, ...)
+{
 	va_list ap;
 
 	va_start(ap, fmt);
@@ -27,9 +28,8 @@ die(const char *fmt, ...) {
 	if (fmt[0] && fmt[strlen(fmt)-1] == ':') {
 		fputc(' ', stderr);
 		perror(NULL);
-	} else {
+	} else 
 		fputc('\n', stderr);
-	}
 
 	exit(1);
 }

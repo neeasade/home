@@ -34,7 +34,7 @@ _rm_jnk() {
                 rm -rf "${i}"
         }
     }
-    _rm_e ${HOME}/{.dbus,.wget-hsts}
+    _rm_e ${HOME}/{.dbus,.pki,.wget-hsts}
     unset -f _rm_e
 } > /dev/null
 

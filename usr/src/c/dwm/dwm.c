@@ -968,7 +968,7 @@ manage(Window w, XWindowAttributes *wa)
 
     if (!strcmp(c->name, "scratchpad")) {
         c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
-        c->isfloating = True;
+        c->isfloating = 1;
         c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
         c->y = c->mon->wy + (c->mon->wh / 2 - HEIGHT(c) / 2);
     }

@@ -31,7 +31,7 @@ wksp() {
          "%{r} $(date +'%H:%M') ";
 sleep 2;) |
     lemonbar -db \
-             -f 'Share Tech Mono:pixelsize=11' \
+             -f 'Go Mono:pixelsize=11' \
              -g "140x18+$((w - 170))+$((h - 40))" \
              -B ${color0} \
              -F ${color7} \

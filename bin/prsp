@@ -1,9 +1,8 @@
 #!/bin/ksh
 
-read -r style < ${HOME}/etc/startpage/style.css
-read -r _ < ${HOME}/var/cache/tm/colors.css
+style=`< ${HOME}/etc/startpage/style.css`
+_=`< ${HOME}/var/cache/tm/colors.css`
 style="${style/ICOLORS/${_}}"
-
-read -r < ${HOME}/etc/startpage/homepage.html
+html=`< ${HOME}/etc/startpage/homepage.html`
 
 echo "${html/XCSS/${style}}" > "${HOME}/var/cache/homepage.html"
