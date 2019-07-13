@@ -1217,7 +1217,9 @@ c.url.searchengines = {
         "r"       : "https://reddit.com/r/{}",
         "u"       : "https://reddit.com/u/{}",
         "g"       : "https://google.com/search?hl=en&q={}",
-        "yt"      : "https://youtube.com/{}"
+        # shortcuts
+        "yt"      : "https://youtube.com/{}",
+        "gh"      : "https://github.com/{}"
 }
 
 ## Page(s) to open at the start.
@@ -1456,8 +1458,6 @@ config.bind("q", "tab-close")
 # config.bind("<Ctrl-F>", "rl-forward-char", mode="command")
 # config.bind("<Ctrl-H>", "rl-backward-delete-char", mode="command")
 # config.bind("<Ctrl-K>", "rl-kill-line", mode="command")
-config.bind("<Ctrl-j>", "command-history-next", mode="command")
-config.bind("<Ctrl-k>", "command-history-prev", mode="command")
 # config.bind("<Ctrl-Return>", "command-accept --rapid", mode="command")
 # config.bind("<Ctrl-Shift-C>", "completion-item-yank --sel", mode="command")
 # config.bind("<Ctrl-Shift-Tab>", "completion-item-focus prev-category", mode="command")
@@ -1469,22 +1469,18 @@ config.bind("<Ctrl-k>", "command-history-prev", mode="command")
 # config.bind("<Escape>", "leave-mode", mode="command")
 # config.bind("<Return>", "command-accept", mode="command")
 # config.bind("<Shift-Delete>", "completion-item-del", mode="command")
-# config.bind("<Shift-Tab>", "completion-item-focus prev", mode="command")
-# config.bind("<Tab>", "completion-item-focus next", mode="command")
+config.bind("<Ctrl-k>", "completion-item-focus prev", mode="command")
+config.bind("<Ctrl-j>", "completion-item-focus next", mode="command")
 # config.bind("<Up>", "completion-item-focus --history prev", mode="command")
 
 ## Bindings for hint mode
-# config.bind("<Ctrl-B>", "hint all tab-bg", mode="hint")
-# config.bind("<Ctrl-F>", "hint links", mode="hint")
-# config.bind("<Ctrl-R>", "hint --rapid links tab-bg", mode="hint")
-# config.bind("<Escape>", "leave-mode", mode="hint")
-# config.bind("<Return>", "follow-hint", mode="hint")
+config.bind("<Ctrl-F>", "hint links", mode="hint")
+config.bind("<Ctrl-R>", "hint --rapid links tab-bg", mode="hint")
 
 ## Bindings for insert mode
 # config.bind("<Ctrl-E>", "open-editor", mode="insert")
 # config.bind("<Escape>", "leave-mode", mode="insert")
 # config.bind("<Shift-Ins>", "insert-text {primary}", mode="insert")
-config.bind("<Ctrl-T>", "open -t")
 
 ## Bindings for passthrough mode
 # config.bind("<Shift-Escape>", "leave-mode", mode="passthrough")
@@ -1508,12 +1504,12 @@ config.bind("<Ctrl-T>", "open -t")
 # config.bind("<Ctrl-W>", "rl-unix-word-rubout", mode="prompt")
 # config.bind("<Ctrl-X>", "prompt-open-download", mode="prompt")
 # config.bind("<Ctrl-Y>", "rl-yank", mode="prompt")
-# config.bind("<Down>", "prompt-item-focus next", mode="prompt")
+config.bind("<Ctrl-j>", "prompt-item-focus next", mode="prompt")
 # config.bind("<Escape>", "leave-mode", mode="prompt")
 # config.bind("<Return>", "prompt-accept", mode="prompt")
 # config.bind("<Shift-Tab>", "prompt-item-focus prev", mode="prompt")
 # config.bind("<Tab>", "prompt-item-focus next", mode="prompt")
-# config.bind("<Up>", "prompt-item-focus prev", mode="prompt")
+config.bind("<Ctrl-k>", "prompt-item-focus prev", mode="prompt")
 
 ## Bindings for register mode
 # config.bind("<Escape>", "leave-mode", mode="register")
