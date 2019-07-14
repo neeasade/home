@@ -41,7 +41,6 @@ resource() {
 
     case ${SHELL} {
     (*ksh*)  . ${HOME}/etc/kshrc   ;;
-    (*)      . ${HOME}/etc/aliases ;;
     }
 }
 
@@ -99,7 +98,7 @@ has git && {
             ;;
         (clone)
             local fnl="${@}"
-            [[ "${2}" = @(*vizs*) ]] && fnl="${@} --depth 1"
+            [[ "${2}" != @(*vizs*) ]] && fnl="${@} --depth 1"
             cmd git ${fnl}
             ;;
         (*)
@@ -117,6 +116,12 @@ has emacs && {
     }
 }
 
+has mpv && has piko && {
+    yt() {
+        piko "${1}" -stdout | mpv -
+    }
+}
+
 for i in fff ranger nnn noice; { has ${f} && { a {fm,mf}=${f}; break; }; }
 for i in doas sudo; { has ${i} && { a sudo="${i} "; break; }; }
 
@@ -124,16 +129,16 @@ unset i
 
 has python3 && a {py,python}='python3'
 has perl    && a pl='perl'
+has mupdf && a mpf='mupdf'
+has zathura && a mpf='zathura'
 
-a {mkci,mkic}='make clean install'
 has mk || a mk='make'
+a {mkci,mkic}='make clean install'
 a mki='make install'
 a mka='make all'
 a mku='make uninstall'
 a mkc='make clean'
 
-has mupdf && a mpf='mupdf'
-has zathura && a mpf='zathura'
 a aliases='alias'
 a {quit,:q,:q!}='exit'
 
