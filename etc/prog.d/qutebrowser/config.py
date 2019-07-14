@@ -29,6 +29,7 @@ def bind(key, command, mode="normal"):
 bind("Q", "record-macro")
 bind("q", "tab-close")
 bind("T", "undo")
+bind("P", "tab-pin")
 bind("<Ctrl-j>", "completion-item-focus next", mode="command")
 bind("<Ctrl-k>", "completion-item-focus prev", mode="command")
 bind("<Ctrl-j>", "prompt-item-focus next", mode="prompt")
@@ -62,7 +63,7 @@ c.fonts.web.size.minimum_logical = 10
 c.hints.auto_follow = "unique-match"
 c.hints.auto_follow_timeout = 0
 c.hints.border = "0px solid " + colors[0]
-c.hints.chars = "asdfhjkl"
+c.hints.chars = "asdjkl"
 c.hints.hide_unmatched_rapid_hints = True
 c.hints.min_chars = 1
 c.hints.mode = "letter" # number/letter/word
