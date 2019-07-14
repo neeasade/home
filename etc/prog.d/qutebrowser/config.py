@@ -17,6 +17,11 @@ c.url.searchengines = {
 c.aliases = {"q": "quit", "q!": "quit", "re": "config-source"}
 c.backend = "webengine"
 
+if c.backend == "webkit":
+    c.hints.find_implementation = "python"
+    c.content.javascript.can_close_tabs = False
+    c.content.notifications = False
+
 # bindings
 def bind(key, command, mode="normal"):
     config.bind(key, command, mode)
@@ -40,7 +45,7 @@ c.fonts.keyhint = "10pt Go Mono"
 c.fonts.messages.error = "10pt Go Mono"
 c.fonts.messages.info = "10pt Go Mono"
 c.fonts.messages.warning = "10pt Go Mono"
-c.fonts.monospace = '"Go Mono", "Go Mono", "Go Mono", "IBM Plex Mono"'
+c.fonts.monospace = "Go Mono"
 c.fonts.prompts = "10pt Fira Sans"
 c.fonts.statusbar = "10pt Go Mono"
 c.fonts.tabs = "10pt Go Mono"
@@ -58,7 +63,6 @@ c.hints.auto_follow = "unique-match"
 c.hints.auto_follow_timeout = 0
 c.hints.border = "0px solid " + colors[0]
 c.hints.chars = "asdfhjkl"
-# c.hints.find_implementation = "python" # not in qtwebengine
 c.hints.hide_unmatched_rapid_hints = True
 c.hints.min_chars = 1
 c.hints.mode = "letter" # number/letter/word
@@ -78,7 +82,6 @@ c.tabs.close_mouse_button = "none"
 c.tabs.close_mouse_button_on_bar = "ignore"
 c.tabs.favicons.scale = 1.0
 c.tabs.favicons.show = "pinned"
-c.tabs.indicator.padding = {"top": 10, "bottom": 10, "left": 5, "right": 5}
 c.tabs.indicator.width = 0
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
@@ -86,18 +89,17 @@ c.tabs.mousewheel_switching = False  # i dont even have one
 c.tabs.new_position.related = "last"
 c.tabs.new_position.unrelated = "last"
 c.tabs.padding = {"top": 10, "bottom": 10, "left": 10, "right": 10}
-c.tabs.pinned.shrink = False
 c.tabs.position = "top"
 c.tabs.select_on_remove = "last-used"
 c.tabs.show = "multiple" # or switching
 c.tabs.show_switching_delay = 800
-c.tabs.tabs_are_windows = False # would be True if qutebrowser supported XEmbed BUT NO
+c.tabs.tabs_are_windows = False # would be True if qutebrowser supported XEmbed protocol BUT NO
 c.tabs.title.alignment = "center"
 c.tabs.title.format = "{audio} {title}"
-c.tabs.title.format_pinned = "{title}"
+c.tabs.pinned.shrink = True
+c.tabs.title.format_pinned = ""
 c.tabs.max_width = -1
 c.tabs.min_width = 100
-c.tabs.width = 20
 c.tabs.wrap = True
 
 # thank god something like this exists
@@ -111,10 +113,8 @@ c.content.mouse_lock = "ask"
 c.content.persistent_storage = "ask"
 c.content.register_protocol_handler = "ask"
 c.content.ssl_strict = "ask"
-# c.content.notifications = False # not in qtwebengine
 c.content.headers.do_not_track = True
 c.content.javascript.can_access_clipboard = False
-# c.content.javascript.can_close_tabs = False # not in qtwebengine # not in qtwebengine
 c.content.javascript.can_open_tabs_automatically = False
 c.content.local_content_can_access_remote_urls = False
 c.content.pdfjs = False
@@ -124,6 +124,7 @@ c.input.rocker_gestures = False
 c.input.spatial_navigation = False
 c.scrolling.bar = "never"
 c.window.hide_decoration = True
+c.qt.low_end_device_mode = "always"  # qb likes to chew battery
 
 # yes pls
 c.content.host_blocking.enabled = True
@@ -182,7 +183,6 @@ c.new_instance_open_target = "tab-bg"
 c.new_instance_open_target_window = "first-opened"
 c.prompt.filebrowser = True
 c.prompt.radius = 0
-c.qt.low_end_device_mode = "auto"
 
 c.scrolling.smooth = True
 c.search.ignore_case = "smart"
