@@ -12,11 +12,11 @@ X11LIB = /usr/lib/X11
 
 # includes and libs
 INCS = -I$(X11INC) \
-       `pkg-config --cflags fontconfig` \
-       `pkg-config --cflags freetype2`
+	   `pkg-config --cflags fontconfig` \
+	   `pkg-config --cflags freetype2`
 LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft \
-       `pkg-config --libs fontconfig` \
-       `pkg-config --libs freetype2`
+	   `pkg-config --libs fontconfig` \
+	   `pkg-config --libs freetype2`
 
 # flags
 CPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
