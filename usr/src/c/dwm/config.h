@@ -55,7 +55,7 @@ static const Rule rules[] = {
     { "Chromium", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Pale moon", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Basilisk", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
-    { "feh",      NULL,       "feh",      0,            1,             1,           0,            -1 },
+    { "Sxiv",      NULL,       "sxiv",      0,            1,             1,           0,            -1 },
     { "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "tabbed",   NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "st",       NULL,       "todoterm", 0,            0,             1,           0,            -1 },

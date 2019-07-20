@@ -6,7 +6,7 @@ fn is_in_blacklist(path: &str) -> bool {
     let blacklist: [&str; 8] = [
                                 "*.git*", "*cache*", "*Cache*", "*wallpapers*",
                                 "*lib*", "opt*", "*target*", "tmp*"
-    ];
+                               ];
 
     for b in blacklist.iter() {
         if ret { break; }
