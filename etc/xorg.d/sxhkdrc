@@ -27,7 +27,7 @@ super + {f,r}
     st -e 'fff'
 
 super + {v,l}
-    {palemoon,slock}
+    {qutebrowser,slock}
 
 super + {x,i,n,e}
     {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
@@ -56,7 +56,7 @@ super + shift + {k,j,m,u}
 
 # brness
 super + shift + {l,h}
-    sudo brness {-i 1,-d 1,}
+    sudo ${HOME}/bin/brness {-i 1,-d 1,}
 
 super + shift + {b,t,v}
     notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%}

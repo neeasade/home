@@ -1,6 +1,5 @@
 #!/bin/sh
 # send notification using lemonbar
-
 ww=`res -w`
 wh=`res -h`
 w=$((${#@} * 12))

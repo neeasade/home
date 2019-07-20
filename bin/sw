@@ -4,5 +4,5 @@ remkd ${XDG_RUNTIME_DIR}
 chown ${USER} ${XDG_RUNTIME_DIR}
 chmod 700 ${XDG_RUNTIME_DIR}
 
-sudo brness -s 40
+sudo ${HOME}/bin/brness -s 40
 wio -t ${HOME}/usr/local/bin/st -c /usr/local/bin/cage -o eDP1:-1:-1:0:0:0:normal

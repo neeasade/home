@@ -123,7 +123,6 @@ has mpv && has piko && {
 }
 
 for i in fff ranger nnn noice; { has ${f} && { a {fm,mf}=${f}; break; }; }
-for i in doas sudo; { has ${i} && { a sudo="${i} "; break; }; }
 
 unset i
 
