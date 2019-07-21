@@ -34,7 +34,7 @@ static const int barpos             = 1;
 static const int floatbar            = 0;
 
 /* whether to disable borders and gap if only a single window is open */
-static const int fullscreenonewindow = 0;
+static const int fullscreenonewindow = 1;
 
 /* include theme */
 #include "/home/viz/var/cache/tm/dwm.h"
