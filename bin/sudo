@@ -1,6 +1,0 @@
-#!/bin/sh
-# a wrapper around sudo and doas
-has sudo && cmd='/usr/bin/sudo'
-has doas && cmd='doas'
-
-${cmd} "${@}"

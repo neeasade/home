@@ -1,7 +1,7 @@
 #!/bin/sh
 # quickly set up 20G swap
 home='/home/viz'
-[ `id` -ne 0 ] && sudo ${0}
+[ `id` -ne 0 ] && doas ${0}
 
 # create swap file if not present
 [ ! -e ${home}/tmp/swap ] && {

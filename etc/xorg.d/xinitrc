@@ -8,6 +8,6 @@ sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \
       -r ${HOME}/var/log/sxhkd.log  \
       -s ${HOME}/var/log/sxhkd.log  &
 . ${HOME}/var/cache/wall &
-sudo ${HOME}/bin/brness -s 10 &
+doas ${HOME}/bin/brness -s 10 &
 emacs --daemon &
 exec dwm

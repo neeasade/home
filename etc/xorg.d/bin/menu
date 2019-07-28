@@ -13,7 +13,7 @@ y=$((sh / 3 - l))
 
 . ${HOME}/var/cache/tm/colors.sh
 
-font="Go Mono:pixelsize=12"
+font="Go Mono:pixelsize=14"
 read -r selbg < /tmp/info/dwm/colors/selbg
 read -r selfg < /tmp/info/dwm/colors/selfg
 read -r normbg < /tmp/info/dwm/colors/normbg
@@ -33,8 +33,8 @@ run() {
     draw() { draw_st; }
     st() { tabbed -c -r 2 st -w '' "${@}"; }
     todo() { st -e todo -i; }
-    `echo "surf
-chromium
+    `echo "palemoon
+qutebrowser
 st
 draw
 dosbox

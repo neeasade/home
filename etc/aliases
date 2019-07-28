@@ -64,6 +64,21 @@ conf() {
     unset -f g
 }
 
+rmd() {
+    local files
+    local flag
+    for i; {
+        case ${i} {
+        (-f) flag+="-f"      ;;
+        (*)  files+=("${i}") ;;
+        }
+    }
+    for i in ${files[@]}; {
+        [[ -d "${i}" ]] && rm -r "${flag}" ${i} ||
+                printf 'error: %s not a directory\n' ${i##*/}
+    }
+}
+
 has git && {
     git() {
         case ${1} {
@@ -145,7 +160,6 @@ a df='df -h'
 a du='du -h'
 a mv='mv -iv'
 a rm='rm -v'
-a rmd='rm -r'
 a cp='cp -rv'
 a ln='ln -sf'
 a mkf='touch'
@@ -162,7 +176,7 @@ a shutdown='sudo shutdown'
 a datenow='date +"%a %d %b %Y %H:%M"'
 
 a {cd..,c..,c.}='cd ..'
-a {cl,cle}='clear'
+a {cl,cle,clea}='clear'
 
 a gH="cd ${HOME}"
 a gB="cd ${HOME}/bin"

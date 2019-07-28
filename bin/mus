@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd ${HOME}/var/music
-mpv --shuffle `find . -type f -exec echo {} \;`
+mpv --shuffle `find . -type f`
