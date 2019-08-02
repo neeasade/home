@@ -62,10 +62,9 @@ conf() {
 
 rmd() {
     for i; {
-        [[ -d "${i}" ]] && {
-            [[ "${i}" = *@(.git)* ]] && rm -rf "${i}" ||
-                    rm -r "${i}"
-        } || printf 'error: %s not a directory\n' ${i##*/}
+        [[ -d "${i}" ]] &&
+            rm -r "${i}" ||
+                printf 'error: %s not a directory\n' ${i##*/}
     }
 }
 
