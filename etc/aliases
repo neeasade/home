@@ -37,8 +37,7 @@ v() {
 }
 
 resource() {
-    . ${HOME}/etc/aliases
-    . ${HOME}/etc/kshrc
+    . ${HOME}/etc/{aliases,kshrc}
 }
 
 resxhkd() {
