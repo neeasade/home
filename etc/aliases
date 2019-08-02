@@ -15,7 +15,7 @@ mklatex() {
 }
 
 c() {
-    [[ ! ${1} ]] && { clear; return 0; }
+    [[ ${#} -eq 0 ]] && { clear; return 0; }
     local p
     for p in "${@}" "${@}*" "*${@}" "*${@}*"; {
         if [[ -f "${p}" ]]; then
@@ -38,10 +38,7 @@ v() {
 
 resource() {
     . ${HOME}/etc/aliases
-
-    case ${SHELL} {
-    (*ksh*)  . ${HOME}/etc/kshrc   ;;
-    }
+    . ${HOME}/etc/kshrc
 }
 
 resxhkd() {
@@ -65,25 +62,24 @@ conf() {
 }
 
 rmd() {
-    local files
-    local flag
     for i; {
-        case ${i} {
-        (-f) flag+="-f"      ;;
-        (*)  files+=("${i}") ;;
-        }
+        [[ -d "${i}" ]] && {
+            [[ "${i}" = *@(.git)* ]] && rm -rf "${i}" ||
+                    rm -r "${i}"
+        } || printf 'error: %s not a directory\n' ${i##*/}
     }
-    for i in ${files[@]}; {
-        [[ -d "${i}" ]] && rm -r "${flag}" ${i} ||
-                printf 'error: %s not a directory\n' ${i##*/}
-    }
+}
+
+fuck() {
+    doas `fc -l -1 | awk '{print $2}'`
 }
 
 has git && {
     git() {
         case ${1} {
         (ignore-get)
-            wget -O gitignore https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
+            wget -O gitignore \
+                https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
             ;;
         (squash)
             local cnf
@@ -152,7 +148,7 @@ a mki='make install'
 a mka='make all'
 a mku='make uninstall'
 a mkc='make clean'
-
+a rsc='resource'
 a aliases='alias'
 a {quit,:q,:q!}='exit'
 
