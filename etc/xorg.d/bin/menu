@@ -14,12 +14,12 @@ y=$((sh / 3 - l))
 . ${HOME}/var/cache/tm/colors.sh
 
 font="Go Mono:pixelsize=14"
-read -r selbg < /tmp/info/dwm/colors/selbg
-read -r selfg < /tmp/info/dwm/colors/selfg
-read -r normbg < /tmp/info/dwm/colors/normbg
-read -r normfg < /tmp/info/dwm/colors/normfg
+read -r selbg    < /tmp/info/dwm/colors/selbg
+read -r selfg    < /tmp/info/dwm/colors/selfg
+read -r normbg   < /tmp/info/dwm/colors/normbg
+read -r normfg   < /tmp/info/dwm/colors/normfg
 read -r borderpx < /tmp/info/dwm/borders/size
-read -r borcol < /tmp/info/dwm/borders/selcol
+read -r borcol   < /tmp/info/dwm/borders/selcol
 
 sel() {
     dmenu -bp ${borderpx} -x ${x} -y ${y} -w ${w}           \
@@ -49,5 +49,5 @@ subs" | sel -p "run:"`
 
 case ${1} in
 ('sel') shift; sel "${@}";;
-('run'|*) run;;
+(*) run;;
 esac

@@ -27,7 +27,7 @@ super + {f,r}
     st -e 'fff'
 
 super + {v,l}
-    {qutebrowser,slock}
+    {chrome,slock}
 
 super + {x,i,n,e}
     {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}

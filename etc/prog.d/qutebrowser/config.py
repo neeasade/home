@@ -89,7 +89,7 @@ c.tabs.mode_on_change = "normal"
 c.tabs.mousewheel_switching = False  # i dont even have one
 c.tabs.new_position.related = "last"
 c.tabs.new_position.unrelated = "last"
-c.tabs.padding = {"top": 10, "bottom": 10, "left": 10, "right": 10}
+c.tabs.padding = {"top": 15, "bottom": 15, "left": 10, "right": 10}
 c.tabs.position = "top"
 c.tabs.select_on_remove = "last-used"
 c.tabs.show = "multiple" # or switching
@@ -129,7 +129,7 @@ c.qt.low_end_device_mode = "always"  # qb likes to chew battery
 
 # yes pls
 c.content.host_blocking.enabled = True
-c.content.host_blocking.lists = []     # have them in /etc/hosts
+#c.content.host_blocking.lists = ["file:///home/viz/etc/prog.d/qutebrowser/blocked-hosts"]
 c.content.mute = False
 c.content.windowed_fullscreen = True
 c.editor.command = ["emacsclient", "-c", "{file}"]

@@ -15,5 +15,5 @@ read -r base_dir < ${HOME}/var/cache/bat
 
 case ${1} in
 (-s) cat ${base_dir}/status   ;;
-(-p) cat ${base_dir}/capacity ;;
+(*)  cat ${base_dir}/capacity ;;
 esac

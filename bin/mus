@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd ${HOME}/var/music
-mpv --shuffle `find . -type f`
+mpv --no-audio-display --shuffle `find . -type f`
