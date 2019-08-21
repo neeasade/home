@@ -1,8 +1,11 @@
 /* border pixel of windows */
-static const unsigned int borpx     = 1;
+static const unsigned int borpx     = 2;
 
 /* useless gaps in px */
-static const unsigned int gaps      = 3;
+static const unsigned int gaps      = 5;
+
+/* padding between corner and window */
+static const unsigned int pad       = 12;
 
 /*
  * 0 means gaps and no borders
@@ -52,7 +55,7 @@ static const Rule rules[] = {
     { "Gimp",     NULL,       NULL,       0,            0,             1,           1,            -1 },
     { "Firefox",  NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "qutebrowser",NULL,     NULL,       1 << 1,       0,             0,           1,            -1 },
-    { "Chromium", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
+    { "Google-chrome", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Pale moon", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Basilisk", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Sxiv",      NULL,       "sxiv",      0,            1,             1,           0,            -1 },
@@ -95,7 +98,6 @@ static const Layout layouts[] = {
 
 /* commands */
 static const char *scratchpadcmd[] = { "st", "-t", "scratchpad", "-g", "120x34", NULL };
-static const char *p9[]            = { "dash", "-c", "${HOME}/etc/xorg.d/bin/draw_st", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -151,5 +153,4 @@ static Button buttons[] = {
     { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
     { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-    { ClkRootWin,           0,              Button3,        spawn,          {.v = p9 } },
 };

@@ -81,7 +81,8 @@ has git && {
             ;;
         (squash)
             local cnf
-            read -r 'do you want to continue? ' cnf
+            echo -n 'do you want to continue? '
+            read -r cnf
             [[ "${cnf:0:1}" != 'y' ]] && return 0
             local n=${2}
             shift 2
@@ -110,6 +111,9 @@ has git && {
             [[ "${2}" != @(*vizs*) ]] && fnl="${@} --depth 1"
             cmd git ${fnl}
             ;;
+        (push)
+            cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
+	    ;;
         (*)
             cmd git "${@}"
             ;;

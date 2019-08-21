@@ -33,8 +33,7 @@ run() {
     draw() { draw_st; }
     st() { tabbed -c -r 2 st -w '' "${@}"; }
     todo() { st -e todo -i; }
-    `echo "palemoon
-qutebrowser
+    `echo "chrome
 st
 draw
 dosbox
