@@ -354,8 +354,7 @@ applyrules(Client *c)
         r = &rules[i];
         if ((!r->title || strstr(c->name, r->title))
         && (!r->class || strstr(class, r->class))
-        && (!r->instance || strstr(instance, r->instance)))
-        {
+        && (!r->instance || strstr(instance, r->instance))) {
             c->iscentered = r->iscentered;
             c->isfloating = r->isfloating;
             c->isbordered = r->isbordered;
@@ -983,7 +982,8 @@ manage(Window w, XWindowAttributes *wa)
 
     wc.border_width = c->bw;
 
-    if (!c->isbordered) wc.border_width = 0;
+    if (!c->isbordered)
+        c->bw = wc.border_width = 0;
 
     XConfigureWindow(dpy, w, CWBorderWidth, &wc);
     XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);

@@ -19,7 +19,14 @@ c() {
     local p
     for p in "${@}" "${@}*" "*${@}" "*${@}*"; {
         if [[ -f "${p}" ]]; then
-            cat "${p}"; return 0
+            case `file -ib "${p}"` {
+            (*pdf*)   zathura "${p}" ;;
+            (*image*) sxiv    "${p}" ;;
+            (*video*) mpv     "${p}" ;;
+            (*zip*)   upkp    "${p}" ;;
+            (*)       cat     "${p}" ;;
+            }
+            return 0
         elif [[ -d "${p}" ]]; then
             cd "${p}"; return 0
         fi
@@ -113,7 +120,7 @@ has git && {
             ;;
         (push)
             cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
-	    ;;
+        ;;
         (*)
             cmd git "${@}"
             ;;
