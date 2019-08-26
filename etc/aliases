@@ -3,19 +3,20 @@ alias a='alias'
 a cmd='command'
 
 find-font() {
-    [[ ${1} ]] &&
+    [[ "${1}" ]] &&
         fc-list | grep -i "${1}"
 }
 
 mklatex() {
     local file
     for file; {
-        xelatex "${file}"; rm -rf ${file%.tex}.{aux,out,log}
+        xelatex "${file}"
+        rm ${file%.tex}.{aux,out,log}
     }
 }
 
 c() {
-    [[ ${#} -eq 0 ]] && { clear; return 0; }
+    [[ ! "${1}" ]] && { clear; return 0; }
     local p
     for p in "${@}" "${@}*" "*${@}" "*${@}*"; {
         if [[ -f "${p}" ]]; then
@@ -36,7 +37,7 @@ c() {
 
 v() {
     pgrep -x emacs > /dev/null && has emacsclient && {
-        emacsclient -c "${@}" &
+        emacsclient -c "${@}" & > /dev/null
         return 0
     }
 
@@ -53,15 +54,15 @@ resxhkd() {
 }
 
 conf() {
-    [[ ! -d ${HOME}/usr/repos/home ]] && return 0
-    g() { git --git-dir=${HOME}/usr/repos/home --work-tree=${HOME}  "${@}"; }
+    [[ ! -d "${HOME}/usr/repos/home" ]] && return 0
+    g() { git --git-dir="${HOME}/usr/repos/home" --work-tree="${HOME}" "${@}"; }
 
     case ${1} {
-    (commit) shift; g commit --interactive -m "${@}";;
-    (push) g push origin master;;
-    (list) g ls-tree -r HEAD --name-only | less;;
-    (update-patches) g add ${HOME}/etc/prog.d/patches/*;;
-    (*) g "${@}";;
+    (commit) shift; g commit --interactive -m "${@}" ;;
+    (push) g push origin master ;;
+    (list) g ls-tree -r HEAD --name-only | less ;;
+    (update-patches) g add "${HOME}/etc/prog.d/patches/"* ;;
+    (*) g "${@}" ;;
     }
 
     unset -f g
@@ -120,7 +121,7 @@ has git && {
             ;;
         (push)
             cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
-        ;;
+            ;;
         (*)
             cmd git "${@}"
             ;;
@@ -142,16 +143,14 @@ has mpv && has piko && {
     }
 }
 
-for i in fff ranger nnn noice; { has ${f} && { a {fm,mf}=${f}; break; }; }
-
-unset i
-
 has python3 && a {py,python}='python3'
 has perl    && a pl='perl'
-has mupdf && a mpf='mupdf'
+has mupdf   && a mpf='mupdf'
 has zathura && a mpf='zathura'
+has noice   && a {fm,mf}='noice'
+has mk      || a mk='make'
+has doas    && a doas='doas '
 
-has mk || a mk='make'
 a {mkci,mkic}='make clean install'
 a mki='make install'
 a mka='make all'
