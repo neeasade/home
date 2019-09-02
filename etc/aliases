@@ -10,7 +10,7 @@ find-font() {
 mklatex() {
     local file
     for file; {
-        xelatex "${file}"
+        pdflatex "${file}"
         rm ${file%.tex}.{aux,out,log}
     }
 }
@@ -32,7 +32,7 @@ c() {
             cd "${p}"; return 0
         fi
     }
-    echo 'error: no such file or dir' ${1}
+    print 'error: no such file or dir' ${1}
 }
 
 v() {
@@ -54,7 +54,7 @@ resxhkd() {
 }
 
 conf() {
-    [[ ! -d "${HOME}/usr/repos/home" ]] && return 0
+    [[ ! -d "${HOME}/usr/repos/home" ]] && return 1
     g() { git --git-dir="${HOME}/usr/repos/home" --work-tree="${HOME}" "${@}"; }
 
     case ${1} {
@@ -89,7 +89,7 @@ has git && {
             ;;
         (squash)
             local cnf
-            echo -n 'do you want to continue? '
+            print -n 'do you want to continue? '
             read -r cnf
             [[ "${cnf:0:1}" != 'y' ]] && return 0
             local n=${2}
@@ -99,8 +99,8 @@ has git && {
             cmd git commit -m "${msg}"
             ;;
         (add)
-            [[ "${2}" = @(\.|\*) ]] && {
-                echo no
+            [[ "${2}" = @('.'|'*') ]] && {
+                print no
                 return 0
             }
             cmd git "${@}"
@@ -116,7 +116,7 @@ has git && {
             ;;
         (clone)
             local fnl="${@}"
-            [[ "${2}" != @(*vizs*) ]] && fnl="${@} --depth 1"
+            [[ "${2}" != *vizs* ]] && fnl="${@} --depth 1"
             cmd git ${fnl}
             ;;
         (push)

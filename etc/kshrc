@@ -1,7 +1,6 @@
 #!/bin/ksh
-[[ ${-} != *i* ]] && return 0
+[[ "${-}" != *i* ]] && return 0
 
-alias echo='builtin print'
 set -o vi
 set -o vi-tabcomplete
 set -o nohup bgnice trackall
@@ -24,7 +23,7 @@ HISTSIZE=100000
 
 _set_wn() {
     [[ ${TERM} != linux ]] &&
-        echo -ne "\033]]0;ksh: ${PWD/~/\~}\a"
+        print -ne "\033]]0;ksh: ${PWD/~/\~}\a"
 } 2> /dev/null
 
 _rm_jnk() {
@@ -44,9 +43,9 @@ _PS1_command() {
 
 _draw_PS1() {
     case ${USER} {
-    (root) echo -n '# '               ;;
-    (viz)  echo -n '$ '; _PS1_command ;;
-    (*)    echo -n '% '               ;;
+    (root) print -n '# '               ;;
+    (viz)  print -n '$ '; _PS1_command ;;
+    (*)    print -n '% '               ;;
     }
 }
 

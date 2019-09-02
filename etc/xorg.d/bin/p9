@@ -10,14 +10,14 @@ get_id_interactive() {
 
 resize() {
     id=`get_id_interactive`
-    set -- `xrectsel %x %y %w %h'`
+    set -- `hacksaw -n -f '%x %y %w %h'`
 
     xdotool windowsize ${id} ${3} ${4}
     xdotool windowmove ${id} ${1} ${2}
 }
 
 new() {
-    tabbed -n floating-st -g `xrectsel` -r 2 st -w '' -t floating-st
+    tabbed -n floating-st -g `hacksaw -n` -r 2 st -w '' -t floating-st
 }
 
 delete() {

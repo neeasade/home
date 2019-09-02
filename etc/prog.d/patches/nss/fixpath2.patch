@@ -1,0 +1,13 @@
+diff --git a/nss/gtests/sysinit_gtest/getUserDB_unittest.cc b/nss/gtests/sysinit_gtest/getUserDB_unittest.cc
+index 845b6e3..83f431b 100644
+--- a/nss/gtests/sysinit_gtest/getUserDB_unittest.cc
++++ b/nss/gtests/sysinit_gtest/getUserDB_unittest.cc
+@@ -125,7 +125,7 @@ class SysinitSetTrashXdgUserDataHome : public Sysinit {
+ 
+ // Check if $HOME/.pki/nssdb is used if it exists
+ TEST_F(Sysinit, LegacyPath) {
+-  nssdir_ = CreateEmptyDirsFromStart(tmp_home_, "/.pki/nssdb", 0760);
++  nssdir_ = CreateEmptyDirsFromStart(tmp_home_, "/var/cache/pki/nssdb", 0760);
+   char *nssdb = getUserDB();
+   ASSERT_EQ(nssdir_, nssdb);
+   PORT_Free(nssdb);
