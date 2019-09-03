@@ -1,5 +1,5 @@
 /* border pixel of windows */
-static const unsigned int borpx     = 2;
+static const unsigned int borpx     = 4;
 
 /* useless gaps in px */
 static const unsigned int gaps      = 5;
@@ -14,7 +14,7 @@ static const unsigned int pad       = 12;
  * 3 means gaps and borders
  *
  */
-static const unsigned int startborders = 3;
+static const unsigned int startborders = 0;
 
 /* snap pixel */
 static const unsigned int snap      = 0;

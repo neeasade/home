@@ -23,7 +23,7 @@ grab_screen() {
 }
 
 grab_area() {
-    xscreenshot -g `xrectsel` | ff2png > ${tmp_image}
+    xscreenshot -g `hacksaw -n` | ff2png > ${tmp_image}
 }
 
 grab_window() {

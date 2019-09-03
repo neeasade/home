@@ -33,7 +33,7 @@ _rm_jnk() {
                 rm -rf "${i}"
         }
     }
-    _rm_e ${HOME}/{.dbus,.pki,.wget-hsts}
+    _rm_e ${HOME}/.pki
     unset -f _rm_e
 } > /dev/null
 

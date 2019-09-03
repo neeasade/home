@@ -1,12 +1,7 @@
 #!/bin/sh
-
-options="poweroff\nreboot\nkill x"
-
-selected_option="$(echo ${options} | menu sel)"
-
 [ -f ${HOME}/tmp/bkup.lock ] && { notify-send "bkup is running!"; exit 1; }
-
-case ${selected_option} in
-(poweroff|reboot) doas ${selected_option};;
-("kill x") pkill -15 Xorg;;
+opt=`echo 'poweroff\nreboot\nkill x' | menu sel`
+case ${opt} in
+(poweroff|reboot) doas ${opt} ;;
+("kill x") pkill -15 Xorg ;;
 esac

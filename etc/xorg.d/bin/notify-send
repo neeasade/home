@@ -12,4 +12,5 @@ y=20
              -f 'Go Mono:size=12'                            \
              -F $(cat /tmp/info/dwm/colors/normfg)           \
              -B $(cat /tmp/info/dwm/colors/normbg)           \
-             -R $(cat /tmp/info/dwm/borders/selcol) -r 1     &
+             -R $(cat /tmp/info/dwm/borders/selcol)          \
+             -r $(cat /tmp/info/dwm/borders/size)            &

@@ -3,25 +3,14 @@
 # -h 1 = hide dotfiles
 
 case ${1} {
-(-h) hidden=$2;;
-(*) hidden=1;;
-}
-
-ls() {
-    local result
-    local i
-    for i in *; {
-        [[ -d "${i}" ]] && i="${i}/"
-        result="${result}\n${i}"
-    }
-
-    echo ${result}
+(-h) hidden=$2 ;;
+(*)  hidden=1  ;;
 }
 
 get_dir() {
     case ${hidden} {
-    (1) echo "..$(ls)" | menu sel -p ${PWD/~/\~} ;;
-    (0) echo "..$(ls)" | menu sel -p ${PWD/~/\~} ;;
+    (1) echo "..\n`ls -1 -p`"    | menu sel -p ${PWD/~/\~} ;;
+    (0) echo "..\n`ls -A -1 -p`" | menu sel -p ${PWD/~/\~} ;;
     }
 }
 
@@ -38,9 +27,8 @@ open_file() {
     (*text*)  emacsclient "${1}" ;;
     (*)
         case `file "${1}"` {
-        (*archive*)
-            st -e upkp "${1}";;
-        };;
+        (*archive*) st -e upkp "${1}"
+        }
     }
 }
 
