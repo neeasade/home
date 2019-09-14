@@ -144,6 +144,7 @@ has mpv && has piko && {
 }
 
 has python3 && a {py,python}='python3'
+has racket  && a rkt='racket'
 has perl    && a pl='perl'
 has mupdf   && a mpf='mupdf'
 has zathura && a mpf='zathura'
@@ -173,7 +174,7 @@ a rmf='rm -rf'
 a fc-cache='fc-cache --verbose'
 a grep='grep -i'
 a su='su -'
-a {sl,ls}='ls -F'
+a {sl,ls}=' ls -F'
 a reboot='doas reboot'
 a poweroff='doas poweroff'
 a shutdown='doas shutdown'

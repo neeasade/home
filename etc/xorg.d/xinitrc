@@ -9,6 +9,5 @@ sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \
       -s ${HOME}/var/log/sxhkd.log  &
 . ${HOME}/var/cache/wall &
 doas ${HOME}/bin/brness -s 10 &
-compton -b --corner-radius 8 &
 emacs --daemon &
 exec dwm
