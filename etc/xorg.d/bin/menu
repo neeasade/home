@@ -47,6 +47,6 @@ subs" | sel -p "run:"`
 }
 
 case ${1} in
-('sel') shift; sel "${@}";;
+(sel) shift; sel "${@}";;
 (*) run;;
 esac

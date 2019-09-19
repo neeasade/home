@@ -8,11 +8,13 @@ remkd /tmp/info /tmp/info/vol ${HOME}/var/log
 cat ${HOME}/etc/xorg.d/sxhkdrc-base ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc > /tmp/sxhkdrc
 
 xmodmap ${HOME}/etc/xorg.d/xmodmap &
-xset +fp ${HOME}/usr/fonts
 sxhkd -r ${HOME}/var/log/sxhkd.out \
       -s ${HOME}/var/log/sxhkd.log \
       -c /tmp/sxhkdrc              &
 . ${HOME}/var/cache/wall &
 doas ${HOME}/bin/brness -s 10 &
 emacs --daemon &
+
+[ ${WM} = 'wchf' ] && popcfs
+
 exec ${WM}

@@ -23,7 +23,7 @@ alt + {j,k}
     waitron window{_cycle,_rev_cycle}
 
 alt + shift + q
-    ksh ${HOME}/etc/xorg.d/wchf.d/wchfrc
+    ${HOME}/etc/xorg.d/wchf.d/wchfrc
 
 alt + shift + ctrl + q
     waitron wm_quit 0

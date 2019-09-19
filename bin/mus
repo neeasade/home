@@ -1,4 +1,59 @@
 #!/bin/sh
+# music
 
-cd ${HOME}/var/music
-mpv --no-audio-display --shuffle `find . -type f`
+sock=/tmp/mussock
+! pgrep -x mpv > /dev/null && [ -S ${sock} ] && rm ${sock}
+cmd="socat - ${sock}"
+
+men() {
+    echo 'next\nprev\nshuff\npause' | menu sel
+}
+
+next() {
+    echo '{"command":["playlist-next"]}' | ${cmd} > /dev/null
+}
+
+prev() {
+    echo '{"command":["playlist-prev"]}' | ${cmd} > /dev/null
+}
+
+shuff() {
+    echo '{"command":["playlist-shuffle"]}' | ${cmd} > /dev/null
+}
+
+cur() {
+    [ -S ${sock} ] || {
+        echo 'not playing!'
+        exit 0
+    }
+    cur=`echo '{"command":["get_property_string","path"]}' | ${cmd} \
+              | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'`
+    artist=${cur%/*}
+    artist=`echo ${artist##*/} | tr _ ' '`
+    song=`echo ${cur##*/} | tr _ ' '`
+
+    printf '%s - %s' "${artist}" "${song}"
+    unset cur artist song
+}
+
+pause() {
+    stat=true
+    dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
+    case ${dat} in
+    (*true*) stat=false ;;
+    esac
+    printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} > /dev/null
+    unset stat dat
+}
+
+quit() {
+    echo '{"command":["quit"]}' | ${cmd} > /dev/null
+}
+
+! pgrep -x mpv > /dev/null && [ ${#} -eq 0 ] &&
+    mpv --no-audio-display              \
+        --input-ipc-server=${sock}      \
+        --shuffle                       \
+        `find ${HOME}/var/music -type f`
+
+${1:-`men`}
