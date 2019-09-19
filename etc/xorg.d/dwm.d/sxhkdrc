@@ -1,0 +1,17 @@
+# window manipulation
+# move
+super + {w,a,s,d}
+    wcmv {x -20,-20 y,x +20,+20 y}
+
+super + shift + {w,a,s,d}
+    wcmv {x -40,-40 y,x +40,+40 y}
+
+# resize
+super + ctrl + {w,s,d,a}
+    wrsz {w -10,w +10,+10 h,-10 h}
+
+super + ctrl + shift + {w,s,d,a}
+    wrsz {w -40,w +40,+40 h,-40 h}
+
+alt + {c,f,u}
+    {center_win,fswin,invcurwin}

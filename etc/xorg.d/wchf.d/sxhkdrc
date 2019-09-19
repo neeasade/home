@@ -1,0 +1,38 @@
+super + {w,a,s,d}
+    waitron window_move {0 -20,-20 0,0 +20,+20 0}
+
+super + shift + {w,a,s,d}
+    waitron window_move {0 -50,-50 0,0 +50,+50 0}
+
+super + ctrl + {w,s,d,a}
+    waitron window_resize {0 -20,0 +20,+20 0,-20 0}
+
+super + ctrl + shift + {w,s,d,a}
+    waitron window_resize {0 -50,0 +50,+50 0,-50 0}
+
+alt + {c,f,m}
+    waitron window_{snap middle,maximize,monocle}
+
+super + {q,r,z,c}
+    waitron window_snap {topleft,topright,bottomleft,bottomright}
+
+alt + shift + c
+    waitron window_close
+
+alt + {j,k}
+    waitron window{_cycle,_rev_cycle}
+
+alt + shift + q
+    ksh ${HOME}/etc/xorg.d/wchf.d/wchfrc
+
+alt + shift + ctrl + q
+    waitron wm_quit 0
+
+alt + {1-9}
+    waitron group_activate_specific {1-9}
+
+alt + shift + {1-9}
+    wmvgrp {1-9}
+
+alt + ctrl + {1-9}
+    waitron group_activate {1-9}

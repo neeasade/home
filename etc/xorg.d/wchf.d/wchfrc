@@ -1,0 +1,25 @@
+#!/bin/ksh
+
+. ${HOME}/var/cache/tm/colors.sh
+infobase=/tmp/info/wm
+
+remkd ${infobase}/colors
+
+color() {
+    print ${1/'#'/'0x'}
+}
+
+print ${color0}  > ${infobase}/colors/normbg
+print ${color7}  > ${infobase}/colors/normfg
+print ${color8}  > ${infobase}/colors/selbg
+print ${color15} > ${infobase}/colors/selfg
+
+while read -r c; do
+    waitron wm_config ${c}
+done << EOF
+cursor_position bottomright
+sticky_windows 1
+border_width 2
+color_focused `color ${color15}`
+color_unfocused `color ${color8}`
+EOF

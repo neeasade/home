@@ -1,0 +1,44 @@
+alt + p
+    menu run
+
+# application launching
+super + shift + Return
+    st -g 80x40 -t floating-st
+
+alt + shift + Return
+    tab -w st
+
+super + {v,l}
+    {chrome,slock}
+
+super + {x,i,n,e}
+    {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
+
+# dmenu dirs
+alt + shift + f
+    dmenu_dir -h 1
+
+alt + shift + ctrl + f
+    dmenu_dir -h 0
+
+# print screen
+Print
+    screenshot -u
+
+super + Print
+    screenshot -s
+
+# disable mouse
+super + shift + ctrl + m
+    togmouse
+
+# volume
+super + shift + {k,j,m,u}
+    vol {-i 1%,-d 1%,-m,-u}
+
+# brness
+super + shift + {l,h}
+    doas ${HOME}/bin/brness {-i 1,-d 1,}
+
+super + shift + {b,t,v}
+    notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%}
