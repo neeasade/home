@@ -41,4 +41,4 @@ super + shift + {l,h}
     doas ${HOME}/bin/brness {-i 1,-d 1,}
 
 super + shift + {b,t,v,s}
-    notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%,playing: `mus cur`}
+    notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%,`mus pprint`}

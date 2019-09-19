@@ -9,6 +9,15 @@ men() {
     echo 'next\nprev\nshuff\npause' | menu sel
 }
 
+fmt_song() {
+    artist=${1%/*}
+    artist=`echo ${artist##*/} | tr _ ' '`
+    song=`echo ${1##*/} | tr _ ' '`
+
+    printf '%s - %s' "${artist}" "${song}"
+    unset artist song
+}
+
 next() {
     echo '{"command":["playlist-next"]}' | ${cmd} > /dev/null
 }
@@ -22,18 +31,10 @@ shuff() {
 }
 
 cur() {
-    [ -S ${sock} ] || {
-        echo 'not playing!'
-        exit 0
-    }
     cur=`echo '{"command":["get_property_string","path"]}' | ${cmd} \
               | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'`
-    artist=${cur%/*}
-    artist=`echo ${artist##*/} | tr _ ' '`
-    song=`echo ${cur##*/} | tr _ ' '`
-
-    printf '%s - %s' "${artist}" "${song}"
-    unset cur artist song
+    fmt_song ${cur}
+    unset cur
 }
 
 pause() {
@@ -48,6 +49,20 @@ pause() {
 
 quit() {
     echo '{"command":["quit"]}' | ${cmd} > /dev/null
+}
+
+perc() {
+    dur=`echo '{"command":["get_property","duration"]}' | ${cmd} | grep -o -E '[0-9.]+'`
+    cur=`echo '{"command":["get_property","time-pos"]}' | ${cmd} | grep -o -E '[0-9.]+'`
+    echo "${cur} * 100 / ${dur}" | bc
+}
+
+pprint() {
+    [ -S ${sock} ] || {
+        echo "not playing!"
+        exit 0
+    }
+    printf 'playing: %s (%s%%)\n' "`cur`" "`perc`"
 }
 
 ! pgrep -x mpv > /dev/null && [ ${#} -eq 0 ] &&
