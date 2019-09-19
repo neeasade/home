@@ -15,6 +15,9 @@ sxhkd -r ${HOME}/var/log/sxhkd.out \
 doas ${HOME}/bin/brness -s 10 &
 emacs --daemon &
 
-[ ${WM} = 'wchf' ] && popcfs
+[ ${WM} = 'wchf' ] && {
+    popcfs
+    clbors &
+}
 
 exec ${WM}

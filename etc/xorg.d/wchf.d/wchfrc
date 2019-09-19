@@ -1,11 +1,7 @@
-#!/bin/ksh
+#!/bin/sh
 # wchf config
 
-. ${HOME}/var/cache/tm/colors.sh
-
 waitron wm_config border_width 2
-waitron wm_config color_focused "${color15/'#'/'0x'}"
-waitron wm_config color_unfocused "${color8/'#'/'0x'}"
 waitron wm_config sticky_windows true
 waitron wm_config enable_sloppy_focus true
 waitron wm_config enable_last_window_focusing true

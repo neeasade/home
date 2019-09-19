@@ -1,0 +1,12 @@
+#!/bin/sh
+# populate color files
+
+. ${HOME}/var/cache/tm/colors.sh
+infobase=/tmp/info/wm
+
+remkd ${infobase}/colors
+
+echo ${color0}  > ${infobase}/colors/normbg
+echo ${color7}  > ${infobase}/colors/normfg
+echo ${color8}  > ${infobase}/colors/selbg
+echo ${color15} > ${infobase}/colors/selfg

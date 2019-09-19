@@ -1,0 +1,11 @@
+#!/bin/ksh
+# color borders
+
+while ! pgrep -x wchf; do
+    sleep 0.1
+done
+
+. ${HOME}/var/cache/tm/colors.sh
+
+waitron wm_config color_focused "${color15/'#'/'0x'}"
+waitron wm_config color_unfocused "${color8/'#'/'0x'}"
