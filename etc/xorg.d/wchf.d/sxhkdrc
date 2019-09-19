@@ -36,3 +36,12 @@ alt + shift + {1-9}
 
 alt + ctrl + {1-9}
     waitron group_activate {1-9}
+
+alt + shift + b
+    waitron toggle_borders
+
+alt + shift + {h,l}
+    waitron window_put_in_grid 2 1 {0,1} 0 1 1
+
+alt + shift + {k,j}
+    waitron window_put_in_grid 1 2 0 {0,1} 1 1

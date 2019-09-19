@@ -5,21 +5,18 @@ infobase=/tmp/info/wm
 
 remkd ${infobase}/colors
 
-color() {
-    print ${1/'#'/'0x'}
-}
-
 print ${color0}  > ${infobase}/colors/normbg
 print ${color7}  > ${infobase}/colors/normfg
 print ${color8}  > ${infobase}/colors/selbg
 print ${color15} > ${infobase}/colors/selfg
 
-while read -r c; do
-    waitron wm_config ${c}
-done << EOF
-cursor_position bottomright
-sticky_windows 1
-border_width 2
-color_focused `color ${color15}`
-color_unfocused `color ${color8}`
-EOF
+waitron wm_config border_width 2
+waitron wm_config color_focused ${color15/'#'/'0x'}
+waitron wm_config color_unfocused ${color8/'#'/'0x'}
+waitron wm_config gap_width all 2
+waitron wm_config sticky_window true
+waitron wm_config enable_sloppy_focus true
+waitron wm_config groups_nr 5
+waitron wm_config enable_last_window_focused true
+waitron wm_config apply_settings true
+waitron wm_config replay_click_on_focus false
