@@ -1,7 +1,7 @@
 #!/bin/sh
 
-read -r BPX < /tmp/info/dwm/borders/size
-read -r BCOL < /tmp/info/dwm/borders/selcol
+read -r BPX < /tmp/info/wm/borders/size
+read -r BCOL < /tmp/info/wm/borders/selcol
 
 get_id_interactive() {
     xid=`xwininfo | grep 'Window id: '`
@@ -28,12 +28,12 @@ delete() {
 hide() {
     id=`get_id_interactive`
     xdotool windowunmap ${id}
-    [ ${?} -eq 0 ] && echo ${id} >> /tmp/info/dwm/misc/hidden
+    [ ${?} -eq 0 ] && echo ${id} >> /tmp/info/wm/misc/hidden
 }
 
 spawn() {
     eval `xdotool getmouselocation --shell`
-    9menu -bg $(cat /tmp/info/dwm/colors/normbg) -fg $(cat /tmp/info/dwm/colors/normfg) \
+    9menu -bg $(cat /tmp/info/wm/colors/normbg) -fg $(cat /tmp/info/wm/colors/normfg) \
           -geometry 100x100+${X}+${Y} -popup                                            \
           'New:echo new' 'Resize:echo resize' 'Delete: echo delete' 'Hide: echo hide'
 }

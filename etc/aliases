@@ -50,7 +50,8 @@ resource() {
 
 resxhkd() {
     pgrep -x sxhkd > /dev/null && pkill -9 sxhkd
-    sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc &
+    cat ${HOME}/etc/xorg.d/sxhkdrc-base ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc > /tmp/sxhkdrc
+    sxhkd -c /tmp/sxhkdrc &
 }
 
 conf() {

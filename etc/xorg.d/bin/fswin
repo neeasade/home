@@ -7,7 +7,7 @@ sw=$(res -w)
 sh=$(res -h)
 
 # borderpx
-read -r borderpx < /tmp/info/dwm/borders/size
+read -r borderpx < /tmp/info/wm/borders/size
 
 # get active window's id
 activewin="$(xdotool getactivewindow)"

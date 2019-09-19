@@ -8,11 +8,11 @@ w=$(res -w)
 h=$(res -h)
 
 wksp() {
-    read -r num < /tmp/info/dwm/tag/num
-    read -r cur < /tmp/info/dwm/tag/current
+    read -r num < /tmp/info/wm/tag/num
+    read -r cur < /tmp/info/wm/tag/current
     i=1
     while [ ${i} -le ${num} ]; do
-        read -r state < /tmp/info/dwm/tag/${i}
+        read -r state < /tmp/info/wm/tag/${i}
         case ${state} in
         (1) ws='x ';;
         (2) ws='@ ';;

@@ -8,12 +8,12 @@ init() {
         sleep 0.1
     done
 
-    read -r vis < /tmp/info/dwm/bar/visible
+    read -r vis < /tmp/info/wm/bar/visible
 
     [[ ${vis} -eq 0 ]] && exit
 
-    read -r h < /tmp/info/dwm/bar/height
-    read -r bor < /tmp/info/dwm/borders/size
+    read -r h < /tmp/info/wm/bar/height
+    read -r bor < /tmp/info/wm/borders/size
 
     [[ ${h} -eq 0 ]] && exit
 
@@ -29,11 +29,11 @@ init() {
 
 wksp() {
     local i=1
-    read -r num < /tmp/info/dwm/tag/num
-    read -r cur < /tmp/info/dwm/tag/current
+    read -r num < /tmp/info/wm/tag/num
+    read -r cur < /tmp/info/wm/tag/current
     while [[ ${i} -le ${num} ]]; do
         # check if occupied
-        read -r state < /tmp/info/dwm/tag/${i}
+        read -r state < /tmp/info/wm/tag/${i}
         case ${state} {
         (1) ws='x ' ;;
         (2) ws='@ ' ;;
@@ -88,7 +88,7 @@ while echo                                                               \
 #         -f 'Go Mono:pixelsize=12'                                       \
 #         -g ${w}x${h}+${x}+${y}                                          \
 #         -n bar                                                          \
-#         -B $(< /tmp/info/dwm/colors/normbg)                             \
-#         -R $(< /tmp/info/dwm/borders/selcol)                            \
+#         -B $(< /tmp/info/wm/colors/normbg)                             \
+#         -R $(< /tmp/info/wm/borders/selcol)                            \
 #         -r ${bor}                                                       \
-#         -F $(< /tmp/info/dwm/colors/normfg)                             > /dev/null 2>&1
+#         -F $(< /tmp/info/wm/colors/normfg)                             > /dev/null 2>&1

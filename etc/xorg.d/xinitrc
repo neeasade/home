@@ -1,13 +1,19 @@
 #!/bin/sh
 cd ${HOME}
+export WM=${1:-wchf}
+export PATH=${HOME}/etc/xorg.d/bin:${HOME}/etc/xorg.d/${WM}.d/bin:${PATH}
 remkd /tmp/info /tmp/info/vol
-export PATH=${HOME}/etc/xorg.d/bin:${PATH}
+
+[ -f /tmp/sxhkdrc ] && rm /tmp/sxhkdrc
+
+cat ${HOME}/etc/xorg.d/sxhkdrc-base ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc > /tmp/sxhkdrc
+
 xmodmap ${HOME}/etc/xorg.d/xmodmap &
 xset +fp ${HOME}/usr/fonts
-sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc \
-      -r ${HOME}/var/log/sxhkd.log  \
-      -s ${HOME}/var/log/sxhkd.log  &
+sxhkd -c /tmp/sxhkdrc              \
+      -r ${HOME}/var/log/sxhkd.log \
+      -s ${HOME}/var/log/sxhkd.log &
 . ${HOME}/var/cache/wall &
 doas ${HOME}/bin/brness -s 10 &
 emacs --daemon &
-exec dwm
+exec ${WM}
