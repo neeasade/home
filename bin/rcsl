@@ -1,13 +1,17 @@
 #!/bin/sh
 
 base_dir="${HOME}/usr/src/c"
-sltools="${WM} dmenu st tabbed"
+sltools="dmenu st tabbed"
+
+[ "${WM}" = dwm ] && sltools="dwm ${sltools}"
 
 compile() {
     for i; do
         cd ${base_dir}/${i}
         echo "compiling ${i}"
-        make clean install && make clean
+        make clean
+        make install
+        make clean
     done
 }
 

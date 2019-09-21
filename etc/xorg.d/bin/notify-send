@@ -10,7 +10,7 @@ y=20
     lemonbar -d                                              \
              -g ${w}x${h}+${x}+${y}                          \
              -f 'Go Mono:size=12'                            \
-             -F $(cat /tmp/info/wm/colors/normfg)           \
-             -B $(cat /tmp/info/wm/colors/normbg)           \
-             -R $(cat /tmp/info/wm/borders/selcol)          \
-             -r $(cat /tmp/info/wm/borders/size)            &
+             -F $(cat /tmp/info/wm/colors/normfg)            \
+             -B $(cat /tmp/info/wm/colors/normbg)            \
+             -R $(cat /tmp/info/wm/borders/selcol)           \
+             -r $(cat /tmp/info/wm/borders/size)             &

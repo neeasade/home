@@ -1,21 +1,19 @@
 #!/bin/sh
-# music
+# music music music music music music music music music music music music music
 
 sock=/tmp/mussock
 ! pgrep -x mpv > /dev/null && [ -S ${sock} ] && rm ${sock}
 cmd="socat - ${sock}"
 
 men() {
-    echo 'next\nprev\nshuff\npause' | menu sel
+    echo 'pause\nnext\nprev\nshuff\nquit' | menu sel
 }
 
 fmt_song() {
     artist=${1%/*}
-    artist=`echo ${artist##*/} | tr _ ' '`
-    song=`echo ${1##*/} | tr _ ' '`
 
-    printf '%s - %s' "${artist}" "${song}"
-    unset artist song
+    echo `echo ${artist##*/} | tr _ ' '` - `echo ${1##*/} | tr _ ' '`
+    unset artist
 }
 
 next() {
@@ -30,11 +28,9 @@ shuff() {
     echo '{"command":["playlist-shuffle"]}' | ${cmd} > /dev/null
 }
 
-cur() {
-    cur=`echo '{"command":["get_property_string","path"]}' | ${cmd} \
-              | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'`
-    fmt_song ${cur}
-    unset cur
+curfile() {
+    echo '{"command":["get_property_string","path"]}' | ${cmd} \
+              | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'
 }
 
 pause() {
@@ -62,7 +58,8 @@ pprint() {
         echo "not playing!"
         exit 0
     }
-    printf 'playing: %s (%s%%)\n' "`cur`" "`perc`"
+    cur=`curfile`
+    echo "playing: `fmt_song ${cur}` (`perc`)%"
 }
 
 ! pgrep -x mpv > /dev/null && [ ${#} -eq 0 ] &&
