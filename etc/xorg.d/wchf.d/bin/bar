@@ -1,0 +1,38 @@
+#!/bin/sh
+# bar bar bar bar bar bar bar bar bar bar
+
+pgrep lemonbar > /dev/null && killall lemonbar
+
+read -r bg < /tmp/info/wm/colors/normbg
+read -r fg < /tmp/info/wm/colors/normfg
+
+bar="lemonbar -B ${bg} -F ${fg} -r 1 -R ${fg}"
+
+ag() {
+    read -r g < /tmp/info/wm/groups/cur
+    echo "%{c}${g}"
+    unset g
+}
+
+tm() {
+    echo "%{c}`date +'%H:%M'`"
+}
+
+bt() {
+    bat -p
+}
+
+while :; do
+    ag
+    sleep 0.1
+done | ${bar} -f 'Go Mono:pixelsize=14' -g '40x30+1800+20' &
+
+while :; do
+    tm
+    sleep 50
+done | ${bar} -f 'Go Mono:pixelsize=14' -g '70x30+1800+60' &
+
+while :; do
+    echo "%{c}`bt`%"
+    sleep 1000
+done | ${bar} -f 'Go Mono:pixelsize=14' -g '80x30+1800+100' &

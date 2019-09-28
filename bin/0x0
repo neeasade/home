@@ -1,4 +1,4 @@
 #!/bin/sh
 f="${1:-`cat /dev/stdin`}"
-[ -f "${1}" ] && op=echo
-${op:-cat} "${f}" | curl -F file='@-' 'http://0x0.st'
+[ -f "${f}" ] && op=cat
+${op:-echo} "${f}" | curl -F file='@-' 'http://0x0.st'
