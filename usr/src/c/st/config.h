@@ -12,7 +12,8 @@
 //static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
 //static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font
 //static char *font = "IBM Plex Mono:size=8";
-static char *font = "Go Mono:pixelsize=14";
+//static char *font = "Go Mono:pixelsize=14";
+static char *font = "ctrld:pixelsize=16";
 
 /* include themes */
 #include "/home/viz/var/cache/tm/st.h"

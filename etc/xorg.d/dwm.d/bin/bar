@@ -85,7 +85,7 @@ while echo                                                               \
          "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')  "
     do sleep 0.5; done #2> /dev/null                                      |
 #lemonbar -db                                                             \
-#         -f 'Go Mono:pixelsize=12'                                       \
+#         -f 'ctrld:pixelsize=12'                                       \
 #         -g ${w}x${h}+${x}+${y}                                          \
 #         -n bar                                                          \
 #         -B $(< /tmp/info/wm/colors/normbg)                             \
