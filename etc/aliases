@@ -22,7 +22,7 @@ c() {
         if [[ -f "${p}" ]]; then
             case `file -ib "${p}"` {
             (*pdf*)   zathura "${p}" ;;
-            (*image*) sxiv    "${p}" ;;
+            (*image*) meh     "${p}" ;;
             (*video*) mpv     "${p}" ;;
             (*zip*)   upkp    "${p}" ;;
             (*)       cat     "${p}" ;;

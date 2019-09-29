@@ -2,7 +2,6 @@
 # music music music music music music music music music music music music music
 
 sock=/tmp/mussock
-! pgrep -x mus > /dev/null && [ -S ${sock} ] && rm ${sock}
 cmd="socat - ${sock}"
 
 men() {
@@ -62,7 +61,7 @@ pprint() {
     echo "playing: `fmt_song ${cur}` (`perc`)%"
 }
 
-! pgrep -x mus > /dev/null && [ ${#} -eq 0 ] &&
+[ ! -S ${sock} ]&& [ ${#} -eq 0 ] &&
     mpv --no-audio-display              \
         --input-ipc-server=${sock}      \
         --shuffle                       \

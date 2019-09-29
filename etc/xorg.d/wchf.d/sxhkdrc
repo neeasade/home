@@ -10,8 +10,8 @@ super + ctrl + {w,s,d,a}
 super + ctrl + shift + {w,s,d,a}
     waitron window_resize {0 -50,0 +50,+50 0,-50 0}
 
-alt + {c,f,m}
-    waitron window_{snap middle,maximize,monocle}
+alt + {c,f}
+    waitron window_{snap middle,maximize}
 
 super + {q,r,z,c}
     waitron window_snap {topleft,topright,bottomleft,bottomright}
@@ -19,8 +19,8 @@ super + {q,r,z,c}
 alt + shift + c
     waitron window_close
 
-alt + {j,k}
-    waitron window{_cycle,_rev_cycle}
+alt + {h,j,k,l}
+    waitron window_cardinal_focus {left,down,up,right}
 
 alt + shift + q
     ${HOME}/etc/xorg.d/wchf.d/wchfrc
