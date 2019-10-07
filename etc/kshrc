@@ -33,7 +33,7 @@ _rm_jnk() {
                 rm -rf "${i}"
         }
     }
-    _rm_e ${HOME}/.pki
+    _rm_e ${HOME}/.pki ${HOME}/.ssh
     unset -f _rm_e
 } > /dev/null
 
