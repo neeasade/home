@@ -4,7 +4,8 @@
 
 case ${1} in
 (list)
-    iw dev wlp2s0 scan | grep -i ssid ;;
+    iw dev wlp2s0 scan | grep -i ssid
+    ;;
 (connect)
     ;;
 esac
