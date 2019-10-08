@@ -59,7 +59,7 @@ pprint() {
         exit 0
     }
     cur=`curfile`
-    echo "playing: `fmt_song ${cur}` (`perc`)%"
+    echo "playing: `fmt_song ${cur}` (`perc`%)"
 }
 
 [ ! -S ${sock} ]&& [ ${#} -eq 0 ] &&
