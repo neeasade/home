@@ -7,14 +7,6 @@ find-font() {
         fc-list | grep -i "${1}"
 }
 
-mklatex() {
-    local file
-    for file; {
-        pdflatex "${file}"
-        rm ${file%.tex}.{aux,out,log}
-    }
-}
-
 c() {
     [[ ! "${1}" ]] && { clear; return 0; }
     local p
@@ -36,7 +28,7 @@ c() {
 }
 
 v() {
-    pgrep -x emacs > /dev/null && has emacsclient && {
+    has emacsclient && pgrep -x emacs > /dev/null && {
         emacsclient -c "${@}" & > /dev/null
         return 0
     }
