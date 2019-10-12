@@ -69,10 +69,6 @@ rmd() {
     }
 }
 
-fuck() {
-    doas `fc -l -1 | awk '{print $2}'`
-}
-
 has git && {
     git() {
         case ${1} {

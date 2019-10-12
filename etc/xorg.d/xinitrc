@@ -7,7 +7,7 @@ remkd /tmp/info /tmp/info/vol ${HOME}/var/log
 
 cat ${HOME}/etc/xorg.d/sxhkdrc-base ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc > /tmp/sxhkdrc
 
-xmodmap ${HOME}/etc/xorg.d/xmodmap &
+setxkbmap -option caps:swapescape  &
 sxhkd -r ${HOME}/var/log/sxhkd.out \
       -s ${HOME}/var/log/sxhkd.log \
       -c /tmp/sxhkdrc              &
