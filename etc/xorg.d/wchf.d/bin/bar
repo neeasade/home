@@ -25,14 +25,14 @@ bt() {
 while :; do
     ag
     sleep 0.1
-done | ${bar} -f 'ctrld:pixelsize=14' -g '40x30+1800+20' &
+done | ${bar} -f 'Go Mono:pixelsize=14' -g '40x30+1800+20' &
 
 while :; do
     tm
     sleep 50
-done | ${bar} -f 'ctrld:pixelsize=14' -g '70x30+1800+60' &
+done | ${bar} -f 'Go Mono:pixelsize=14' -g '70x30+1800+60' &
 
 while :; do
     echo "%{c}`bt`%"
     sleep 1000
-done | ${bar} -f 'ctrld:pixelsize=14' -g '80x30+1800+100' &
+done | ${bar} -f 'Go Mono:pixelsize=14' -g '80x30+1800+100' &

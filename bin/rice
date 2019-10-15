@@ -15,4 +15,4 @@ prsp
 # restart dwm
 xdotool key alt+shift+q
 pgrep -x bar && pkill -9 bar
-bar &
+# bar &

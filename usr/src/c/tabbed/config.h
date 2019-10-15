@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* font */
-static const char font[]        = "ctrld";
+static const char font[]        = "Go Mono:pixelsize=14";
 
 /* themes */
 #include "/home/viz/var/cache/tm/tabbed.h"
@@ -37,13 +37,13 @@ static Bool npisrelative  = True;
 
 #define MODKEY ControlMask
 static Key keys[] = {
-	/* modifier             key        function     argument */
-	{ MODKEY|ShiftMask,     XK_Return, focusonce,   { 0 } },
-	{ MODKEY|ShiftMask,     XK_Return, spawn,       { 0 } },
-	{ MODKEY|ShiftMask,     XK_j,      rotate,      { .i = +1 } },
-	{ MODKEY|ShiftMask,     XK_k,      rotate,      { .i = -1 } },
-	{ MODKEY|ShiftMask,     XK_h,      movetab,     { .i = -1 } },
-	{ MODKEY|ShiftMask,     XK_l,      movetab,     { .i = +1 } },
-	{ MODKEY,               XK_q,      killclient,  { 0 } },
-	{ MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
+    /* modifier             key        function     argument */
+    { MODKEY|ShiftMask,     XK_Return, focusonce,   { 0 } },
+    { MODKEY|ShiftMask,     XK_Return, spawn,       { 0 } },
+    { MODKEY|ShiftMask,     XK_j,      rotate,      { .i = +1 } },
+    { MODKEY|ShiftMask,     XK_k,      rotate,      { .i = -1 } },
+    { MODKEY|ShiftMask,     XK_h,      movetab,     { .i = -1 } },
+    { MODKEY|ShiftMask,     XK_l,      movetab,     { .i = +1 } },
+    { MODKEY,               XK_q,      killclient,  { 0 } },
+    { MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
 };
