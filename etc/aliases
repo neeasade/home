@@ -29,7 +29,7 @@ c() {
 
 v() {
     has emacsclient && pgrep -x emacs > /dev/null && {
-        emacsclient -c "${@}" & > /dev/null
+        xembed --parent-id emacsclient -c "${@}"
         return 0
     }
 
