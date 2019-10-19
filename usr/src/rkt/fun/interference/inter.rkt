@@ -5,9 +5,9 @@
 (define s1 '(99 99))
 (define s2 '(1 1))
 
-(define wl 0.00000001)
+(define wl 600e-9)
 
-(define D 0.00001)
+(define D 1e-5)
 
 (define wht '(0 0 0))
 (define blk '(255 255 255))
