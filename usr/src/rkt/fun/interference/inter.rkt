@@ -2,12 +2,12 @@
 #lang racket
 (require racket/draw racket/math)
 
-(define s1 '(99 99))
+(define s1 '(30 30))
 (define s2 '(1 1))
 
 (define wl 600e-9)
 
-(define D 1e-5)
+(define D 1e-4)
 
 (define wht '(0 0 0))
 (define blk '(255 255 255))
@@ -30,7 +30,7 @@
           (round
            (+ (* (- 1 mix) l1)
               (* mix l2)))))
-       wht blk))
+       blk wht))
 
 (define img% (make-object bitmap% 100 50))
 (define img-dc% (new bitmap-dc% [bitmap img%]))
