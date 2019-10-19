@@ -9,7 +9,7 @@ y=20
 (echo "%{c}${@}"; sleep 2) |                                 \
     lemonbar -d                                              \
              -g ${w}x${h}+${x}+${y}                          \
-             -f 'ctrld:size=12'                            \
+             -f 'Go Mono:size=12'                            \
              -F $(cat /tmp/info/wm/colors/normfg)            \
              -B $(cat /tmp/info/wm/colors/normbg)            \
              -R $(cat /tmp/info/wm/borders/selcol)           \

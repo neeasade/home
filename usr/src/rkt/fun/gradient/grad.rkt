@@ -17,13 +17,15 @@
   (foldl (λ (a str) (string-append str (number->string a 16)))
          "#" rgb))
 
+(define r1 (hex->rgb x1))
+(define r2 (hex->rgb x2))
+
 (define (color mix)
   (rgb->hex
    (map (λ (l1 l2)
           (round (+ (* (- 1 mix) l1)
                     (* mix l2))))
-        (hex->rgb x1)
-        (hex->rgb x2))))
+        r1 r2)))
 
 (for ([x (in-range n)])
   (printf "~a " (color (/ x n))))
