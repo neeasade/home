@@ -45,7 +45,8 @@
 (andmap (λ (y)
           (color-object (get-path-factor (path-difference y)))
           (for ([x (in-range 0 50)])
-            (send img-dc% set-pixel y x clr%)))
-        (range (* 2 center)))
+            (send img-dc% set-pixel y x clr%)
+            (send img-dc% set-pixel (+ center y) x clr%)))
+        (range center))
 
 (send img% save-file "img.png" 'png)
