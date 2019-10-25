@@ -16,6 +16,9 @@ alt + {c,f}
 super + {q,r,z,c}
     waitron window_snap {topleft,topright,bottomleft,bottomright}
 
+super + p
+    wmenu
+
 alt + shift + c
     waitron window_close
 

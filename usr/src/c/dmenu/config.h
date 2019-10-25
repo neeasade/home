@@ -6,7 +6,7 @@ static int fuzzy = 1;
 
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
-    "Go Mono:pixelsize=14"
+    "Go Mono:pixelsize=12"
 };
 
 /* -p  option; prompt to the left of input field */

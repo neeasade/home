@@ -12,7 +12,10 @@ rcsl
 # lets prepare the startpage
 prsp
 
-# restart dwm
+# restart wm
 xdotool key alt+shift+q
-pgrep -x bar && pkill -9 bar
-# bar &
+
+[ ${WM} = 'wchf' ] && {
+    popcfs
+    clbors
+}

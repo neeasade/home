@@ -1,5 +1,5 @@
 /* border pixel of windows */
-static const unsigned int borpx     = 1;
+static const unsigned int borpx     = 2;
 
 /* useless gaps in px */
 static const unsigned int gaps      = 5;
@@ -59,6 +59,7 @@ static const Rule rules[] = {
     { "Pale moon", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Basilisk", NULL,       NULL,       1 << 1,       0,             0,           1,            -1 },
     { "Sxiv",      NULL,       "sxiv",      0,            1,             1,           0,            -1 },
+    { "meh",      NULL,       NULL,      0,            1,             1,           0,            -1 },
     { "st",       NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "tabbed",   NULL,       "floating-st", 0,         0,             1,           1,            -1 },
     { "st",       NULL,       "todoterm", 0,            0,             1,           0,            -1 },

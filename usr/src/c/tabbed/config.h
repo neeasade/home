@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* font */
-static const char font[]        = "Go Mono:pixelsize=14";
+static const char font[]        = "Go Mono:pixelsize=12";
 
 /* themes */
 #include "/home/viz/var/cache/tm/tabbed.h"
