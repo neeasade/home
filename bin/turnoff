@@ -1,7 +1,13 @@
 #!/bin/sh
-[ -f ${HOME}/tmp/bkup.lock ] && { notify-send "bkup is running!"; exit 1; }
+
+[ -f ${HOME}/tmp/bkup.lock ] && {
+    notify-send "bkup is running!"
+    exit 1
+}
+
 opt=`echo 'poweroff\nreboot\nkill x' | menu sel`
+
 case ${opt} in
-(poweroff|reboot) doas ${opt} ;;
-("kill x") pkill -15 Xorg ;;
+(poweroff|reboot) doas ${opt}    ;;
+("kill x")        pkill -15 Xorg ;;
 esac

@@ -9,8 +9,7 @@ compile() {
     for i; do
         cd ${base_dir}/${i}
         echo "compiling ${i}"
-        make clean
-        make install
+        make clean install
         make clean
     done
 }

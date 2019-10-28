@@ -1,8 +1,8 @@
 #!/bin/sh
 
 cd ${HOME}
-export PATH=${HOME}/etc/xorg.d/bin:${HOME}/etc/xorg.d/${WM}.d/bin:${PATH}
 export WM='dwm'
+export PATH=${HOME}/etc/xorg.d/bin:${HOME}/etc/xorg.d/${WM}.d/bin:${PATH}
 remkd /tmp/info /tmp/info/vol ${HOME}/var/log
 
 [ -f /tmp/sxhkdrc ] && rm /tmp/sxhkdrc

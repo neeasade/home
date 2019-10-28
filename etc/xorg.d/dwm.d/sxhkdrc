@@ -13,5 +13,5 @@ super + ctrl + {w,s,d,a}
 super + ctrl + shift + {w,s,d,a}
     wrsz {w -40,w +40,+40 h,-40 h}
 
-alt + {c,f,u}
-    {center_win,fswin,invcurwin}
+alt + {c,f}
+    {center_win,fswin}

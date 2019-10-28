@@ -1,8 +1,5 @@
 #!/bin/sh
-# Made by The_Human
-# dash script which converts audio format of video to mp3 using ffmpeg.
-# made it to convert movies' audio codec to watch in tv
 
-read -p "enter the dir of the video: " input_file
-read -p "enter the output dir of the video: " output_file
-ffmpeg -i ${input_file} -acodec mp3 -vcodec copy ${output_file}
+read -p "video: " i
+read -p "output: " o
+ffmpeg -i ${i} -acodec mp3 -vcodec copy ${o}

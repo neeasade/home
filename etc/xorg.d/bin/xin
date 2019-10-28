@@ -1,4 +1,4 @@
 #!/bin/sh
-# take stuff from stdin and put in xclipboard
-
-xclip -selection clip /dev/stdin
+f="${1:-`cat /dev/stdin`}"
+[ -f ${f} ] && op=cat
+${op:-echo} "${f}" | xclip -selection clip

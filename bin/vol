@@ -20,18 +20,6 @@ write() {
     [[ ! -f /tmp/info/vol/muted ]] && unmute
 }
 
-inc() {
-    amixer set Master ${1}+
-}
-
-dec() {
-    amixer set Master ${1}-
-}
-
-setvol() {
-    amixer set Master ${1}
-}
-
 mute() {
     amixer set Master mute
     echo 1 > /tmp/info/vol/muted
@@ -50,12 +38,11 @@ get() {
 write
 
 case ${1} {
-(-h) usage;;
-(-i) inc ${2}; shift;;
-(-d) dec ${2}; shift;;
-(-m) mute;;
-(-u) unmute;;
-(-s) setvol ${2}; shift;;
-(-g) get;;
-(*) usage;;
+(-i) amixer set Master ${2}+  ;;
+(-d) amixer set Master ${2}-  ;;
+(-m) mute                     ;;
+(-u) unmute                   ;;
+(-s) amixer set Master ${2}   ;;
+(-g) get                      ;;
+(*)  usage                    ;;
 }

@@ -8,9 +8,12 @@ dest="${2:-./}"
 case ${archive_type} in
 (*tar*|*bzip*|*gzip*|*xz*)
     [ ! -d "${dest}" ] && mkdir -p "${dest}"
-    tar xfv "${archive_name}" -C "${dest}";;
+    tar xfv "${archive_name}" -C "${dest}"
+    ;;
 (*zip*)
-    unzip "${archive_name}" -d "${dest}";;
+    unzip "${archive_name}" -d "${dest}"
+    ;;
 (*7z*)
-    7z x -o"${dest}" "${archive_name}";;
+    7z x -o"${dest}" "${archive_name}"
+    ;;
 esac

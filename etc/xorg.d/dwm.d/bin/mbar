@@ -1,11 +1,16 @@
 #!/bin/sh
 # minimal bar
-pgrep -x bar && { pkill -9 lemonbar; exit; }
 
-. "${HOME}/var/cache/tm/colors.sh"
+pgrep -x bar && {
+    pkill -9 lemonbar
+    exit
+}
+
+. ${HOME}/var/cache/tm/colors.sh
+
 vol -i 0%
-w=$(res -w)
-h=$(res -h)
+w=`res -w`
+h=`res -h`
 
 wksp() {
     read -r num < /tmp/info/wm/tag/num
@@ -37,4 +42,4 @@ sleep 2;) |
              -F ${color7} \
              -R ${color8} \
              -r 1 \
-             -n "bar"
+             -n 'bar'

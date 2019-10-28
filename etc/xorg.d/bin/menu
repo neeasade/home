@@ -13,18 +13,12 @@ y=$((sh / 3 - l))
 
 . ${HOME}/var/cache/tm/colors.sh
 
-font="Go Mono:pixelsize=12"
-read -r selbg    < /tmp/info/wm/colors/selbg
-read -r selfg    < /tmp/info/wm/colors/selfg
-read -r normbg   < /tmp/info/wm/colors/normbg
-read -r normfg   < /tmp/info/wm/colors/normfg
 read -r borderpx < /tmp/info/wm/borders/size
 read -r borcol   < /tmp/info/wm/borders/selcol
 
 sel() {
-    dmenu -bp ${borderpx} -x ${x} -y ${y} -w ${w}           \
-          -l ${l} -fn "${font}" -nf ${normfg} -nb ${normbg} \
-          -sb ${selbg} -sf ${selfg} -i -bc ${borcol}        \
+    dmenu -bp ${borderpx} -x ${x} -y ${y} -w ${w} \
+          -l ${l} -i -bc ${borcol}                \
           -p "select:" ${@}
 }
 

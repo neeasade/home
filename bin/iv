@@ -1,6 +1,7 @@
 #!/bin/sh
 # dumb wrapper
-# TODO: make scaling efficient
+# this thing is a joke
+
 eval `tsz`
 
 imgd=`identify -format '%wx%h' "${1}"`
