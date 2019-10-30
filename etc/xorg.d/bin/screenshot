@@ -1,9 +1,9 @@
 #!/bin/sh
-# screenshot utility using maim and 0x0.st
+# screenshot utility using xscreenshot (custom) and 0x0.st
 
-tmp_image="/tmp/grab.png"
+tmp_image='/tmp/grab.png'
 
-case `echo "grab area\ngrab window\ngrab screen" | menu sel` in
+case `echo 'grab area\ngrab window\ngrab screen' | menu sel` in
 (*area*)
     xscreenshot -g `hacksaw -n`
     ;;
@@ -21,6 +21,7 @@ esac | ff2png > ${tmp_image}
 case ${1} in
 (-u)
     curl -F file=@${tmp_image} https://0x0.st | \
+        head -n 1                             | \
         tr -d '\n'                            | \
         xin
     notify-send 'scrot taken! url in clipboard'

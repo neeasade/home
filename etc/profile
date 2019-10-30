@@ -43,5 +43,4 @@ export LESSHISTFILE="${HOME}/var/cache/lesshst"
 
 export GNUPGHOME="${HOME}/etc/gnupg"
 
-# fix font rendering THANK YOU ZOE. BIG HUG
-export FREETYPE_PROPERTIES='truetype:interpreter-version=38'
+# export FREETYPE_PROPERTIES='truetype:interpreter-version=38'
