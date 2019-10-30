@@ -1,0 +1,13 @@
+diff --git a/platform/gl/gl-main.c b/platform/gl/gl-main.c
+index 670ca09..4eaa931 100644
+--- a/platform/gl/gl-main.c
++++ b/platform/gl/gl-main.c
+@@ -183,7 +183,7 @@ static char *get_history_filename(void)
+ 			home = getenv("USERPROFILE");
+ 		if (!home)
+ 			home = "/tmp";
+-		fz_snprintf(history_path, sizeof history_path, "%s/.mupdf.history", home);
++		fz_snprintf(history_path, sizeof history_path, "%s/var/cache/mupdf-history", home);
+ 		fz_cleanname(history_path);
+ 		once = 1;
+ 	}

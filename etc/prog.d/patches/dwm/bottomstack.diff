@@ -1,0 +1,87 @@
+From a650df690ff10578312da70b312b2f43e2771dc2 Mon Sep 17 00:00:00 2001
+From: sacules <leociancalucas@gmail.com>
+Date: Fri, 6 Jul 2018 17:50:31 -0300
+Subject: [PATCH] added full bottomstack gaps support
+
+---
+ dwm.c | 44 ++++++++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/dwm.c b/dwm.c
+index ecdc071..2a8a725 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -2299,25 +2299,25 @@ bstack(Monitor *m) {
+ 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+ 	if (n == 0)
+ 		return;
+-	if (n > m->nmaster) {
+-		mh = m->nmaster ? m->mfact * m->wh : 0;
+-		tw = m->ww / (n - m->nmaster);
+-		ty = m->wy + mh;
++	if (n > m->nmaster) { /* there are clients in the stack */
++		mh = m->nmaster ? m->mfact * m->wh : gappx;
++		tw = (m->ww - (n - m->nmaster + 1) * gappx) / (n - m->nmaster);
++		ty = m->wy + mh + gappx;
+ 	} else {
+ 		mh = m->wh;
+ 		tw = m->ww;
+ 		ty = m->wy;
+ 	}
+-	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+-		if (i < m->nmaster) {
+-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
+-			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
+-			mx += WIDTH(c);
+-		} else {
+-			h = m->wh - mh;
+-			resize(c, tx, ty, tw - (2 * c->bw), h - (2 * c->bw), 0);
+-			if (tw != m->ww)
+-				tx += WIDTH(c);
++	for (i = 0, mx = tx = gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
++		if (i < m->nmaster) { // Modifies master windows
++			w = (m->ww - mx) / (MIN(n, m->nmaster) - i) - gappx;
++			resize(c, m->wx + mx, m->wy + gappx, w - (2 * c->bw), mh - 2 * (c->bw + gappx), 0);
++			mx += WIDTH(c) + gappx;
++		} else { // Modifies stack windows
++			h = m->wh - mh - gappx;
++			resize(c, tx, ty - gappx, tw - (2 * c->bw), h - (2 * c->bw), 0);
++			if (tw != m->ww) // if there's more than one client in the stack!
++				tx += WIDTH(c) + gappx;
+ 		}
+ 	}
+ }
+@@ -2332,22 +2332,22 @@ bstackhoriz(Monitor *m) {
+ 	if (n == 0)
+ 		return;
+ 	if (n > m->nmaster) {
+-		mh = m->nmaster ? m->mfact * m->wh : 0;
+-		th = (m->wh - mh) / (n - m->nmaster);
++		mh = m->nmaster ? m->mfact * m->wh : gappx;
++		th = (m->wh - mh - (n - m->nmaster) * gappx) / (n - m->nmaster);
+ 		ty = m->wy + mh;
+ 	} else {
+ 		th = mh = m->wh;
+ 		ty = m->wy;
+ 	}
+-	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
++	for (i = 0, mx = tx = m->wx + gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+ 		if (i < m->nmaster) {
+-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
+-			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
+-			mx += WIDTH(c);
++			w = (m->ww - mx) / (MIN(n, m->nmaster) - i) - gappx;
++			resize(c, m->wx + mx, m->wy + gappx, w - (2 * c->bw), mh - (2 * c->bw) - 2*gappx, 0);
++			mx += WIDTH(c) + gappx;
+ 		} else {
+-			resize(c, tx, ty, m->ww - (2 * c->bw), th - (2 * c->bw), 0);
++			resize(c, tx, ty, m->ww - (2 * c->bw) - 2*gappx, th - (2 * c->bw), 0);
+ 			if (th != m->wh)
+-				ty += HEIGHT(c);
++				ty += HEIGHT(c) + gappx;
+ 		}
+ 	}
+ }
+-- 
+2.18.0
+

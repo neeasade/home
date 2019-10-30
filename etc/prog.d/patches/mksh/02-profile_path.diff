@@ -1,0 +1,13 @@
+diff --git a/main.c.orig b/main.c
+index cde0616..573b5c7 100644
+--- a/main.c.orig
++++ b/main.c
+@@ -652,7 +652,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
+ 		include(MKSH_SYSTEM_PROFILE, 0, NULL, true);
+ 	if (!Flag(FPRIVILEGED)) {
+ 		if (Flag(FLOGIN))
+-			include(substitute("$HOME/.profile", 0), 0, NULL, true);
++			include(substitute("$HOME/etc/profile", 0), 0, NULL, true);
+ 		if (Flag(FTALKING)) {
+ 			cp = substitute("${ENV:-" MKSHRC_PATH "}", DOTILDE);
+ 			if (cp[0] != '\0')
