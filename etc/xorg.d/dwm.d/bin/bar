@@ -4,7 +4,7 @@ trap 'pkill -P $$' EXIT
 init() {
     remkd /tmp/info/bar
 
-    while ! pgrep dwm > /dev/null ; do
+    while ! pgrep dwm > /dev/null; do
         sleep 0.1
     done
 
@@ -13,18 +13,15 @@ init() {
     [[ ${vis} -eq 0 ]] && exit
 
     read -r h < /tmp/info/wm/bar/height
-    read -r bor < /tmp/info/wm/borders/size
 
     [[ ${h} -eq 0 ]] && exit
 
-    sh=$(res -h)
     x=0
-    h=$((h - 2 * bor))
-    y=$((sh - h))
-    w=$((`res -w` - 2 * bor))
+    y=$((`res -h` - h))
+    w=`res -w`
 
     vol -i 0
-    unset sh vis
+    unset vis
 }
 
 wksp() {
@@ -49,24 +46,29 @@ wksp() {
 }
 
 title() {
-    typeset -l -Z -L100 winn
-    winn=`xdotool getactivewindow getwindowname`
+    if pgrep -x mus > /dev/null && mus is_playing; then
+        mus fmt_song `mus curfile`
+    else
+        typeset -l -Z -L100 winn
+        winn=`xdotool getactivewindow getwindowname`
 
-    [[ -z "${winn}" ]] && return 0
+        [[ -z "${winn}" ]] && return 0
 
-    case ${winn} {
-    (*" - ch"*) winn="chromium: ${winn/- ch*/}" ;;
-    (*" - fi"*) winn="ff: ${winn/- fi*/}"       ;;
-    (*" - pa"*) winn="pm: ${winn/- pa*/}"       ;;
-    }
+        case ${winn} {
+        (*" - ch"*) echo "chromium: ${winn/- ch*/}" ;;
+        (*" - fi"*) echo "ff: ${winn/- fi*/}"       ;;
+        (*" - pa"*) echo "pm: ${winn/- pa*/}"       ;;
+        (*)         echo "${winn}"                  ;;
+        }
 
-    echo " ${winn} "
+        unset winn
+   fi
 }
 
 
 batd() {
     echo > /tmp/info/bar/bat
-    [[ `bat -s` = "Charging" ]] && ind="^"
+    [[ `bat -s` = 'Charging' ]] && ind='^'
     while echo `bat -p`%${ind} > /tmp/info/bar/bat; do
         sleep 5
     done
@@ -75,20 +77,18 @@ batd() {
 init; batd &
 
 while echo                                                               \
-         "%{l}  $(date +'%a' | tr '[:upper:]' '[:lower:]' | cut -c1-2)"  \
-         "$(title)"                                                      \
+         "%{l} $(date +'%a' | tr '[:upper:]' '[:lower:]' | cut -c1-2)"   \
+         " $(title) "                                                    \
          "%{c}"                                                          \
          "$(wksp)"                                                       \
          "%{r}b$(< /tmp/info/bar/bat)"                                   \
          "$(< /tmp/info/vol/cur)%"                                       \
          "$(date +'%H:%M')"                                              \
-         "$(date +'%b %d' | tr '[:upper:]' '[:lower:]')  "
-    do sleep 0.5; done #2> /dev/null                                      |
-#lemonbar -db                                                             \
-#         -f 'ctrld:pixelsize=12'                                       \
-#         -g ${w}x${h}+${x}+${y}                                          \
-#         -n bar                                                          \
-#         -B $(< /tmp/info/wm/colors/normbg)                             \
-#         -R $(< /tmp/info/wm/borders/selcol)                            \
-#         -r ${bor}                                                       \
-#         -F $(< /tmp/info/wm/colors/normfg)                             > /dev/null 2>&1
+         "$(date +'%b %d' | tr '[:upper:]' '[:lower:]') "
+    do sleep 0.5; done 2> /dev/null                                      |
+lemonbar -dbS                                                            \
+         -f 'Go Mono:pixelsize=12'                                       \
+         -g ${w}x${h}+${x}+${y}                                          \
+         -n bar                                                          \
+         -B $(< /tmp/info/wm/colors/normbg)                              \
+         -F $(< /tmp/info/wm/colors/normfg)                              #> /dev/null 2>&1

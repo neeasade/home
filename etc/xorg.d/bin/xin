@@ -1,4 +1,2 @@
 #!/bin/sh
-f="${1:-`cat /dev/stdin`}"
-[ -f ${f} ] && op=cat
-${op:-echo} "${f}" | xclip -selection clip
+xclip -selection clip "${1:-/dev/stdin}"

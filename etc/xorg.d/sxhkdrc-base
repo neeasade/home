@@ -23,10 +23,10 @@ alt + shift + ctrl + f
 
 # print screen
 Print
-    screenshot -u
+    screenshot -s
 
 super + Print
-    screenshot -s
+    screenshot -u
 
 # disable mouse
 super + shift + ctrl + m

@@ -1528,7 +1528,9 @@ xbell(void)
     if (!(IS_SET(MODE_FOCUSED)))
         xseturgency(1);
     if (bellvolume)
-        XkbBell(xw.dpy, xw.win, bellvolume, (Atom)NULL);
+        XkbForceBell(xw.dpy, -100);
+        // XkbBell(xw.dpy, xw.win, -100, (Atom)AX_IndicatorOn);
+        // XkbBell(xw.dpy, xw.win, bellvolume, (Atom)NULL);
 }
 
 void

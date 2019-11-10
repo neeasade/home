@@ -32,6 +32,12 @@ curfile() {
               | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'
 }
 
+is_playing() {
+    dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
+    case ${dat} in (*true*) exit 1;; esac
+    exit 0
+}
+
 pause() {
     stat=true
     dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
@@ -68,4 +74,10 @@ pprint() {
         --shuffle                       \
         `find ${HOME}/var/music -type f`
 
-${1:-`men`}
+if [ -z ${1} ]; then
+    `men`
+else
+    f=${1}
+    shift
+    ${f} ${@}
+fi

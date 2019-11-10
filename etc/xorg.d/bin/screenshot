@@ -20,10 +20,7 @@ esac | ff2png > ${tmp_image}
 
 case ${1} in
 (-u)
-    curl -F file=@${tmp_image} https://0x0.st | \
-        head -n 1                             | \
-        tr -d '\n'                            | \
-        xin
+    0x0 ${tmp_image} | xin
     notify-send 'scrot taken! url in clipboard'
     ;;
 (*)

@@ -2264,7 +2264,7 @@ restartbar(void)
     FILE *fgappx = fopen("/tmp/info/wm/misc/gappx", "w"); fprintf(fgappx, "%d", gappx); fclose(fgappx);
     FILE *fborderpx = fopen("/tmp/info/wm/borders/size", "w"); fprintf(fborderpx, "%d", borderpx); fclose(fborderpx);
     if (!fork()) {
-        char *arg[] = { "sh", "-c", "~/etc/xorg.d/bin/rebar", NULL };
+        char *arg[] = { "sh", "-c", "~/etc/xorg.d/dwm.d/bin/rebar", NULL };
         execvp(arg[0], arg);
     }
 }

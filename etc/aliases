@@ -124,6 +124,12 @@ has emacs && {
         pgrep -x emacs > /dev/null && pkill emacs
         emacs --daemon
     }
+
+    # for use with emacs-libvterm
+    elisp() {
+        [[ ! ${INSIDE_EMACS} ]] && exit 1
+        [[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\\' "${@}"
+    }
 }
 
 has mpv && has piko && {

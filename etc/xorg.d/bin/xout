@@ -1,3 +1,2 @@
 #!/bin/sh
-
 xclip -o -selection clip

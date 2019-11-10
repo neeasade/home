@@ -23,15 +23,14 @@ static const unsigned int snap      = 0;
 static const int barheight          = 15;
 
 /* show bar or not */
-static       int showbar            = 0;
+static       int showbar            = 1;
 
 /*
  * 0 means bottom bar
  * 1 means top bar
  * 2 means left bar
- *
  */
-static const int barpos             = 1;
+static const int barpos             = 2;
 
 /* 1 means have gaps around bar and root window */
 static const int floatbar            = 0;
