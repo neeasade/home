@@ -69,6 +69,10 @@ rmd() {
     }
 }
 
+rsfile() {
+    print ${1%.*} | tr '[:upper:] .' '[:lower:]_'
+}
+
 has git && {
     git() {
         case ${1} {
