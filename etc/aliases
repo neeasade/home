@@ -3,14 +3,14 @@ alias a='alias'
 a cmd='command'
 
 find-font() {
-    [[ "${1}" ]] &&
+    [[ -n "${1}" ]] &&
         fc-list | grep -i "${1}"
 }
 
 c() {
-    [[ ! "${1}" ]] && { clear; return 0; }
+    [[ -z "${1}" ]] && { clear; return 0; }
     local p
-    for p in "${@}" "${@}*" "*${@}" "*${@}*"; {
+    for p in ${@} ${@}* *${@} *${@}*; {
         if [[ -f "${p}" ]]; then
             case `file -ib "${p}"` {
             (*pdf*)   zathura "${p}" ;;
@@ -127,7 +127,7 @@ has emacs && {
 
     # for use with emacs-libvterm
     elisp() {
-        [[ ! ${INSIDE_EMACS} ]] && exit 1
+        [[ -z ${INSIDE_EMACS} ]] && exit 1
         [[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\\' "${@}"
     }
 }

@@ -41,7 +41,7 @@ wksp() {
         buffer="${buffer}${ws}"
         i=$((i + 1))
     done
-    unset i state cur ws
+    unset state cur ws
     echo -n "${buffer}"
 }
 
@@ -55,10 +55,10 @@ title() {
         [[ -z "${winn}" ]] && return 0
 
         case ${winn} {
-        (*" - ch"*) echo "chromium: ${winn/- ch*/}" ;;
-        (*" - fi"*) echo "ff: ${winn/- fi*/}"       ;;
-        (*" - pa"*) echo "pm: ${winn/- pa*/}"       ;;
-        (*)         echo "${winn}"                  ;;
+        (*chrome*)  echo "chrome: ${winn%%- *ch*}" ;;
+        (*" - fi"*) echo "ff: ${winn%%- fi*}"      ;;
+        (*" - pa"*) echo "pm: ${winn%%- pa*}"      ;;
+        (*)         echo "${winn}"                 ;;
         }
 
         unset winn
@@ -87,7 +87,7 @@ while echo                                                               \
          "$(date +'%b %d' | tr '[:upper:]' '[:lower:]') "
     do sleep 0.5; done 2> /dev/null                                      |
 lemonbar -dbS                                                            \
-         -f 'Go Mono:pixelsize=12'                                       \
+         -f "${XFONT}"                                                   \
          -g ${w}x${h}+${x}+${y}                                          \
          -n bar                                                          \
          -B $(< /tmp/info/wm/colors/normbg)                              \

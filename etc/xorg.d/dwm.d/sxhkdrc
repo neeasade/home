@@ -15,3 +15,6 @@ super + ctrl + shift + {w,s,d,a}
 
 alt + {c,f}
     {center_win,fswin}
+
+super + button1
+    p9

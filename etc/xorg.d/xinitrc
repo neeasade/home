@@ -3,6 +3,8 @@
 cd ${HOME}
 export WM='dwm'
 export PATH=${HOME}/etc/xorg.d/bin:${HOME}/etc/xorg.d/${WM}.d/bin:${PATH}
+
+export XFONT='Share Tech Mono:pixelsize=13'
 remkd /tmp/info /tmp/info/vol ${HOME}/var/log
 
 [ -f /tmp/sxhkdrc ] && rm /tmp/sxhkdrc

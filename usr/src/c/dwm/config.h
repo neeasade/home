@@ -25,6 +25,9 @@ static const int barheight          = 15;
 /* show bar or not */
 static       int showbar            = 1;
 
+/* to warp cursor */
+static       int towarp             = 0;
+
 /*
  * 0 means bottom bar
  * 1 means top bar

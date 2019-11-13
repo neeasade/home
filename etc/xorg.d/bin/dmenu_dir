@@ -1,17 +1,17 @@
-#!/bin/ksh
+#!/bin/sh
 # ls and cd in dmenu
 # -h 1 = hide dotfiles
 
-case ${1} {
+case ${1} in
 (-h) hidden=$2 ;;
 (*)  hidden=1  ;;
-}
+esac
 
 get_dir() {
-    case ${hidden} {
-    (1) echo "..\n`ls -1 -p`"    | menu sel -p ${PWD/~/\~} ;;
-    (0) echo "..\n`ls -A -1 -p`" | menu sel -p ${PWD/~/\~} ;;
-    }
+    case ${hidden} in
+    (1) echo "..\n`ls -1 -p`"    | menu sel -p ~${PWD#${HOME}} ;;
+    (0) echo "..\n`ls -A -1 -p`" | menu sel -p ~${PWD#${HOME}} ;;
+    esac
 }
 
 cd_dir() {
@@ -20,24 +20,24 @@ cd_dir() {
 }
 
 open_file() {
-    case `file -ib ${1}` {
+    case `file -ib ${1}` in
     (*pdf*)   zathura     "${1}" ;;
     (*image*) meh         "${1}" ;;
     (*video*) mpv         "${1}" ;;
     (*text*)  emacsclient "${1}" ;;
     (*)
-        case `file "${1}"` {
-        (*archive*) st -e upkp "${1}"
-        }
-    }
+        case `file "${1}"` in
+        (*archive*) st -e upkp "${1}" ;;
+        esac
+    esac
 }
 
 spawn() {
-    local output="$(get_dir)"
+    output="$(get_dir)"
 
-    [[ -d "${output}" ]] &&
+    [ -d "${output}" ] &&
         cd_dir "${output}"
-    [[ -f "${output}" ]] &&
+    [ -f "${output}" ] &&
         open_file "${output}"
 }
 

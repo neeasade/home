@@ -1,8 +1,13 @@
-#!/bin/ksh
+#!/bin/sh
 
-style=`< ${HOME}/etc/startpage/style.css`
-_=`< ${HOME}/var/cache/tm/colors.css`
-style="${style/ICOLORS/${_}}"
-html=`< ${HOME}/etc/startpage/homepage.html`
+rf() {
+    while read -r l; do
+        echo "${l}"
+    done < ${1}
+}
 
-echo "${html/XCSS/${style}}" > "${HOME}/var/cache/homepage.html"
+style=`rf ${HOME}/etc/startpage/style.css`
+h=`rf ${HOME}/etc/startpage/homepage.html`
+
+echo "${h%%XCSS*}`rf ${HOME}/var/cache/tm/colors.css`\n${style##ICOLORS}${h##*XCSS}" \
+     > ${HOME}/var/cache/homepage.html

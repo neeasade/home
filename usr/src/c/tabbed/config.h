@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* font */
-static const char font[]        = "Go Mono:pixelsize=12";
+static const char font[]        = "Share Tech Mono:pixelsize=13";
 
 /* themes */
 #include "/home/viz/var/cache/tm/tabbed.h"
@@ -16,6 +16,7 @@ static const int  barheight     = 30;
 static const int  leftpadding   = 15;
 static const int  autohide      = 1;
 static const int  numberwin     = 0;
+static const int  todrawbar     = 1;
 
 /*
  * Where to place a new tab when it is opened. When npisrelative is True,
@@ -25,15 +26,7 @@ static const int  numberwin     = 0;
 static int  newposition   = 0;
 static Bool npisrelative  = True;
 
-#define SETPROP(p) { \
-        .v = (char *[]){ "/bin/sh", "-c", \
-                "prop=\"`xwininfo -children -id $1 | grep '^     0x' |" \
-                "sed -e's@^ *\\(0x[0-9a-f]*\\) \"\\([^\"]*\\)\".*@\\1 \\2@' |" \
-                "xargs -0 printf %b | dmenu -l 10 -w $1`\" &&" \
-                "xprop -id $1 -f $0 8s -set $0 \"$prop\"", \
-                p, winid, NULL \
-        } \
-}
+static const char *switchcmd[] = { "stab", NULL };
 
 #define MODKEY ControlMask
 static Key keys[] = {
@@ -46,4 +39,6 @@ static Key keys[] = {
     { MODKEY|ShiftMask,     XK_l,      movetab,     { .i = +1 } },
     { MODKEY,               XK_q,      killclient,  { 0 } },
     { MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
+    { MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
+    { MODKEY,               XK_grave,  spawn,       { .v = switchcmd } },
 };

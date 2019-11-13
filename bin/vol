@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/sh
 usage() {
     cat << EOF
 help
@@ -14,10 +14,10 @@ EOF
 write() {
     local vol
     vol=`amixer sget Master`
-    vol=${vol/%]*/}
-    vol=${vol/*[}
-    echo ${vol/\%/} > /tmp/info/vol/cur
-    [[ ! -f /tmp/info/vol/muted ]] && unmute
+    vol=${vol%%\]*}
+    vol=${vol##*\[}
+    echo ${vol%%%} > /tmp/info/vol/cur
+    [ ! -f /tmp/info/vol/muted ] && unmute
 }
 
 mute() {
@@ -31,13 +31,13 @@ unmute() {
 }
 
 get() {
-    [[ ! -f /tmp/info/vol/cur ]] && write
+    [ ! -f /tmp/info/vol/cur ] && write
     cat /tmp/info/vol/cur
 }
 
 write
 
-case ${1} {
+case ${1} in
 (-i) amixer set Master ${2}+  ;;
 (-d) amixer set Master ${2}-  ;;
 (-m) mute                     ;;
@@ -45,4 +45,4 @@ case ${1} {
 (-s) amixer set Master ${2}   ;;
 (-g) get                      ;;
 (*)  usage                    ;;
-}
+esac

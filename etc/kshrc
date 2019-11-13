@@ -16,14 +16,14 @@ case ${KSH_VERSION} {
     ;;
 (*PD*)
     HISTFILE="${HOME}/var/cache/ksh_history"
-    set -o csh_history
+    set -o csh-history
     ;;
 }
 HISTSIZE=100000
 
 _set_wn() {
     [[ ${TERM} != linux ]] &&
-        print -ne "\033]]0;ksh: ${PWD/~/\~}\a"
+        print "\033]]0;ksh: ~${PWD#${HOME}}\a"
 } 2> /dev/null
 
 _rm_jnk() {
@@ -33,7 +33,7 @@ _rm_jnk() {
                 rm -rf "${i}"
         }
     }
-    _rm_e ${HOME}/.pki ${HOME}/.ssh
+    _rm_e ${HOME}/.{pki,ssh}
     unset -f _rm_e
 } > /dev/null
 

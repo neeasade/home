@@ -3,13 +3,8 @@
 read -r BPX < /tmp/info/wm/borders/size
 read -r BCOL < /tmp/info/wm/borders/selcol
 
-get_id_interactive() {
-    xid=`xwininfo | grep 'Window id: '`
-    echo ${xid} | cut -d':' -f3 | cut -d' ' -f2
-}
-
 resize() {
-    id=`get_id_interactive`
+    id=`slw`
     set -- `hacksaw -n -f '%x %y %w %h'`
 
     xdotool windowsize ${id} ${3} ${4}
@@ -21,12 +16,12 @@ new() {
 }
 
 delete() {
-    id=`get_id_interactive`
+    id=`slw`
     xdotool windowclose ${id}
 }
 
 hide() {
-    id=`get_id_interactive`
+    id=`slw`
     xdotool windowunmap ${id}
     [ ${?} -eq 0 ] && echo ${id} >> /tmp/info/wm/misc/hidden
 }
