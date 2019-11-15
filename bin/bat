@@ -13,7 +13,7 @@
     echo ${base_dir} > ${HOME}/var/cache/bat
 }
 
-read -r base_dir < ${HOME}/var/cache/bat
+[ -z ${base_dir} ] && read -r base_dir < ${HOME}/var/cache/bat
 
 case ${1} in
 (-s) cat ${base_dir}/status   ;;

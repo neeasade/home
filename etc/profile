@@ -1,10 +1,9 @@
 #!/bin/sh
-export TERMINAL='tabbed -r 2 st -w ""'
 export MANPAGER=less
 
 for p in \
     ${HOME}/opt/texlive/bin/x86_64-linux \
-    ${HOME}/{usr/local/,opt/{cargo/,racket/7.3/},}bin; do
+    ${HOME}/{usr/local/,opt/{cargo/,racket/7.4/},}bin; do
         PATH="${p}:${PATH}"
 done
 
@@ -43,4 +42,4 @@ export LESSHISTFILE="${HOME}/var/cache/lesshst"
 
 export GNUPGHOME="${HOME}/etc/gnupg"
 
-# export FREETYPE_PROPERTIES='truetype:interpreter-version=38'
+export FREETYPE_PROPERTIES='truetype:interpreter-version=38'
