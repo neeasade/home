@@ -68,8 +68,8 @@ title() {
 
 batd() {
     echo > /tmp/info/bar/bat
-    [[ `bat -s` = 'Charging' ]] && ind='^'
-    while echo `bat -p`%${ind} > /tmp/info/bar/bat; do
+    while echo `bat -p`%`test $(bat -s) = 'Charging' && echo '^'` \
+               > /tmp/info/bar/bat; do
         sleep 5
     done
 }
