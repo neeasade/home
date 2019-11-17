@@ -1,2 +1,2 @@
 #!/bin/sh
-xclip -selection clip "${1:-/dev/stdin}"
+xclip -sel clip "${1:-/dev/stdin}"
