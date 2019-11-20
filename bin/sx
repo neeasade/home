@@ -1,6 +1,6 @@
 #!/bin/sh
 # startx using xinit
 
-export WM=${1:-wchf}
+export WM=${1:-dwm}
 export XAUTHORITY="${XDG_CACHE_HOME}/Xauthority"
 xinit "${HOME}/etc/xorg.d/xinitrc" -- /usr/bin/X :1

@@ -69,7 +69,7 @@ pprint() {
 }
 
 [ ! -S ${sock} ]&& [ ${#} -eq 0 ] &&
-    mpv --no-audio-display              \
+mpv     --no-audio-display              \
         --input-ipc-server=${sock}      \
         --shuffle                       \
         `find ${HOME}/var/music -type f`

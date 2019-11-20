@@ -1,0 +1,10 @@
+#!/bin/sh
+# select window in tabbed
+
+f=`xdotool getactivewindow`
+
+wid=`for i in $(lss ${f}); do
+         echo "${i} $(xdotool getwindowname ${i})"
+     done | menu sel -wi ${f}`
+
+sprop ${f} _TABBED_SELECT_TAB "${wid}" STRING

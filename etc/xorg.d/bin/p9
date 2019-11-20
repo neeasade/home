@@ -1,6 +1,6 @@
 #!/bin/sh
 
-read -r BPX < /tmp/info/wm/borders/size
+read -r BPX  < /tmp/info/wm/borders/size
 read -r BCOL < /tmp/info/wm/borders/selcol
 
 resize() {
@@ -28,7 +28,7 @@ hide() {
 
 spawn() {
     eval `xdotool getmouselocation --shell`
-    9menu -bg $(cat /tmp/info/wm/colors/normbg) -fg $(cat /tmp/info/wm/colors/normfg) \
+    9menu -bg $(cat /tmp/info/wm/colors/normbg) -fg $(cat /tmp/info/wm/colors/normfg)   \
           -geometry 100x100+${X}+${Y} -popup                                            \
           'New:echo new' 'Resize:echo resize' 'Delete: echo delete' 'Hide: echo hide'
 }
