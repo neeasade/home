@@ -3,7 +3,7 @@ export MANPAGER=less
 
 for p in \
     ${HOME}/opt/texlive/bin/x86_64-linux \
-    ${HOME}/{usr/local/,opt/{cargo/,racket/7.4/},}bin; do
+    ${HOME}/{usr/local/,opt/{cargo/,racket/7.5/},}bin; do
         PATH="${p}:${PATH}"
 done
 
