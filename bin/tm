@@ -1,0 +1,24 @@
+#!/bin/ksh
+
+usage() {
+    print usage: ${0##*/} /path/to/colors
+    exit 1
+}
+
+[[ ! ${1} ]] && usage
+
+nthline() {
+    head -n $((${1} + 1)) ${2} | tail -n 1
+}
+
+remkd ${XDG_CACHE_HOME}/tm
+
+cp -r ${XDG_CONFIG_HOME}/tm/* ${XDG_CACHE_HOME}/tm
+
+for i in ${XDG_CACHE_HOME}/tm/*; {
+    contents=`< ${i}`
+    for n in `seq 15 -1 0`; {
+        contents=${contents//X${n}/`nthline ${n} ${1}`}
+    }
+    print "${contents}" > ${i}
+}

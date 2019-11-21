@@ -4,7 +4,7 @@ tmp_image='/tmp/grab.png'
 
 case `echo 'grab area\ngrab window\ngrab screen' | menu sel` in
 (*area)   xscreenshot -g `hacksaw -n`              ;;
-(*win)    xscreenshot -w `xdotool getactivewindow` ;;
+(*win*)   xscreenshot -w `xdotool getactivewindow` ;;
 (*screen) xscreenshot                              ;;
 (*)       exit                                     ;;
 esac | ff2png > ${tmp_image}
