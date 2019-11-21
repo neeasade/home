@@ -3,7 +3,7 @@
 tmp_image='/tmp/grab.png'
 
 case `echo 'grab area\ngrab window\ngrab screen' | menu sel` in
-(*area)   xscreenshot -g `hacksaw -n`              ;;
+(*area)   xscreenshot -g `xrectsel`                ;;
 (*win*)   xscreenshot -w `xdotool getactivewindow` ;;
 (*screen) xscreenshot                              ;;
 (*)       exit                                     ;;
