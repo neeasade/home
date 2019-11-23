@@ -1,11 +1,6 @@
 #!/bin/ksh
 
-usage() {
-    print usage: ${0##*/} /path/to/colors
-    exit 1
-}
-
-[[ ! ${1} ]] && usage
+[[ ${1} || -f ${1} ]] || exit 1
 
 nthline() {
     head -n $((${1} + 1)) ${2} | tail -n 1

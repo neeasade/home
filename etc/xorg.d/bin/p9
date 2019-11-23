@@ -5,14 +5,14 @@ read -r BCOL < /tmp/info/wm/borders/selcol
 
 resize() {
     id=`slw`
-    set -- `xrectsel '%x %y %w %h'`
+    set -- `crud`
 
     xdotool windowsize ${id} ${3} ${4}
     xdotool windowmove ${id} ${1} ${2}
 }
 
 new() {
-    tabbed -n floating-st -g `xrectsel` -r 2 st -w '' -t floating-st
+    tabbed -n floating-st -g `crud g` -r 2 st -w '' -t floating-st
 }
 
 delete() {

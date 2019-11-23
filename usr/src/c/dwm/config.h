@@ -23,10 +23,10 @@ static const unsigned int snap      = 0;
 static const int barheight          = 15;
 
 /* show bar or not */
-static       int showbar            = 1;
+static       int showbar            = 0;
 
 /* to warp cursor */
-static       int towarp             = 0;
+static       int towarp             = 1;
 
 /*
  * 0 means bottom bar
