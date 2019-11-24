@@ -10,9 +10,11 @@ remkd ${XDG_CACHE_HOME}/tm
 
 cp -r ${XDG_CONFIG_HOME}/tm/* ${XDG_CACHE_HOME}/tm
 
+ns=`seq 15 -1 0`
+
 for i in ${XDG_CACHE_HOME}/tm/*; {
     contents=`< ${i}`
-    for n in `seq 15 -1 0`; {
+    for n in ${ns}; {
         contents=${contents//X${n}/`nthline ${n} ${1}`}
     }
     print "${contents}" > ${i}
