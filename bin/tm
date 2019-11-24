@@ -2,20 +2,18 @@
 
 [[ ${1} || -f ${1} ]] || exit 1
 
-nthline() {
-    head -n $((${1} + 1)) ${2} | tail -n 1
-}
+colors=(`< ${1}`)
 
 remkd ${XDG_CACHE_HOME}/tm
 
 cp -r ${XDG_CONFIG_HOME}/tm/* ${XDG_CACHE_HOME}/tm
 
-ns=`seq 15 -1 0`
+ns='15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0'
 
 for i in ${XDG_CACHE_HOME}/tm/*; {
     contents=`< ${i}`
     for n in ${ns}; {
-        contents=${contents//X${n}/`nthline ${n} ${1}`}
+        contents=${contents//X${n}/${colors[${n}]}}
     }
     print "${contents}" > ${i}
 }
