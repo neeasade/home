@@ -2,6 +2,8 @@
 
 read -r BPX  < /tmp/info/wm/borders/size
 read -r BCOL < /tmp/info/wm/borders/selcol
+read -r FG   < /tmp/info/wm/colors/normfg
+read -r BG   < /tmp/info/wm/colors/normbg
 
 resize() {
     id=`slw`
@@ -36,12 +38,10 @@ unhide() {
     sed -i "/${id}/d" /tmp/info/wm/misc/hidden
 }
 
-spawn() {
-    eval `xdotool getmouselocation --shell`
-    9menu -bg `cat /tmp/info/wm/colors/normbg` -fg `cat /tmp/info/wm/colors/normfg`    \
-          -geometry 200x200+${X}+${Y} -popup                                           \
-          'New:echo new' 'Resize:echo resize' 'Delete: echo delete' 'Hide: echo hide'  \
-          'Unhide: echo unhide' 'Exit: echo exit'
-}
+focus() { wmenu; }
 
-`spawn`
+$(xmenu -f "0x${FG#\#}"               \
+      -b "0x${BG#\#}"                 \
+      -F "${XFONT}"                   \
+      'new' 'resize' 'delete' 'hide'  \
+      'unhide' 'focus' 'exit')
