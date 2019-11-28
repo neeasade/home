@@ -35,6 +35,9 @@ open_file() {
 spawn() {
     output="$(get_dir)"
 
+    [ ${output} = '!ot' ] &&
+        exec tab -w st
+
     [ -d "${output}" ] &&
         cd_dir "${output}"
     [ -f "${output}" ] &&

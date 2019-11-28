@@ -1,0 +1,47 @@
+#!/bin/sh
+
+read -r BPX  < /tmp/info/wm/borders/size
+read -r BCOL < /tmp/info/wm/borders/selcol
+
+resize() {
+    id=`slw`
+    set -- `crud`
+
+    xdotool windowsize ${id} ${3} ${4}
+    xdotool windowmove ${id} ${1} ${2}
+}
+
+new() {
+    draw_st
+}
+
+delete() {
+    id=`slw`
+    xdotool windowclose ${id}
+}
+
+hide() {
+    id=`slw`
+    xdotool windowunmap ${id}
+    [ ! -d /tmp/info/wm/misc ] && mkdir -p /tmp/info/wm/misc
+    [ ${?} -eq 0 ] && echo ${id} >> /tmp/info/wm/misc/hidden
+}
+
+unhide() {
+    id=$(while read -r i; do
+             echo "${i} xdotool getwindowname ${i}"
+         done < /tmp/info/wm/misc/hidden | menu sel)
+    id=${id%% *}
+    xdotool windowmap ${id}
+    sed -i "/${id}/d" /tmp/info/wm/misc/hidden
+}
+
+spawn() {
+    eval `xdotool getmouselocation --shell`
+    9menu -bg `cat /tmp/info/wm/colors/normbg` -fg `cat /tmp/info/wm/colors/normfg`    \
+          -geometry 200x200+${X}+${Y} -popup                                           \
+          'New:echo new' 'Resize:echo resize' 'Delete: echo delete' 'Hide: echo hide'  \
+          'Unhide: echo unhide' 'Exit: echo exit'
+}
+
+`spawn`

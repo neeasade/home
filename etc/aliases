@@ -115,6 +115,10 @@ has git && {
         (push)
             cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
             ;;
+        (tracked)
+            cmd git ls-tree -r --name-only \
+                `cmd git rev-parse --abbrev-ref HEAD`
+            ;;
         (*)
             cmd git "${@}"
             ;;

@@ -48,3 +48,6 @@ alt + shift + {h,l}
 
 alt + shift + {k,j}
     waitron window_put_in_grid 1 2 0 {0,1} 1 1
+
+alt + button1
+    pmenu
