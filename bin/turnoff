@@ -1,7 +1,7 @@
 #!/bin/sh
 
-[ -f ${HOME}/tmp/bkup.lock ] && {
-    notify-send "bkup is running!"
+[ -f ${HOME}/tmp/bkup.lock ] || pgrep transmission > /dev/null && {
+    notify-send "bkup/transmission is running!"
     exit 1
 }
 
