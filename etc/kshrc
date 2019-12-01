@@ -29,5 +29,3 @@ export PS1='$(_draw_PS1)'
 export PS2='... '
 export LINES="${LINES}"
 export COLUMNS="${COLUMNS}"
-
-. ${HOME}/etc/aliases
