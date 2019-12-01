@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 find-font() {
     [[ -n "${1}" ]] &&
         fc-list | grep -i "${1}"

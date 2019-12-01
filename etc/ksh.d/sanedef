@@ -1,18 +1,28 @@
-a df='df -h'
-a du='du -h'
-a mv='mv -iv'
-a rm='rm -v'
-a cp='cp -rv'
-a ln='ln -sf'
+#!/bin/ksh
+
+while read -r al; do
+    a ${al%% *}="${al}"
+done <<EOF
+df -h
+du -h
+mv -iv
+rm -v
+cp -rv
+ln -sf
+free -h
+wget --no-hsts
+fc-cache --verbose
+grep -i
+su -
+EOF
+
 a mkf='touch'
 a mkd='mkdir -pv'
-a free='free -h'
-a rmf='rm -rf'
-a fc-cache='fc-cache --verbose'
-a grep='grep -i'
-a su='su -'
 a {sl,ls}=' ls -AF'
+a rmf='rm -rf'
+
 a reboot='doas reboot'
 a poweroff='doas poweroff'
 a shutdown='doas shutdown'
+
 a datenow='date +"%a %d %b %Y %H:%M"'

@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 while read -r al; do
     set -- ${al}
     a g${1}=${2}
