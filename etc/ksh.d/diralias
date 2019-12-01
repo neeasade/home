@@ -2,7 +2,7 @@
 
 while read -r al; do
     set -- ${al}
-    a g${1}=${2}
+    a g${1}="cd ${2}"
     a -d ${1}=${2}
 done << EOF
 H ${HOME}
@@ -17,4 +17,5 @@ d ${HOME}/var/downloads
 C ${HOME}/var/cache
 P ${HOME}/usr/ports
 M ${HOME}/var/music
+m /mnt
 EOF
