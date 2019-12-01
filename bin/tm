@@ -15,5 +15,6 @@ for i in ${XDG_CACHE_HOME}/tm/*; {
     for n in ${ns}; {
         contents=${contents//X${n}/${colors[${n}]}}
     }
+    contents=${contents//XFONT/"${XFONT}"}
     print "${contents}" > ${i}
 }

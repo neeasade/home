@@ -1,0 +1,61 @@
+find-font() {
+    [[ -n "${1}" ]] &&
+        fc-list | grep -i "${1}"
+}
+
+c() {
+    [[ -z "${1}" ]] && { clear; return 0; }
+    local p
+    for p in ${@} ${@}* *${@} *${@}*; {
+        if [[ -f "${p}" ]]; then
+            case `file -ib "${p}"` {
+            (*pdf*)   zathura "${p}" ;;
+            (*image*) meh     "${p}" ;;
+            (*video*) mpv     "${p}" ;;
+            (*zip*)   upkp    "${p}" ;;
+            (*)       cat     "${p}" ;;
+            }
+            return 0
+        elif [[ -d "${p}" ]]; then
+            cd "${p}"; return 0
+        fi
+    }
+    print 'error: no such file or dir' ${1}
+}
+
+resource() {
+    . ${HOME}/etc/{aliases,kshrc}
+}
+
+resxhkd() {
+    pgrep -x sxhkd > /dev/null && pkill -9 sxhkd
+    cat ${HOME}/etc/xorg.d/sxhkdrc-base ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc > /tmp/sxhkdrc
+    sxhkd -c /tmp/sxhkdrc &
+}
+
+conf() {
+    [[ ! -d "${HOME}/usr/repos/home" ]] && return 1
+    g() { git --git-dir="${HOME}/usr/repos/home" --work-tree="${HOME}" "${@}"; }
+
+    case ${1} {
+    (commit) shift; g commit --interactive -m "${@}" ;;
+    (push) g push origin master ;;
+    (list) g ls-tree -r HEAD --name-only | less ;;
+    (update-patches) g add "${HOME}/etc/prog.d/patches/"* ;;
+    (*) g "${@}" ;;
+    }
+
+    unset -f g
+}
+
+rmd() {
+    for i; {
+        [[ -d "${i}" ]] &&
+            rm -r "${i}" ||
+                printf 'error: %s not a directory\n' ${i##*/}
+    }
+}
+
+rsfile() {
+    print ${1%.*} | tr '[:upper:] .' '[:lower:]_'
+}

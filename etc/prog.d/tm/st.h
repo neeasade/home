@@ -1,3 +1,5 @@
+static char *font = "XFONT";
+
 const char *colorname[] = {
 	/* 8 normal colors */
 	[0] = "#X0", /* black   */

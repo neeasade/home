@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* font */
-static const char font[]        = "Share Tech Mono:pixelsize=13";
+// static const char font[]        = "Share Tech Mono:pixelsize=13";
 
 /* themes */
 #include "/home/viz/var/cache/tm/tabbed.h"

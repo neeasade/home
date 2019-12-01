@@ -1,3 +1,4 @@
+static const char font[] = "XFONT";
 static const char* normbgcolor  = "#X8";
 static const char* normfgcolor  = "#X15";
 static const char* selbgcolor   = "#X0";

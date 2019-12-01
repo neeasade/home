@@ -1,0 +1,18 @@
+while read -r al; do
+    set -- ${al}
+    a g${1}=${2}
+    a -d ${1}=${2}
+done << EOF
+H ${HOME}
+B ${HOME}/bin
+S ${HOME}/usr/src
+R ${HOME}/usr/repos
+T ${HOME}/tmp
+W ${HOME}/var/pictures/wallpapers
+E ${HOME}/etc
+D ${HOME}/usr/doc
+d ${HOME}/var/downloads
+C ${HOME}/var/cache
+P ${HOME}/usr/ports
+M ${HOME}/var/music
+EOF

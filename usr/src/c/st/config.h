@@ -7,7 +7,7 @@
 //static char *font = "PragmataPro:size=11";
 //static char *font = "dina:size=6";
 //static char *font = "Share Tech Mono:size=9";
-static char *font = "Share Tech Mono:pixelsize=13";
+//static char *font = "Share Tech Mono:pixelsize=13";
 //static char *font = "montecarlo:size=9:style=Regular";
 //static char *font = "RobotoMono Nerd Font:size=8:style=Regular,Medium";
 //static char *font = "ProFontWindows:size=6:style=Regular"; //minecraft font
@@ -19,7 +19,7 @@ static char *font = "Share Tech Mono:pixelsize=13";
 #include "/home/viz/var/cache/tm/st.h"
 
 /* inner padding */
-static int borderpx = 8;
+static int borderpx = 2;
 
 /*
  * What program is execed by st depends of these precedence rules:

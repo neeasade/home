@@ -21,32 +21,8 @@ case ${KSH_VERSION} {
 }
 HISTSIZE=100000
 
-_set_wn() {
-    [[ ${TERM} != linux ]] &&
-        print "\033]]0;ksh: ~${PWD#${HOME}}\a"
-} 2> /dev/null
-
-_rm_jnk() {
-    _rm_e() {
-        for i; {
-            [[ -d "${i}" || -f "${i}" ]] &&
-                rm -rf "${i}"
-        }
-    }
-    _rm_e ${HOME}/.{pki,ssh}
-    unset -f _rm_e
-} > /dev/null
-
-_PS1_command() {
-    _set_wn; _rm_jnk
-}
-
-_draw_PS1() {
-    case ${USER} {
-    (root) print -n '# '               ;;
-    (viz)  print -n '$ '; _PS1_command ;;
-    (*)    print -n '% '               ;;
-    }
+for i in prompt aliases sanedef diralias fun wrappers; {
+    . ${HOME}/etc/ksh.d/${i}
 }
 
 export PS1='$(_draw_PS1)'

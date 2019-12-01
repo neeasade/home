@@ -23,21 +23,15 @@ sel() {
 }
 
 run() {
-    surf() { tabbed -c surf -e; }
-    draw() { draw_st; }
-    st() { tabbed -c -r 2 st -w '' "${@}"; }
-    todo() { st -e todo -i; }
-    `echo "chrome
+    echo "chrome
 st
-draw
 dosbox
 screenshot
 turnoff
 record
-todo
 dmenu_dir
 view_image
-subs" | sel -p "run:"`
+subs" | sel -p "run:"
 }
 
 case ${1} in

@@ -1,5 +1,5 @@
 alt + p
-    menu run
+    `menu run`
 
 # application launching
 super + shift + Return

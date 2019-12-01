@@ -1,0 +1,27 @@
+_set_wn() {
+    [[ ${TERM} != linux ]] &&
+        print "\033]]0;ksh: ~${PWD#${HOME}}\a"
+} 2> /dev/null
+
+_rm_jnk() {
+    _rm_e() {
+        for i; {
+            [[ -d "${i}" || -f "${i}" ]] &&
+                rm -rf "${i}"
+        }
+    }
+    _rm_e ${HOME}/.{pki,ssh}
+    unset -f _rm_e
+} > /dev/null
+
+_PS1_command() {
+    _set_wn; _rm_jnk
+}
+
+_draw_PS1() {
+    case ${USER} {
+    (root) print -n '# '               ;;
+    (viz)  print -n '$ '; _PS1_command ;;
+    (*)    print -n '% '               ;;
+    }
+}
