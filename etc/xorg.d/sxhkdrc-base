@@ -42,3 +42,6 @@ super + shift + {l,h}
 
 super + shift + {b,t,v,p}
     notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%,`mus pprint`}
+
+super + ctrl + b
+    notify-prog `bat` 25 ""

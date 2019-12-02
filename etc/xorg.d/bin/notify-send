@@ -3,12 +3,13 @@
 
 ww=`res -w`
 wh=`res -h`
-w=$((${#@} * 13))
+c=${@:-`cat -`}
+w=$((${#c} * 13))
 h=50
 x=$((ww - w - 20))
 y=20
 
-(echo "%{c}${@}"; sleep 2) |                                 \
+(echo "%{c}${c}"; sleep 2) |                                 \
     lemonbar -d                                              \
              -g ${w}x${h}+${x}+${y}                          \
              -f "${XFONT}"                                   \
