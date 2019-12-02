@@ -25,6 +25,11 @@ c() {
     print 'error: no such file or dir' ${1}
 }
 
+l() {
+    [[ -d "${1}" || -z "${1}" ]] && ls "${1:-.}"
+    [[ -f "${1}" ]] && less "${1}"
+}
+
 resource() {
     . ${HOME}/etc/kshrc
 }
