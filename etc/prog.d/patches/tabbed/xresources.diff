@@ -102,7 +102,7 @@ index ff3ada0..6df37a8 100644
 +	XrmValue ret;
 +
 +	snprintf(fullname, sizeof(fullname), "%s.%s",
-+	         wmname ? wmname : "tabbed", name);
++	         "tabbed", name);
 +	snprintf(fullclass, sizeof(fullclass), "%s.%s",
 +	         "Tabbed", name);
 +	fullname[sizeof(fullname) - 1] = fullclass[sizeof(fullclass) - 1] = '\0';
