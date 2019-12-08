@@ -21,7 +21,7 @@ _PS1_command() {
 }
 
 _draw_PS1() {
-    case ${USER} {
+    case `whoami` {
     (root) print -n '# '               ;;
     (viz)  print -n '$ '; _PS1_command ;;
     (*)    print -n '% '               ;;
