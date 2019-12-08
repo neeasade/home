@@ -101,10 +101,11 @@ index ff3ada0..6df37a8 100644
 +	char *type;
 +	XrmValue ret;
 +
-+	snprintf(fullname, sizeof(fullname), "%s.%s",
-+	         "tabbed", name);
 +	snprintf(fullclass, sizeof(fullclass), "%s.%s",
-+	         "Tabbed", name);
++	         "tabbed", name);
++	snprintf(fullname, sizeof(fullname), "%s.%s",
++	         wmname ? wmname : "tabbed", name);
++
 +	fullname[sizeof(fullname) - 1] = fullclass[sizeof(fullclass) - 1] = '\0';
 +
 +	XrmGetResource(db, fullname, fullclass, &type, &ret);

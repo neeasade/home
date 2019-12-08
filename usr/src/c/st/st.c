@@ -19,7 +19,6 @@
 
 #include "st.h"
 #include "win.h"
-#include "util.h"
 
 #if   defined(__linux)
  #include <pty.h>
@@ -56,7 +55,6 @@ enum term_mode {
     MODE_ECHO        = 1 << 4,
     MODE_PRINT       = 1 << 5,
     MODE_UTF8        = 1 << 6,
-    MODE_SIXEL       = 1 << 7,
 };
 
 enum cursor_movement {
@@ -2313,7 +2311,7 @@ tputc(Rune u)
     Glyph *gp;
 
     control = ISCONTROL(u);
-    if (!IS_SET(MODE_UTF8) && !IS_SET(MODE_SIXEL)) {
+    if (!IS_SET(MODE_UTF8)) {
         c[0] = u;
         width = len = 1;
     } else {
@@ -2457,7 +2455,7 @@ twrite(const char *buf, int buflen, int show_ctrl)
     int n;
 
     for (n = 0; n < buflen; n += charsize) {
-        if (IS_SET(MODE_UTF8) && !IS_SET(MODE_SIXEL)) {
+        if (IS_SET(MODE_UTF8)) {
             /* process a complete utf8 char */
             charsize = utf8decode(buf + n, &u, buflen - n);
             if (charsize == 0)
