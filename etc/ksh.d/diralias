@@ -16,6 +16,7 @@ D ${HOME}/usr/doc
 d ${HOME}/var/downloads
 C ${HOME}/var/cache
 P ${HOME}/usr/ports
+p /usr/ports
 M ${HOME}/var/music
 m /mnt
 EOF

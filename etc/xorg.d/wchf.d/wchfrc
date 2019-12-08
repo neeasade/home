@@ -5,4 +5,3 @@ waitron wm_config border_width 3
 waitron wm_config sticky_windows true
 waitron wm_config enable_sloppy_focus true
 waitron wm_config enable_last_window_focusing true
-waitron wm_config wm_change_number_of_groups 5
