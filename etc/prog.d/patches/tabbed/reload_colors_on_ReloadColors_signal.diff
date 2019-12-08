@@ -1,0 +1,74 @@
+diff --git a/tabbed.c b/tabbed.c
+index 6df37a8..d68dc46 100644
+--- a/tabbed.c
++++ b/tabbed.c
+@@ -145,6 +145,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
+ static void xsettitle(Window w, const char *str);
+ static int xresload(XrmDatabase db, char *name, enum restype rtype, void *dst);
+ static void confinit(void);
++static void xloadcols(void);
+ 
+ /* variables */
+ static int screen;
+@@ -252,6 +253,11 @@ clientmessage(const XEvent *e)
+ 			return;
+ 		}
+ 		running = False;
++	} else if (strcmp(XGetAtomName(dpy, e->xclient.message_type), "ReloadColors") == 0) {
++		confinit();
++		xloadcols();
++		drawbar();
++		XSetWindowBackground(dpy, win, dc.norm[ColBG].pixel);
+ 	}
+ }
+ 
+@@ -1031,12 +1037,7 @@ setup(void)
+ 			wy = dh + wy - wh - 1;
+ 	}
+ 
+-	dc.norm[ColBG] = getcolor(normbgcolor);
+-	dc.norm[ColFG] = getcolor(normfgcolor);
+-	dc.sel[ColBG] = getcolor(selbgcolor);
+-	dc.sel[ColFG] = getcolor(selfgcolor);
+-	dc.urg[ColBG] = getcolor(urgbgcolor);
+-	dc.urg[ColFG] = getcolor(urgfgcolor);
++	xloadcols();
+ 	dc.drawable = XCreatePixmap(dpy, root, ww, wh,
+ 	                            DefaultDepth(dpy, screen));
+ 	dc.gc = XCreateGC(dpy, root, 0, 0);
+@@ -1091,7 +1092,7 @@ void
+ spawn(const Arg *arg)
+ {
+ 	if (fork() == 0) {
+-		if(dpy)
++		if (dpy)
+ 			close(ConnectionNumber(dpy));
+ 
+ 		setsid();
+@@ -1304,7 +1305,7 @@ confinit(void)
+ 	ResourcePref *p;
+ 
+ 	XrmInitialize();
+-	resm = XResourceManagerString(dpy);
++	resm = XResourceManagerString(XOpenDisplay(NULL)); /* RESOURCE_MANAGER property isn't updated */
+ 	if (!resm)
+ 		return;
+ 
+@@ -1313,6 +1314,17 @@ confinit(void)
+ 		xresload(db, p->name, p->type, p->dst);
+ }
+ 
++void
++xloadcols(void)
++{
++	dc.norm[ColBG] = getcolor(normbgcolor);
++	dc.norm[ColFG] = getcolor(normfgcolor);
++	dc.sel[ColBG] = getcolor(selbgcolor);
++	dc.sel[ColFG] = getcolor(selfgcolor);
++	dc.urg[ColBG] = getcolor(urgbgcolor);
++	dc.urg[ColFG] = getcolor(urgfgcolor);
++}
++
+ void
+ usage(void)
+ {
