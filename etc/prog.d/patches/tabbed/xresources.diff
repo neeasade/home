@@ -1,3 +1,4 @@
+load stuff from xresources. basically a clone of st's xresources patch
 diff --git a/config.def.h b/config.def.h
 index defa426..62dafd7 100644
 --- a/config.def.h

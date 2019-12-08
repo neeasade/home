@@ -1,3 +1,4 @@
+NOTE: should be applied after the xresources patch
 diff --git a/tabbed.c b/tabbed.c
 index 6df37a8..d68dc46 100644
 --- a/tabbed.c
