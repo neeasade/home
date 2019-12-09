@@ -14,12 +14,14 @@ wget --no-hsts
 fc-cache --verbose
 grep -i
 su -
+ls -AF
 EOF
 
 a mkf='touch'
 a mkd='mkdir -pv'
-a {sl,ls}=' ls -AF'
+a sl='ls'
 a rmf='rm -rf'
+a SU='doas ksh'
 
 a reboot='doas reboot'
 a poweroff='doas poweroff'
