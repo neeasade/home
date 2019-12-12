@@ -1,0 +1,11 @@
+#!/bin/sh
+# draw selected app on screen
+
+app=`menu run`
+
+set -- `crud`
+
+${app} &
+~/tmp/a.out ${!}
+echo $?
+#xdotool windowmove ${id} ${3} ${4} windowsize ${1} ${2}
