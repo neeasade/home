@@ -1,26 +1,15 @@
 #!/bin/sh
 # get screen resolution
 
-has pfd && {
-    case ${1} in
-    (-w)       dattr w  $(pfd)  ;;
-    (-h)       dattr h  $(pfd)  ;;
-    (*)  echo `dattr wh $(pfd)` ;;
-    esac
-    exit 0
-}
+res=`xrandr --nograb --current | grep primary | cut -d ' ' -f4)`
+sw=${res%x*}
+sh=${res#*x}
+sw=${sw%.*}
+sh=${sh%.*}
+sh=${sh%+*+*}
 
-has xrandr && {
-    res="$(xrandr --nograb --current | grep primary | cut -d ' ' -f4)"
-    sw=${res%x*}
-    sh=${res#*x}
-    sw=${sw%.*}
-    sh=${sh%.*}
-    sh=${sh%+*+*}
-
-    case ${1} in
-        (-w) echo ${sw}       ;;
-        (-h) echo ${sh}       ;;
-        (*)  echo ${sw} ${sh} ;;
-    esac
-}
+case ${1} in
+    (-w) echo ${sw}       ;;
+    (-h) echo ${sh}       ;;
+    (*)  echo ${sw} ${sh} ;;
+esac
