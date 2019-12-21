@@ -8,7 +8,7 @@ find-font() {
 c() {
     [[ -z "${1}" ]] && { clear; return 0; }
     local p
-    for p in ${@} ${@}* *${@} *${@}*; {
+    for p in "${@}" ${@}* *${@} *${@}*; {
         if [[ -f "${p}" ]]; then
             case `file -ib "${p}"` {
             (*pdf*)   zathura "${p}" ;;
@@ -27,8 +27,8 @@ c() {
 }
 
 l() {
-    [[ -d "${1}" ||  -z "${1}"   ]] && ls "${1:-.}"
-    [[ -f "${1}" ]] && less "${1}"
+    [[ -d "${1}" ||  -z "${1}"   ]] && ls   "${1:-.}"
+    [[ -f "${1}" ]]                 && less "${1}"
 }
 
 resource() {
@@ -36,7 +36,7 @@ resource() {
 }
 
 resxhkd() {
-    cat ${HOME}/etc/xorg.d/sxhkdrc-base ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc > /tmp/sxhkdrc
+    cat ${HOME}/etc/xorg.d/{,${WM}.d}/sxhkdrc > /tmp/sxhkdrc
     pkill -USR1 -x sxhkd
 }
 
@@ -45,11 +45,11 @@ conf() {
     g() { git --git-dir="${HOME}/usr/repos/home" --work-tree="${HOME}" "${@}"; }
 
     case ${1} {
-    (commit) shift; g commit --interactive -m "${@}" ;;
-    (push) g push origin master ;;
-    (list) g ls-tree -r HEAD --name-only | less ;;
-    (update-patches) g add "${HOME}/etc/prog.d/patches/"* ;;
-    (*) g "${@}" ;;
+    (commit) shift;  g commit --interactive -m "${@}"     ;;
+    (push)           g push origin master                 ;;
+    (list)           g ls-tree -r HEAD --name-only | less ;;
+    (update-patches) g add ${HOME}/etc/prog.d/patches/*   ;;
+    (*)              g "${@}"                             ;;
     }
 
     unset -f g
