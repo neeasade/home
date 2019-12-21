@@ -10,15 +10,15 @@ remkd /tmp/info /tmp/info/vol ${HOME}/var/log
 
 [ -f /tmp/sxhkdrc ] && rm /tmp/sxhkdrc
 
-cat ${HOME}/etc/xorg.d/sxhkdrc-base ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc > /tmp/sxhkdrc
+cat ${HOME}/etc/xorg.d/{,${WM}.d}/sxhkdrc > /tmp/sxhkdrc
 
 setxkbmap -option caps:swapescape  &
 sxhkd -r ${HOME}/var/log/sxhkd.out \
       -s ${HOME}/var/log/sxhkd.log \
       -c /tmp/sxhkdrc              &
-. ${HOME}/var/cache/wall &
-doas ${HOME}/bin/brness -s 10 &
-emacs --daemon &
+. ${HOME}/var/cache/wall           &
+doas ${HOME}/bin/brness -s 10      &
+emacs --daemon                     &
 
 [ ${WM} = 'wchf' ] && {
     popcfs &
