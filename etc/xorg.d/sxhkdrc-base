@@ -12,7 +12,7 @@ super + {v,l,m}
     {chrome,slock,mus}
 
 super + {x,i,n,e}
-    {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
+    {turnoff,view_image,mbar,emacsclient -c -a ""}
 
 # dmenu dirs
 alt + shift + f
@@ -43,5 +43,5 @@ super + shift + {l,h}
 super + shift + {b,t,v,p}
     notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%,`mus pprint`}
 
-super + ctrl + b
-    notify-prog `bat` 25 ""
+alt + s
+    ${HOME}/tmp/tst

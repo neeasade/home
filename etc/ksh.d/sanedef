@@ -10,7 +10,6 @@ rm -v
 cp -rv
 ln -sf
 free -h
-wget --no-hsts
 fc-cache --verbose
 grep -i
 su -

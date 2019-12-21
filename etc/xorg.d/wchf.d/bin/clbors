@@ -7,5 +7,5 @@ done
 
 . ${HOME}/var/cache/tm/colors.sh
 
-waitron wm_config color_focused   "0x${color1#\#}"
+waitron wm_config color_focused   "0x${color7#\#}"
 waitron wm_config color_unfocused "0x${color8#\#}"

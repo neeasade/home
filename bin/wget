@@ -1,0 +1,3 @@
+#!/bin/sh
+
+command -p wget --no-hsts "${@}"

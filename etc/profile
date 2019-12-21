@@ -17,7 +17,7 @@ esac
 export EDITOR=vi
 export VISUAL=vi
 
-export MANPATH="/usr/share/man:${HOME}/usr/local/share/man"
+export MANPATH="${HOME}/usr/local/share/man:/usr/share/man"
 export INPUTRC="${HOME}/etc/inputrc"
 
 export XDG_CACHE_HOME="${HOME}/var/cache"

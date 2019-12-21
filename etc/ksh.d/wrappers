@@ -52,11 +52,10 @@ has git && {
             cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
             ;;
         (tracked)
-            cmd git ls-tree -r --name-only \
-                `cmd git rev-parse --abbrev-ref HEAD`
+            cmd git ls-files -o --exclude-standard
             ;;
         (untracked)
-            cmd git ls-files --others --exclude-standard
+            cmd git ls-files -o --exclude-standard
             ;;
         (*)
             cmd git "${@}"

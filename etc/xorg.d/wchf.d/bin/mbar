@@ -22,7 +22,7 @@ grp() {
 }
 
 while :; do
-    echo %{l}'  ' `grp` %{r}`date +'%H:%M'`'  '
+    echo %{l}'  ' `grp` %{r}`bat`% '' `date +'%H:%M'`'  '
     sleep 0.1
 done | \
     lemonbar -d -b -f 'scientifica:pixelsize=12'  -B ${color0} -F ${color7} \

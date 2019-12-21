@@ -9,10 +9,11 @@ video_path=${1:-"${HOME}/var/videos/captures/record-`date '+%b_%d-%H:%M'`"}
 
 set -- `crud`
 
-       # -pix_fmt yuv420p
 ffmpeg -y -f x11grab      \
        -s ${3}x${4}       \
        -r 30              \
        -i :1.0+${1},${2}  \
        -qscale 0          \
+       -q:v 0             \
+       -pix_fmt yuv420p   \
        ${video_path}.mp4
