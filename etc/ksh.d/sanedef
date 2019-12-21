@@ -14,6 +14,7 @@ fc-cache --verbose
 grep -i
 su -
 ls -AF
+mpv --no-audio-display
 EOF
 
 a mkf='touch'

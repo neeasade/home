@@ -35,11 +35,6 @@ resource() {
     . ${HOME}/etc/kshrc
 }
 
-resxhkd() {
-    cat ${HOME}/etc/xorg.d/{,${WM}.d}/sxhkdrc > /tmp/sxhkdrc
-    pkill -USR1 -x sxhkd
-}
-
 conf() {
     [[ ! -d "${HOME}/usr/repos/home" ]] && return 1
     g() { git --git-dir="${HOME}/usr/repos/home" --work-tree="${HOME}" "${@}"; }

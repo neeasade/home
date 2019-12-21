@@ -20,6 +20,7 @@ a mkc='make clean'
 a rsc='resource'
 a aliases='alias'
 a {quit,:q,:q!}='exit'
+a resxhkd='pkill -USR1 -x sxhkd'
 
 a {cd..,c..,c.}='cd ..'
 a {cl,cle,clea}='clear'
