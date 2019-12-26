@@ -1,7 +1,7 @@
 #!/bin/sh
 # a battery thingy
 
-[ ! -e ${HOME}/var/cache/bat ] && {
+[ ! -e ${XDG_CACHE_HOME}/bat ] && {
     base_dir='/sys/class/power_supply'
 
     for i in 0 1 2 3; do
@@ -10,10 +10,10 @@
             break
         }
     done
-    echo ${base_dir} > ${HOME}/var/cache/bat
+    echo ${base_dir} > ${XDG_CACHE_HOME}/bat
 }
 
-[ -z ${base_dir} ] && read -r base_dir < ${HOME}/var/cache/bat
+[ -z ${base_dir} ] && read -r base_dir < ${XDG_CACHE_HOME}/bat
 
 case ${1} in
 (-s) cat ${base_dir}/status   ;;

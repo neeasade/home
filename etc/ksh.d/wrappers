@@ -41,7 +41,8 @@ has git && {
                 shift
                 fnl='${@} --interactive'
             }
-            cmd git commit -m "${fnl}"
+            [[ -n "${1}" ]] && cmd git commit -m "${fnl}" ||
+                    cmd git commit
             ;;
         (clone)
             local fnl="${@}"

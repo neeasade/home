@@ -3,7 +3,7 @@ export MANPAGER=less
 
 for p in \
     ${HOME}/opt/texlive/bin/x86_64-linux \
-    ${HOME}/{usr/local/,opt/{cargo/,racket/7.5/},}bin; do
+    ${HOME}/{usr/local/,opt/racket/7.5/,}bin; do
         PATH="${p}:${PATH}"
 done
 
@@ -20,16 +20,16 @@ export VISUAL=vi
 export MANPATH="${HOME}/usr/local/share/man:/usr/share/man"
 export INPUTRC="${HOME}/etc/inputrc"
 
-export XDG_CACHE_HOME="${HOME}/var/cache"
+export XDG_CACHE_HOME="${HOME}/usr/local/cache"
 export XDG_CONFIG_HOME="${HOME}/etc/prog.d"
 export XDG_DESKTOP_DIR='/non/existent'
 export XDG_DOWNLOAD_DIR="${HOME}/var/downloads"
-export XDG_DATA_HOME="${HOME}/var/lib"
+export XDG_DATA_HOME="${HOME}/usr/local/share"
 
 export RUSTUP_HOME="${HOME}/opt/rustup"
 export CARGO_HOME="${HOME}/opt/cargo"
 
-export MAIL="${HOME}/var/mail/inbox"
+# export MAIL="${HOME}/var/mail/inbox"
 
 export CPATH="${HOME}/usr/local/include:$HOME/usr/include"
 export LD_LIBRARY_PATH="${HOME}/usr/local/lib"
@@ -38,7 +38,7 @@ export PYTHONUSERBASE="${HOME}/usr/local"
 export PYTHONPATH="${HOME}/usr/local"
 export PYTHONSTARTUP="${HOME}/etc/prog.d/pythonrc"
 
-export LESSHISTFILE="${HOME}/var/cache/lesshst"
+export LESSHISTFILE="${XDG_CACHE_HOME}/lesshst"
 
 export GNUPGHOME="${HOME}/etc/gnupg"
 

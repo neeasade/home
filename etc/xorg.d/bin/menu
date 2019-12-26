@@ -11,7 +11,7 @@ l=$((sw / 50))
 x=$((sw / 2 - w / 2))
 y=$((sh / 3 - l))
 
-. ${HOME}/var/cache/tm/colors.sh
+. ${XDG_CACHE_HOME}/tm/colors.sh
 
 read -r borderpx < /tmp/info/wm/borders/size
 read -r borcol   < /tmp/info/wm/borders/selcol

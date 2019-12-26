@@ -10,13 +10,13 @@ B ${HOME}/bin
 S ${HOME}/usr/src
 R ${HOME}/usr/repos
 T ${HOME}/tmp
-W ${HOME}/var/pictures/wallpapers
+W ${HOME}/usr/share/img/walls
 E ${HOME}/etc
 D ${HOME}/usr/doc
-d ${HOME}/var/downloads
-C ${HOME}/var/cache
+C ${XDG_CACHE_HOME}
 P ${HOME}/usr/ports
+M ${HOME}/usr/share/mus
+s ${HOME}/usr/share
 p /usr/ports
-M ${HOME}/var/music
 m /mnt
 EOF

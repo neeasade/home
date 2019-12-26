@@ -1,7 +1,7 @@
 #!/bin/sh
 # populate color files
 
-. ${HOME}/var/cache/tm/colors.sh
+. ${XDG_CACHE_HOME}/tm/colors.sh
 infobase=/tmp/info/wm
 
 remkd ${infobase}/colors

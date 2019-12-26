@@ -42,7 +42,7 @@ static const int floatbar            = 0;
 static const int fullscreenonewindow = 1;
 
 /* include theme */
-#include "/home/viz/var/cache/tm/dwm.h"
+#include "/home/viz/usr/local/cache/tm/dwm.h"
 
 /* tagging */
 /* number of workspaces */

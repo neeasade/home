@@ -3,9 +3,9 @@ static int surfuseragent    = 1;  /* Append Surf version to default WebKit user 
 static char *fulluseragent  = ""; /* Or override the whole user agent string */
 static char *scriptfile     = "~/etc/surf/script.js";
 static char *styledir       = "~/etc/surf/styles/";
-static char *certdir        = "~/var/cache/surf/certificates/";
-static char *cachedir       = "~/var/cache/surf/";
-static char *cookiefile     = "~/var/cache/surf/cookies.txt";
+static char *certdir        = "~/usr/local/cache/surf/certificates/";
+static char *cachedir       = "~/usr/local/cache/surf/";
+static char *cookiefile     = "~/usr/local/cache/surf/cookies.txt";
 
 /* Search Engines*/
 static SearchEngine searchengines[] = {
@@ -78,7 +78,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 /* SETPROP(readprop, setprop, prompt)*/
 #define SETPROP(r, s, p) { \
         .v = (const char *[]){ "/bin/sh", "-c", \
-             ". ${HOME}/var/cache/tm/colors.sh; " \
+             ". ${HOME}/usr/local/cache/tm/colors.sh; " \
              "prop=\"$(printf '%b' \"$(xprop -id $1 $2 " \
             "| sed \"s/^$2(STRING) = //;s/^\\\"\\(.*\\)\\\"$/\\1/\";" \
             " cat ~/etc/surf/bookmarks)\" " \
@@ -91,7 +91,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 /* same for find */
 #define SETPROPFIND(r, s, p) { \
         .v = (const char *[]){ "/bin/sh", "-c", \
-             ". ${HOME}/var/cache/tm/colors.sh; "\
+             ". ${HOME}/usr/local/cache/tm/colors.sh; "\
              "prop=\"$(printf '%b' \"$(xprop -id $1 $2 " \
              "| sed \"s/^$2(STRING) = //;s/^\\\"\\(.*\\)\\\"$/\\1/\")\" " \
             "| dmenu -l 10 -p \"$4\" -wi $1)\" && " \
@@ -208,4 +208,4 @@ static Button buttons[] = {
 	{ OnMedia,      MODKEY,         1,      clickexternplayer, { 0 },       1 },
 };
 
-#define HOMEPAGE "file:///home/viz/var/cache/homepage.html"
+#define HOMEPAGE "file:///home/viz/usr/local/cache/homepage.html"

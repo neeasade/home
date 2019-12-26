@@ -16,7 +16,7 @@
 //static char *font = "Luxi Mono:pixelsize=14";
 
 /* include themes */
-#include "/home/viz/var/cache/tm/st.h"
+#include "/home/viz/usr/local/cache/tm/st.h"
 
 /* inner padding */
 static int borderpx = 2;

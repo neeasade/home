@@ -6,16 +6,14 @@ export PATH=${HOME}/etc/xorg.d/${WM}.d/bin:${HOME}/etc/xorg.d/bin:${PATH}
 export XFONT='Go Mono:pixelsize=12:hinting=true:rgba=none'
 export TERMINAL='tabbed -r 2 st -w ""'
 
-remkd /tmp/info /tmp/info/vol ${HOME}/var/log
+remkd /tmp/info /tmp/info/vol
 
 [ -f /tmp/sxhkdrc ] && rm /tmp/sxhkdrc
 
 setxkbmap -option caps:swapescape           &
-sxhkd -r ${HOME}/var/log/sxhkd.out          \
-      -s ${HOME}/var/log/sxhkd.log          \
-      -c ${HOME}/etc/xorg.d/sxhkdrc         \
+sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc         \
          ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc &
-. ${HOME}/var/cache/wall                    &
+. ${XDG_CACHE_HOME}/wall                    &
 doas ${HOME}/bin/brness -s 10               &
 emacs --daemon                              &
 

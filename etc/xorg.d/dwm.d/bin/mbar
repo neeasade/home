@@ -6,7 +6,7 @@ pgrep -x bar && {
     exit
 }
 
-. ${HOME}/var/cache/tm/colors.sh
+. ${XDG_CACHE_HOME}/tm/colors.sh
 
 vol -i 0%
 w=`res -w`

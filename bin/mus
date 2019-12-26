@@ -61,7 +61,7 @@ perc() {
 
 pprint() {
     [ -S ${sock} ] || {
-        echo "not playing!"
+        echo 'not playing!'
         exit 0
     }
     cur=`curfile`
@@ -69,10 +69,10 @@ pprint() {
 }
 
 [ ! -S ${sock} ]&& [ ${#} -eq 0 ] &&
-mpv     --no-audio-display              \
-        --input-ipc-server=${sock}      \
-        --shuffle                       \
-        `find ${HOME}/var/music -type f`
+    mpv --no-audio-display         \
+        --input-ipc-server=${sock} \
+        --shuffle                  \
+        `find ${HOME}/usr/share/mus -type f -printf '"%p"\n'` && exit 0
 
 if [ -z ${1} ]; then
     `men`

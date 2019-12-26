@@ -4,7 +4,7 @@
 // static const char font[]        = "Share Tech Mono:pixelsize=13";
 
 /* themes */
-#include "/home/viz/var/cache/tm/tabbed.h"
+#include "/home/viz/usr/local/cache/tm/tabbed.h"
 
 static const char before[]      = "<";
 static const char after[]       = ">";
