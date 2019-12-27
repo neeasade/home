@@ -11,11 +11,11 @@ stty -ixon
 
 case ${KSH_VERSION} {
 (*MIRBSD*)
-    HISTFILE="${HOME}/var/cache/mksh_history"
+    HISTFILE="${HOME}/usr/local/cache/mksh_history"
     alias !!='\\builtin fc -e -'
     ;;
 (*PD*)
-    HISTFILE="${HOME}/var/cache/ksh_history"
+    HISTFILE="${HOME}/usr/local/cache/ksh_history"
     set -o csh-history
     ;;
 }
