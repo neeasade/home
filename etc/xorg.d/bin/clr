@@ -9,4 +9,4 @@ while read -r c; do
          sleep 10000000) | lemonbar -d -B ${c} -g 50x50+$((560 + 50 * n))+1000 \
                                     -n clrb -f "${XFONT}" &
     n=$((n + 1))
-done < ${HOME}/var/cache/tm/colors
+done < ${XDG_CACHE_HOME}/tm/colors

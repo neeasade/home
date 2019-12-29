@@ -31,14 +31,14 @@ alt + shift + q
 alt + shift + ctrl + q
     waitron wm_quit 0
 
-alt + {1-9}
-    waitron group_activate_specific {1-9}
+alt + {1-5}
+    waitron group_activate_specific {1-5}
 
-alt + shift + {1-9}
-    wmvgrp {1-9}
+alt + shift + {1-5}
+    waitron group_move_window {1-5}
 
-alt + ctrl + {1-9}
-    waitron group_activate {1-9}
+alt + ctrl + {1-5}
+    waitron group_activate {1-5}
 
 alt + shift + b
     waitron toggle_borders

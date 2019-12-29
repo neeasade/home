@@ -5,8 +5,7 @@ find-font() {
         fc-list | grep -i "${1}"
 }
 
-c() {
-    [[ -z "${1}" ]] && { clear; return 0; }
+_c() {
     local p
     for p in "${@}" ${@}* *${@} *${@}*; {
         if [[ -f "${p}" ]]; then
@@ -25,6 +24,8 @@ c() {
     }
     print 'error: no such file or dir' ${1}
 }
+
+c() { [[ ${#} -eq 0 ]] && clear; for i; { _c "${i}"; }; }
 
 l() {
     [[ -d "${1}" ||  -z "${1}"   ]] && ls   "${1:-.}"

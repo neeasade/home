@@ -1,6 +1,0 @@
-#!/bin/sh
-# move window to ${1} group and dont show the window
-
-read -r curgrp < /tmp/info/wm/groups/cur
-waitron group_add_window ${1}
-waitron group_activate_specific ${curgrp}

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ${HOME}/var/cache/tm/colors.sh
+. ${XDG_CACHE_HOME}/tm/colors.sh
 
 perc=${1}
 width=${2}

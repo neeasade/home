@@ -12,12 +12,12 @@ EOF
 }
 
 write() {
-    local vol
     vol=`amixer sget Master`
     vol=${vol%%\]*}
     vol=${vol##*\[}
     echo ${vol%%%} > /tmp/info/vol/cur
     [ ! -f /tmp/info/vol/muted ] && unmute
+    unset vol
 }
 
 mute() {

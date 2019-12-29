@@ -9,7 +9,7 @@ alt + shift + Return
     tab -w st
 
 super + {v,l,m}
-    {chrome,slock,mus}
+    {palemoon,slock,mus}
 
 super + {x,i,n,e}
     {turnoff,view_image,mbar,emacsclient -c -a ""}

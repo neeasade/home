@@ -5,7 +5,7 @@
 # Records a selected rectangle with ffmpeg.
 #
 
-video_path=${1:-"${HOME}/var/videos/captures/record-`date '+%b_%d-%H:%M'`"}
+video_path=${1:-"${HOME}/usr/share/vid/caps/record-`date '+%b_%d-%H:%M'`"}
 
 set -- `crud`
 
