@@ -3,7 +3,7 @@
 cd ${HOME}
 export PATH=${HOME}/etc/xorg.d/${WM}.d/bin:${HOME}/etc/xorg.d/bin:${PATH}
 
-export XFONT='Go Mono:pixelsize=12:hinting=true:rgba=none'
+export XFONT='monospace:pixelsize=12:hinting=true:rgba=none'
 export TERMINAL='tabbed -r 2 st -w ""'
 
 remkd /tmp/info /tmp/info/vol

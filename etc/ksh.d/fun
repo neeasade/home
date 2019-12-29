@@ -41,7 +41,7 @@ conf() {
     g() { git --git-dir="${HOME}/usr/repos/home" --work-tree="${HOME}" "${@}"; }
 
     case ${1} {
-    (commit) shift;  g commit --interactive -m "${@}"     ;;
+    (com*) shift;    g commit --interactive -m "${@}"     ;;
     (push)           g push origin master                 ;;
     (list)           g ls-tree -r HEAD --name-only | less ;;
     (update-patches) g add ${HOME}/etc/prog.d/patches/*   ;;
@@ -56,6 +56,15 @@ rmd() {
         [[ -d "${i}" ]] &&
             rm -r "${i}" ||
                 printf 'error: %s not a directory\n' ${i##*/}
+    }
+}
+
+urm() {
+    local d="${_}"
+    [[ -d "${d}" ]] || return 1
+    for f; {
+        [[ "${f}" != "${d}" ]] &&
+            rm "${d}"/"${f##*/}"
     }
 }
 
