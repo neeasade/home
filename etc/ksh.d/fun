@@ -62,3 +62,6 @@ rmd() {
 rsfile() {
     print ${1%.*} | tr '[:upper:] .' '[:lower:]_'
 }
+
+unix2dos() { for i; { sed -i -e 's/\r*$/\r/' "${i}"; }; }
+dos2unix() { for i; { sed -i -e 's/\r//'     "${i}"; }; }

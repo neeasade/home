@@ -11,7 +11,7 @@ case ${archive_type} in
     7za a -mx=9 "${archive_name}" "${src}"
     ;;
 (*tar*)
-    tar czfv "${archive_name}" "${src}"
+    tar -c -z -f "${archive_name}" "${src}"
     ;;
 (*zip*)
     zip -r "${archive_name}" "${src}"
