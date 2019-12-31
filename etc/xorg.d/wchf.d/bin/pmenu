@@ -40,7 +40,7 @@ unhide() {
 
 focus() { wmenu; }
 
-`xmenu -f "0x${FG#\#}"               \
+`xmenu -f "0x${FG#\#}"                \
       -b "0x${BG#\#}"                 \
       -F "${XFONT}"                   \
       'new' 'resize' 'delete' 'hide'  \

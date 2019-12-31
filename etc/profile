@@ -20,7 +20,7 @@ export VISUAL=vi
 export MANPATH="${HOME}/usr/local/share/man:/usr/share/man"
 export INPUTRC="${HOME}/etc/inputrc"
 
-export XDG_CACHE_HOME="${HOME}/usr/local/cache"
+export XDG_CACHE_HOME="${HOME}/usr/local/share/cache"
 export XDG_CONFIG_HOME="${HOME}/etc/prog.d"
 export XDG_DESKTOP_DIR='/non/existent'
 export XDG_DOWNLOAD_DIR="${HOME}/var/downloads"

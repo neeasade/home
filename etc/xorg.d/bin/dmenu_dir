@@ -21,13 +21,13 @@ cd_dir() {
 
 open_file() {
     case `file -ib ${1}` in
-    (*pdf*)   zathura     "${1}" ;;
-    (*image*) meh         "${1}" ;;
-    (*video*) mpv         "${1}" ;;
-    (*text*)  emacsclient "${1}" ;;
+    (*pdf*)   exec zathura     "${1}" ;;
+    (*image*) exec meh         "${1}" ;;
+    (*video*) exec mpv         "${1}" ;;
+    (*text*)  exec emacsclient "${1}" ;;
     (*)
         case `file "${1}"` in
-        (*archive*) st -e upkp "${1}" ;;
+        (*archive*) exec st -e upkp "${1}" ;;
         esac
     esac
 }

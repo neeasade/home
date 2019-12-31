@@ -16,7 +16,7 @@ static const char *prompt      = NULL;
 static unsigned int borderpx   = 0;
 
 /* includ theme */
-#include "/home/viz/usr/local/cache/tm/dmenu.h"
+#include "/home/viz/usr/local/share/cache/tm/dmenu.h"
 
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 static unsigned int lines      = 0;
