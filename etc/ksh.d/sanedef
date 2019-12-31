@@ -5,9 +5,8 @@ while read -r al; do
 done <<EOF
 df -h
 du -h
-mv -iv
-rm -v
-cp -rv
+mv -i
+cp -r
 ln -sf
 free -h
 fc-cache --verbose
@@ -18,7 +17,7 @@ mpv --no-audio-display
 EOF
 
 a mkf='touch'
-a mkd='mkdir -pv'
+a mkd='mkdir -p'
 a sl='ls'
 a rmf='rm -rf'
 a SU='doas ksh'

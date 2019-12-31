@@ -81,6 +81,6 @@ has emacs && {
 
 has mpv && has piko && {
     yt() {
-        piko "${1}" -stdout | mpv -
+        piko "${1}" --stdout | mpv -
     }
 }
