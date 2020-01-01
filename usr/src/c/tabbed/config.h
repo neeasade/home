@@ -26,7 +26,8 @@ static const int  todrawbar     = 1;
 static int  newposition   = 0;
 static Bool npisrelative  = True;
 
-static const char *switchcmd[] = { "stab", NULL };
+static const char *switchcmd[] = { "stab",  NULL };
+static const char *spawncmd[]  = { "sptab", NULL };
 
 #define MODKEY ControlMask
 static Key keys[] = {
@@ -41,4 +42,5 @@ static Key keys[] = {
     { MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
     { MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
     { MODKEY,               XK_grave,  spawn,       { .v = switchcmd } },
+    { MODKEY|ShiftMask,     XK_grave,  spawn,       { .v = spawncmd  } },
 };

@@ -992,7 +992,7 @@ setcmd(int argc, char *argv[], int replace)
 void
 setup(void)
 {
-    int bitm, tx, ty, tw, th, dh, dw, isfixed;
+    int bitm, tx, ty, tw, th, dh, dw;
     XWMHints *wmh;
     XClassHint class_hint;
     XSizeHints *size_hint;
@@ -1025,7 +1025,6 @@ setup(void)
     wy = 100;
     ww = 500;
     wh = 460;
-    isfixed = 0;
 
     if (geometry) {
         tx = ty = tw = th = 0;
@@ -1043,8 +1042,6 @@ setup(void)
             wx = -1;
         if (bitm & YNegative && wy == 0)
             wy = -1;
-        if (bitm & (HeightValue | WidthValue))
-            isfixed = 1;
 
         dw = DisplayWidth(dpy, screen);
         dh = DisplayHeight(dpy, screen);
@@ -1078,15 +1075,11 @@ setup(void)
     XSetClassHint(dpy, win, &class_hint);
 
     size_hint = XAllocSizeHints();
-    if (!isfixed) {
-        size_hint->flags = PSize;
-        size_hint->height = wh;
-        size_hint->width = ww;
-    } else {
-        size_hint->flags = PMaxSize | PMinSize;
-        size_hint->min_width = size_hint->max_width = ww;
-        size_hint->min_height = size_hint->max_height = wh;
-    }
+
+    size_hint->flags = PSize;
+    size_hint->height = wh;
+    size_hint->width = ww;
+
     wmh = XAllocWMHints();
     XSetWMProperties(dpy, win, NULL, NULL, NULL, 0, size_hint, wmh, NULL);
     XFree(size_hint);
