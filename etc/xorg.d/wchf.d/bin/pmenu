@@ -31,11 +31,15 @@ hide() {
 
 unhide() {
     id=`while read -r i; do
-             echo "${i} xdotool getwindowname ${i}"
+             echo "${i} $(xdotool getwindowname ${i})"
          done < /tmp/info/wm/misc/hidden | menu sel`
     id=${id%% *}
     xdotool windowmap ${id}
     sed -i "/${id}/d" /tmp/info/wm/misc/hidden
+}
+
+kill() {
+    xdotool windowkill `slw`
 }
 
 focus() { wmenu; }
@@ -44,4 +48,4 @@ focus() { wmenu; }
       -b "0x${BG#\#}"                 \
       -F "${XFONT}"                   \
       'new' 'resize' 'delete' 'hide'  \
-      'unhide' 'focus' 'exit'`
+      'unhide' 'focus' 'kill' 'exit'`
