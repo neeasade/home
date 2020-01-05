@@ -1,31 +1,38 @@
 #!/bin/sh
 # try to act like plan9's plumber
 
-THING=`xclip -sel 'primary' -o`
+THING=`xclip -sel primary -o`
+
+[ -z "${THING}" ] && THING=`xclip -sel clip -o`
+
 DN=`mktemp`
-# DIRS="${HOME}/bin ${HOME}/etc/xorg.d ${HOME}/etc/emacs.d \
-#     ${HOME}/usr/doc ${HOME}/usr/share ${HOME}/usr/src"
+DIRS="${HOME}/bin ${HOME}/etc/xorg.d ${HOME}/etc/emacs.d \
+    ${HOME}/usr/doc ${HOME}/usr/share ${HOME}/usr/src"
+RLPATH=""
 
 less() {
     exec st -g 80x40+100+100 -e less ${1}
 }
 
 open() {
-    case `file -ib ${1}` in
-    (image/*)    exec meh     ${1} ;;
-    (text/x-sc*) exec less    ${1} ;;
-    (text/plain) exec less    ${1} ;;
-    (app*/pdf)   exec zathura ${1} ;;
-    (audio/*)    exec mpv -   ${1} ;;
-    (video/*)    exec mpv -   ${1} ;;
+    mt=`file -ib ${1}`
+    case ${mt%%;*} in
+    (image/*)        exec meh     ${1} ;;
+    (text/x-*script)      less    ${1} ;;
+    (text/plain)          less    ${1} ;;
+    (app*/pdf)       exec zathura ${1} ;;
+    (app*/x-*sh)          less    ${1} ;;
+    (audio/*)        exec mpv     ${1} ;;
+    (video/*)        exec mpv     ${1} ;;
     esac
+    unset mt
 }
 
 http() {
     content=`curl -I ${THING} | grep Content-Type`
     case ${content##*:} in
     (text/html) exec palemoon --new-window "${THING}" ;;
-    (*)         curl -o ${DN}; open ${DN}             ;;
+    (*)         curl -o ${DN} "${THING}"; open ${DN}  ;;
     esac
     unset content
 }
@@ -35,31 +42,32 @@ man() {
     sect=${THING##*\(}
     sect=${sect%%\)*}
 
-    apropos ${name} > /dev/null
+    apropos -f ${name} > /dev/null
     [ ${?} -ne 0 ] && return 1
     exec st -g 80x40+100+100 -e man ${sect} ${name}
 }
 
-# is_file() {
-#     [ -f "${1}" ] && return 0
-#     find "${DIRS}" -type f \
-#          -iname "*${1}*" > /dev/null && return 0
-#     return 1
-# }
-#
-# is_dir() {
-#     [ -d "${1}" ] && return 0
-#     find "${DIRS}" -type d \
-#          -iname "*${1}*" > /dev/null && return 0
-#     return 1
-# }
+is_file() {
+    [ -f "${1}" ] && { RLPATH="${1}"; return 0; }
+    f=`find ${DIRS} -type f -iname "*${1}*"`
+    [ -n "${f}" ] && { RLPATH="${f}"; unset f; return 0; }
+    unset f
+    return 1
+}
+
+is_dir() {
+    [ -d "${1}" ] && { RLPATH="${1}"; return 0; }
+    d=`find ${DIRS} -type d -iname "*${1}*"`
+    [ -n "${d}" ] && { RLPATH="${d}"; unset d; return 0; }
+    unset d
+    return 1
+}
 
 other() {
-    if [ -f "${THING}" ]; then
-        open "${THING}"
-    elif [ -d "${THING}" ]; then
-        echo dir
-        st -e sh -c "cd ${THING} && ksh"
+    if is_file "${THING}"; then
+        open "${RLPATH}"
+    elif is_dir "${THING}"; then
+        st -e sh -c "cd ${RLPATH} && ksh"
     elif echo "${THING}" | grep -e '[a-zA-z]\([0-9a-z]\)' > /dev/null; then
         man
         [ ${?} -eq 1 ] && palemoon --new-window --search "${THING}"
@@ -68,9 +76,10 @@ other() {
     fi
 }
 
-case ${THING} in
-(http[s]://*) http  ;;
-(*)           other ;;
-esac
+if echo "${THING}" | grep -e 'https://*' -e 'http://*' > /dev/null; then
+    http
+else
+    other
+fi
 
-[ -f ${DN} ] && rm ${DN}
+rm ${DN}

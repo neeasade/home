@@ -9,8 +9,7 @@ reshape() {
     id=`slw`
     set -- `crud`
 
-    xdotool windowsize ${id} ${3} ${4}
-    xdotool windowmove ${id} ${1} ${2}
+    xdotool windowsize ${id} ${3} ${4} windowmove ${id} ${1} ${2}
 }
 
 new() {
