@@ -5,7 +5,7 @@ read -r BCOL < /tmp/info/wm/borders/selcol
 read -r FG   < /tmp/info/wm/colors/normfg
 read -r BG   < /tmp/info/wm/colors/normbg
 
-resize() {
+reshape() {
     id=`slw`
     set -- `crud`
 
@@ -15,11 +15,6 @@ resize() {
 
 new() {
     draw_st
-}
-
-delete() {
-    id=`slw`
-    xdotool windowclose ${id}
 }
 
 hide() {
@@ -44,8 +39,8 @@ kill() {
 
 focus() { wmenu; }
 
-`xmenu -f "0x${FG#\#}"                \
-      -b "0x${BG#\#}"                 \
-      -F "${XFONT}"                   \
-      'new' 'resize' 'delete' 'hide'  \
-      'unhide' 'focus' 'kill' 'exit'`
+`xmenu -f "0x${FG#\#}"                 \
+      -b "0x${BG#\#}"                  \
+      -F "${XFONT}"                    \
+      'new' 'reshape' 'plumb' 'kill'   \
+      'hide' 'unhide' 'focus' 'exit'`

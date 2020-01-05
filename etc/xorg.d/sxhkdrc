@@ -45,3 +45,6 @@ super + shift + {b,t,v,p}
 
 alt + s
     ${HOME}/tmp/tst
+
+super + button2
+    plumb

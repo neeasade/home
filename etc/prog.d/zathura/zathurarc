@@ -3,4 +3,4 @@ set recolor "true"
 set font "Go Mono 14"
 set guioptions ""
 
-include /home/viz/usr/local/cache/tm/zathurarc
+include /home/viz/usr/local/share/cache/tm/zathurarc
