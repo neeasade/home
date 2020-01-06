@@ -1,11 +1,11 @@
 #!/bin/sh
 # try to act like plan9's plumber
 
-THING=`xclip -sel primary -o`
+THING=`xout`
+DN='/tmp/plumb'
 
-[ -z "${THING}" ] && THING=`xclip -sel clip -o`
+[ -f ${DN} ] && rm ${DN}
 
-DN=`mktemp`
 DIRS="${HOME}/bin ${HOME}/etc/xorg.d ${HOME}/etc/emacs.d \
     ${HOME}/usr/doc ${HOME}/usr/share ${HOME}/usr/src"
 RLPATH=""
@@ -25,16 +25,16 @@ open() {
     (audio/*)        exec mpv     ${1} ;;
     (video/*)        exec mpv     ${1} ;;
     esac
-    unset mt
 }
 
 http() {
-    content=`curl -I ${THING} | grep Content-Type`
-    case ${content##*:} in
+    content=`curl -I ${THING} | grep Content-Type | tr -d '\r'`
+    case `echo ${content##*:} | strings` in
     (text/html) exec palemoon --new-window "${THING}" ;;
-    (*)         curl -o ${DN} "${THING}"; open ${DN}  ;;
+    (audio/*)   exec mpv "${THING}"                   ;;
+    (video/*)   exec mpv "${THING}"                   ;;
+    (*)         wget -O ${DN} "${THING}"; open ${DN}  ;;
     esac
-    unset content
 }
 
 man() {
@@ -76,10 +76,8 @@ other() {
     fi
 }
 
-if echo "${THING}" | grep -e 'https://*' -e 'http://*' > /dev/null; then
-    http
-else
-    other
-fi
-
-rm ${DN}
+case `echo ${THING} | strings` in
+(*//youtube.com/*)   ytdl -o - "${THING}" | mpv - ;;
+(http://*|https://*) http                         ;;
+(*)                  other                        ;;
+esac

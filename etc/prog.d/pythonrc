@@ -3,12 +3,9 @@ import sys
 import readline
 
 try:
-    readline.read_history_file("/home/viz/var/cache/python_history")
-    # default history len is -1 (infinite), which may grow unruly
+    readline.read_history_file("/home/viz/usr/local/share/cache/python_history")
     readline.set_history_length(-1)
 except FileNotFoundError:
     pass
 
-atexit.register(readline.write_history_file, "/home/viz/var/cache/python_history")
-
-# vim:ft=python
+atexit.register(readline.write_history_file, "/home/viz/usr/local/share/cache/python_history")

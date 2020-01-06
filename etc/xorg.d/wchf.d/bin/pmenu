@@ -7,6 +7,7 @@ read -r BG   < /tmp/info/wm/colors/normbg
 
 reshape() {
     id=`slw`
+    [ ${id} = '0x00000000' ] && exit 0  # root window
     set -- `crud`
 
     xdotool windowsize ${id} ${3} ${4} windowmove ${id} ${1} ${2}
@@ -19,7 +20,7 @@ new() {
 hide() {
     id=`slw`
     [ ! -d /tmp/info/wm/misc ] && mkdir -p /tmp/info/wm/misc
-    xdotool windowunmap ${id}
+    waitron window_unmap ${id}
     [ ${?} -eq 0 ] && echo ${id} >> /tmp/info/wm/misc/hidden
 }
 
@@ -28,7 +29,7 @@ unhide() {
              echo "${i} $(xdotool getwindowname ${i})"
          done < /tmp/info/wm/misc/hidden | menu sel`
     id=${id%% *}
-    xdotool windowmap ${id}
+    waitron window_map ${id}
     sed -i "/${id}/d" /tmp/info/wm/misc/hidden
 }
 

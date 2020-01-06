@@ -79,8 +79,8 @@ has emacs && {
     }
 }
 
-has mpv && has piko && {
+has mpv && has ytdl && {
     yt() {
-        piko "${1}" --stdout | mpv -
+        ytdl -o - "${1}" | mpv -
     }
 }
