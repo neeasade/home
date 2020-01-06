@@ -47,6 +47,7 @@ man() {
     exec st -g 80x40+100+100 -e man ${sect} ${name}
 }
 
+# TODO: cache is_file and is_dir stuff
 is_file() {
     [ -f "${1}" ] && { RLPATH="${1}"; return 0; }
     f=`find ${DIRS} -type f -iname "*${1}*"`
@@ -64,20 +65,26 @@ is_dir() {
 }
 
 other() {
-    if is_file "${THING}"; then
+    if echo "${THING}" | grep -e '[a-zA-z]\([0-9a-z]\)' > /dev/null; then
+        man
+        [ ${?} -eq 1 ] && palemoon --new-window --search "${THING}"
+    elif is_file "${THING}"; then
         open "${RLPATH}"
     elif is_dir "${THING}"; then
         st -e sh -c "cd ${RLPATH} && ksh"
-    elif echo "${THING}" | grep -e '[a-zA-z]\([0-9a-z]\)' > /dev/null; then
-        man
-        [ ${?} -eq 1 ] && palemoon --new-window --search "${THING}"
     else
         palemoon --new-window --search "${THING}"
     fi
 }
 
 case `echo ${THING} | strings` in
-(*//youtube.com/*)   ytdl -o - "${THING}" | mpv - ;;
-(http://*|https://*) http                         ;;
-(*)                  other                        ;;
+(*//youtube.com/watchv?=*)
+    ytdl -o - "${THING}" | mpv -
+    ;;
+(http://*|https://*)
+    http
+    ;;
+(*)
+    other
+    ;;
 esac
