@@ -78,7 +78,7 @@ other() {
 }
 
 case `echo ${THING} | strings` in
-(*//youtube.com/watchv?=*)
+(*www.youtube.com/watch?v=*)
     ytdl -o - "${THING}" | mpv -
     ;;
 (http://*|https://*)
