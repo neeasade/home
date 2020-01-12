@@ -1,19 +1,27 @@
 #!/bin/sh
 # archive file using various programs like zip, tar and 7z
 
-src="${1}"
-archive_name="${2:-${1}.tar}"
+archive_name="${2:-${1}.tar.gz}"
 archive_type=${archive_name#*\.}
 
-case ${archive_type} in
-(*7z*)
-    [ -d "${src}" ] && src="${src}/*"
-    7za a -mx=9 "${archive_name}" "${src}"
+case ${archive_name#*\.} in
+(tar.gz)
+    tar -f - -c "${1}" | gzip > "${archive_name}"
     ;;
-(*tar*)
-    tar -c -z -f "${archive_name}" "${src}"
+(tar.xz)
+    tar -f - -c "${1}" | xz > "${archive_name}"
     ;;
-(*zip*)
-    zip -r "${archive_name}" "${src}"
+(tar.bz)
+    tar -f - -c "${1}" | bzip2 > "${archive_name}"
+    ;;
+(tar)
+    tar -c -f "${archive_name}" "${1}"
+    ;;
+(7z)
+    [ -d "${1}" ] && src="${1}/*"
+    7za a -mx=9 "${archive_name}" "${1}"
+    ;;
+(zip)
+    zip -r "${archive_name}" "${1}"
     ;;
 esac
