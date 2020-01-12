@@ -1,8 +1,13 @@
 #!/bin/ksh
 
 _set_wn() {
-    [[ ${TERM} != linux ]] &&
-        print "\033]]0;ksh: ~${PWD#${HOME}}\a"
+    case ${TERM} {
+    (linux|dumb)
+        ;;
+    (*) 
+        print "\033]]0;ksh; ~${PWD#${HOME}}\a"
+        ;;
+    }
 } 2> /dev/null
 
 _rm_jnk() {
