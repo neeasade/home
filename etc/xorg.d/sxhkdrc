@@ -12,7 +12,7 @@ super + {v,l,m}
     {palemoon,slock,mus}
 
 super + {x,i,n,e}
-    {turnoff,view_image,mbar,emacsclient -c -a ""}
+    {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
 
 # dmenu dirs
 alt + shift + f
