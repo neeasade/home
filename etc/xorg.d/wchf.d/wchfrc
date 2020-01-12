@@ -7,6 +7,5 @@ waitron wm_config enable_sloppy_focus true
 waitron wm_config enable_last_window_focusing true
 waitron wm_config enable_resize_hints true
 waitron wm_config groups_nr 5
-waitron wm_config cursor_position bottomright
 
 # mbar &

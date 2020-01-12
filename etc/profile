@@ -29,6 +29,8 @@ export XDG_DATA_HOME="${HOME}/usr/local/share"
 export RUSTUP_HOME="${HOME}/opt/rustup"
 export CARGO_HOME="${HOME}/opt/cargo"
 
+export GOPATH="${HOME}/opt/go:${HOME}/usr/src/go"
+
 # export MAIL="${HOME}/var/mail/inbox"
 
 export CPATH="${HOME}/usr/local/include:$HOME/usr/include"
