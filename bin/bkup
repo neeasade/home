@@ -7,7 +7,7 @@ lock="${HOME}/tmp/bkup.lock"
 
 touch "${lock}"
 
-GZIP=-9 pk "${HOME}" "${HOME}/bkup-$(date +'%Y%m%d').tar"
+# really need to finish this
 
 notify-send "bkup" "backed up!"
 rm "${lock}"

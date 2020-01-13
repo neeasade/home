@@ -10,10 +10,10 @@
             break
         }
     done
-    echo ${base_dir} > ${XDG_CACHE_HOME}/bat
+    echo ${base_dir} >${XDG_CACHE_HOME}/bat
 }
 
-[ -z ${base_dir} ] && read -r base_dir < ${XDG_CACHE_HOME}/bat
+[ -z ${base_dir} ] && read -r base_dir <${XDG_CACHE_HOME}/bat
 
 case ${1} in
 (-s) cat ${base_dir}/status   ;;

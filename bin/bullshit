@@ -5,4 +5,4 @@ while read -r l; do
     case ${l} in
     ([A-z0-9]) echo ${l} ;;
     esac
-done < /dev/urandom
+done </dev/urandom
