@@ -16,15 +16,15 @@ fmt_song() {
 }
 
 next() {
-    echo '{"command":["playlist-next"]}' | ${cmd} > /dev/null
+    echo '{"command":["playlist-next"]}' | ${cmd} >/dev/null
 }
 
 prev() {
-    echo '{"command":["playlist-prev"]}' | ${cmd} > /dev/null
+    echo '{"command":["playlist-prev"]}' | ${cmd} >/dev/null
 }
 
 shuff() {
-    echo '{"command":["playlist-shuffle"]}' | ${cmd} > /dev/null
+    echo '{"command":["playlist-shuffle"]}' | ${cmd} >/dev/null
 }
 
 curfile() {
@@ -44,12 +44,12 @@ pause() {
     case ${dat} in
     (*true*) stat=false ;;
     esac
-    printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} > /dev/null
+    printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} >/dev/null
     unset stat dat
 }
 
 quit() {
-    echo '{"command":["quit"]}' | ${cmd} > /dev/null
+    echo '{"command":["quit"]}' | ${cmd} >/dev/null
     rm ${sock}
 }
 
@@ -68,11 +68,13 @@ pprint() {
     echo "playing: `fmt_song ${cur}` (`perc`%)"
 }
 
-[ ! -S ${sock} ]&& [ ${#} -eq 0 ] &&
+[ ! -S ${sock} ]&& [ ${#} -eq 0 ] && {
+    find ${HOME}/usr/share/mus -type f >/tmp/musplist
     mpv --no-audio-display         \
         --input-ipc-server=${sock} \
         --shuffle                  \
-        `find ${HOME}/usr/share/mus -type f -printf '"%p"\n'` && exit 0
+        --playlist=/tmp/musplist && exit 0
+}
 
 if [ -z ${1} ]; then
     `men`
