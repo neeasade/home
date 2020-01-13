@@ -5,9 +5,6 @@ v() vi "${@}"
 has git && {
     git() {
         case ${1} {
-        (diff)
-            cmd git diff "${@}" --no-color
-            ;;
         (ignore-get)
             wget -O gitignore \
                 https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
@@ -32,7 +29,7 @@ has git && {
             ;;
         (com*)
             shift
-            [[ -n "${1}" ]] && cmd git commit -m "${1}" ||
+            [[ -n "${1}" ]] && cmd git commit -m "${@}" ||
                     cmd git commit
             ;;
         (clone)
@@ -58,7 +55,7 @@ has git && {
             ;;
         }
     }
-    a diff='git diff'
+    a diff='git diff --no-color'
 }
 
 has emacs && {
