@@ -4,8 +4,8 @@ _set_wn() {
     case ${TERM} {
     (linux|dumb)
         ;;
-    (*) 
-        print "\033]]0;ksh; ~${PWD#${HOME}}\a"
+    (*)
+        printf '\033]]0;ksh: %s\a' ${PWD/${HOME}/\~}
         ;;
     }
 } 2> /dev/null
@@ -17,7 +17,7 @@ _rm_jnk() {
                 rm -rf "${i}"
         }
     }
-    _rm_e ${HOME}/.{pki,ssh}
+    _rm_e ${HOME}/.ssh
     unset -f _rm_e
 } > /dev/null
 
