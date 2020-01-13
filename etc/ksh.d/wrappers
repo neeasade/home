@@ -32,7 +32,7 @@ has git && {
             ;;
         (com*)
             shift
-            [[ -n "${1}" ]] && cmd git commit -m "${fnl}" ||
+            [[ -n "${1}" ]] && cmd git commit -m "${1}" ||
                     cmd git commit
             ;;
         (clone)
@@ -41,7 +41,8 @@ has git && {
             cmd git ${fnl}
             ;;
         (push)
-            cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
+            [[ -z "${2}" ]] &&
+                cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
             ;;
         (tracked)
             cmd git ls-files

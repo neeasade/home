@@ -41,10 +41,10 @@ conf() {
     g() { git --git-dir="${HOME}/usr/repos/home" --work-tree="${HOME}" "${@}"; }
 
     case ${1} {
-    (com*) shift;    g commit "${@}"      ;;
-    (push)           g push origin master ;;
-    (list)           g ls-files | less    ;;
-    (*)              g "${@}"             ;;
+    (com*) shift; g commit "${@}"      ;;
+    (push)        g push origin master ;;
+    (list)        g ls-files | less    ;;
+    (*)           g "${@}"             ;;
     }
 
     unset -f g
