@@ -9,7 +9,7 @@ compile() {
     for i; do
         cd ${base_dir}/${i}
         echo "compiling ${i}"
-        make clean install
+        make PREFIX=${HOME}/usr/local clean install
         make clean
     done
 }

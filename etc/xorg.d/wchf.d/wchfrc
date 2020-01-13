@@ -1,11 +1,13 @@
 #!/bin/sh
 # wchf config
 
-waitron wm_config border_width 2
-waitron wm_config sticky_windows true
-waitron wm_config enable_sloppy_focus true
-waitron wm_config enable_last_window_focusing true
-waitron wm_config enable_resize_hints true
-waitron wm_config groups_nr 5
-
-# mbar &
+while read -r l; do
+    waitron wm_config ${l}
+done <<EOF
+border_width 2
+sticky_windows true
+enable_sloppy_focus true
+enable_last_window_focusing true
+enable_resize_hints true
+groups_nr 5
+EOF
