@@ -9,10 +9,9 @@ unalias r w
 
 stty -ixon
 
-case ${KSH_VERSION} {
+case ${KSH_VERSION:-} {
 (*MIRBSD*)
     HISTFILE="${HOME}/usr/local/share/cache/mksh_history"
-    alias !!='\\builtin fc -e -'
     ;;
 (*PD*)
     HISTFILE="${HOME}/usr/local/share/cache/ksh_history"
@@ -24,6 +23,7 @@ HISTSIZE=100000
 for i in prompt aliases sanedef diralias fun wrappers; {
     . ${HOME}/etc/ksh.d/${i}
 }
+unset i
 
 export PS1='$(_draw_PS1)'
 export PS2='... '

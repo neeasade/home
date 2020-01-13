@@ -1,17 +1,13 @@
 #!/bin/ksh
 
-v() {
-    has emacsclient && pgrep -x emacs > /dev/null && {
-        xembed --parent-id emacsclient -c "${@}"
-        return 0
-    }
-
-    vi "${@}"
-}
+v() vi "${@}"
 
 has git && {
     git() {
         case ${1} {
+        (diff)
+            cmd git diff "${@}" --no-color
+            ;;
         (ignore-get)
             wget -O gitignore \
                 https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
@@ -36,17 +32,12 @@ has git && {
             ;;
         (com*)
             shift
-            local fnl="${@}"
-            [[ "${2}" = "-i" ]] && {
-                shift
-                fnl='${@} --interactive'
-            }
             [[ -n "${1}" ]] && cmd git commit -m "${fnl}" ||
                     cmd git commit
             ;;
         (clone)
             local fnl="${@}"
-            [[ "${2}" != *viz* ]] && fnl="${@} --depth 1"
+            [[ "${2}" != */viz* ]] && fnl="${@} --depth 1"
             cmd git ${fnl}
             ;;
         (push)
@@ -66,18 +57,19 @@ has git && {
             ;;
         }
     }
-    a diff='cmd git diff'
+    a diff='git diff'
 }
 
 has emacs && {
-    remacs() {
-        pgrep -x emacs > /dev/null && pkill emacs
-        emacs --daemon
+    v() {
+        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && vi "${@}"
+        xembed --parent-id emacsclient -c "${@}" ||
+            emacsclient -c "${@}"
     }
 
     # for use with emacs-libvterm
     elisp() {
-        [[ -z ${INSIDE_EMACS} ]] && exit 1
+        [[ -z ${INSIDE_EMACS} ]]        && exit 1
         [[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\\' "${@}"
     }
 }
