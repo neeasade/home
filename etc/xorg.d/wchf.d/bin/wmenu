@@ -1,16 +1,11 @@
 #!/bin/sh
 # select window by name
-ids="$(xdotool search --onlyvisible '.' 2> /dev/null)"
 
-names=''
-for i in ${ids}; do
-    names="${names}$(xdotool getwindowname ${i})\n"
-done
+id=`while read -r i; do
+          echo "${i} $(xdotool getwindowname ${i})"
+    done <<EOF
+$(xdotool search --maxdepth 1 --onlyvisible --name '.' 2>/dev/null)
+EOF`
 
-selwin="$(echo ${names%\\n} | menu sel)"
-
-[ -z "${selwin}" ] && exit 0
-
-selwinid="$(xdotool search --name "${selwin}")"
-
-waitron window_focus $(printf '%d' ${selwinid})
+id=`echo "${id}" | menu sel`
+xdotool windowfocus ${id%% *}

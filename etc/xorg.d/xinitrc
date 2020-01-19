@@ -15,7 +15,8 @@ sxhkd -c ${HOME}/etc/xorg.d/sxhkdrc         \
          ${HOME}/etc/xorg.d/${WM}.d/sxhkdrc &
 . ${XDG_CACHE_HOME}/wall                    &
 doas ${HOME}/bin/brness -s 10               &
-emacs --daemon                              &
+! pgrep -x emacs 2>/dev/null &&
+    emacs --daemon &
 
 [ ${WM} = 'wchf' ] && {
     popcfs &

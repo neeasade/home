@@ -1,4 +1,10 @@
 #!/bin/sh
+for p in \
+    ${HOME}/opt/texlive/bin/x86_64-linux \
+    ${HOME}/{usr/local/,opt/{racket/7.5/,go/},}bin; do
+        PATH=${p}:${PATH}
+done
+
 case ${SHELL} in
 (*/bin/ksh)
     export ENV=${HOME}/etc/kshrc
@@ -27,9 +33,3 @@ LESSHISTFILE=${XDG_CACHE_HOME}/lesshst
 GNUPGHOME=${HOME}/etc/gnupg
 FREETYPE_PROPERTIES=truetype:interpreter-version=38
 EOF
-
-for p in \
-    ${HOME}/opt/texlive/bin/x86_64-linux \
-    ${HOME}/{usr/local/,opt/{racket/7.5/,go/},}bin; do
-        PATH=${p}:${PATH}
-done

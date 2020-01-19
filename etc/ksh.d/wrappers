@@ -59,16 +59,28 @@ has git && {
 }
 
 has emacs && {
-    v() {
-        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && vi "${@}"
-        xembed --parent-id emacsclient -c "${@}" ||
-            emacsclient -c "${@}"
+    remacs() {
+        pgrep -x emacs >/dev/null && pkill -x emacs
+        emacs --daemon
     }
 
-    # for use with emacs-libvterm
-    elisp() {
-        [[ -z ${INSIDE_EMACS} ]]        && exit 1
-        [[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\\' "${@}"
+    # really limiting!
+    vterm() {
+        [[ -z ${INSIDE_EMACS} ]]        && return 1
+        [[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\' "${@}"
+    }
+
+    v() {
+        case ${INSIDE_EMACS} {
+        ("")
+            ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && vi "${@}"
+            xembed --parent-id emacsclient -c "${@}" ||
+                emacsclient -c "${@}"
+            ;;
+        (vterm)
+            vterm "find-file \"${@}\""
+            ;;
+        }
     }
 }
 

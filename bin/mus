@@ -51,6 +51,7 @@ pause() {
 quit() {
     echo '{"command":["quit"]}' | ${cmd} >/dev/null
     rm ${sock}
+    rm /tmp/musplist
 }
 
 perc() {

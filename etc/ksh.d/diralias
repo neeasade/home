@@ -1,10 +1,9 @@
 #!/bin/ksh
 
 while read -r al; do
-    set -- ${al}
-    a g${1}="cd ${2}"
-    a -d ${1}=${2}
-done << EOF
+    a g${al% *}="cd ${al#* }"
+    a -d ${al% *}="${al#* }"
+done <<EOF
 H ${HOME}
 B ${HOME}/bin
 S ${HOME}/usr/src
