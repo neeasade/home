@@ -31,5 +31,5 @@ PYTHONPATH=${HOME}/opt/python
 PYTHONSTARTUP=${HOME}/etc/prog.d/pythonrc
 LESSHISTFILE=${XDG_CACHE_HOME}/lesshst
 GNUPGHOME=${HOME}/etc/gnupg
-FREETYPE_PROPERTIES=truetype:interpreter-version=38
 EOF
+# FREETYPE_PROPERTIES=truetype:interpreter-version=38

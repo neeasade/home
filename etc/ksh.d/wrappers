@@ -39,7 +39,8 @@ has git && {
             ;;
         (push)
             [[ -z "${2}" ]] &&
-                cmd git push origin `cmd git rev-parse --abbrev-ref HEAD`
+                cmd git push origin `cmd git rev-parse --abbrev-ref HEAD` ||
+                    git "${@}"
             ;;
         (tracked)
             cmd git ls-files

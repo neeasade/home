@@ -4,7 +4,8 @@
 while read -r l; do
     waitron wm_config ${l}
 done <<EOF
-border_width 2
+border_width 4
+enable_borders true
 sticky_windows true
 enable_sloppy_focus true
 enable_last_window_focusing true

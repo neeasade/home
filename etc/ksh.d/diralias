@@ -19,3 +19,6 @@ s ${HOME}/usr/share
 p /usr/ports
 m /mnt
 EOF
+
+a c..='cd ..'
+a ..='cd ..'

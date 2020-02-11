@@ -7,7 +7,7 @@ case ${1} in
 (*.tar.gz)
     gzip -d -c "${1}" | tar -x -C "${dest}"
     ;;
-(*.tar.bz)
+(*.tar.bz2)
     bzip2 -d -c "${1}" | tar -x -C "${dest}"
     ;;
 (*.tar.xz)
@@ -20,6 +20,6 @@ case ${1} in
     unzip "${1}" -d "${dest}"
     ;;
 (*.7z)
-    7z x -o "${dest}" "${1}"
+    7z -o"${dest}" x "${1}"
     ;;
 esac

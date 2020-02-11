@@ -9,7 +9,7 @@ alt + shift + Return
     tab -w st
 
 super + {v,l,m}
-    {palemoon,slock,mus}
+    {chrome,slock,mus}
 
 super + {x,i,n,e}
     {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
