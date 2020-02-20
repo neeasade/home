@@ -17,8 +17,8 @@ case ${1} in
 (*)
     xclip -sel clip -t image/png -i ${tmp_image}
     cp ${tmp_image} \
-       ${HOME}/usr/share/img/scrots/scrot_$(date '+%b_%d-%H:%M').png
-    notify-send 'scrot taken! picture stored in drive'
+       ${HOME}/usr/share/img/scrots/screenshot_`date '+%b_%d-%H:%M'`.png
+    notify-send 'screenshot taken! picture stored in drive'
     ;;
 esac
 

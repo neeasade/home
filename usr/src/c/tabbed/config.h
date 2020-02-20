@@ -40,7 +40,6 @@ static Key keys[] = {
     { MODKEY|ShiftMask,     XK_l,      movetab,     { .i = +1 } },
     { MODKEY,               XK_q,      killclient,  { 0 } },
     { MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
-    { MODKEY|ShiftMask,     XK_f,      fullscreen,  { 0 } },
     { MODKEY,               XK_grave,  spawn,       { .v = switchcmd } },
     { MODKEY|ShiftMask,     XK_grave,  spawn,       { .v = spawncmd  } },
 };

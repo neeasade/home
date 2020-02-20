@@ -4,7 +4,7 @@
 dest="${2:-./}"
 
 case ${1} in
-(*.tar.gz)
+(*.tar.gz|*.tgz)
     gzip -d -c "${1}" | tar -x -C "${dest}"
     ;;
 (*.tar.bz2)

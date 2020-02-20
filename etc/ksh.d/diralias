@@ -16,6 +16,7 @@ C ${XDG_CACHE_HOME}
 P ${HOME}/usr/ports
 M ${HOME}/usr/share/mus
 s ${HOME}/usr/share
+e ${HOME}/usr/env
 p /usr/ports
 m /mnt
 EOF

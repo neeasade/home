@@ -29,6 +29,7 @@ open_file() {
         case `file "${1}"` in
         (*archive*) exec st -e upkp "${1}" ;;
         esac
+        ;;
     esac
 }
 
@@ -37,7 +38,6 @@ spawn() {
 
     [ ${output} = '!ot' ] &&
         exec tab -w st
-
     [ -d "${output}" ] &&
         cd_dir "${output}"
     [ -f "${output}" ] &&

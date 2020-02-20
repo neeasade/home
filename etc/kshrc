@@ -5,8 +5,6 @@ set -o vi
 set -o vi-tabcomplete
 set -o nohup bgnice trackall
 
-unalias r w
-
 stty -ixon
 
 case ${KSH_VERSION:-} {

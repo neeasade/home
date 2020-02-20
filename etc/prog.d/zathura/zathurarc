@@ -2,5 +2,6 @@ set statusbar-basename true
 set recolor "true"
 set font "Go Mono 14"
 set guioptions ""
+map q abort
 
 include /home/viz/usr/local/share/cache/tm/zathurarc
