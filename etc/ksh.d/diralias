@@ -10,6 +10,8 @@ S ${HOME}/usr/src
 R ${HOME}/usr/repos
 T ${HOME}/tmp
 W ${HOME}/usr/share/img/walls
+A ${HOME}/usr/share/img/art
+F ${HOME}/usr/share/img/film
 E ${HOME}/etc
 D ${HOME}/usr/doc
 C ${XDG_CACHE_HOME}

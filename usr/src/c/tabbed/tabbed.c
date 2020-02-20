@@ -410,20 +410,21 @@ drawtext(const char *text, XftColor col[ColLast])
     h = dc.font.ascent + dc.font.descent;
     y = dc.y + (dc.h / 2) - (h / 2) + dc.font.ascent;
 
-    if (text != before && text != after) x = dc.x + (h / 2) + leftpadding;
-    else x = dc.x + (h / 2);
+    if (text != before && text != after)
+        x = dc.x + (h / 2) + leftpadding;
+    else
+        x = dc.x + (h / 2);
 
     /* shorten text if necessary */
-    for (len = MIN(olen, sizeof(buf)-leftpadding);
-        len && textnw(text, len) > dc.w - h; len--);
+    for (len = MIN(olen, sizeof(buf)); len && textnw(text, len) > dc.w - h; len--)
+        ;
 
     if (!len)
         return;
 
     memcpy(buf, text, len);
     if (len < olen) {
-        for (i = len, j = strlen(titletrim); j && i;
-             buf[--i] = titletrim[--j])
+        for (i = len, j = strlen(titletrim); j && i; buf[--i] = titletrim[--j])
             ;
     }
 

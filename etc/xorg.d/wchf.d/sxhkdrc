@@ -26,7 +26,7 @@ alt + {h,j,k,l}
     waitron window_cardinal_focus {left,down,up,right}
 
 alt + shift + q
-    ${HOME}/etc/xorg.d/wchf.d/wchfrc
+    ${HOME}/etc/xorg.d/wchf.d/wchfrc && clbors
 
 alt + shift + ctrl + q
     waitron wm_quit 0
