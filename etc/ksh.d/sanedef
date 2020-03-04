@@ -19,7 +19,9 @@ EOF
 a mkf='touch'
 a mkd='mkdir -p'
 a sl='ls'
-a rmf='rm -rf'
+
+# FRENCH RIGHTS!
+a rmf='rm -fr'
 a SU='doas ksh'
 
 a reboot='doas reboot'

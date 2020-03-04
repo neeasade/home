@@ -1,0 +1,41 @@
+#!/bin/ksh
+
+BOOK="${1}"
+WORK="/tmp/${$}/epub2pdf.${$}"
+
+mkdir -p "${WORK}"
+
+getfiles() {
+    unzip -d "${WORK}" "${BOOK}" >/dev/null
+    files=`egrep 'rootfile full-path=*' "${WORK}/META-INF/container.xml"`
+    files="${files##*full-path=[\'\"]}"
+    files="${files%%[\'\"]*}"
+
+    manifest=
+    while read -r l; do
+            manifest="${manifest}
+${l}"
+    done <"${WORK}/${files}"
+    manifest="${manifest##*<manifest>}"
+
+    oldifs="${IFS}"
+    IFS='
+';  for i in ${manifest%%</manifest>*}; do
+        case ${i} in
+        *media-type=\"application/xhtml*)
+            i="${i##*href=[\'\"]}"
+            htmls="${htmls}
+${i%%[\'\"]*}"
+            ;;
+        esac
+    done
+    IFS="${oldifs}"
+    echo "${htmls}"
+}
+
+extracttxt() {
+    :
+}
+
+# FRENCH RIGHTS!
+rm -fr "${WORK}"
