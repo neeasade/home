@@ -1,10 +1,5 @@
 #!/bin/sh
 
-read -r BPX  </tmp/info/wm/borders/size
-read -r BCOL </tmp/info/wm/borders/selcol
-read -r FG   </tmp/info/wm/colors/normfg
-read -r BG   </tmp/info/wm/colors/normbg
-
 reshape() {
     id=`slw`
     [ ${id} = '0x00000000' ] && exit 0  # root window
@@ -39,8 +34,13 @@ kill() {
 
 focus() { wmenu; }
 
-`xmenu -f "0x${FG#\#}"                 \
-      -b "0x${BG#\#}"                  \
-      -F "${XFONT}"                    \
-      'new' 'reshape' 'plumb' 'kill'   \
-      'hide' 'unhide' 'focus' 'exit'`
+eval `xdotool getmouselocation --shell`
+`9menu -popup -geometry 200x200+${X}+${Y} \
+      'New:echo new'   \
+      'Reshape:echo reshape' \
+      'Plumb:echo plumb' \
+      'Kill:echo kill'   \
+      'Hide:echo hide' \
+      'Unhide:echo unhide' \
+      'Focus:echo focus' \
+      'Exit:echo exit'`

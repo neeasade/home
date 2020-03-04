@@ -4,7 +4,8 @@ xid_flag="${1}"
 shift
 
 get_color() {
-    cat /tmp/info/wm/colors/${1}
+    read -r l </tmp/info/wm/colors/${1}
+    echo ${l}
 }
 
 tabbed -t `get_color normbg` -T `get_color normfg` \

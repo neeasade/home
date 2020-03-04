@@ -3,11 +3,11 @@
 tmp_image='/tmp/grab.png'
 
 case `echo 'grab area\ngrab window\ngrab screen' | menu sel` in
-(*area)   xscreenshot -g `crud g`                   ;;
-(*win*)   xscreenshot -w `xdotool getactivewindow`  ;;
-(*screen) xscreenshot                               ;;
-(*)       exit                                      ;;
-esac | ff2png > ${tmp_image}
+(*area)   xscreenshot -g `crud g`                           ;;
+(*win*)   sleep 1; xscreenshot -w `xdotool getactivewindow` ;;
+(*screen) xscreenshot                                       ;;
+(*)       exit                                              ;;
+esac | ff2png >${tmp_image}
 
 case ${1} in
 (-u)

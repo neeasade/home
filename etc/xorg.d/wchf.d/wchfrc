@@ -9,7 +9,7 @@ decor_size 0
 enable_borders true
 sticky_windows true
 enable_sloppy_focus true
-enable_last_window_focusing true
+enable_last_window_focusing false
 enable_resize_hints true
 groups_nr 5
 EOF

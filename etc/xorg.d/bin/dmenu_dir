@@ -22,7 +22,7 @@ cd_dir() {
 open_file() {
     case `file -ib ${1}` in
     (*pdf*)   exec zathura     "${1}" ;;
-    (*image*) exec meh         "${1}" ;;
+    (*image*) exec sxiv -s f   "${1}" ;;
     (*video*) exec mpv         "${1}" ;;
     (*text*)  exec emacsclient "${1}" ;;
     (*)

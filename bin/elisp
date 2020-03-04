@@ -14,5 +14,4 @@ erun() {
     res=`erun "${@}"`
 
 [ -z "${res}" -o "${res}" = nil ] && { echo ""; exit 1; }
-echo "${res}"
-exit 0
+echo "${res}" && exit 0

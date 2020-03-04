@@ -10,12 +10,12 @@ _c() {
     for p in "${@}" ${@}* *${@} *${@}*; {
         if [[ -f "${p}" ]]; then
             case `file -ib "${p}"` {
-            (*pdf*)   zathura "${p}" ;;
-            (*image*) meh     "${p}" ;;
-            (*audio*)                ;&
-            (*video*) mpv     "${p}" ;;
-            (*zip*)   upkp    "${p}" ;;
-            (*)       cat     "${p}" ;;
+            (*pdf*)   zathura "${p}"   ;;
+            (*image*) sxiv -s f "${p}" ;;
+            (*audio*)                  ;&
+            (*video*) mpv     "${p}"   ;;
+            (*zip*)   upkp    "${p}"   ;;
+            (*)       cat     "${p}"   ;;
             }
             return 0
         elif [[ -d "${p}" ]]; then
