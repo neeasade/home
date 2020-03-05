@@ -9,11 +9,11 @@ h=50
 x=$((ww - w - 20))
 y=20
 
-(echo "%{c}${c}"; sleep 2) |                                 \
-    lemonbar -d                                              \
-             -g ${w}x${h}+${x}+${y}                          \
-             -f "${XFONT}"                                   \
-             -F $(cat /tmp/info/wm/colors/normfg)            \
-             -B $(cat /tmp/info/wm/colors/normbg)            \
-             -R $(cat /tmp/info/wm/borders/selcol)           \
-             -r $(cat /tmp/info/wm/borders/size)             &
+(echo "%{c}${c}"; sleep 2) |								 \
+	lemonbar -d											  \
+			 -g ${w}x${h}+${x}+${y}						  \
+			 -f "${XFONT}"								   \
+			 -F $(cat /tmp/info/wm/colors/normfg)			\
+			 -B $(cat /tmp/info/wm/colors/normbg)			\
+			 -R $(cat /tmp/info/wm/borders/selcol)		   \
+			 -r $(cat /tmp/info/wm/borders/size)			 &

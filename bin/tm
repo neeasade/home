@@ -11,10 +11,10 @@ cp -r ${XDG_CONFIG_HOME}/tm/* ${XDG_CACHE_HOME}/tm
 ns='15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0'
 
 for i in ${XDG_CACHE_HOME}/tm/*; {
-    contents=`< ${i}`
-    for n in ${ns}; {
-        contents=${contents//X${n}/${colors[${n}]}}
-    }
-    contents=${contents//XFONT/"${XFONT}"}
-    print "${contents}" > ${i}
+	contents=`< ${i}`
+	for n in ${ns}; {
+		contents=${contents//X${n}/${colors[${n}]}}
+	}
+	contents=${contents//XFONT/"${XFONT}"}
+	print "${contents}" > ${i}
 }

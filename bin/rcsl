@@ -6,13 +6,13 @@ sltools="dmenu st tabbed"
 [ "${WM}" = dwm ] && sltools="dwm ${sltools}"
 
 compile() {
-    for i; do
-        cd ${base_dir}/${i}
-        echo "compiling ${i}"
-        make PREFIX=${HOME}/usr/local clean install
-        make clean
-    done
+	for i; do
+		cd ${base_dir}/${i}
+		echo "compiling ${i}"
+		make PREFIX=${HOME}/usr/local clean install
+		make clean
+	done
 }
 
 [ ${#} -eq 0 ] && compile ${sltools} ||
-    compile ${@}
+	compile ${@}

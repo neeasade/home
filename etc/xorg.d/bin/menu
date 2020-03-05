@@ -17,13 +17,13 @@ read -r borderpx < /tmp/info/wm/borders/size
 read -r borcol   < /tmp/info/wm/borders/selcol
 
 sel() {
-    dmenu -bp ${borderpx} -x ${x} -y ${y} -w ${w} \
-          -l ${l} -i -bc ${borcol}                \
-          -p "select:" ${@}
+	dmenu -bp ${borderpx} -x ${x} -y ${y} -w ${w} \
+		  -l ${l} -i -bc ${borcol}				\
+		  -p "select:" ${@}
 }
 
 run() {
-    echo "chrome
+	echo "chrome
 st
 dosbox
 screenshot
@@ -36,11 +36,11 @@ subs" | sel -p "run:"
 
 case ${1} in
 (sel)
-    shift
-    case ${@} in (*-wi*) borderpx=0 ;; esac
-    sel "${@}"
-    ;;
+	shift
+	case ${@} in (*-wi*) borderpx=0 ;; esac
+	sel "${@}"
+	;;
 (*)
-    run
-    ;;
+	run
+	;;
 esac

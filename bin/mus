@@ -5,82 +5,82 @@ sock=/tmp/mussock
 cmd="socat - ${sock}"
 
 men() {
-    echo 'pause\nnext\nprev\nshuff\nquit' | menu sel
+	echo 'pause\nnext\nprev\nshuff\nquit' | menu sel
 }
 
 fmt_song() {
-    artist=${1%/*}
+	artist=${1%/*}
 
-    echo `echo ${artist##*/} | tr _ ' '` - `echo ${1##*/} | tr _ ' '`
-    unset artist
+	echo `echo ${artist##*/} | tr _ ' '` - `echo ${1##*/} | tr _ ' '`
+	unset artist
 }
 
 next() {
-    echo '{"command":["playlist-next"]}' | ${cmd} >/dev/null
+	echo '{"command":["playlist-next"]}' | ${cmd} >/dev/null
 }
 
 prev() {
-    echo '{"command":["playlist-prev"]}' | ${cmd} >/dev/null
+	echo '{"command":["playlist-prev"]}' | ${cmd} >/dev/null
 }
 
 shuff() {
-    echo '{"command":["playlist-shuffle"]}' | ${cmd} >/dev/null
+	echo '{"command":["playlist-shuffle"]}' | ${cmd} >/dev/null
 }
 
 curfile() {
-    echo '{"command":["get_property_string","path"]}' | ${cmd} \
-              | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'
+	echo '{"command":["get_property_string","path"]}' | ${cmd} \
+			  | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'
 }
 
 is_playing() {
-    dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
-    case ${dat} in (*true*) exit 1;; esac
-    exit 0
+	dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
+	case ${dat} in (*true*) exit 1;; esac
+	exit 0
 }
 
 pause() {
-    stat=true
-    dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
-    case ${dat} in
-    (*true*) stat=false ;;
-    esac
-    printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} >/dev/null
-    unset stat dat
+	stat=true
+	dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
+	case ${dat} in
+	(*true*) stat=false ;;
+	esac
+	printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} >/dev/null
+	unset stat dat
 }
 
 quit() {
-    echo '{"command":["quit"]}' | ${cmd} >/dev/null
-    rm ${sock}
-    rm /tmp/musplist
+	echo '{"command":["quit"]}' | ${cmd} >/dev/null
+	rm ${sock}
+	rm /tmp/musplist
 }
 
 perc() {
-    dur=`echo '{"command":["get_property","duration"]}' | ${cmd} | grep -o -E '[0-9.]+'`
-    cur=`echo '{"command":["get_property","time-pos"]}' | ${cmd} | grep -o -E '[0-9.]+'`
-    echo "${cur} * 100 / ${dur}" | bc
+	dur=`echo '{"command":["get_property","duration"]}' | ${cmd} | grep -o -E '[0-9.]+'`
+	cur=`echo '{"command":["get_property","time-pos"]}' | ${cmd} | grep -o -E '[0-9.]+'`
+	echo "${cur} * 100 / ${dur}" | bc
 }
 
 pprint() {
-    [ -S ${sock} ] || {
-        echo 'not playing!'
-        exit 0
-    }
-    cur=`curfile`
-    echo "playing: `fmt_song ${cur}` (`perc`%)"
+	[ -S ${sock} ] || {
+		echo 'not playing!'
+		exit 0
+	}
+	cur=`curfile`
+	echo "playing: `fmt_song ${cur}` (`perc`%)"
 }
 
 [ ! -S ${sock} ]&& [ ${#} -eq 0 ] && {
-    find ${HOME}/usr/share/mus -type f >/tmp/musplist
-    mpv --no-audio-display         \
-        --input-ipc-server=${sock} \
-        --shuffle                  \
-        --playlist=/tmp/musplist && exit 0
+	find ${HOME}/usr/share/mus -type f >/tmp/musplist
+	mpv --no-audio-display		 \
+		--input-ipc-server=${sock} \
+		--shuffle				  \
+		--playlist=/tmp/musplist && exit 0
 }
 
 if [ -z ${1} ]; then
-    `men`
+	`men`
 else
-    f=${1}
-    shift
-    ${f} ${@}
+	f=${1}
+	shift
+	${f} ${@}
 fi

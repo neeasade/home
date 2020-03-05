@@ -2,21 +2,21 @@
 
 case ${1} in
 (*.tar.gz|*.tgz)
-    gzip -d -c "${1}" | tar -t -f -
-    ;;
+	gzip -d -c "${1}" | tar -t -f -
+	;;
 (*.tar.bz)
-    bzip2 -d -c "${1}" | tar -t -f -
-    ;;
+	bzip2 -d -c "${1}" | tar -t -f -
+	;;
 (*.tar.xz)
-    xz -d -c "${1}" | tar -t -f -
-    ;;
+	xz -d -c "${1}" | tar -t -f -
+	;;
 (*.tar)
-    tar -t -f "${1}"
-    ;;
+	tar -t -f "${1}"
+	;;
 (*.zip)
-    zip -s -f "${1}"
-    ;;
+	zip -s -f "${1}"
+	;;
 (*.7z)
-    7z l "${1}"
-    ;;
+	7z l "${1}"
+	;;
 esac

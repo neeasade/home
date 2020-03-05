@@ -2,93 +2,93 @@
 trap 'pkill -P $$' EXIT
 
 init() {
-    remkd /tmp/info/bar
+	remkd /tmp/info/bar
 
-    while ! pgrep dwm > /dev/null; do
-        sleep 0.1
-    done
+	while ! pgrep dwm > /dev/null; do
+		sleep 0.1
+	done
 
-    read -r vis < /tmp/info/wm/bar/visible
+	read -r vis < /tmp/info/wm/bar/visible
 
-    [[ ${vis} -eq 0 ]] && exit
+	[[ ${vis} -eq 0 ]] && exit
 
-    read -r h < /tmp/info/wm/bar/height
+	read -r h < /tmp/info/wm/bar/height
 
-    [[ ${h} -eq 0 ]] && exit
+	[[ ${h} -eq 0 ]] && exit
 
-    x=0
-    y=$((`res -h` - h))
-    w=`res -w`
+	x=0
+	y=$((`res -h` - h))
+	w=`res -w`
 
-    vol -i 0
-    unset vis
+	vol -i 0
+	unset vis
 }
 
 wksp() {
-    local i=1
-    read -r num < /tmp/info/wm/tag/num
-    read -r cur < /tmp/info/wm/tag/current
-    while [[ ${i} -le ${num} ]]; do
-        # check if occupied
-        read -r state < /tmp/info/wm/tag/${i}
-        case ${state} {
-        (1) ws='x ' ;;
-        (2) ws='@ ' ;;
-        (*) ws='+ ' ;;
-        }
+	local i=1
+	read -r num < /tmp/info/wm/tag/num
+	read -r cur < /tmp/info/wm/tag/current
+	while [[ ${i} -le ${num} ]]; do
+		# check if occupied
+		read -r state < /tmp/info/wm/tag/${i}
+		case ${state} {
+		(1) ws='x ' ;;
+		(2) ws='@ ' ;;
+		(*) ws='+ ' ;;
+		}
 
-        [[ ${cur} -eq ${i} ]] && ws='* '
-        buffer="${buffer}${ws}"
-        i=$((i + 1))
-    done
-    unset state cur ws
-    echo -n "${buffer}"
+		[[ ${cur} -eq ${i} ]] && ws='* '
+		buffer="${buffer}${ws}"
+		i=$((i + 1))
+	done
+	unset state cur ws
+	echo -n "${buffer}"
 }
 
 title() {
-    if pgrep -x mus > /dev/null && mus is_playing; then
-        mus fmt_song `mus curfile`
-    else
-        typeset -l -Z -L100 winn
-        winn=`xdotool getactivewindow getwindowname`
+	if pgrep -x mus > /dev/null && mus is_playing; then
+		mus fmt_song `mus curfile`
+	else
+		typeset -l -Z -L100 winn
+		winn=`xdotool getactivewindow getwindowname`
 
-        [[ -z "${winn}" ]] && return 0
+		[[ -z "${winn}" ]] && return 0
 
-        case ${winn} {
-        (*chrome*)  echo "chrome: ${winn%%- *ch*}" ;;
-        (*" - fi"*) echo "ff: ${winn%%- fi*}"      ;;
-        (*" - pa"*) echo "pm: ${winn%%- pa*}"      ;;
-        (*)         echo "${winn}"                 ;;
-        }
+		case ${winn} {
+		(*chrome*)  echo "chrome: ${winn%%- *ch*}" ;;
+		(*" - fi"*) echo "ff: ${winn%%- fi*}"	  ;;
+		(*" - pa"*) echo "pm: ${winn%%- pa*}"	  ;;
+		(*)		 echo "${winn}"				 ;;
+		}
 
-        unset winn
+		unset winn
    fi
 }
 
 
 batd() {
-    echo > /tmp/info/bar/bat
-    while echo `bat -p`%`test $(bat -s) = 'Charging' && echo '^'` \
-               > /tmp/info/bar/bat; do
-        sleep 5
-    done
+	echo > /tmp/info/bar/bat
+	while echo `bat -p`%`test $(bat -s) = 'Charging' && echo '^'` \
+			   > /tmp/info/bar/bat; do
+		sleep 5
+	done
 }
 
 init; batd &
 
-while echo                                                               \
-         "%{l} $(date +'%a' | tr '[:upper:]' '[:lower:]' | cut -c1-2)"   \
-         " $(title) "                                                    \
-         "%{c}"                                                          \
-         "$(wksp)"                                                       \
-         "%{r}b$(< /tmp/info/bar/bat)"                                   \
-         "$(< /tmp/info/vol/cur)%"                                       \
-         "$(date +'%H:%M')"                                              \
-         "$(date +'%b %d' | tr '[:upper:]' '[:lower:]') "
-    do sleep 0.5; done 2> /dev/null                                      |
-lemonbar -dbS                                                            \
-         -f "${XFONT}"                                                   \
-         -g ${w}x${h}+${x}+${y}                                          \
-         -n bar                                                          \
-         -B $(< /tmp/info/wm/colors/normbg)                              \
-         -F $(< /tmp/info/wm/colors/normfg)                              #> /dev/null 2>&1
+while echo															   \
+		 "%{l} $(date +'%a' | tr '[:upper:]' '[:lower:]' | cut -c1-2)"   \
+		 " $(title) "													\
+		 "%{c}"														  \
+		 "$(wksp)"													   \
+		 "%{r}b$(< /tmp/info/bar/bat)"								   \
+		 "$(< /tmp/info/vol/cur)%"									   \
+		 "$(date +'%H:%M')"											  \
+		 "$(date +'%b %d' | tr '[:upper:]' '[:lower:]') "
+	do sleep 0.5; done 2> /dev/null									  |
+lemonbar -dbS															\
+		 -f "${XFONT}"												   \
+		 -g ${w}x${h}+${x}+${y}										  \
+		 -n bar														  \
+		 -B $(< /tmp/info/wm/colors/normbg)							  \
+		 -F $(< /tmp/info/wm/colors/normfg)							  #> /dev/null 2>&1

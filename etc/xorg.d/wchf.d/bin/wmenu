@@ -2,8 +2,8 @@
 # select window by name
 
 id=`while read -r i; do
-          echo "${i} $(xdotool getwindowname ${i})"
-    done <<EOF
+		  echo "${i} $(xdotool getwindowname ${i})"
+	done <<EOF
 $(xdotool search --maxdepth 1 --onlyvisible --name '.' 2>/dev/null)
 EOF`
 

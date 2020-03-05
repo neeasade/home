@@ -4,10 +4,10 @@ xid_flag="${1}"
 shift
 
 get_color() {
-    read -r l </tmp/info/wm/colors/${1}
-    echo ${l}
+	read -r l </tmp/info/wm/colors/${1}
+	echo ${l}
 }
 
 tabbed -t `get_color normbg` -T `get_color normfg` \
-       -o `get_color selbg`  -O `get_color selfg`  \
-       "${@}" "${xid_flag}"
+	   -o `get_color selbg`  -O `get_color selfg`  \
+	   "${@}" "${xid_flag}"

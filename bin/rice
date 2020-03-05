@@ -8,6 +8,6 @@ prsp
 xdotool key alt+shift+q
 
 [ ${WM} = 'wchf' ] && {
-    popcfs
-    clbors
+	popcfs
+	clbors
 }

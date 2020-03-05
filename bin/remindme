@@ -2,24 +2,24 @@
 # remind me to do something after some time
 
 usage() {
-    echo "usage\n---------"
-    echo "remindme -t 20 message"
-    echo "[-t] time interval in mins"
+	echo "usage\n---------"
+	echo "remindme -t 20 message"
+	echo "[-t] time interval in mins"
 }
 
 remindme() {
-    local message="${2}"
-    local time_="${1}"
-    time_=$((time_ * 60))
+	local message="${2}"
+	local time_="${1}"
+	time_=$((time_ * 60))
 
-    local tmp=1
-    while [ ${tmp} -lt ${time_} ]; do
-        tmp=$((tmp + 1))
-        sleep 1
-    done
-    # that loop is to wait for the timer to reach
-    notify-send "remindme" "${message}"
-    echo "notification sent"
+	local tmp=1
+	while [ ${tmp} -lt ${time_} ]; do
+		tmp=$((tmp + 1))
+		sleep 1
+	done
+	# that loop is to wait for the timer to reach
+	notify-send "remindme" "${message}"
+	echo "notification sent"
 }
 
 case ${1} in

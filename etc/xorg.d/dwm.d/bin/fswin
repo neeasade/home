@@ -9,5 +9,5 @@ activewin=`xdotool getactivewindow`
 
 xdotool key alt + shift + space
 
-xdotool windowmove ${activewin} 0     0
+xdotool windowmove ${activewin} 0	 0
 xdotool windowsize ${activewin} ${sw} ${sh}

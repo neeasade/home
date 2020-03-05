@@ -11,8 +11,8 @@ glyph=${3}
 prog=`mklpg ${1} ${2} ${color4} ${color7}`
 
 (echo "%{c}%{T2}${glyph}%{T1}${prog}"; sleep 2) | \
-    lemonbar -f "${XFONT}" \
-             -f 'FontAwesome:pixelsize=12' \
-             -R $(cat /tmp/info/wm/borders/selcol) \
-             -r $(cat /tmp/info/wm/borders/size) \
-             -g "$((width + 200))x50+1500+50"
+	lemonbar -f "${XFONT}" \
+			 -f 'FontAwesome:pixelsize=12' \
+			 -R $(cat /tmp/info/wm/borders/selcol) \
+			 -r $(cat /tmp/info/wm/borders/size) \
+			 -g "$((width + 200))x50+1500+50"
