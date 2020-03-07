@@ -1,17 +1,16 @@
 #!/bin/sh
-# music music music music music music music music music music music music music
 
 sock=/tmp/mussock
 cmd="socat - ${sock}"
 
 men() {
-	echo 'pause\nnext\nprev\nshuff\nquit' | menu sel
+	echo 'pause \nnext \nprev \nshuff \nquit' | menu sel
 }
 
 fmt_song() {
 	artist=${1%/*}
 
-	echo `echo ${artist##*/} | tr _ ' '` - `echo ${1##*/} | tr _ ' '`
+	echo "`echo ${artist##*/} | tr _ ' '` - `echo ${1##*/} | tr _ ' '`"
 	unset artist
 }
 
@@ -28,13 +27,17 @@ shuff() {
 }
 
 curfile() {
-	echo '{"command":["get_property_string","path"]}' | ${cmd} \
-			  | sed -E 's/.*"data":"?([^,"]*)"?.*/\1/'
+	f=`echo '{"command":["get_property_string","path"]}' | ${cmd}`
+	f="${f##*\"data\":\"}"
+	echo "${f%%\"*}"
+	unset f
 }
 
 is_playing() {
 	dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
-	case ${dat} in (*true*) exit 1;; esac
+	case ${dat} in 
+	*true*) exit 1 ;;
+	esac
 	exit 0
 }
 
@@ -42,9 +45,9 @@ pause() {
 	stat=true
 	dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
 	case ${dat} in
-	(*true*) stat=false ;;
+	*true*) stat=false ;;
 	esac
-	printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} >/dev/null
+	printf '{"command":["set_property","pause",%s]} \n' ${stat} | ${cmd} >/dev/null
 	unset stat dat
 }
 
@@ -55,9 +58,11 @@ quit() {
 }
 
 perc() {
-	dur=`echo '{"command":["get_property","duration"]}' | ${cmd} | grep -o -E '[0-9.]+'`
-	cur=`echo '{"command":["get_property","time-pos"]}' | ${cmd} | grep -o -E '[0-9.]+'`
-	echo "${cur} * 100 / ${dur}" | bc
+	dur=`echo '{"command":["get_property","duration"]}' | ${cmd}`
+	dur=${dur##*\"data\":}
+	cur=`echo '{"command":["get_property","time-pos"]}' | ${cmd}`
+	cur=${cur##*\"data\":}
+	echo "${cur%%,*} * 100 / ${dur%%,*}"# | bc
 }
 
 pprint() {
@@ -65,16 +70,24 @@ pprint() {
 		echo 'not playing!'
 		exit 0
 	}
-	cur=`curfile`
-	echo "playing: `fmt_song ${cur}` (`perc`%)"
+	echo "playing: `fmt_song $(curfile)` (`perc`%)"
 }
 
+deadsock() {
+	! :| ${cmd} 2>/dev/null
+}
+
+# trap 'quit' EXIT INT TERM KILL HUP
+
+deadsock && quit
+
 [ ! -S ${sock} ]&& [ ${#} -eq 0 ] && {
-	find ${HOME}/usr/share/mus -type f >/tmp/musplist
-	mpv --no-audio-display		 \
+	find ${HOME}/usr/share/mus ! -name '*\.*' -type f >/tmp/musplist
+	mpv --no-audio-display \
 		--input-ipc-server=${sock} \
-		--shuffle				  \
-		--playlist=/tmp/musplist && exit 0
+		--shuffle \
+		--playlist=/tmp/musplist
+	exit 0
 }
 
 if [ -z ${1} ]; then
