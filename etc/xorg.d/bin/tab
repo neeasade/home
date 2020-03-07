@@ -9,5 +9,5 @@ get_color() {
 }
 
 tabbed -t `get_color normbg` -T `get_color normfg` \
-	   -o `get_color selbg`  -O `get_color selfg`  \
+	   -o `get_color selbg`  -O `get_color selfg` \
 	   "${@}" "${xid_flag}"

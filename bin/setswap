@@ -5,7 +5,7 @@ home='/home/viz'
 [ `id` -ne 0 ] && doas ${0}
 
 # create swap file if not present
-[ ! -e ${home}/tmp/swap ] && {
+[ -e ${home}/tmp/swap ] || {
 	dd if=/dev/zero of="${home}/tmp/swap" bs=1024 count=$((1024 * 1024 * 20))
 	chown root:root ${home}/tmp/swap
 	chmod 0600 ${home}/tmp/swap

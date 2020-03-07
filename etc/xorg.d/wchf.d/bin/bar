@@ -1,15 +1,15 @@
 #!/bin/sh
 # bar bar bar bar bar bar bar bar bar bar
 
-pgrep lemonbar > /dev/null && killall lemonbar
+pgrep lemonbar >/dev/null && killall lemonbar
 
-read -r bg < /tmp/info/wm/colors/normbg
-read -r fg < /tmp/info/wm/colors/normfg
+read -r bg </tmp/info/wm/colors/normbg
+read -r fg </tmp/info/wm/colors/normfg
 
 bar="lemonbar -B ${bg} -F ${fg} -r 1 -R ${fg}"
 
 ag() {
-	read -r g < /tmp/info/wm/groups/cur
+	read -r g </tmp/info/wm/groups/cur
 	echo "%{c}${g}"
 	unset g
 }

@@ -17,11 +17,11 @@ wksp() {
 	read -r cur < /tmp/info/wm/tag/current
 	i=1
 	while [ ${i} -le ${num} ]; do
-		read -r state < /tmp/info/wm/tag/${i}
+		read -r state </tmp/info/wm/tag/${i}
 		case ${state} in
-		(1) ws='x ';;
-		(2) ws='@ ';;
-		(*) ws='+ ';;
+		1) ws='x ';;
+		2) ws='@ ';;
+		*) ws='+ ';;
 		esac
 
 		[ ${cur} -eq ${i} ] && ws='* '
@@ -32,7 +32,7 @@ wksp() {
 	echo "${buffer}"
 }
 
-(echo "%{l} $(wksp)"			 \
+(echo "%{l} $(wksp)" \
 		 "%{r} $(date +'%H:%M') ";
 sleep 2;) |
 	lemonbar -db \

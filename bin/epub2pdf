@@ -2,6 +2,7 @@
 
 BOOK="${1}"
 WORK="/tmp/${$}/epub2pdf.${$}"
+HTMLS=
 
 mkdir -p "${WORK}"
 
@@ -24,20 +25,20 @@ ${l}"
 		case ${i} in
 		*media-type=\"application/xhtml*)
 			i="${i##*href=[\'\"]}"
-			htmls="${htmls}
+			HTMLS="${HTMLS}
 ${i%%[\'\"]*}"
 			;;
 		esac
 	done
 	IFS="${oldifs}"
-	echo "${htmls}"
+
+	unset files manifest
 }
 
 extracttxt() {
+	getfiles
 	:
 }
-
-getfiles
 
 # FRENCH RIGHTS!
 rm -fr "${WORK}"

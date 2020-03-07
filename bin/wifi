@@ -3,9 +3,9 @@
 [ `id -u` -ne 0 ] && doas ${0} "${@}"
 
 case ${1} in
-(list)
+list)
 	iw dev wlp2s0 scan | grep -i ssid
 	;;
-(connect)
+connect)
 	;;
 esac

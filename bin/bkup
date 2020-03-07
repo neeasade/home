@@ -3,7 +3,10 @@
 
 # create lock
 lock="${HOME}/tmp/bkup.lock"
-[ -f "${lock}" ] && { echo "another bkup is running!"; exit 1; }
+[ -f "${lock}" ] && { 
+	echo "another bkup is running!"
+	exit 1
+}
 
 touch "${lock}"
 

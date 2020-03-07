@@ -36,10 +36,10 @@ focus() { wmenu; }
 
 eval `xdotool getmouselocation --shell`
 `9menu -popup -geometry 200x200+${X}+${Y} \
-	  'New:echo new'   \
+	  'New:echo new' \
 	  'Reshape:echo reshape' \
 	  'Plumb:echo plumb' \
-	  'Kill:echo kill'   \
+	  'Kill:echo kill' \
 	  'Hide:echo hide' \
 	  'Unhide:echo unhide' \
 	  'Focus:echo focus' \

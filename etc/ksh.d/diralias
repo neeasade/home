@@ -1,8 +1,8 @@
 #!/bin/ksh
 
 while read -r al; do
-    a g${al% *}="cd ${al#* }"
-    a -d ${al% *}="${al#* }"
+	a g${al% *}="cd ${al#* }"
+	a -d ${al% *}="${al#* }"
 done <<EOF
 H ${HOME}
 B ${HOME}/bin

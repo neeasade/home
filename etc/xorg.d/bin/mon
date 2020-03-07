@@ -2,10 +2,10 @@
 # set of commands which should be run when I plug in my monitor
 
 case ${1} in
-(on)
+on)
 	xrandr --auto --output DP1 --mode 1600x900 --primary --right-of eDP1
 	;;
-(off)
+off)
 	xrandr --auto --output eDP1 --mode 1366x768 --primary
 	;;
 esac

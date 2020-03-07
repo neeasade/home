@@ -5,15 +5,15 @@
 h=`res -h`
 
 grp() {
-	read -r main < /tmp/info/wm/groups/main
-	read -r num  < /tmp/info/wm/groups/num
+	read -r main </tmp/info/wm/groups/main
+	read -r num  </tmp/info/wm/groups/num
 	curs=`cat /tmp/info/wm/groups/cur`
 	i=1
 	while [ ${i} -le ${num} ]; do
 		[ ${i} -eq ${main} ] && echo -n 'x ' ||
 				case ${curs} in
-					(*${i}*) echo -n '+ ' ;;
-					(*)	  echo -n '- ' ;;
+				*${i}*) echo -n '+ ' ;;
+				*)      echo -n '- ' ;;
 				esac
 		: $((i += 1))
 	done

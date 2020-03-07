@@ -9,7 +9,7 @@ sh=${sh%.*}
 sh=${sh%+*+*}
 
 case ${1} in
-(-w) echo ${sw}	   ;;
-(-h) echo ${sh}	   ;;
-(*)  echo ${sw} ${sh} ;;
+-w) echo ${sw}       ;;
+-h) echo ${sh}       ;;
+*)  echo ${sw} ${sh} ;;
 esac

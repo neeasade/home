@@ -1,6 +1,5 @@
 #!/bin/sh
 
-pgrep -x bar > /dev/null &&
+pgrep -x bar >/dev/null &&
 	killall bar
-
 bar

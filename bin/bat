@@ -1,7 +1,7 @@
 #!/bin/sh
 # a battery thingy
 
-[ ! -e ${XDG_CACHE_HOME}/bat ] && {
+[ -e ${XDG_CACHE_HOME}/bat ] || {
 	base_dir='/sys/class/power_supply'
 
 	for i in 0 1 2 3; do
@@ -16,6 +16,12 @@
 [ -z ${base_dir} ] && read -r base_dir <${XDG_CACHE_HOME}/bat
 
 case ${1} in
-(-s) cat ${base_dir}/status   ;;
-(*)  cat ${base_dir}/capacity ;;
+-s)
+	read -r s <${base_dir}/status
+	echo ${s}
+	;;
+*)
+	read -r c <${base_dir}/capacity
+	echo ${c}
+	;;
 esac

@@ -1,92 +1,98 @@
 #!/bin/ksh
 
-v() vi "${@}"
+v() {
+	vis "${@}"
+}
 
 has git && {
-    git() {
-        case ${1} {
-        (ignore-get)
-            wget -O gitignore \
-                https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
-            ;;
-        (squash)
-            local cnf
-            print -n 'do you want to continue? '
-            read -r cnf
-            [[ "${cnf:0:1}" != 'y' ]] && return 0
-            local n=${2}
-            shift 2
-            local msg="${@}"
-            cmd git reset --soft HEAD~${n}
-            cmd git commit -m "${msg}"
-            ;;
-        (add)
-            [[ "${2}" = @('.'|'*') ]] && {
-                print no
-                return 0
-            }
-            cmd git "${@}"
-            ;;
-        (com*)
-            shift
-            [[ -n "${1}" ]] && cmd git commit -m "${@}" ||
-                    cmd git commit
-            ;;
-        (clone)
-            local fnl="${@}"
-            [[ "${2}" != */viz* ]] && fnl="${@} --depth 1"
-            cmd git ${fnl}
-            ;;
-        (push)
-            [[ -z "${2}" ]] &&
-                cmd git push origin `cmd git rev-parse --abbrev-ref HEAD` ||
-                cmd git "${@}"
-            ;;
-        (tracked)
-            cmd git ls-files
-            ;;
-        (untracked)
-            cmd git ls-files -o --exclude-standard
-            ;;
-        (changed)
-            cmd git ls-files -m
-            ;;
-        (*)
-            cmd git "${@}"
-            ;;
-        }
-    }
-    a diff='git diff --no-color'
+	git() {
+	    case ${1} {
+	    ignore-get)
+	        wget -O gitignore \
+	            https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
+	        ;;
+	    squash)
+	        local cnf
+	        print -n 'do you want to continue? '
+	        read -r cnf
+	        [[ "${cnf:0:1}" != 'y' ]] && return 0
+	        local n=${2}
+	        shift 2
+	        local msg="${@}"
+	        cmd git reset --soft HEAD~${n}
+	        cmd git commit -m "${msg}"
+	        ;;
+	    add)
+	        [[ "${2}" = @('.'|'*') ]] && {
+	            print no
+	            return 0
+	        }
+	        cmd git "${@}"
+	        ;;
+	    com*)
+	        shift
+	        [[ -n "${1}" ]] && cmd git commit -m "${@}" ||
+	                cmd git commit
+	        ;;
+	    clone)
+	        local fnl="${@}"
+	        [[ "${2}" != */viz* ]] && fnl="${@} --depth 1"
+	        cmd git ${fnl}
+	        ;;
+	    push)
+	        [[ -z "${2}" ]] &&
+	            cmd git push origin `cmd git rev-parse --abbrev-ref HEAD` ||
+	            cmd git "${@}"
+	        ;;
+	    tracked)
+	        cmd git ls-files
+	        ;;
+	    untracked)
+	        cmd git ls-files -o --exclude-standard
+	        ;;
+	    changed)
+	        cmd git ls-files -m
+	        ;;
+	    *)
+	        cmd git "${@}"
+	        ;;
+	    }
+	}
+	a diff='git diff --no-color'
 }
 
 has emacs && {
-    remacs() {
-        pgrep -x emacs >/dev/null && pkill -x emacs
-        emacs --daemon
-    }
+	remacs() {
+	    pgrep -x emacs >/dev/null && pkill -x emacs
+	    emacs --daemon
+	}
 
-    # really limiting!
-    vterm() {
-        [[ -z ${INSIDE_EMACS} ]]        && return 1
-        [[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\' "${@}"
-    }
+	# really limiting!
+	vterm() {
+	    [[ -z ${INSIDE_EMACS} ]]        && return 1
+	    [[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\' "${@}"
+	}
 
-    v() {
-        case ${INSIDE_EMACS} {
-        ("")
-            ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && vi "${@}"
-            xembed --parent-id emacsclient -c "${@}" ||
-                emacsclient -c "${@}"
-            ;;
-        (vterm)
-            vterm "find-file \"${@}\""
-            ;;
-        }
-    }
+	v() {
+	    case ${INSIDE_EMACS} {
+	    ("")
+	        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && vis "${@}"
+	        xembed --parent-id emacsclient -c "${@}" ||
+	            emacsclient -c "${@}"
+	        ;;
+	    (vterm)
+	        vterm "find-file \"${@}\""
+	        ;;
+	    }
+	}
 }
 
 has mpv && has ytdl && {
-    yt() {
-        ytdl -o - "${1}" | mpv -
-    }
+	yt() {
+	    ytdl -o - "${1}" | mpv -
+	}
+
+	muss() {
+		mpv "${1:-.}" --shuffle
+	}
 }

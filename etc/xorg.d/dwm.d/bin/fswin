@@ -3,7 +3,7 @@
 sw=`res -w`
 sh=`res -h`
 
-read -r borderpx < /tmp/info/wm/borders/size
+read -r borderpx </tmp/info/wm/borders/size
 
 activewin=`xdotool getactivewindow`
 
