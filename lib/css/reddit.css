@@ -1,0 +1,6 @@
+@-moz-document url-prefix("https://www.reddit.com") {
+[class^="redesign-beta-optin"], [class^="give-gold-button"],
+[class^="awardings-bar"], .premium-banner-outer {
+    display: none !important;
+}
+}

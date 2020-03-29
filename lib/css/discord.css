@@ -1,0 +1,54 @@
+@-moz-document url-prefix("https://discordapp.com/channels/") {
+*:not(code):not([class*="hljs"]):not(.name-3_Dsmg) {
+	font-family: Go !important;
+	font-size: 14px !important;
+}
+
+.name-3_Dsmg {
+	font-size: 13px !important;	
+}
+
+.codeBlockText-11zCaP, .codeLine-3qsZPQ,
+.codeBlockText-11zCaP *,
+code, .inline {
+	font-family: monospace !important;
+	font-size: 12px !important;
+}
+
+.message-2qnXI6{
+    --background-message-hover:
+}
+
+.buttonContainer-DHceWr{
+    margin-top:26px;
+}
+
+.buttons-cl5qTG{
+    --elevation-stroke:
+}
+
+.wrapper-2aW0bm{
+    height:1.4em
+}
+
+.button-1ZiXG9{
+    height:0.9em;
+    min-width:1em;
+}
+
+.emojiButton-jE9tXC,
+.emojiSeparator-10VgEJ{
+    display: none
+}
+
+.compact-T3H92H {
+    /* remove spacing between same-group messages */
+    padding: .0rem 1rem .0rem 80px;
+    text-indent: calc(-80px - -1rem);
+}
+
+[class^="message"] [class*="timestamp"] > span {
+    font-family: Go !important;
+    font-size: 10px !important;
+}
+}
