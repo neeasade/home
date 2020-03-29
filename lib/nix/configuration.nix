@@ -106,6 +106,19 @@
       file gnumake clang pkg-config dash
       vis # The only good editor
     ];
+    etc = {
+       "doas.conf" = {
+         enable = true;
+         text = ''
+           permit nopass root as root
+           permit keepenv persist viz as root
+           permit nopass keepenv viz as root cmd /home/viz/bin/brness
+           permit nopass viz as root cmd poweroff
+           permit nopass viz as root cmd reboot
+           permit nopass viz as mc
+         '';
+       };
+    };
   };
 
   fonts = {
@@ -141,7 +154,9 @@
     '';
   };
 
-  nixpkgs.overlays = [ (import ./override.nix) ];
+  nixpkgs = {
+    overlays = [ (import ./override.nix) ];
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

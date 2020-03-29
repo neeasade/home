@@ -13,7 +13,7 @@ y=20
 	lemonbar -d \
 			 -g ${w}x${h}+${x}+${y} \
 			 -f "${XFONT}" \
-			 -F $(cat /tmp/info/wm/colors/normfg) \
-			 -B $(cat /tmp/info/wm/colors/normbg) \
-			 -R $(cat /tmp/info/wm/borders/selcol) \
-			 -r $(cat /tmp/info/wm/borders/size) &
+			 -F \#1c1e1d \
+			 -B \#e7e7d4 \
+			 -R \#6ecbdc \
+			 -r 4 &
