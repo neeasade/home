@@ -1,0 +1,2 @@
+#!/bin/sh
+tabbed -g `crud g` -n floating-st -r 2 st -w '' -t floating-st

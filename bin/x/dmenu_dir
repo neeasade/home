@@ -1,0 +1,47 @@
+#!/bin/sh
+# ls and cd in dmenu
+# -h 1 = hide dotfiles
+
+case ${1} in
+-h) hidden=$2 ;;
+*)  hidden=1  ;;
+esac
+
+get_dir() {
+	case ${hidden} in
+	1) echo "..\n`ls -1 -p`"	| menu sel -p ~${PWD#${HOME}} ;;
+	0) echo "..\n`ls -A -1 -p`" | menu sel -p ~${PWD#${HOME}} ;;
+	esac
+}
+
+cd_dir() {
+	cd "${1}"
+	spawn
+}
+
+open_file() {
+	case `file -ib ${1}` in
+	*pdf*)   exec zathura "${1}"     ;;
+	*image*) exec sxiv -s f "${1}"   ;;
+	*video*) exec mpv "${1}"         ;;
+	*text*)  exec emacsclient "${1}" ;;
+	*)
+		case `file "${1}"` in
+		*archive*) exec st -e upkp "${1}" ;;
+		esac
+		;;
+	esac
+}
+
+spawn() {
+	output="$(get_dir)"
+
+	[ ${output} = '!ot' ] &&
+		exec tab -w st
+	[ -d "${output}" ] &&
+		cd_dir "${output}"
+	[ -f "${output}" ] &&
+		open_file "${output}"
+}
+
+spawn

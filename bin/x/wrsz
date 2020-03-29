@@ -1,0 +1,8 @@
+#!/bin/sh
+
+eval `xdotool getactivewindow getwindowgeometry --shell`
+
+[ ${1} != w ] && nw=$((WIDTH  ${1}))
+[ ${2} != h ] && nh=$((HEIGHT ${2}))
+
+xdotool getactivewindow windowsize ${nw:-w} ${nh:-h}

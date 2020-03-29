@@ -1,0 +1,49 @@
+#!/bin/sh
+usage() {
+	cat <<EOF
+help
+----
+[-h] echo this help msg
+[-i/d] inc/dec vol
+[-m/u] mute/unmute vol
+[-s/g] set/get volume
+EOF
+	exit 0
+}
+
+write() {
+	vol=`amixer sget Master`
+	vol=${vol%%\]*}
+	vol=${vol##*\[}
+	echo ${vol%%%} >/tmp/info/vol/cur
+	[ -f /tmp/info/vol/muted ] || unmute
+	unset vol
+}
+
+mute() {
+	amixer set Master mute
+	echo 1 >/tmp/info/vol/muted
+}
+
+unmute() {
+	amixer set Master unmute
+	echo 0 >/tmp/info/vol/muted
+}
+
+get() {
+	[ -f /tmp/info/vol/cur ] || write
+	read -r v </tmp/info/vol/cur
+	echo ${v}
+}
+
+write
+
+case ${1} in
+-i) amixer set Master ${2}+  ;;
+-d) amixer set Master ${2}-  ;;
+-m) mute                     ;;
+-u) unmute                   ;;
+-s) amixer set Master ${2}   ;;
+-g) get                      ;;
+*)  usage                    ;;
+esac

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+[ -z "${1}" ] && exit 1
+
+tm "${HOME}/etc/colors/${1}"
+rcsl
+prsp
+xdotool key alt+shift+q
+
+[ ${WM} = 'wchf' ] && {
+	popcfs
+	clbors
+}

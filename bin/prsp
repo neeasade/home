@@ -1,0 +1,13 @@
+#!/bin/sh
+
+rf() {
+	while read -r l; do
+		echo "${l}"
+	done <${1}
+}
+
+style=`rf ${HOME}/etc/startpage/style.css`
+h=`rf ${HOME}/etc/startpage/homepage.html`
+
+echo "${h%%XCSS*}`rf ${XDG_CACHE_HOME}/tm/colors.css`\n${style##ICOLORS}${h##*XCSS}" \
+	 >${XDG_CACHE_HOME}/homepage.html

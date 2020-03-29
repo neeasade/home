@@ -1,0 +1,24 @@
+#!/bin/sh
+# Send "notification" using st
+
+len() {
+	n=0
+	while read -r l; do
+		: $((n+=1))
+	done </tmp/notify.${$}
+}
+
+echo "${@:-`while read -r l; do
+		echo ${l}
+	done </dev/stdin`}" >/tmp/notify.${$}
+:| paste -d' ' - - - - - /tmp/notify.${$} | fmt -s -w 40 | sponge \
+	/tmp/notify.${$}
+len
+
+ww=`res -w`
+wh=`res -h`
+
+st -f monospace:pixelsize=12 -t todoterm -g 50x$((n+4))+$((ww - 400))+40 \
+	-e /bin/sh -c "printf '\n\n' && cat /tmp/notify.${$} && sleep 20"
+
+rm -f /tmp/notify.${$}

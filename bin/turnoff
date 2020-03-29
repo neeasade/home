@@ -1,0 +1,13 @@
+#!/bin/sh
+
+[ -f ${HOME}/tmp/bkup.lock ] || pgrep transmission >/dev/null && {
+	notify-send "bkup/transmission is running!"
+	exit 1
+}
+
+opt=`echo 'poweroff\nreboot\nkill x' | menu sel`
+
+case ${opt} in
+poweroff|reboot) ${opt}     ;;
+"kill x")        pkill Xorg ;;
+esac

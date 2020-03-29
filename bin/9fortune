@@ -1,0 +1,6 @@
+#!/bin/sh
+# Display a random line from 9front's fortune files
+
+shuf -n1 "$(for i in ${HOME}/lib/9fortune/*; do
+			echo "${i}"
+		done | shuf -n1)" | fmt

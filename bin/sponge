@@ -1,0 +1,5 @@
+#!/bin/sh
+# Clone of sponge(1) from moreutils!
+
+cat - >/tmp/sponge.${$}
+mv -f /tmp/sponge.${$} "${1}"

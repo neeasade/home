@@ -1,0 +1,20 @@
+#!/bin/sh
+# mostly modelled after https://github.com/neeasade/dotfiles/blob/master/bin/bin/elisp
+
+pgrep -x emacs >/dev/null || exit 1
+
+erun() {
+	emacsclient --eval "${@}"
+}
+
+[ -f "${1}" ] &&
+	res=`erun "(vz/eval-file \"${1}\")"`
+
+[ -n "${1}" ] &&
+	res=`erun "${@}"`
+
+[ -z "${res}" -o "${res}" = nil ] && {
+	echo ""
+	exit 1
+}
+echo "${res}" && exit 0

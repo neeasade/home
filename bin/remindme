@@ -1,0 +1,25 @@
+#!/bin/sh
+# remind me to do something after some time
+
+usage() {
+	echo "usage\n---------"
+	echo "remindme -t 20 message"
+	echo "[-t] time interval in mins"
+}
+
+remindme() {
+	sleep $((${1} * 60))
+	notify-send "remindme" "${2}"
+	echo "notification sent"
+}
+
+case ${1} in
+-t)
+	interval="${2}"
+	shift 2
+	remindme ${interval} "${@}"
+	;;
+*)
+	usage
+	;;
+esac

@@ -1,0 +1,10 @@
+#!/bin/sh
+# spawn a window in tabbed
+
+win=`echo 'st\nmpv\nemacsclient -c' | menu sel -wi ${XEMBED}`
+
+case ${win} in
+st*)    ${win} -w ${XEMBED}          ;;
+mpv*)   ${win} --wid=${XEMBED}       ;;
+emacs*) ${win} --parent-id=${XEMBED} ;;
+esac

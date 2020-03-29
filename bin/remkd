@@ -1,0 +1,7 @@
+#!/bin/sh
+# remove dir and make it again
+
+for i; do
+	[ -d "${i}" ] && rm -rf "${i}"
+	mkdir -p "${i}"
+done

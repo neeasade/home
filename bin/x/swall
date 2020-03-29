@@ -1,0 +1,8 @@
+#!/bin/sh
+# script to set wallpaper
+
+[ ! -f "${1}" ] && exit 1
+
+img="${1}"; shift
+echo bgs `realpath ${img}` "${@}" > ${XDG_CACHE_HOME}/wall
+. ${XDG_CACHE_HOME}/wall
