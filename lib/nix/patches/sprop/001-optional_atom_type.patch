@@ -1,0 +1,131 @@
+diff --git a/sprop.1 b/sprop.1
+index 9b57632..b0fe811 100644
+--- a/sprop.1
++++ b/sprop.1
+@@ -5,6 +5,7 @@ sprop \- simple X property utility
+ .B sprop
+ .I xid atom
+ .RI [ value ]
++.RI [ type ]
+ [\-v]
+ .SH DESCRIPTION
+ .SS Overview
+@@ -16,7 +17,7 @@ of the window with the given
+ .IR xid ,
+ or alternatively sets it to
+ .I value
+-if given. sprop can only interact with atoms which are strings.
++if given.
+ .SS Options
+ .TP
+ .B \-v
+diff --git a/sprop.c b/sprop.c
+index b5a1159..cd93736 100644
+--- a/sprop.c
++++ b/sprop.c
+@@ -14,59 +14,62 @@ static Window win;
+ int
+ main(int argc, char *argv[])
+ {
+-	char *value = NULL;
+-	Atom atom;
++    char *value = NULL;
++    Atom atom;
++    char *type  = "UTF8_STRING";
+ 
+-	if(!(dpy = XOpenDisplay(NULL))) {
+-		fputs("sprop: cannot open display\n", stderr);
+-		return 1;
+-	}
+-	switch(argc) {
+-	case 4:
+-		value = argv[3];
+-	case 3:
+-		atom = XInternAtom(dpy, argv[2], True);
+-		utf8 = XInternAtom(dpy, "UTF8_STRING", True);
+-		win = atol(argv[1]);
+-		break;
+-	case 2:
+-		if(!strcmp(argv[1], "-v")) {
+-			fputs("sprop-"VERSION", © 2010 Connor Lane Smith\n", stdout);
+-			return 0;
+-		}
+-	default:
+-		fprintf(stderr, "usage: sprop <xid> <atom> [<value>] [-v]\n");
+-		return 1;
+-	}
+-	if(value)
+-		setprop(atom, value);
+-	else {
+-		if(!(value = getprop(atom))) {
+-			fputs("sprop: cannot get atom\n", stderr);
+-			return 1;
+-		}
+-		printf("%s\n", value);
+-		XFree(value);
+-	}
+-	XCloseDisplay(dpy);
+-	return 0;
++    if(!(dpy = XOpenDisplay(NULL))) {
++        fputs("sprop: cannot open display\n", stderr);
++        return 1;
++    }
++    switch(argc) {
++    case 5:
++        type = argv[4];
++    case 4:
++        value = argv[3];
++    case 3:
++        atom = XInternAtom(dpy, argv[2], True);
++        utf8 = XInternAtom(dpy, type, True);
++        win = atol(argv[1]);
++        break;
++    case 2:
++        if(!strcmp(argv[1], "-v")) {
++            fputs("sprop-"VERSION", © 2010 Connor Lane Smith\n", stdout);
++            return 0;
++        }
++    default:
++        fprintf(stderr, "usage: sprop <xid> <atom> [<value>] [<type>] [-v]\n");
++        return 1;
++    }
++    if(value)
++        setprop(atom, value);
++    else {
++        if(!(value = getprop(atom))) {
++            fputs("sprop: cannot get atom\n", stderr);
++            return 1;
++        }
++        printf("%s\n", value);
++        XFree(value);
++    }
++    XCloseDisplay(dpy);
++    return 0;
+ }
+ 
+ char *
+ getprop(Atom atom)
+ {
+-	int di;
+-	unsigned long dl;
+-	unsigned char *p = NULL;
+-	Atom da;
++    int di;
++    unsigned long dl;
++    unsigned char *p = NULL;
++    Atom da;
+ 
+-	XGetWindowProperty(dpy, win, atom, 0, BUFSIZ, False, utf8, &da, &di, &dl, &dl, &p);
+-	return (char *)p;
++    XGetWindowProperty(dpy, win, atom, 0, BUFSIZ, False, utf8, &da, &di, &dl, &dl, &p);
++    return (char *)p;
+ }
+ 
+ void
+ setprop(Atom atom, char *value)
+ {
+-	XChangeProperty(dpy, win, atom, utf8, 8, PropModeReplace,
+-			(unsigned char *)value, strlen(value));
++    XChangeProperty(dpy, win, atom, utf8, 8, PropModeReplace,
++            (unsigned char *)value, strlen(value));
+ }

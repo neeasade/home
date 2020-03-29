@@ -35,7 +35,7 @@ in
         zathura # Possibly the easiest to use document reader
         dwm dmenu st tabbed bgs doas lemonbar-xft
         # Custom packages
-        xscreenshot crud
+        xscreenshot crud sprop
     ];
     
     home.sessionVariables = {
