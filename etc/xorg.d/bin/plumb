@@ -1,5 +1,0 @@
-#!/bin/sh
-
-export PLUMB=`xout`
-[ -z "${PLUMB}" ] && exit 0
-plumber

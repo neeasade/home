@@ -1,2 +1,0 @@
-#!/bin/sh
-xclip -sel clip "${1:-/dev/stdin}"

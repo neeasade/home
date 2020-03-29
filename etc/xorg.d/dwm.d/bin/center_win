@@ -1,8 +1,0 @@
-#!/bin/sh
-
-eval `xdotool getactivewindow getwindowgeometry --shell`
-
-sw=`res -w`
-sh=`res -h`
-
-xdotool getactivewindow windowmove $(((sw - WIDTH) / 2)) $(((sh - HEIGHT) / 2))

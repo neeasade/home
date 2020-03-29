@@ -1,5 +1,0 @@
-#!/bin/sh
-
-read -p "video: "  i
-read -p "output: " o
-ffmpeg -i "${i}" -acodec mp3 -vcodec copy "${o}"
