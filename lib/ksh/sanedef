@@ -1,0 +1,34 @@
+#!/usr/bin/env mksh
+
+while read -r al; do
+	a ${al%% *}="${al}"
+done <<EOF
+df -h
+du -h
+mv -i
+cp -r
+ln -sf
+free -h
+fc-cache --verbose
+grep -i
+su -
+ls -F
+mpv --no-audio-display
+EOF
+
+a mkf='touch'
+a mkd='mkdir -p'
+a sl='ls'
+
+# FRENCH RIGHTS!
+a rmf='rm -fr'
+a SU='doas ksh'
+
+# This is the best way I know of to detect systemd
+has systemctl || {
+	a reboot='doas reboot'
+	a poweroff='doas poweroff'
+	a shutdown='doas shutdown'
+}
+
+a datenow='date +"%a %d %b %Y %H:%M"'

@@ -1,0 +1,36 @@
+#!/bin/sh
+# MANAGED BY NIX NOW
+for p in \
+    ${HOME}/opt/texlive/bin/x86_64-linux \
+    ${HOME}/bin \
+    ${HOME}/opt/{racket/7.5,go}/bin; do
+        PATH=${p}:${PATH}
+done
+
+case ${SHELL} in
+*/bin/mksh)
+    export ENV=${HOME}/lib/kshrc
+    . ${HOME}/lib/kshrc
+    ;;
+esac
+
+while read -r l; do
+    export ${l}
+done <<EOF
+EDITOR=vis
+VISUAL=vis
+MANPAGER=less
+INPUTRC=${HOME}/lib/inputrc
+XDG_CACHE_HOME=${HOME}/.cache
+XDG_CONFIG_HOME=${HOME}/lib
+XDG_DESKTOP_DIR=/no
+XDG_DOWNLOAD_DIR=/no
+XDG_DATA_HOME=${HOME}/opt
+GOPATH=${HOME}/opt/go:${HOME}/usr/src/go
+PYTHONUSERBASE=${HOME}/opt/python
+PYTHONPATH=${HOME}/opt/python
+PYTHONSTARTUP=${HOME}/lib/pythonrc
+LESSHISTFILE=${XDG_CACHE_HOME}/lesshst
+GNUPGHOME=${HOME}/lib/gnupg
+EOF
+# FREETYPE_PROPERTIES=truetype:interpreter-version=38

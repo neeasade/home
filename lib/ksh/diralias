@@ -1,0 +1,25 @@
+#!/usr/bin/env mksh
+
+while read -r al; do
+	a g${al% *}="cd ${al#* }"
+	a -d ${al% *}="${al#* }"
+done <<EOF
+H ${HOME}
+B ${HOME}/bin
+S ${HOME}/src
+R ${HOME}/opt/repos
+T ${HOME}/tmp
+W ${HOME}/med/img/walls
+A ${HOME}/med/img/art
+F ${HOME}/med/img/film
+E ${HOME}/lib
+D ${HOME}/doc
+C ${XDG_CACHE_HOME}
+M ${HOME}/med/mus
+N ${HOME}/lib/nix
+s ${HOME}/med
+m /mnt
+EOF
+
+a c..='cd ..'
+a ..='cd ..'
