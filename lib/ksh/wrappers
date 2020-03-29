@@ -75,12 +75,12 @@ has emacs && {
 
 	v() {
 	    case ${INSIDE_EMACS} {
-	    ("")
+	    "")
 	        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && vis "${@}"
 	        xembed --parent-id emacsclient -c "${@}" ||
 	            emacsclient -c "${@}"
 	        ;;
-	    (vterm)
+	    vterm)
 	        vterm "find-file \"${@}\""
 	        ;;
 	    }

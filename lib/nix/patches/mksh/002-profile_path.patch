@@ -7,7 +7,7 @@ index cde0616..573b5c7 100644
  	if (!Flag(FPRIVILEGED)) {
  		if (Flag(FLOGIN))
 -			include(substitute("$HOME/.profile", 0), 0, NULL, true);
-+			include(substitute("$HOME/etc/profile", 0), 0, NULL, true);
++			include(substitute("$HOME/lib/profile", 0), 0, NULL, true);
  		if (Flag(FTALKING)) {
  			cp = substitute("${ENV:-" MKSHRC_PATH "}", DOTILDE);
  			if (cp[0] != '\0')

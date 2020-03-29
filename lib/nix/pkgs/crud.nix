@@ -1,4 +1,9 @@
-{ stdenv, fetchurl, libX11, pkgs, pkgconfig }:
+{ stdenv, fetchurl, pkgconfig
+, libX11
+, libXext
+, libXcursor
+, xorgproto
+}:
 
 stdenv.mkDerivation rec {
   name = "crud-0.1.1";
@@ -10,7 +15,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkgconfig ];
-  buildInputs = with pkgs; [ libX11 xorg.libXcursor xorg.xorgproto xorg.libXext ];
+  buildInputs = [ libX11 libXcursor xorgproto libXext ];
 
   patches = [ ../patches/crud/001-add_geometry_flag.patch ];
 

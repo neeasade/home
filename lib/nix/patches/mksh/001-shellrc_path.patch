@@ -7,7 +7,7 @@ index cde0616..62a9d27 100644
 
  #ifndef MKSHRC_PATH
 -#define MKSHRC_PATH	"~/.mkshrc"
-+#define MKSHRC_PATH	"~/etc/mkshrc"
++#define MKSHRC_PATH	"~/lib/kshrc"
  #endif
 
  #ifndef MKSH_DEFAULT_TMPDIR

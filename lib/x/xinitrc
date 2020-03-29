@@ -11,7 +11,6 @@ remkd /tmp/info /tmp/info/vol
 
 sxhkd -c ${HOME}/lib/sxhkd/sxhkdrc &
 . ${XDG_CACHE_HOME}/wall &
-doas ${HOME}/bin/brness -s 6 &
 
 case ${WM} in
 wchf)
