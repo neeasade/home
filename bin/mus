@@ -4,7 +4,7 @@ sock=/tmp/mussock
 cmd="socat - ${sock}"
 
 men() {
-	echo 'pause \nnext \nprev \nshuff \nquit' | menu sel
+	echo 'pause\nnext\nprev\nloop\nshuff\nplaynew\nquit' | menu sel
 }
 
 fmt_song() {
@@ -25,36 +25,68 @@ shuff() {
 	echo '{"command":["playlist-shuffle"]}' | ${cmd} >/dev/null
 }
 
+loop() {
+	# Since mpv does not have a loop input function (or none that I know of),
+	# this is a hack that presses L, which is the default bind for infinite loop.
+	echo '{"command":["keypress","L"]}' | ${cmd} >/dev/null
+}
+
+playnew() {
+	# Using loadfile does not continue with the playlist after the file
+	# ends and mpv quits too (?). 
+	# Following is a hacky "solution" to pause the current file and
+	# play another file and resume after the file ends.
+	# Potential non-hacky solution would be to use {audio,video}-add
+	# but figuring out the filetype of the file/url is a PITA
+	f=`cat /tmp/musplist | menu sel`
+	pause && mpv --no-audio-display "${f}" \
+		--input-ipc-server=${sock} && pause
+
+	unset f
+}
+
+durstat() {
+	dur=`echo '{"command":["get_property_string","duration"]}' | ${cmd}`
+	[ -z "${dur}" ] && return 0
+	dur="${dur##*\"data\":\"}"
+	dur="${dur%%.*}"
+
+	cur=`echo '{"command":["get_property_string","playback-time"]}' | ${cmd}`
+	cur="${cur##*\"data\":\"}"
+	cur="${cur%%.*}"
+
+	echo $((cur/60)):$((cur%60))/$((dur/60)):$((dur%60))
+	unset cur dur
+}
+
 curfile() {
 	f=`echo '{"command":["get_property_string","path"]}' | ${cmd}`
 	f="${f##*\"data\":\"}"
 	echo "${f%%\"*}"
+
 	unset f
 }
 
 is_playing() {
-	dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
-	case ${dat} in 
+	case `echo '{"command":["get_property","pause"]}' | ${cmd}` in
 	*true*) exit 1 ;;
 	esac
-	exit 0
+	return 0
 }
 
 pause() {
 	stat=true
-	dat=`echo '{"command":["get_property","pause"]}' | ${cmd}`
-	case ${dat} in
+	case `echo '{"command":["get_property","pause"]}' | ${cmd}` in
 	*true*) stat=false ;;
 	esac
-	printf '{"command":["set_property","pause",%s]} \n' ${stat} | ${cmd} >/dev/null
+	printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} >/dev/null
 
-	unset stat dat
+	unset stat
 }
 
 quit() {
 	echo '{"command":["quit"]}' | ${cmd} >/dev/null
-	rm ${sock}
-	rm /tmp/musplist
+	rm ${sock} /tmp/musplist
 }
 
 perc() {
