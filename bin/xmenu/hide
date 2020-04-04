@@ -1,0 +1,10 @@
+#!/bin/sh
+# Hide a window
+
+[ ! -d /tmp/info/wm/misc ] && mkdir -p /tmp/info/wm/misc
+
+slw | {
+	read -r id
+	waitron window_unmap ${id}
+	[ ${?} -eq 0 ] && echo ${id} >>/tmp/info/wm/misc/hidden
+}

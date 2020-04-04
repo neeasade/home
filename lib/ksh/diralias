@@ -17,7 +17,9 @@ D ${HOME}/doc
 C ${XDG_CACHE_HOME}
 M ${HOME}/med/mus
 N ${HOME}/lib/nix
+K ${HOME}/lib/ksh
 s ${HOME}/med
+a ${HOME}/med/vid/anm
 m /mnt
 EOF
 

@@ -76,7 +76,7 @@ has emacs && {
 	v() {
 	    case ${INSIDE_EMACS} {
 	    "")
-	        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && vis "${@}"
+	        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && { vis "${@}"; return 0; }
 	        xembed --parent-id emacsclient -c "${@}" ||
 	            emacsclient -c "${@}"
 	        ;;

@@ -1,0 +1,4 @@
+#!/bin/sh
+# Close a window
+
+xdotool windowkill $(slw)

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Clone of vidir(1) from moreutils!
 
-DIR="${1:-${PWD}}"
+DIR="${1:-.}"
 
 FILES=`find "${DIR}" -type f`
 
@@ -9,21 +9,22 @@ echo "${FILES}" >/tmp/vidir.${$}
 ${EDITOR:-vi} /tmp/vidir.${$}
 
 IFS='
-' set -- ${FILES}
+'
+set -- ${FILES}
 
 nl=1
-f=''
+f=
 while read -r l; do
 	eval "f=\${${nl}}"
 	if test -z "${l}"; then
 		rm "${f}"
 	elif test "${l}" != "${f}"; then
 		test ! -d "${l%/*}" && {
-			printf '# %s does not exist! not moving %s to %s' "${l%/*}" "${f}" "${l}"
+			printf '# %s does not exist! not moving %s to %s\n' "${l%/*}" "${f}" "${l}"
 			continue
 		}
-		test -e "${l}" && {
-			printf '# %s already exists!' "${l}"
+		test -e "${l}" && test "${l}" != "${f}" && {
+			printf '# %s already exists!\n' "${l}"
 			continue
 		}
 		mv "${f}" "${l}"

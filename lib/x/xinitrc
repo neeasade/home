@@ -1,7 +1,7 @@
 #!/bin/sh
 
 cd ${HOME}
-export WM=dwm
+export WM=wchf
 export PATH=${HOME}/bin/x:${PATH}
 
 export XFONT='monospace:pixelsize=12:hinting=true:rgba=none'
@@ -11,12 +11,6 @@ remkd /tmp/info /tmp/info/vol
 
 sxhkd -c ${HOME}/lib/sxhkd/sxhkdrc &
 . ${XDG_CACHE_HOME}/wall &
-
-case ${WM} in
-wchf)
-	popcfs &
-	clbors &
-	;;
-esac
+pmenu &
 
 exec ${WM}

@@ -14,11 +14,8 @@ stdenv.mkDerivation rec {
 
   patches = [ ../patches/xscreenshot/001-add_geometry_flag.patch ];
 
-  preConfigure = ''
-    sed -i "s|PREFIX = /usr/local|PREFIX = $out|g" config.mk
-  '';
-
   makeFlags = [ "CC:=$(CC)" ];
+  installFlags = [ "PREFIX=$(out)" ];
 
   meta = with stdenv.lib; {
     description = "suckless screen capture tool";

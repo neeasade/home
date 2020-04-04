@@ -15,10 +15,10 @@ echo "${@:-`while read -r l; do
 	/tmp/notify.${$}
 len
 
-ww=`res -w`
-wh=`res -h`
-
-st -f monospace:pixelsize=12 -t todoterm -g 50x$((n+4))+$((ww - 400))+40 \
-	-e /bin/sh -c "printf '\n\n' && cat /tmp/notify.${$} && sleep 20"
+res -w | {
+	read -r ww
+	st -f monospace:pixelsize=12 -t todoterm -g 50x$((n+4))+$((ww-400))+40 \
+		-e /bin/sh -c "printf '\n\n' && cat /tmp/notify.${$} && sleep 2"
+}
 
 rm -f /tmp/notify.${$}

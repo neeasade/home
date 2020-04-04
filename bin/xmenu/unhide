@@ -1,0 +1,11 @@
+#!/bin/sh
+# Unhide a hidden window
+
+while read -r i; do
+	echo "${i} $(xdotool getwindowname ${i})"
+done </tmp/info/wm/misc/hidden | menu sel | {
+	read -r id
+	id=${id%% *}
+	waitron window_map ${id}
+	sed -i "/${id}/d" /tmp/info/wm/misc/hidden
+}

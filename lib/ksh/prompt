@@ -5,14 +5,13 @@ _set_wn() {
 	linux|dumb)
 	    ;;
 	*)
-	    printf '\033]]0;ksh: %s\a' ${PWD/${HOME}/\~}
+	    printf '\033]]0;ksh: %s\a' ~${PWD#${HOME}}
 	    ;;
 	}
 } 2>/dev/null
 
 _rm_jnk() {
-	_rm_e() {
-	    for i; {
+	_rm_e() { for i; {
 	        [[ -d "${i}" || -f "${i}" ]] &&
 	            rm -rf "${i}"
 	    }
@@ -26,6 +25,7 @@ _PS1_command() {
 }
 
 _draw_PS1() {
+	[[ -n "${IN_NIX_SHELL}" ]] && print -n '*'
 	case `whoami` {
 	root) print -n '# '               ;;
 	viz)  print -n '$ '; _PS1_command ;;

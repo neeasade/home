@@ -13,11 +13,8 @@ stdenv.mkDerivation rec {
   buildInputs = [ libX11 ];
   patches = [ ../patches/sprop/001-optional_atom_type.patch ];
 
-  preConfigure = ''
-    sed -i "s|PREFIX = /usr/local|PREFIX=$out|" config.mk
-  '';
-
   makeFlags = [ "CC:=$(CC)" ];
+  installFlags = [ "PREFIX=$(out)" ];
 
   meta = with stdenv.lib; {
     description = "Set X Property";

@@ -33,9 +33,9 @@ in
         racket-minimal
         go # A nice programming language?
         zathura # Possibly the easiest to use document reader
-        dwm dmenu st tabbed bgs doas lemonbar-xft
+        dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core
         # Custom packages
-        xscreenshot crud sprop
+        xscreenshot crud sprop wchf xmenu xruler
     ];
     
     home.sessionVariables = {
@@ -48,6 +48,7 @@ in
       MANPAGER = "less";
       PYTHONUSERBASE = "\$HOME/opt/python";
       PYTHONPATH = "\$HOME/opt/python";
+      NIX_BUILD_SHELL = "mksh";
     };
 
     xdg = {
@@ -138,6 +139,41 @@ in
           ~/tmp/tst
         super + button2
           plumb
+        
+        super + {w,a,s,d}
+          waitron window_move {0 -20,-20 0,0 +20,+20 0}
+        super + shift + {w,a,s,d}
+          waitron window_move {0 -50,-50 0,0 +50,+50 0}
+        super + ctrl + {w,s,d,a}
+          waitron window_resize {0 -20,0 +20,+20 0,-20 0}
+        super + ctrl + shift + {w,s,d,a}
+          waitron window_resize {0 -50,0 +50,+50 0,-50 0}
+        alt + {c,f}
+          waitron window_{snap middle,maximize}
+        super + {q,r,z,c}
+          waitron window_snap {topleft,topright,bottomleft,bottomright}
+        super + p
+          wmenu
+        alt + shift + c
+          waitron window_close
+        alt + {h,j,k,l}
+          waitron window_cardinal_focus {left,down,up,right}
+        alt + shift + q
+          \$HOME/lib/wchf/wchfrc
+        alt + shift + ctrl + q
+          waitron wm_quit 0
+        alt + {1-5}
+          waitron group_activate_specific {1-5}
+        alt + shift + {1-5}
+          waitron group_move_window {1-5}
+        alt + ctrl + {1-5}
+          waitron group_activate {1-5}
+        alt + shift + b
+          waitron toggle_borders
+        alt + shift + {h,l}
+          waitron window_put_in_grid 2 1 {0,1} 0 1 1
+        alt + shift + {k,j}
+          waitron window_put_in_grid 1 2 0 {0,1} 1 1
       '';
     };
   };

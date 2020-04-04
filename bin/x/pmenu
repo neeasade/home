@@ -1,0 +1,11 @@
+#!/bin/sh
+# Rio-esque dropdown menu!
+
+PATH="${HOME}/bin/xmenu:${PATH}"
+
+xmenu -d -b 0xffffff -f 0x000000 \
+	-F "Go:pixelsize=12" \
+	new reshape plumb close hide \
+	unhide focus | while read -r c; do
+	sh -c "${c} & exit"
+done

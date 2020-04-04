@@ -6,6 +6,8 @@ vis.events.subscribe(vis.events.INIT, function()
 	vis.types.window.set_syntax = function(win, syntax)
 		win:style_define(win.STYLE_STATUS, '')
 		win:style_define(win.STYLE_STATUS_FOCUSED, '')
+		win:style_define(win.STYLE_CURSOR, 'back: 16')
+		win.syntax = nil
 		return true
 	end
 
@@ -14,6 +16,4 @@ vis.events.subscribe(vis.events.INIT, function()
 end)
 
 -- vis.events.subscribe(vis.events.WIN_OPEN, function(win)
-	-- this needs to be executed per window
--- 	vis:command('set show-eof off')
 -- end)

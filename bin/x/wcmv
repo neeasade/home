@@ -1,8 +1,0 @@
-#!/bin/sh
-
-eval `xdotool getactivewindow getwindowgeometry --shell`
-
-[ ${1} != x ] && nx=$((X ${1}))
-[ ${2} != y ] && ny=$((Y ${2}))
-
-xdotool getactivewindow windowmove ${nx:-x} ${ny:-y}

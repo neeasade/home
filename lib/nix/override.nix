@@ -1,24 +1,44 @@
 self: super: rec {
   tabbed = super.tabbed.overrideAttrs (oldAttrs: {
-    src = "${builtins.fetchTarball https://github.com/vizs/tabbed/archive/master.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/vizs/tabbed";
+      rev = "7d6fd8ddf18ddff4b1ee5899d972b1b17d73c557";
+      ref = "master";
+    };
   });
 
   st = super.st.overrideAttrs (oldAttrs: {
-    src = "${builtins.fetchTarball https://github.com/vizs/st/archive/master.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/vizs/st";
+      rev = "93336f783916225cb102fd75133c32530481d970";
+      ref = "master";
+    };
   });
 
   dmenu = super.dmenu.overrideAttrs (oldAttrs: {
-    src = "${builtins.fetchTarball https://github.com/vizs/dmenu/archive/master.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/vizs/dmenu";
+      rev = "029a8b9df614e1c01d79d88457e006ef9925bf06";
+      ref = "master";
+    };
     patches = [];
   });
 
   dwm = super.dwm.overrideAttrs (oldAttrs: {
-    src = "${builtins.fetchTarball https://github.com/vizs/dwm/archive/master.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/vizs/dwm";
+      rev = "3f8b7fb8033ead7488c5629e4d131b80d7661ed7";
+      ref = "master";
+    };
   });
 
   bgs = super.bgs.overrideAttrs (oldAttrs: {
     version = "git";
-    src = "${builtins.fetchTarball https://github.com/Gottox/bgs/archive/master.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/Gottox/bgs";
+      rev = "958acea074e5d8f3566289db37a9db236c05d7df";
+      ref = "master";
+    };
     patches = [
       ./patches/bgs/001-fix_zoom_mode.patch
       ./patches/bgs/002-add_tiling_mode.patch
@@ -28,11 +48,19 @@ self: super: rec {
   # The latest release is way too outdated
   vis = super.vis.overrideAttrs (oldAttrs: {
     version = "git";
-    src = "${builtins.fetchTarball https://github.com/martanne/vis/archive/master.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/martanne/vis";
+      rev = "08a550deac6f55f32f131f66992994b3944011ce";
+      ref = "master";
+    };
   });
 
   doas = super.doas.overrideAttrs (oldAttrs: {
-    src = "${builtins.fetchTarball https://github.com/multiplexd/doas/archive/4c8ab4c.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/multiplexd/doas";
+      rev = "4c8ab4c372e3b3c6d051f298b0bda03575f79f96";
+      ref = "master";
+    };
     buildInputs = with super; [ bison ];
     postPatch = "";
     installPhase = ''
@@ -44,7 +72,11 @@ self: super: rec {
 
   lemonbar-xft = super.lemonbar-xft.overrideAttrs (oldAttrs: {
     version = "git";
-    src = "${builtins.fetchTarball https://github.com/vizs/bar/archive/xft-port.tar.gz}";
+    src = builtins.fetchGit {
+      url = "https://github.com/vizs/bar";
+      rev = "35a89711a311ee0905d797a60079c79bae32ed76";
+      ref = "xft-port";
+    };
     buildInputs = with super; [
       xorg.libxcb
       xorg.libXft
@@ -63,5 +95,16 @@ self: super: rec {
       ./patches/mksh/001-shellrc_path.patch
       ./patches/mksh/002-profile_path.patch
     ];
+  });
+
+  wmutils-core = super.wmutils-core.overrideAttrs (oldAttrs: {
+    buildInputs = with super; [
+      xorg.libxcb xorg.xcbutil xorg.xcbutilcursor
+    ];
+    src = builtins.fetchGit {
+      url = "https://github.com/wmutils/core";
+      rev = "2a8ee9d061996cef9567a30821249c3d06557419";
+      ref = "master";
+    };
   });
 }

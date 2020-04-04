@@ -1,0 +1,12 @@
+#!/bin/sh
+# Reshape a window
+
+slw | {
+	read -r id
+	[ ${id} = '0x00000000' ] && exit 0
+
+	crud | {
+		read -r x y w h
+		xdotool windowsize ${id} ${w} ${h} windowmove ${id} ${x} ${y}
+	}
+}
