@@ -1,0 +1,13 @@
+#!/bin/sh
+# Popup mpv!
+
+case ${1} in
+[0-9]*)
+	# Taken care by ruler
+	waitron toggle_window_border ${1}
+	waitron toggle_window_sticky ${1}
+	;;
+*)
+	exec mpv "${1}" --x11-name=mpv-popup -geometry=30%-30+30
+	;;
+esac

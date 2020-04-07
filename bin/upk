@@ -4,22 +4,22 @@
 dest="${2:-./}"
 
 case ${1} in
-(*.tar.gz|*.tgz)
+*.tar.gz|*.tgz)
 	gzip -d -c "${1}" | tar -x -C "${dest}"
 	;;
-(*.tar.bz2)
+*.tar.bz2)
 	bzip2 -d -c "${1}" | tar -x -C "${dest}"
 	;;
-(*.tar.xz)
+*.tar.xz)
 	xz -d -c "${1}" | tar -x -C "${dest}"
 	;;
-(*.tar)
+*.tar)
 	tar -x -f "${1}" -C "${dest}"
 	;;
-(*.zip)
+*.zip)
 	unzip "${1}" -d "${dest}"
 	;;
-(*.7z)
+*.7z)
 	7z -o"${dest}" x "${1}"
 	;;
 esac

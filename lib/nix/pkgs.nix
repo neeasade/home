@@ -9,5 +9,6 @@
     xmenu = pkgs.callPackage ./pkgs/xmenu.nix {};
     libwm = pkgs.callPackage ./pkgs/libwm.nix {};
     xruler = pkgs.callPackage ./pkgs/ruler.nix {};
+    charter = pkgs.callPackage ./pkgs/charter.nix {};
   };
 }

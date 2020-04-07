@@ -11,7 +11,7 @@ _c() {
 		if [[ -f "${p}" ]]; then
 			case `file -ib "${p}"` {
 			*pdf*)   zathura "${p}"   ;;
-			*image*) sxiv -s f "${p}" ;;
+			*image*) meh "${p}"       ;;
 			*audio*)                  ;&
 			*video*) mpv "${p}"       ;;
 			*zip*)   upkp "${p}"      ;;

@@ -1,11 +1,10 @@
 #!/bin/sh
 # select window by name
 
-id=`while read -r i; do
-		  echo "${i} $(xdotool getwindowname ${i})"
-	done <<EOF
-$(xdotool search --maxdepth 1 --onlyvisible --name '.' 2>/dev/null)
-EOF`
-
-id=`echo "${id}" | menu sel`
-waitron window_focus ${id%% *}
+xdotool search --maxdepth 1 --onlyvisible --name '.' 2>/dev/null \
+	| while read -r i; do
+		echo "${i} $(xdotool getwindowname ${i})"
+	done | menu sel | {
+	read -r id
+	waitron window_focus `printf '0x%x' ${id%% *}`
+}

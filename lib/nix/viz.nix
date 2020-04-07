@@ -33,9 +33,9 @@ in
         racket-minimal
         go # A nice programming language?
         zathura # Possibly the easiest to use document reader
-        dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core
+        dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh
         # Custom packages
-        xscreenshot crud sprop wchf xmenu xruler
+        xscreenshot crud sprop wchf xmenu xruler charter
     ];
     
     home.sessionVariables = {

@@ -22,8 +22,7 @@ stdenv.mkDerivation rec {
   installFlags = [ "PREFIX=$(out)" ];
 
   patches = [
-    #../patches/xmenu/001-spawn_at_cursor_position.patch
-    ../patches/xmenu/002-add_more_flags.patch
+    ../patches/xmenu/001-change_configh.patch
   ];
 
   meta = with stdenv.lib; {

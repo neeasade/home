@@ -1,22 +1,22 @@
 #!/bin/sh
 
 case ${1} in
-(*.tar.gz|*.tgz)
+*.tar.gz|*.tgz)
 	gzip -d -c "${1}" | tar -t -f -
 	;;
-(*.tar.bz)
+*.tar.bz)
 	bzip2 -d -c "${1}" | tar -t -f -
 	;;
-(*.tar.xz)
+*.tar.xz)
 	xz -d -c "${1}" | tar -t -f -
 	;;
-(*.tar)
+*.tar)
 	tar -t -f "${1}"
 	;;
-(*.zip)
+*.zip)
 	zip -s -f "${1}"
 	;;
-(*.7z)
+*.7z)
 	7z l "${1}"
 	;;
 esac

@@ -9,7 +9,7 @@ esac
 
 get_dir() {
 	case ${hidden} in
-	1) echo "..\n`ls -1 -p`"	| menu sel -p ~${PWD#${HOME}} ;;
+	1) echo "..\n`ls -1 -p`"    | menu sel -p ~${PWD#${HOME}} ;;
 	0) echo "..\n`ls -A -1 -p`" | menu sel -p ~${PWD#${HOME}} ;;
 	esac
 }
@@ -22,7 +22,7 @@ cd_dir() {
 open_file() {
 	case `file -ib ${1}` in
 	*pdf*)   exec zathura "${1}"     ;;
-	*image*) exec sxiv -s f "${1}"   ;;
+	*image*) exec meh "${1}"         ;;
 	*video*) exec mpv "${1}"         ;;
 	*text*)  exec emacsclient "${1}" ;;
 	*)

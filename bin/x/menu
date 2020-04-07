@@ -12,7 +12,7 @@ x=$((sw / 2 - w / 2))
 y=$((sh / 3 - l))
 
 sel() {
-	dmenu -bp 2 -x ${x} -y ${y} -w ${w} \
+	dmenu -bp ${borderpx:-2} -x ${x} -y ${y} -w ${w} \
 		  -l ${l} -i \
 		  -p "select:" ${@}
 }
