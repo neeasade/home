@@ -1,0 +1,74 @@
+This patch sets _NET_WM_WINDOW_TYPE_TOOLBAR ewmh atom so xmenu will be treated
+specially by window managers that respect ewmh atoms!
+diff --git a/config.mk b/config.mk
+index 734f07a..501839b 100644
+--- a/config.mk
++++ b/config.mk
+@@ -9,4 +9,4 @@ MANDIR = ${PREFIX}/man
+ CPPFLAGS = -DVERSION=\"${VERSION}\" -I/usr/include/freetype2
+ CFLAGS = $(CPPFLAGS) -Wall -Wextra -pedantic
+ LDFLAGS =
+-LDLIBS = -lxcb -lxcb-render -lxcb-render-util -lxcb-xrm -lfontconfig -lfreetype
++LDLIBS = -lxcb -lxcb-render -lxcb-render-util -lxcb-xrm -lxcb-ewmh -lfontconfig -lfreetype
+diff --git a/xmenu.c b/xmenu.c
+index d0751e4..88cc75e 100644
+--- a/xmenu.c
++++ b/xmenu.c
+@@ -4,6 +4,7 @@
+ #include <unistd.h>
+ 
+ #include <xcb/xcb.h>
++#include <xcb/xcb_ewmh.h>
+ #include <fontconfig/fontconfig.h>
+ #include <ft2build.h>
+ #include FT_FREETYPE_H
+@@ -24,6 +25,7 @@ int current = -1;
+ xcb_connection_t *dpy;
+ xcb_screen_t *screen;
+ xcb_window_t wid;
++xcb_ewmh_connection_t *ewmh;
+ 
+ size_t nent = 0;
+ size_t maxwidth = 0;
+@@ -37,6 +39,32 @@ usage(FILE *fd, char *name)
+ 	fprintf(fd, "usage: %s [-hd] item..\n", name);
+ }
+ 
++/* yoinked from lemonbar */
++void
++setupewmh(void)
++{
++	xcb_intern_atom_cookie_t *cookie;
++	ewmh = calloc(1, sizeof(xcb_ewmh_connection_t));
++	if (ewmh == NULL) {
++		fprintf(stderr, "setupewmh: cannot allocate ewmh resource\n");
++		return;
++	}
++
++	cookie = xcb_ewmh_init_atoms(dpy, ewmh);
++	xcb_ewmh_init_atoms_replies(ewmh, cookie, (void *)0);
++
++	xcb_ewmh_wm_strut_partial_t strut;
++	strut.top = menu.h;
++	strut.top_start_x = 0;
++	strut.top_end_x = menu.x + menu.w;
++
++	xcb_ewmh_set_wm_window_type(ewmh, wid, 1,
++		(xcb_atom_t[]){ewmh->_NET_WM_WINDOW_TYPE_TOOLBAR});
++	xcb_ewmh_set_wm_desktop(ewmh, wid, -1);
++	xcb_ewmh_set_wm_strut_partial(ewmh, wid, strut);
++	xcb_ewmh_set_wm_strut(ewmh, wid, 0, 0, strut.top, 0);
++}
++
+ int
+ hilight(xcb_drawable_t xid, int x, int y, int w, int h)
+ {
+@@ -98,6 +126,8 @@ popwindow(int x, int y, int w, int h)
+ 		x, y, w, h, 0, XCB_WINDOW_CLASS_INPUT_OUTPUT,
+ 		screen->root_visual, mask, val);
+ 
++	setupewmh();
++
+ 	xcb_map_window(dpy, wid);
+ 	xcb_flush(dpy);
+ 

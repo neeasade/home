@@ -1,0 +1,16 @@
+diff --git a/src/xlib.c b/src/xlib.c
+index 07b50d6..66fa1da 100644
+--- a/src/xlib.c
++++ b/src/xlib.c
+@@ -183,6 +183,11 @@ void backend_init(){
+ 	window = XCreateWindow(display, DefaultRootWindow(display), 0, 0, 640, 480, 0, DefaultDepth(display, screen), InputOutput, CopyFromParent, 0, NULL);
+ 	backend_setaspect(1, 1);
+ 	gc = XCreateGC(display, window, 0, NULL);
++	
++	XClassHint xhint;
++	xhint.res_class = "Meh";
++	xhint.res_name  = "meh";
++	XSetClassHint(display, window, &xhint);
+ 
+ 	XSelectInput(display, window, StructureNotifyMask | ExposureMask | KeyPressMask);
+ 	XMapRaised(display, window);

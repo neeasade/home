@@ -57,6 +57,7 @@
   time.timeZone = "Asia/Calcutta";
 
   services = {
+    dbus.packages = [ pkgs.gnome3.dconf ];
     tlp.enable = true;
     udisks2.enable = false;
     xserver = {

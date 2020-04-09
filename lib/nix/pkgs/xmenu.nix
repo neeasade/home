@@ -2,6 +2,7 @@
 , fontconfig
 , freetype
 , libxcb
+, xcbutilwm
 , xcbutilxrm
 , xcbutilrenderutil }:
 
@@ -17,12 +18,13 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     fontconfig freetype
-    libxcb xcbutilxrm xcbutilrenderutil
+    libxcb xcbutilxrm xcbutilrenderutil xcbutilwm
   ];
   installFlags = [ "PREFIX=$(out)" ];
 
   patches = [
-    ../patches/xmenu/001-change_configh.patch
+    ../patches/xmenu/001-setup_ewmh_atoms.patch
+    ../patches/xmenu/002-change_configh.patch
   ];
 
   meta = with stdenv.lib; {

@@ -107,4 +107,8 @@ self: super: rec {
       ref = "master";
     };
   });
+
+  meh = super.meh.overrideAttrs (oldAttrs: {
+    patches = [ ./patches/meh/001-set_class_hints.patch ];
+  });
 }

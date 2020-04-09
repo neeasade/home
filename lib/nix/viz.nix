@@ -35,7 +35,7 @@ in
         zathura # Possibly the easiest to use document reader
         dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh
         # Custom packages
-        xscreenshot crud sprop wchf xmenu xruler charter
+        xscreenshot crud sprop wchf xmenu xruler charter raleigh-reloaded-gtk-theme
     ];
     
     home.sessionVariables = {
@@ -48,7 +48,7 @@ in
       MANPAGER = "less";
       PYTHONUSERBASE = "\$HOME/opt/python";
       PYTHONPATH = "\$HOME/opt/python";
-      NIX_BUILD_SHELL = "mksh";
+      # NIX_BUILD_SHELL = "mksh";
     };
 
     xdg = {
@@ -103,6 +103,14 @@ in
           map q abort
         '';
       };
+    };
+
+    gtk = {
+      enable = true;
+      font.name = "Sans";
+      iconTheme.name = "Adwaita";
+      iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
+      theme.name = "Raleigh-Reloaded";
     };
 
     services.sxhkd = {
