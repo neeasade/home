@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case ${1} in
+--rcfile)
+	tmp="$(cat ${2})"
+	echo ${tmp%exit} >${2}
+	echo ${NIX_EXECUTING_SHELL} >>${2}
+	bash ${2}
+	;;
+*)
+	bash "${@}"
+esac
