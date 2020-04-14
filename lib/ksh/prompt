@@ -5,7 +5,9 @@ _set_wn() {
 	linux|dumb)
 	    ;;
 	*)
-	    printf '\033]]0;ksh: %s\a' ~${PWD#${HOME}}
+		local sh=ksh
+		[[ -n "${IN_NIX_SHELL}" ]] && sh='*ksh'
+	    printf '\033]]0;%s: %s\a' "${sh}" ~${PWD#${HOME}}
 	    ;;
 	}
 } 2>/dev/null

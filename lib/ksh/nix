@@ -1,0 +1,100 @@
+#!/usr/bin/env mksh
+
+_nxsh() {
+	# This function is pretty much a rip-off of https://git.io/Jfe01
+	local inpkgs=0
+	local args="${@}"
+	local NIX_SHELL_PACKAGES
+	while ((${#} > 0)); do
+		case ${1} {
+		-p|--packages)
+			inpkgs=1
+			NIX_SHELL_PACKAGES+="${NIX_SHELL_PACKAGES:+ }${2}"
+			shift
+			;;
+		--arg)
+			inpkgs=0
+			shift
+			;;
+		-*)
+			inpkgs=0
+			shift
+			;;
+		*)
+			[[ ${inpkgs} -eq 1 ]] && {
+				NIX_SHELL_PACKAGES+=" ${2}"
+				shift
+			}
+			;;
+		}
+		shift
+	done
+	NIX_SHELL_PACKAGES="${NIX_SHELL_PACKAGES}" \
+		NIX_BUILD_SHELL="${HOME}/lib/ksh/.nxsh" \
+		NIX_EXECUTING_SHELL="${SHELL}" \
+		nix-shell "${args}"
+}
+
+nx() {
+	case ${1} {
+	shell)
+		[[ -e shell.nix ]] && {
+			error: shell.nix already exists
+			return 1
+		}
+		cat >shell.nix <<EOF
+with import <nixpkgs> {};
+
+stdenv.mkDerivation {
+  name = "";
+  version = "";
+
+  buildInputs = [];
+  nativeBuildInputs = [];
+}
+EOF
+	;;
+	sh)
+		shift 1
+		_nxsh "${@}"
+		;;
+	pkg)
+		[[ -e ${2} ]] && {
+			print error: ${2} already exists
+			return 1
+		}
+		cat >${2} <<EOF
+{ stdenv, fetch }:
+
+stdenv.mkDerviation {
+  name = "";
+  version = "";
+  url = fetch {
+
+  buildInputs = [];
+  nativeBuildInputs = [];
+
+  patches = [];
+
+  makeFlags = [];
+  installFlags = [];
+
+  meta = with stdenv.lib; {
+    description = "";
+    homepage = ;
+    license = licenses.;
+    platforms = platforms.linux;
+  };
+}
+EOF
+		;;
+	*)
+		cat <<EOF
+usage: nx [shell|pkg file.nix|sh ...]
+	shell: create shell.nix template
+	pkg: create file.nix package template
+	sh: start nix-shell
+EOF
+		;;
+	}
+}

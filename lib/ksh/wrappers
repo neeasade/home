@@ -1,6 +1,8 @@
 #!/usr/bin/env mksh
 
 v() {
+	local f=`realpath ${1}`
+	printf '\033]]0;vis: %s\a' ~${f#${HOME}}
 	vis "${@}"
 }
 
@@ -76,7 +78,12 @@ has emacs && {
 	v() {
 	    case ${INSIDE_EMACS} {
 	    "")
-	        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && { vis "${@}"; return 0; }
+	        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
+				local f=`realpath ${1}`
+				printf '\033]]0;vis: %s\a' ~${f#${HOME}}
+				vis "${@}"
+				return 0
+			}
 	        xembed --parent-id emacsclient -c "${@}" ||
 	            emacsclient -c "${@}"
 	        ;;
@@ -96,3 +103,5 @@ has mpv && has ytdl && {
 		mpv "${1:-.}" --shuffle
 	}
 }
+
+has nix && . ${HOME}/lib/ksh/nix

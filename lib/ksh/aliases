@@ -19,5 +19,6 @@ a mkc='make clean'
 a rsc='resource'
 a aliases='alias'
 a quit='exit'
+a wh='command -v'
 
 a {cl,cle,clea}='clear'

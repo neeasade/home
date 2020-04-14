@@ -22,7 +22,7 @@ a sl='ls'
 
 # FRENCH RIGHTS!
 a rmf='rm -fr'
-a SU='doas ksh'
+a SU='doas mksh'
 
 # This is the best way I know of to detect systemd
 has systemctl || {
