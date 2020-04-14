@@ -5,7 +5,7 @@ _nxsh() {
 	local inpkgs=0
 	local args="${@}"
 	local NIX_SHELL_PACKAGES
-	while ((${#} > 0)); do
+	while ((${#}>0)); do
 		case ${1} {
 		-p|--packages)
 			inpkgs=1
@@ -14,7 +14,7 @@ _nxsh() {
 			;;
 		--arg)
 			inpkgs=0
-			shift
+			shift 2
 			;;
 		-*)
 			inpkgs=0
@@ -53,7 +53,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [];
 }
 EOF
-	;;
+		;;
 	sh)
 		shift 1
 		_nxsh "${@}"
@@ -61,6 +61,10 @@ EOF
 	pkg)
 		[[ -e ${2} ]] && {
 			print error: ${2} already exists
+			return 1
+		}
+		[[ -z ${2} ]] && {
+			print error: no file argument given
 			return 1
 		}
 		cat >${2} <<EOF
@@ -90,9 +94,9 @@ EOF
 		;;
 	*)
 		cat <<EOF
-usage: nx [shell|pkg file.nix|sh ...]
+usage: nx [shell|pkg <file>|sh ...]
 	shell: create shell.nix template
-	pkg: create file.nix package template
+	pkg: write package template as <file>
 	sh: start nix-shell
 EOF
 		;;
