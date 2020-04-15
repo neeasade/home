@@ -2,9 +2,9 @@
 # archive file using various programs like zip, tar and 7z
 
 archive_name="${2:-${1}.tar.gz}"
-archive_type=${archive_name#*\.}
+archive_type=${archive_name#*.}
 
-case ${archive_name#*\.} in
+case ${archive_name#*.} in
 tar.gz)
 	tar -f - -c "${1}" | gzip >"${archive_name}"
 	;;

@@ -11,7 +11,7 @@ len() {
 echo "${@:-`while read -r l; do
 		echo ${l}
 	done </dev/stdin`}" >/tmp/notify.${$}
-:| paste -d' ' - - - - - /tmp/notify.${$} | fmt -s -w 40 \ 
+:| paste -d' ' - - - - - /tmp/notify.${$} | fmt -s -w 40 - \
 	| sponge /tmp/notify.${$}
 len
 

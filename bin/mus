@@ -1,7 +1,9 @@
 #!/bin/sh
 
-export MUSSOCK="${MUSSOCK:-/tmp/mussock}"
-cmd="socat - ${MUSSOCK}"
+[ -e /tmp/mussockname ] && {
+	read -r sock </tmp/mussockname
+} || sock=/tmp/mussock
+cmd="socat - ${sock}"
 
 fmt_song() {
 	artist=${1%/*}
@@ -34,21 +36,15 @@ playnew() {
 	# play another file and resume after the file ends.
 	# Potential non-hacky solution would be to use {audio,video}-add
 	# but figuring out the filetype of the file/url is a PITA
-	f=`cat /tmp/musplist | menu sel -p file/url:`
+	f=`menu sel -p file/url: </tmp/musplist`
 	[ -z "${f}" ] && return 0
 	pause && {
-		oldsock="${MUSSOCK}"
-		MUSSOCK=/tmp/tmpmussock
-		export MUSSOCK
-		mpv --no-audio-display "${f}" \
-			--input-ipc-server="${MUSSOCK}" \
-			&& MUSSOCK="${oldsock}"
-	} && pause && {
-		rm -f /tmp/tmpmussock
-		export MUSSOCK
-	}
+		echo /tmp/tmpmsock >/tmp/mussockname
+		mpv --no-audio-display --input-ipc-server=/tmp/tmpmsock "${f}" &&
+			rm -f /tmp/mussockname /tmp/tmpmsock
+	} && pause
 	
-	unset f oldsock
+	unset f
 }
 
 durstat() {
@@ -92,7 +88,7 @@ pause() {
 
 quit() {
 	echo '{"command":["quit"]}' | ${cmd} >/dev/null
-	rm ${MUSSOCK} /tmp/musplist
+	rm ${sock} /tmp/musplist
 }
 
 perc() {
@@ -107,7 +103,7 @@ perc() {
 }
 
 pprint() {
-	[ -S ${MUSSOCK} ] || {
+	[ -S ${sock} ] || {
 		echo 'not playing!'
 		exit 0
 	}
@@ -122,10 +118,10 @@ deadsock() {
 
 deadsock && quit
 
-[ ! -S ${MUSSOCK} ] && [ ${#} -eq 0 ] && {
+[ ! -S ${sock} ] && [ ${#} -eq 0 ] && {
 	find ${HOME}/med/mus ! -name '*\.*' -type f >/tmp/musplist
 	mpv --no-audio-display \
-		--input-ipc-server=${MUSSOCK} \
+		--input-ipc-server=${sock} \
 		--playlist=/tmp/musplist \
 		--shuffle
 	exit 0
@@ -134,7 +130,7 @@ deadsock && quit
 if ! is_playing; then
 	pause
 elif [ -z ${1} ]; then
-	echo 'pause\nnext\nprev\nloop\nshuff\nplaynew\nquit' | menu sel
+	`echo 'pause\nnext\nprev\nloop\nshuff\nplaynew\nquit' | menu sel`
 else
 	f=${1}
 	shift

@@ -2,14 +2,7 @@
 # Add to/copy from dump file
 export DUMP="${DUMP:-${HOME}/doc/dump}"
 
-IFS='
-
-'
-set -- `cat ${DUMP}`
-
-for i; do
-	echo "${i}"
-done | menu sel | {
+menu sel <${DUMP} | {
 	read -r sel
 	grep -q "${sel}" ${DUMP} && echo "${sel}" | xin || echo "\n${sel}" >>${DUMP}
 }
