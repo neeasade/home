@@ -48,7 +48,7 @@ in
       MANPAGER = "less";
       PYTHONUSERBASE = "\$HOME/opt/python";
       PYTHONPATH = "\$HOME/opt/python";
-      # NIX_BUILD_SHELL = "mksh";
+      MANPATH = "/run/current-system/sw/share/man:\$HOME/.nix-profile/share/man";
     };
 
     xdg = {
@@ -60,12 +60,12 @@ in
         enable = true;
         desktop = "/no";
         documents = "/no";
-        download = "~/tmp";
-        music = "~/med/mus";
-        pictures = "~/med/img";
+        download = "\$HOME/tmp";
+        music = "\$HOME/med/mus";
+        pictures = "\$HOME/med/img";
         publicShare = "/no";
         templates = "/no";
-        videos = "~/med/vid";
+        videos = "\$HOME/med/vid";
       };
     };
 
@@ -142,7 +142,7 @@ in
         super + shift + {l,h}
           doas ~/bin/brness {-i 1,-d 1,}
         super + shift + {b,t,v,p}
-          notify-send {battery `bat -p`%,time `date +%H:%M`,volume `cat /tmp/info/vol/cur`%,`mus pprint`}
+          notify-send {battery `bat -p`%,time `date +%H:%M`,volume `vol -g`%,`mus pprint`}
         alt + s
           ~/tmp/tst
         super + button2

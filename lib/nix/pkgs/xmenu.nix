@@ -23,8 +23,10 @@ stdenv.mkDerivation rec {
   installFlags = [ "PREFIX=$(out)" ];
 
   patches = [
-    ../patches/xmenu/001-setup_ewmh_atoms.patch
-    ../patches/xmenu/002-change_configh.patch
+	../patches/xmenu/001-setup_ewmh_atoms.patch
+	../patches/xmenu/002-separate_selected_and_unselected_colours.patch
+	../patches/xmenu/003-add_borders.patch
+	../patches/xmenu/004-change_config.patch
   ];
 
   meta = with stdenv.lib; {

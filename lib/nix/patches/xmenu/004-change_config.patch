@@ -1,0 +1,24 @@
+diff --git a/config.def.h b/config.def.h
+index 4715b38..766d801 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1,13 +1,13 @@
+ /* widget colors, given as RGB hex values */
+-uint32_t normbg = 0x3f3f3f;
+-uint32_t normfg = 0xc1eafe;
+-uint32_t selbg = 0xc1eafe;
+-uint32_t selfg = 0x3f3f3f;
+-uint32_t bcol = 0xc1eafe;
++uint32_t normbg = 0xe9fee9;
++uint32_t normfg = 0x000000;
++uint32_t selbg = 0x438743;
++uint32_t selfg = 0xe9fee9;
++uint32_t bcol = 0x87cb87;
+ int bsize = 2;
+  
+ /* font used for entries */
+-char *font = "monospace:pixelsize=16";
++char *font = "Go:pixelsize=12";
+ 
+ /* mouse buttons to react to when using the menu */
+ int mousebutton = XCB_BUTTON_INDEX_1;

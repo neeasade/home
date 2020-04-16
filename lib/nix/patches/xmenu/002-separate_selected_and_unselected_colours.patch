@@ -1,0 +1,117 @@
+diff --git a/config.def.h b/config.def.h
+index d5db86b..14bd35f 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1,6 +1,8 @@
+ /* widget colors, given as RGB hex values */
+-uint32_t background = 0x3f3f3f;
+-uint32_t foreground = 0xc1eafe;
++uint32_t normbg = 0x3f3f3f;
++uint32_t normfg = 0xc1eafe;
++uint32_t selbg = 0xc1eafe;
++uint32_t selfg = 0x3f3f3f;
+ 
+ /* font used for entries */
+ char *font = "monospace:pixelsize=16";
+diff --git a/xmenu.c b/xmenu.c
+index 88cc75e..93d545c 100644
+--- a/xmenu.c
++++ b/xmenu.c
+@@ -66,7 +66,7 @@ setupewmh(void)
+ }
+ 
+ int
+-hilight(xcb_drawable_t xid, int x, int y, int w, int h)
++hilight(xcb_drawable_t xid, int x, int y, int w, int h, int sel, int en)
+ {
+ 	int mask, val[3];
+ 	xcb_gcontext_t gc;
+@@ -74,9 +74,13 @@ hilight(xcb_drawable_t xid, int x, int y, int w, int h)
+ 
+ 	gc = xcb_generate_id(dpy);
+ 
+-	mask = XCB_GC_FUNCTION | XCB_GC_SUBWINDOW_MODE;
+-	val[0] = XCB_GX_INVERT;
+-	val[1] = XCB_SUBWINDOW_MODE_INCLUDE_INFERIORS;
++	mask = XCB_GC_BACKGROUND | XCB_GC_FOREGROUND;
++	val[0] = normbg;
++	val[1] = normfg;
++	if (sel) {
++		val[0] = selbg;
++		val[1] = selfg;
++	}
+ 	xcb_create_gc(dpy, gc, xid, mask, val);
+ 
+ 	/* draw inverted rectangle */
+@@ -85,6 +89,10 @@ hilight(xcb_drawable_t xid, int x, int y, int w, int h)
+ 	r.width = w;
+ 	r.height = h;
+ 	xcb_poly_fill_rectangle(dpy, xid, gc, 1, &r);
++	xft_drawtext(dpy, wid, (menu.w - xft_txtw(entries[en]))/2,
++		(menu.h / nent) * (en + 0.5) - maxheight / 2 + \
++		(maxheight - xft_txth(entries[en])),
++		val[1], entries[en]);
+ 
+ 	return 0;
+ }
+@@ -97,7 +105,7 @@ drawentries()
+ 	for (i = 0; i < nent; i++) {
+ 		w = (menu.w - xft_txtw(entries[i])) / 2;
+ 		h = (menu.h/nent) * (i + 0.5) - maxheight/2 + (maxheight - xft_txth(entries[i]));
+-		xft_drawtext(dpy, wid, w, h, foreground, entries[i]);
++		xft_drawtext(dpy, wid, w, h, normfg, entries[i]);
+ 	}
+ 
+ 	return 0;
+@@ -111,7 +119,7 @@ popwindow(int x, int y, int w, int h)
+ 	mask = XCB_CW_BACK_PIXEL
+ 		| XCB_CW_EVENT_MASK;
+ 
+-	val[0] = background;
++	val[0] = normbg;
+ 	val[1] = XCB_EVENT_MASK_EXPOSURE
+ 		| XCB_EVENT_MASK_KEY_PRESS
+ 		| XCB_EVENT_MASK_ENTER_WINDOW
+@@ -215,10 +223,10 @@ eventloop()
+ 			 * Damn punks.
+ 			 */
+ 			if (last >= 0 && last != current)
+-				hilight(wid, 0, (menu.h/nent) * last, menu.w, menu.h/nent);
++				hilight(wid, 0, (menu.h/nent) * last, menu.w, menu.h/nent, 0, last);
+ 			drawentries();
+ 			if (current >= 0)
+-				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent);
++				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 0, current);
+ 			break;
+ 
+ 		/*
+@@ -228,7 +236,7 @@ eventloop()
+ 		 */
+ 		case XCB_LEAVE_NOTIFY:
+ 			if (current >= 0)
+-				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent);
++				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 0, current);
+ 			current = -1;
+ 			break;
+ 
+@@ -253,7 +261,7 @@ eventloop()
+ 			 || e->root_x < menu.x
+ 			 || e->root_y < menu.y) {
+ 				if (current >= 0)
+-					hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent);
++					hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 1, current);
+ 				current = -1;
+ 				break;
+ 			}
+@@ -264,9 +272,9 @@ eventloop()
+ 			if (last == current)
+ 				break;
+ 			if (last >= 0)
+-				hilight(wid, 0, (menu.h/nent) * last, menu.w, menu.h/nent);
++				hilight(wid, 0, (menu.h/nent) * last, menu.w, menu.h/nent, 0, last);
+ 			if (current >= 0)
+-				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent);
++				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 1, current);
+ 			break;
+ 		}
+ 

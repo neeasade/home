@@ -1,0 +1,62 @@
+diff --git a/config.def.h b/config.def.h
+index 14bd35f..4715b38 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -3,7 +3,9 @@ uint32_t normbg = 0x3f3f3f;
+ uint32_t normfg = 0xc1eafe;
+ uint32_t selbg = 0xc1eafe;
+ uint32_t selfg = 0x3f3f3f;
+-
++uint32_t bcol = 0xc1eafe;
++int bsize = 2;
++ 
+ /* font used for entries */
+ char *font = "monospace:pixelsize=16";
+ 
+diff --git a/xmenu.c b/xmenu.c
+index 93d545c..f120883 100644
+--- a/xmenu.c
++++ b/xmenu.c
+@@ -117,10 +117,12 @@ popwindow(int x, int y, int w, int h)
+ 	int mask, val[4];
+ 
+ 	mask = XCB_CW_BACK_PIXEL
++		| XCB_CW_BORDER_PIXEL
+ 		| XCB_CW_EVENT_MASK;
+ 
+ 	val[0] = normbg;
+-	val[1] = XCB_EVENT_MASK_EXPOSURE
++	val[1] = bcol;
++	val[2] = XCB_EVENT_MASK_EXPOSURE
+ 		| XCB_EVENT_MASK_KEY_PRESS
+ 		| XCB_EVENT_MASK_ENTER_WINDOW
+ 		| XCB_EVENT_MASK_LEAVE_WINDOW
+@@ -131,7 +133,7 @@ popwindow(int x, int y, int w, int h)
+ 
+ 	wid = xcb_generate_id(dpy);
+ 	xcb_create_window(dpy, screen->root_depth, wid, screen->root,
+-		x, y, w, h, 0, XCB_WINDOW_CLASS_INPUT_OUTPUT,
++		x, y, w, h, bsize, XCB_WINDOW_CLASS_INPUT_OUTPUT,
+ 		screen->root_visual, mask, val);
+ 
+ 	setupewmh();
+@@ -256,8 +258,8 @@ eventloop()
+ 			 * cases, so we must check first that the pointer
+ 			 * is actually inside the window
+ 			 */
+-			if (e->root_x > menu.x + menu.w
+-			 || e->root_y > menu.y + menu.h
++			if (e->root_x > menu.x + menu.w - bsize
++			 || e->root_y > menu.y + menu.h - bsize
+ 			 || e->root_x < menu.x
+ 			 || e->root_y < menu.y) {
+ 				if (current >= 0)
+@@ -266,7 +268,7 @@ eventloop()
+ 				break;
+ 			}
+ 
+-			current = nent * ((e->root_y - menu.y) * 1.0 / menu.h);
++			current = nent * ((e->root_y - menu.y - bsize) * 1.0 / menu.h);
+ 
+ 			/* don't bother redrawing selection that didn't change */
+ 			if (last == current)
