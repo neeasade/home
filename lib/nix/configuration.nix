@@ -143,13 +143,19 @@
   };
 
   # Disable that annoying popup window
-  programs.ssh = {
-    askPassword = "";
-    extraConfig = ''
-      UserKnownHostsFile ~/lib/ssh/known_hosts
-      ControlPath ~/lib/ssh/master-%r@%n:%p
-      IdentityFile ~/lib/ssh/id_rsa
-    '';
+  programs = {
+    ssh = {
+      askPassword = "";
+      extraConfig = ''
+        UserKnownHostsFile ~/lib/ssh/known_hosts
+        ControlPath ~/lib/ssh/master-%r@%n:%p
+        IdentityFile ~/lib/ssh/id_rsa
+      '';
+    };
+    gnupg.agent = {
+      enable = true;
+      pinentryFlavor = "gnome3";
+    };
   };
 
   nixpkgs = {

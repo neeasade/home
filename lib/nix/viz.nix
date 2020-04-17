@@ -2,9 +2,9 @@
 
 let
   home-manager = builtins.fetchGit {
-  url = "https://github.com/rycee/home-manager.git";
-  rev = "19dd9866da0b62135ea96d779056984d1f0f2b80";
-  ref = "master";
+    url = "https://github.com/rycee/home-manager.git";
+    rev = "19dd9866da0b62135ea96d779056984d1f0f2b80";
+    ref = "master";
   };
 in
 {
@@ -33,7 +33,7 @@ in
         racket-minimal
         go # A nice programming language?
         zathura # Possibly the easiest to use document reader
-        dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh
+        dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh gopass
         # Custom packages
         xscreenshot crud sprop wchf xmenu xruler charter raleigh-reloaded-gtk-theme
     ];
@@ -49,6 +49,38 @@ in
       PYTHONUSERBASE = "\$HOME/opt/python";
       PYTHONPATH = "\$HOME/opt/python";
       MANPATH = "/run/current-system/sw/share/man:\$HOME/.nix-profile/share/man";
+    };
+
+    home.file = {
+      ".irssi/passwd" = {
+        text = ''
+          Freenode : pass get irc/Freenode
+          MadHouse : pass get irc/MadHouse
+        '';
+      };
+      ".irssi/scripts/passwd.pl" = {
+        source = "${builtins.fetchurl {
+            url = "https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl";
+            sha256 = "f2d92ceede6d06dc1173dbfdedcd05edf453349139dbc725630fc237c7f654d4";
+        }}";
+      };
+      ".irssi/scripts/autorun/passwd.pl" = {
+        source = "${builtins.fetchurl {
+            url = "https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl";
+            sha256 = "f2d92ceede6d06dc1173dbfdedcd05edf453349139dbc725630fc237c7f654d4";
+        }}";
+      };
+
+      "lib/ruler/rulerrc" = {
+        text = ''
+          role="browser"
+            grep -q '2' /tmp/info/wm/groups/cur || { waitron window_focus $RULER_WID && waitron group_move_window 2; }
+          instance="mpv-popup"
+            mpopv $RULER_WID
+          name=".*"
+            drawin ruler $RULER_WID
+        '';
+      };
     };
 
     xdg = {
@@ -88,6 +120,47 @@ in
         ];
       };
 
+      # Irssi is patched. See override.nix
+      irssi = {
+        enable = true;
+        networks."Freenode" = {
+          nick = "_viz_";
+          autoCommands = [
+            "/passwd Freenode /msg NickServ identify <password>"
+          ];
+          server = {
+            address = "chat.freenode.net";
+            port = 6697;
+            autoConnect = true;
+          };
+          channels = {
+            nixos.autoJoin = true;
+            nixhub.autoJoin = true;
+            vis-editor.autoJoin = true;
+            emacs.autoJoin = true;
+          };
+        };
+        networks."MadHouse" = {
+          nick = "_viz_";
+          autoCommands = [
+            "/passwd MadHouse /msg NickServ IDENTIFY <password>"
+          ];
+          server = {
+            address = "irc.astrak.co";
+            port = 6697;
+            autoConnect = true;
+            ssl.verify = false;
+          };
+          channels = {
+            mh-general.autoJoin = true;
+            mh-linux.autoJoin = true;
+            mh-unixporn.autoJoin = true;
+            mh-memes.autoJoin = true;
+            mh-scripting.autoJoin = true;
+          };
+        };
+      };
+
       zathura = {
         enable = true;
         options = {
@@ -96,12 +169,9 @@ in
           recolor-lightcolor = "#e7e7d4";
           recolor-darkcolor = "#1c1e1d";
           recolor = true;
-          font = "Go Mono 14";
           guioptions = "";
         };
-        extraConfig = ''
-          map q abort
-        '';
+        extraConfig = "map q abort";
       };
     };
 
@@ -145,7 +215,7 @@ in
           notify-send {battery `bat -p`%,time `date +%H:%M`,volume `vol -g`%,`mus pprint`}
         alt + s
           ~/tmp/tst
-        super + button2
+        alt + [
           plumb
         
         super + {w,a,s,d}
@@ -158,8 +228,6 @@ in
           waitron window_resize {0 -50,0 +50,+50 0,-50 0}
         alt + {c,f}
           waitron window_{snap middle,maximize}
-        super + {q,r,z,c}
-          waitron window_snap {topleft,topright,bottomleft,bottomright}
         super + p
           wmenu
         alt + shift + c
@@ -178,10 +246,6 @@ in
           waitron group_activate {1-5}
         alt + shift + b
           waitron toggle_borders
-        alt + shift + {h,l}
-          waitron window_put_in_grid 2 1 {0,1} 0 1 1
-        alt + shift + {k,j}
-          waitron window_put_in_grid 1 2 0 {0,1} 1 1
       '';
     };
   };

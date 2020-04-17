@@ -111,4 +111,8 @@ self: super: rec {
   meh = super.meh.overrideAttrs (oldAttrs: {
     patches = [ ./patches/meh/001-set_class_hints.patch ];
   });
+
+  irssi = super.irssi.overrideAttrs (oldAttrs: {
+    patches = [ /home/viz/lib/nix/patches/irssi/001-connection_set_key.patch ];
+  });
 }
