@@ -8,7 +8,6 @@ cmd="socat - ${sock}"
 fmt_song() {
 	artist=${1%/*}
 	echo "`echo ${artist##*/} | tr _ ' '` - `echo ${1##*/} | tr _ ' '`"
-	unset artist
 }
 
 next() {
@@ -23,28 +22,30 @@ shuff() {
 	echo '{"command":["playlist-shuffle"]}' | ${cmd} >/dev/null
 }
 
+# Since mpv does not have a loop input function (or none that I know of),
+# this is a hack that presses L, which is the default bind for infinite loop.
 loop() {
-	# Since mpv does not have a loop input function (or none that I know of),
-	# this is a hack that presses L, which is the default bind for infinite loop.
 	echo '{"command":["keypress","L"]}' | ${cmd} >/dev/null
 }
 
+# Using loadfile does not continue with the playlist after the file
+# ends and mpv quits too (?). 
+# Following is a hacky "solution" to pause the current file and
+# play another file and resume after the file ends.
+# Potential non-hacky solution would be to use {audio,video}-add
+# but figuring out the filetype of the file/url is a PITA
 playnew() {
-	# Using loadfile does not continue with the playlist after the file
-	# ends and mpv quits too (?). 
-	# Following is a hacky "solution" to pause the current file and
-	# play another file and resume after the file ends.
-	# Potential non-hacky solution would be to use {audio,video}-add
-	# but figuring out the filetype of the file/url is a PITA
-	f=`menu sel -p file/url: </tmp/musplist`
+	playing=0
+	f=${1:-`menu sel -p file/url: </tmp/musplist`}
 	[ -z "${f}" ] && return 0
-	pause && {
-		echo /tmp/tmpmsock >/tmp/mussockname
-		mpv --no-audio-display --input-ipc-server=/tmp/tmpmsock "${f}" &&
-			rm -f /tmp/mussockname /tmp/tmpmsock
-	} && pause
-	
-	unset f
+	is_playing && {
+		pause
+		playing=1
+	}
+	echo /tmp/tmpmsock >/tmp/mussockname
+	mpv --no-audio-display --input-ipc-server=/tmp/tmpmsock "${f}" &&
+		rm -f /tmp/mussockname /tmp/tmpmsock
+	[ ${playing} -eq 1 ] && pause
 }
 
 durstat() {
@@ -58,15 +59,12 @@ durstat() {
 	cur="${cur%%.*}"
 
 	echo $((cur/60)):$((cur%60))/$((dur/60)):$((dur%60))
-	unset cur dur
 }
 
 curfile() {
 	f=`echo '{"command":["get_property_string","path"]}' | ${cmd}`
 	f="${f##*\"data\":\"}"
 	echo "${f%%\"*}"
-
-	unset f
 }
 
 is_playing() {
@@ -77,18 +75,14 @@ is_playing() {
 }
 
 pause() {
-	stat=true
-	case `echo '{"command":["get_property","pause"]}' | ${cmd}` in
-	*true*) stat=false ;;
-	esac
+	stat=false
+	is_playing && stat=true
 	printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} >/dev/null
-
-	unset stat
 }
 
 quit() {
 	echo '{"command":["quit"]}' | ${cmd} >/dev/null
-	rm ${sock} /tmp/musplist
+	rm ${sock} /tmp/mussockname
 }
 
 perc() {
@@ -98,8 +92,6 @@ perc() {
 
 	# Preserve only two decimal places
 	echo ${perc%${perc#*.??}}
-
-	unset perc
 }
 
 pprint() {
@@ -124,15 +116,14 @@ deadsock && quit
 		--input-ipc-server=${sock} \
 		--playlist=/tmp/musplist \
 		--shuffle
+	quit
 	exit 0
 }
 
-if ! is_playing; then
-	pause
-elif [ -z ${1} ]; then
+if [ -z ${1} ]; then
 	`echo 'pause\nnext\nprev\nloop\nshuff\nplaynew\nquit' | menu sel`
 else
-	f=${1}
+	g=${1}
 	shift
-	${f} ${@}
+	${g} ${@}
 fi

@@ -1,0 +1,22 @@
+#!/bin/sh
+# Draw a window
+# Depends on ruler(1)
+
+case ${1} in
+ruler)
+	[ ! -d /tmp/drawin ] && exit 0
+	waitron window_unmap ${2}
+	read -r x y w h </tmp/drawin/geom
+	xdotool windowmove ${2} ${x} ${y} windowsize ${2} ${w} ${h}
+	waitron window_map ${2}
+	rm -fr /tmp/drawin
+	;;
+*)
+	cmd=`echo 'emacsclient
+meh $(find ${HOME}/med/img -type f | menu sel)
+zathura $(find ${HOME}/doc -type f -name *.pdf | menu sel)' | menu sel`
+	mkdir -p /tmp/drawin
+	crud >/tmp/drawin/geom
+	eval exec  ${cmd}
+	;;
+esac

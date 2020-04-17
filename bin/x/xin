@@ -1,2 +1,4 @@
 #!/bin/sh
-xclip -sel clip "${1:-/dev/stdin}"
+con=${1:-`cat -`}
+
+printf '%s' "${con%\n}" | xclip -sel clip

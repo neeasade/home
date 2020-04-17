@@ -1,0 +1,78 @@
+#!/bin/sh
+
+umask 077
+
+# vars
+store="${HOME}/.pass"
+acc=""
+
+alias gpg2='gpg2 -r Visuwesh --quiet --yes --batch'
+
+usage() {
+	printf 'usage: pass [get|in|ls|mv]\n'
+	exit ${1:-0}
+}
+
+die() {
+    printf '%s\n' "${1}" && exit 1
+}
+
+encrypt() {
+	case ${acc} in
+	*/*)
+		[ ! -d ${store}/${acc%/*} ] && mkdir -p ${store}/${acc%/*}
+		;;
+	esac
+    printf '%s\n' "${passwd}" | gpg2 --encrypt --output "${store}/${acc}"
+}
+
+decrypt() {
+    gpg2 -d "${store}/${acc}"
+}
+
+readpw() {
+    printf 'Enter the password phrase for %s: ' "${acc}"
+    stty -echo
+    read -r passwd
+
+    printf '\n'
+}
+
+insert() {
+    [ -r "${store}/${1}" ] &&
+        die "${1} already present!"
+
+    acc="${1}"
+    readpw; encrypt
+}
+
+show() {
+    [ ! -r "${store}/${1}" ] &&
+        die "${1} not present!"
+
+    acc="${1}"
+    decrypt
+}
+
+list() {
+	cd ${store}
+	find . -type f -exec sh -c 'x={}; echo ${x#./}' \;
+}
+
+case ${1} in
+in)
+	insert "${2}"
+	;;
+get)
+	show "${2}"
+	;;
+ls)
+	list
+	;;
+mv)
+	mv "${store}/${2}" "${store}/${3}"
+	;;
+*) 
+	usage
+	;;
+esac

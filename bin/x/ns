@@ -1,0 +1,6 @@
+#!/bin/sh
+# Start a new st session in current dir and embed in tabbed
+
+[ -z "${XEMBED}" ] && exit 1
+
+nohup st -w "${XEMBED}" >/dev/null 2>/dev/null &

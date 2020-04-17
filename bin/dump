@@ -4,5 +4,5 @@ export DUMP="${DUMP:-${HOME}/doc/dump}"
 
 menu sel <${DUMP} | {
 	read -r sel
-	grep -q "${sel}" ${DUMP} && echo "${sel}" | xin || echo "\n${sel}" >>${DUMP}
+	grep -q "${sel}" ${DUMP} && echo "${sel}" | xin || echo "${sel}" >>${DUMP}
 }

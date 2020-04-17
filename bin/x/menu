@@ -3,13 +3,11 @@
 sw=$(res -w)
 sh=$(res -h)
 
-w=$((sw / 2))
-
-has bc && w=$(echo "${sw} / 2.3" | bc)
+w=$((sw / 3))
 
 l=$((sw / 50))
 x=$((sw / 2 - w / 2))
-y=$((sh / 3 - l))
+y=$((sh / 3))
 
 sel() {
 	dmenu -bp ${borderpx:-2} -x ${x} -y ${y} -w ${w} \

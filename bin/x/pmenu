@@ -1,10 +1,12 @@
 #!/bin/sh
 # Rio-esque dropdown menu!
 
+pgrep -x xmenu >/dev/null && pkill xmenu
+
 PATH="${HOME}/bin/xmenu:${PATH}"
 
 xmenu -d \
-	new reshape plumb close hide \
+	new reshape plumb drawin close hide \
 	unhide focus | while read -r c; do
 	sh -c "${c} & exit"
 done
