@@ -1,5 +1,3 @@
-#!/usr/bin/env mksh
-
 alias a='alias'
 a cmd='command'
 

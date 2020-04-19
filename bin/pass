@@ -2,7 +2,6 @@
 
 umask 077
 
-# vars
 store="${HOME}/.pass"
 acc=""
 

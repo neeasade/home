@@ -1,5 +1,3 @@
-#!/usr/bin/env mksh
-
 while read -r al; do
 	a g${al% *}="cd ${al#* }"
 	a -d ${al% *}="${al#* }"

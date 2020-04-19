@@ -1,5 +1,3 @@
-#!/usr/bin/env mksh
-
 while read -r al; do
 	a ${al%% *}="${al}"
 done <<EOF
@@ -12,17 +10,17 @@ free -h
 fc-cache --verbose
 grep -i
 su -
-ls -F
+ls -AF
 mpv --no-audio-display
 EOF
 
 a mkf='touch'
 a mkd='mkdir -p'
 a sl='ls'
+a SU='doas mksh'
 
 # FRENCH RIGHTS!
 a rmf='rm -fr'
-a SU='doas mksh'
 
 # This is the best way I know of to detect systemd
 has systemctl || {

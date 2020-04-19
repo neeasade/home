@@ -1,8 +1,4 @@
-#!/usr/bin/env mksh
-
 v() {
-	local f=`realpath ${1}`
-	printf '\033]]0;vis: %s\a' ~${f#${HOME}}
 	vis "${@}"
 }
 
@@ -76,21 +72,19 @@ has emacs && {
 	}
 
 	v() {
-	    case ${INSIDE_EMACS} {
-	    "")
-	        ! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
-				local f=`realpath ${1}`
-				printf '\033]]0;vis: %s\a' ~${f#${HOME}}
+		case ${INSIDE_EMACS} {
+		"")
+			! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
 				vis "${@}"
 				return 0
 			}
-	        xembed --parent-id emacsclient -c "${@}" ||
-	            emacsclient -c "${@}"
+			xembed --parent-id emacsclient -c "${@}" ||
+	        	emacsclient -c "${@}"
 	        ;;
-	    vterm)
-	        vterm "find-file \"${@}\""
+		vterm)
+			vterm "find-file \"${@}\""
 	        ;;
-	    }
+		}
 	}
 }
 

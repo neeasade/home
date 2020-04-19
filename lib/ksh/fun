@@ -1,5 +1,3 @@
-#!/usr/bin/env mksh
-
 find-font() {
 	[[ -n "${1}" ]] &&
 		fc-list | grep -i "${1}"
@@ -10,12 +8,12 @@ _c() {
 	for p in "${@}" ${@}* *${@} *${@}*; {
 		if [[ -f "${p}" ]]; then
 			case `file -ib "${p}"` {
-			*pdf*)   zathura "${p}"   ;;
-			*image*) meh "${p}"       ;;
-			*audio*)                  ;&
-			*video*) mpv "${p}"       ;;
-			*zip*)   upkp "${p}"      ;;
-			*)       cat  "${p}"      ;;
+			*pdf*)   zathura "${p}" ;;
+			*image*) meh "${p}"     ;;
+			*audio*)                ;&
+			*video*) mpv "${p}"     ;;
+			*zip*)   upkp "${p}"    ;;
+			*)       cat  "${p}"    ;;
 			}
 			return 0
 		elif [[ -d "${p}" ]]; then
@@ -32,13 +30,11 @@ l() {
 	[[ -f "${1}" ]] && less "${1}"
 }
 
-resource() {
-	. ${HOME}/lib/kshrc
-}
+resource() . ${HOME}/lib/kshrc;
 
 conf() {
 	[[ -d "${HOME}/opt/repos/home" ]] || return 1
-	g() { git --git-dir="${HOME}/opt/repos/home" --work-tree="${HOME}" "${@}"; }
+	g() git --git-dir="${HOME}/opt/repos/home" --work-tree="${HOME}" "${@}";
 
 	case ${1} {
 	com*) shift; g commit -m "${@}"   ;;
@@ -67,6 +63,40 @@ urm() {
 	}
 }
 
-rsfile()   { print ${1%.*} | tr 'A-Z .' 'a-z_'; }
-unix2dos() { for i; { sed -i -e 's/\r*$/\r/' "${i}"; };	}
-dos2unix() { for i; { sed -i -e 's/\r//'     "${i}"; };	}
+iff() {
+	if eval ${1} >/dev/null; then
+		echo "${2}"
+	else
+		echo "${3}"
+	fi
+}
+
+map() {
+	while read -r l; do
+		${@} "${l}"
+	done </dev/stdin
+}
+
+filter() {
+	while read -r l; do
+		${@} "${l}" && echo "${l}"
+	done </dev/stdin
+}
+
+ormap() {
+	while read -r l; do
+		${@} "${l}" && return 0
+	done </dev/stdin
+	return 1
+}
+
+andmap() {
+	while read -r l; do
+		${@} "${l}" || return 1
+	done </dev/stdin
+	return 0
+}
+
+rsfile() print ${1%.*} | tr 'A-Z .' 'a-z_';
+unix2dos() for i; { sed -i -e 's/\r*$/\r/' "${i}"; };
+dos2unix() for i; { sed -i -e 's/\r//'     "${i}"; };

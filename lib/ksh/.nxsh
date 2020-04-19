@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/usr/bin/env mksh
 
-case ${1} in
+case ${1} {
 --rcfile)
-	tmp="$(cat ${2})"
-	echo ${tmp%exit} >${2}
-	echo ${NIX_EXECUTING_SHELL} >>${2}
+	tmp="$(<${2})"
+	print ${tmp%exit} >${2}
+	print ${NIX_EXECUTING_SHELL} >>${2}
 	bash ${2}
 	;;
 *)
 	bash "${@}"
-esac
+}

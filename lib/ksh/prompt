@@ -1,19 +1,18 @@
-#!/usr/bin/env mksh
-
 _set_wn() {
 	case ${TERM} {
 	linux|dumb)
 	    ;;
 	*)
-		local sh=ksh
-		[[ -n "${IN_NIX_SHELL}" ]] && sh='*ksh'
-	    printf '\033]]0;%s: %s\a' "${sh}" ~${PWD#${HOME}}
+	    printf '\033]]0;%s: %s\a' \
+			`iff '[[ -n "${IN_NIX_SHELL}" ]]' "*ksh" "ksh"` \
+			`iff '[[ ${PWD} = ${HOME}* ]]' "~${PWD#${HOME}}" "${PWD}"`
 	    ;;
 	}
 } 2>/dev/null
 
 _rm_jnk() {
-	_rm_e() { for i; {
+	_rm_e() {
+		for i; {
 	        [[ -d "${i}" || -f "${i}" ]] &&
 	            rm -rf "${i}"
 	    }
@@ -29,8 +28,8 @@ _PS1_command() {
 _draw_PS1() {
 	[[ -n "${IN_NIX_SHELL}" ]] && print -n '*'
 	case `whoami` {
-	root) print -n '# '               ;;
-	viz)  print -n '$ '; _PS1_command ;;
-	*)    print -n '% '               ;;
+	root) print -n '# '                 ;;
+	viz)  print -n '$ '; _PS1_command & ;;
+	*)    print -n '% '                 ;;
 	}
 }

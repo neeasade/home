@@ -1,4 +1,4 @@
 #!/bin/sh
 con=${1:-`cat -`}
 
-printf '%s' "${con%\n}" | xclip -sel clip
+printf '%s' "${con}" | xclip -sel clip

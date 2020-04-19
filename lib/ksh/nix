@@ -1,10 +1,12 @@
-#!/usr/bin/env mksh
-
 _nxsh() {
 	# This function is pretty much a rip-off of https://git.io/Jfe01
-	local inpkgs=0
-	local args="${@}"
-	local NIX_SHELL_PACKAGES
+	((${#}==0)) && {
+		# I have a shell.nix file in ${PWD}
+		NIX_BUILD_SHELL="${HOME}/lib/ksh/.nxsh" \
+			NIX_EXECUTING_SHELL="${SHELL}" nix-shell
+		return 0
+	}
+	local inpkgs=0 args="${@}" NIX_SHELL_PACKAGES
 	while ((${#}>0)); do
 		case ${1} {
 		-p|--packages)
@@ -12,40 +14,44 @@ _nxsh() {
 			NIX_SHELL_PACKAGES+="${NIX_SHELL_PACKAGES:+ }${2}"
 			shift
 			;;
-		--arg)
+		--arg|--argstr)
 			inpkgs=0
 			shift 2
 			;;
 		-*)
 			inpkgs=0
-			shift
 			;;
 		*)
-			[[ ${inpkgs} -eq 1 ]] && {
-				NIX_SHELL_PACKAGES+=" ${2}"
-				shift
-			}
+			[[ ${inpkgs} -eq 1 ]] &&
+				NIX_SHELL_PACKAGES+=" ${1}"
 			;;
 		}
 		shift
 	done
-	NIX_SHELL_PACKAGES="${NIX_SHELL_PACKAGES}" \
+	# Stupid ass hack to get multiple packages working
+	eval NIX_SHELL_PACKAGES='"'${NIX_SHELL_PACKAGES}'"' \
 		NIX_BUILD_SHELL="${HOME}/lib/ksh/.nxsh" \
-		NIX_EXECUTING_SHELL="${SHELL}" \
-		nix-shell "${args}"
+		NIX_EXECUTING_SHELL="${SHELL}" nix-shell "${args}"
 }
 
 nx() {
 	case ${1} {
-	shell)
+	sr)
+		shift
+		find /nix/store -type d `
+			for i; {
+				print -- -name "*${i}*"
+			}`
+		;;
+	shl)
 		[[ -e shell.nix ]] && {
-			error: shell.nix already exists
+			print error: shell.nix already exists
 			return 1
 		}
 		cat >shell.nix <<EOF
 with import <nixpkgs> {};
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   name = "";
   version = "";
 
@@ -70,10 +76,11 @@ EOF
 		cat >${2} <<EOF
 { stdenv, fetch }:
 
-stdenv.mkDerviation {
+stdenv.mkDerviation rec {
   name = "";
   version = "";
   url = fetch {
+  };
 
   buildInputs = [];
   nativeBuildInputs = [];
@@ -94,10 +101,11 @@ EOF
 		;;
 	*)
 		cat <<EOF
-usage: nx [shell|pkg <file>|sh ...]
-	shell: create shell.nix template
-	pkg: write package template as <file>
+usage: nx [shl|pkg file|sh ...|sr ...]
+	shl: create shell.nix template
+	pkg: write package template
 	sh: start nix-shell
+	sr: search in /nix/store
 EOF
 		;;
 	}
