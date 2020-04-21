@@ -38,4 +38,6 @@ vis.events.subscribe(vis.events.WIN_OPEN, function(win)
 		vis:command("set tw 4")
 		vis:command("set et off")
 	end
+
+	vis:command("set rnu on")
 end)

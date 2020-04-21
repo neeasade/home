@@ -58,27 +58,18 @@ in
           MadHouse : pass get irc/MadHouse
         '';
       };
-      ".irssi/scripts/passwd.pl" = {
-        source = "${builtins.fetchurl {
-            url = "https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl";
-            sha256 = "f2d92ceede6d06dc1173dbfdedcd05edf453349139dbc725630fc237c7f654d4";
-        }}";
-      };
       ".irssi/scripts/autorun/passwd.pl" = {
-        source = "${builtins.fetchurl {
-            url = "https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl";
-            sha256 = "f2d92ceede6d06dc1173dbfdedcd05edf453349139dbc725630fc237c7f654d4";
-        }}";
+        source = "${builtins.fetchurl https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl}";
       };
 
       "lib/ruler/rulerrc" = {
         text = ''
+          name=".*"
+            drawin ruler $RULER_WID
           role="browser"
             grep -q '2' /tmp/info/wm/groups/cur || { waitron window_focus $RULER_WID && waitron group_move_window 2; }
           instance="mpv-popup"
             mpopv $RULER_WID
-          name=".*"
-            drawin ruler $RULER_WID
         '';
       };
     };

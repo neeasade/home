@@ -113,6 +113,8 @@ self: super: rec {
   });
 
   irssi = super.irssi.overrideAttrs (oldAttrs: {
-    patches = [ /home/viz/lib/nix/patches/irssi/001-connection_set_key.patch ];
+    patches = [
+      "${builtins.fetchurl https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/irssi-connection-set-key.patch}"
+    ];
   });
 }
