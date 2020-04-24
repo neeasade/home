@@ -19,8 +19,7 @@
        efi.canTouchEfiVariables = true;
      };
      blacklistedKernelModules = [ 
-       "bluetooth" "uvcvideo" # You don't really need this, do you?
-       "pcspkr" # Annoying
+       "bluetooth" "uvcvideo" "pcspkr"
      ];
      kernelModules = [
        "fuse" # One of the most coolest thing
@@ -37,7 +36,8 @@
       enable = true;
       networks = {
         "Not Your Wifi" = {
-          pskRaw = "248567fa391aaa867b6c61c99bd093e30f90be440d6b455fd0068645733fb919";
+          pskRaw = "248567fa391aaa867b6c61c99bd093e30f90be440d6b455"
+            + "fd0068645733fb919";
         };
       };
     };

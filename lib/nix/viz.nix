@@ -19,11 +19,6 @@ in
     shell = pkgs.mksh;
   };
 
-
-  # Workaround for getting home-manager to work in Nixos 19.09
-  # See issue #948 in home-manager
-  # systemd.services.home-manager-viz.preStart = "${pkgs.nix}/bin/nix-env -i -E";
-
   home-manager.users.viz = {
     home.packages = with pkgs; [
         mpv git xclip farbfeld clang-tools slock ffmpeg transmission socat
@@ -38,7 +33,7 @@ in
         xscreenshot crud sprop wchf xmenu xruler charter
         raleigh-reloaded-gtk-theme verily-serif-mono
     ];
-    
+
     home.sessionVariables = {
       ENV = "\$HOME/lib/kshrc";
       PATH = "\$HOME/bin:\$PATH";
@@ -116,6 +111,26 @@ in
         userName = "viz";
       };
 
+      mpv = {
+        enable = true;
+        config = {
+          audio-display = "no";
+          sub-font = "Go";
+          sub-font-size = "20";
+          sub-color = "#ffffff";
+          sub-border-color = "#000000";
+          sub-border-size = 2;
+          # Some ass subtitles force font size by using /fs
+          # I'm not sure how to override them though.
+          # Only way to override them would be to use ass=no
+          # But that breaks the position of the subtitle which
+          # is not something that is pleasing especially when
+          # something on-screen is translated.
+          sub-ass-force-style = "Fontname=Go,Fontsize=20";
+          embeddedfonts = "no";
+        };
+      };
+
       chromium = {
         enable = true;
         extensions = [
@@ -170,10 +185,10 @@ in
       zathura = {
         enable = true;
         options = {
-          default-bg = "#e7e7d4";
-          default-fg = "#1c1e1d";
-          recolor-lightcolor = "#e7e7d4";
-          recolor-darkcolor = "#1c1e1d";
+          default-bg = "#ffffea";
+          default-fg = "#1c1c1d";
+          recolor-lightcolor = "#ffffea";
+          recolor-darkcolor = "#1c1c1d";
           recolor = true;
           guioptions = "";
         };
@@ -183,7 +198,7 @@ in
 
     gtk = {
       enable = true;
-      font.name = "Sans";
+      font.name = "sans-serif";
       iconTheme.name = "Adwaita";
       iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
       theme.name = "Raleigh-Reloaded";

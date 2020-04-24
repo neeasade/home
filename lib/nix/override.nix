@@ -2,7 +2,7 @@ self: super: rec {
   tabbed = super.tabbed.overrideAttrs (oldAttrs: {
     src = builtins.fetchGit {
       url = "https://github.com/vizs/tabbed";
-      rev = "7d6fd8ddf18ddff4b1ee5899d972b1b17d73c557";
+      rev = "d21e570d5da9e1629ce7a5bada3c24582cd2d5d9";
       ref = "master";
     };
   });
@@ -10,7 +10,7 @@ self: super: rec {
   st = super.st.overrideAttrs (oldAttrs: {
     src = builtins.fetchGit {
       url = "https://github.com/vizs/st";
-      rev = "93336f783916225cb102fd75133c32530481d970";
+      rev = "55b7dd4fac07de7ea1b9465de14b3c15bef362be";
       ref = "master";
     };
   });
