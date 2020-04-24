@@ -12,7 +12,7 @@ y=20
 (echo "%{c}${c}"; sleep 2) | 
 	lemonbar -d \
 			 -g ${w}x${h}+${x}+${y} \
-			 -f "${XFONT}" \
+			 -f "monospace:pixelsize=12" \
 			 -F \#1c1e1d \
 			 -B \#e7e7d4 \
 			 -R \#6ecbdc \

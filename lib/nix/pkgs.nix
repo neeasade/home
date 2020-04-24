@@ -10,6 +10,7 @@
     libwm = pkgs.callPackage ./pkgs/libwm.nix {};
     xruler = pkgs.callPackage ./pkgs/ruler.nix {};
     charter = pkgs.callPackage ./pkgs/charter.nix {};
+    verily-serif-mono = pkgs.callPackage ./pkgs/verilyserifmono.nix {};
     raleigh-reloaded-gtk-theme =
       pkgs.callPackage ./pkgs/raleigh-reloaded-gtk-theme.nix {};
   };

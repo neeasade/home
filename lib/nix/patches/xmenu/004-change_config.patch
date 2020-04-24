@@ -18,7 +18,7 @@ index 4715b38..766d801 100644
   
  /* font used for entries */
 -char *font = "monospace:pixelsize=16";
-+char *font = "Go:pixelsize=12";
++char *font = "IBM Plex Sans Condensed:pixelsize=13";
  
  /* mouse buttons to react to when using the menu */
  int mousebutton = XCB_BUTTON_INDEX_1;

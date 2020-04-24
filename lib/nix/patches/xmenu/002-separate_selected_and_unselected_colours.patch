@@ -81,7 +81,7 @@ index 88cc75e..93d545c 100644
  			drawentries();
  			if (current >= 0)
 -				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent);
-+				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 0, current);
++				hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 1, current);
  			break;
  
  		/*
@@ -99,7 +99,7 @@ index 88cc75e..93d545c 100644
  			 || e->root_y < menu.y) {
  				if (current >= 0)
 -					hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent);
-+					hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 1, current);
++					hilight(wid, 0, (menu.h/nent) * current, menu.w, menu.h/nent, 0, current);
  				current = -1;
  				break;
  			}

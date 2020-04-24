@@ -120,13 +120,19 @@
   };
 
   fonts = {
-    fonts = [ pkgs.go-font ];
+    # If it isn't obvious yet, I like typewriter fonts
+    fonts = [
+      pkgs.go-font pkgs.verily-serif-mono pkgs.charter pkgs.ibm-plex
+      pkgs.lmodern pkgs.lmmath
+    ];
     fontconfig = {
       defaultFonts = {
-        emoji = []; # Emojis are annoying anyway
-        monospace = [ "Go Mono" ]; # The only good monospace font
-        sansSerif = [ "Go" ];
-        serif = [ "Go" ];
+        monospace = [
+          "Verily Serif Mono"
+          "Go Mono"
+        ];
+        sansSerif = [ "IBM Plex Sans Condensed" "Go" ];
+        serif = [ "Charter" "Latin Modern Roman" ];
       };
     };
   };
@@ -136,6 +142,8 @@
     dates = "weekly";
     options = "--delete-older-than 14d";
   };
+
+  nixpkgs.overlays = [ (import ./override.nix) ];
 
   security = {
     polkit.enable = true; # Nixos sucks
@@ -156,10 +164,6 @@
       enable = true;
       pinentryFlavor = "gnome3";
     };
-  };
-
-  nixpkgs = {
-    overlays = [ (import ./override.nix) ];
   };
 
   # This value determines the NixOS release with which your system is to be

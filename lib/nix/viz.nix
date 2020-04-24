@@ -26,16 +26,17 @@ in
 
   home-manager.users.viz = {
     home.packages = with pkgs; [
-        mpv git xclip farbfeld clang-tools slock ffmpeg transmission socat wget curl
+        mpv git xclip farbfeld clang-tools slock ffmpeg transmission socat
+        wget curl vis
         xdotool xorg.xprop xorg.xrandr sxhkd
-        chromium # Sorry, ren
         emacs # Emacs is good at everything except text editing
         racket-minimal
         go # A nice programming language?
         zathura # Possibly the easiest to use document reader
         dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh gopass
         # Custom packages
-        xscreenshot crud sprop wchf xmenu xruler charter raleigh-reloaded-gtk-theme
+        xscreenshot crud sprop wchf xmenu xruler charter
+        raleigh-reloaded-gtk-theme verily-serif-mono
     ];
     
     home.sessionVariables = {
@@ -59,7 +60,8 @@ in
         '';
       };
       ".irssi/scripts/autorun/passwd.pl" = {
-        source = "${builtins.fetchurl https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl}";
+        source = "${builtins.fetchurl
+          https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl}";
       };
 
       "lib/ruler/rulerrc" = {
@@ -91,6 +93,19 @@ in
         videos = "\$HOME/med/vid";
       };
     };
+
+    nixpkgs = {
+      config = {
+        allowUnfree = true;
+        chromium.enableWideVine = true;
+      };
+    };
+    xdg.configFile."nixpkgs/config.nix".text = ''
+      {
+        allowUnfree = true;
+        chromium.enableWideVine = true;
+      }
+    '';
 
     programs = {
       home-manager.enable = true;
@@ -127,8 +142,8 @@ in
           channels = {
             nixos.autoJoin = true;
             nixhub.autoJoin = true;
+            unixporn.autoJoin = true;
             vis-editor.autoJoin = true;
-            emacs.autoJoin = true;
           };
         };
         networks."MadHouse" = {
@@ -177,67 +192,45 @@ in
     services.sxhkd = {
       enable = true;
       extraPath = "/home/viz/bin/x";
-      extraConfig = ''
-        alt + p
-          `menu run`
-        super + shift + Return
-          st -g 80x40 -t floating-st
-        alt + shift + Return
-          tab -w st
-        super + {v,l,m}
-          {chromium,slock,mus}
-        super + {x,i,n,e}
-          {turnoff,view_image,mbar,tab --parent-id emacsclient -c -a ""}
-        alt + shift + f
-          dmenu_dir -h 1
-        alt + shift + ctrl + f
-          dmenu_dir -h 0
-        Print
-          screenshot -s
-        super + Print
-          screenshot -u
-        super + shift + ctrl + m
-          togmouse
-        super + shift + {k,j,m,u}
-          vol {-i 1%,-d 1%,-m,-u}
-        super + shift + {l,h}
-          doas ~/bin/brness {-i 1,-d 1,}
-        super + shift + {b,t,v,p}
-          notify-send {battery `bat -p`%,time `date +%H:%M`,volume `vol -g`%,`mus pprint`}
-        alt + s
-          ~/tmp/tst
-        alt + [
-          plumb
-        
-        super + {w,a,s,d}
-          waitron window_move {0 -20,-20 0,0 +20,+20 0}
-        super + shift + {w,a,s,d}
-          waitron window_move {0 -50,-50 0,0 +50,+50 0}
-        super + ctrl + {w,s,d,a}
-          waitron window_resize {0 -20,0 +20,+20 0,-20 0}
-        super + ctrl + shift + {w,s,d,a}
-          waitron window_resize {0 -50,0 +50,+50 0,-50 0}
-        alt + {c,f}
-          waitron window_{snap middle,maximize}
-        super + p
-          wmenu
-        alt + shift + c
-          waitron window_close
-        alt + {h,j,k,l}
-          waitron window_cardinal_focus {left,down,up,right}
-        alt + shift + q
-          \$HOME/lib/wchf/wchfrc
-        alt + shift + ctrl + q
-          waitron wm_quit 0
-        alt + {1-5}
-          waitron group_activate_specific {1-5}
-        alt + shift + {1-5}
-          waitron group_move_window {1-5}
-        alt + ctrl + {1-5}
-          waitron group_activate {1-5}
-        alt + shift + b
-          waitron toggle_borders
-      '';
+      keybindings = {
+        "alt + p" = "`menu run`";
+        "super + shift + Return" = "st -g 80x40 -t floating-st";
+        "alt + shift + Return" = "tab -w st";
+        "super + {v,l,m}" = "{chromium,slock,mus}";
+        "super + {x,e}" = "{turnoff,tab --parent-id emacsclient -c -a ''}";
+        "alt + shift + f" = "dmenu_dir -h 1";
+        "alt + shift + ctrl + f" = "dmenu_dir -h 0";
+        "Print" = "screenshot -s";
+        "super + Print" = "screenshot -u";
+        "super + shift + ctrl + m" = "togmouse";
+        "super + shift + {k,j,m,u}" = "vol {-i 1%,-d 1%,-m,-u}";
+        "super + shift + {l,h}" = "doas ~/bin/brness {-i 1,-d 1}";
+        "super + shift + {b,t}" = "notify-send {battery `bat -p`%,"
+            + "time `date +%H:%M`}";
+        "super + shift + {v,p}" = "notify-send {volume `vol -g`%,"
+            + "`mus pprint`}";
+        "alt + s" = "~/tmp/tst";
+        "alt + [" = "plumb";
+
+        "super + {w,a,s,d}" = "waitron window_move {0 -20,-20 0,0 +20,+20 0}";
+        "super + shift + {w,a,s,d}" = "waitron window_move {0 -50,-50 0,"
+            + "0 +50,+50 0}";
+        "super + ctrl + {w,s,d,a}" = "waitron window_resize {0 -20,0 +20,"
+            + "+20 0,-20 0}";
+        "super + ctrl + shift + {w,s,d,a}" = "waitron window_resize {0 -50,"
+            + "0 +50,+50 0,-50 0}";
+        "alt + {c,f}" = "waitron window_{snap middle,maximize}";
+        "super + p" = "wmenu";
+        "alt + shift + c" = "waitron window_close";
+        "alt + {h,j,k,l}" = "waitron window_cardinal_focus "
+            + "{left,down,up,right}";
+        "alt + shift + q" = "\$HOME/lib/wchf/wchfrc";
+        "alt + shift + ctrl + q" = "waitron wm_quit 0";
+        "alt + {1-5}" = "waitron group_activate_specific {1-5}";
+        "alt + shift + {1-5}" = "waitron group_move_window {1-5}";
+        "alt + ctrl + {1-5}" = "waitron group_activate {1-5}";
+        "alt + shift + b" = "waitron toggle_borders";
+      };
     };
   };
 

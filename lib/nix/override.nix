@@ -114,7 +114,8 @@ self: super: rec {
 
   irssi = super.irssi.overrideAttrs (oldAttrs: {
     patches = [
-      "${builtins.fetchurl https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/irssi-connection-set-key.patch}"
+      "${builtins.fetchurl https://raw.githubusercontent.com/gandalf3/" 
+        + "irssi-passwd/master/irssi-connection-set-key.patch}"
     ];
   });
 }

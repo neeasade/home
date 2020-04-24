@@ -4,11 +4,11 @@ _set_wn() {
 	    ;;
 	*)
 	    printf '\033]]0;%s: %s\a' \
-			`iff '[[ -n "${IN_NIX_SHELL}" ]]' "*ksh" "ksh"` \
-			`iff '[[ ${PWD} = ${HOME}* ]]' "~${PWD#${HOME}}" "${PWD}"`
+			`iif '[[ -z "${IN_NIX_SHELL}" ]]' ksh +ksh` \
+			`iif '[[ ${PWD} = ${HOME}* ]]' "~${PWD#${HOME}}" "${PWD}"`
 	    ;;
 	}
-} 2>/dev/null
+} #2>/dev/null
 
 _rm_jnk() {
 	_rm_e() {
@@ -26,7 +26,7 @@ _PS1_command() {
 }
 
 _draw_PS1() {
-	[[ -n "${IN_NIX_SHELL}" ]] && print -n '*'
+	[[ -n "${IN_NIX_SHELL}" ]] && print -n '+'
 	case `whoami` {
 	root) print -n '# '                 ;;
 	viz)  print -n '$ '; _PS1_command & ;;

@@ -19,6 +19,8 @@ stdenv.mkDerivation {
   '';
 
   meta = with stdenv.lib; {
+    homepage = "https://practicaltypography.com/charter.html";
+    description = "Charter was designed by Matthew Carter in 1987 as a body text font";
     platforms = platforms.linux;
   };
 }

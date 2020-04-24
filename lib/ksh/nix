@@ -38,7 +38,7 @@ nx() {
 	case ${1} {
 	sr)
 		shift
-		find /nix/store -type d `
+		find /nix/store -maxdepth 1 -type d `
 			for i; {
 				print -- -name "*${i}*"
 			}`

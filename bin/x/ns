@@ -3,4 +3,8 @@
 
 [ -z "${XEMBED}" ] && exit 1
 
-nohup st -w "${XEMBED}" >/dev/null 2>/dev/null &
+if [ -n "${IN_NIX_SHELL}" ]; then
+	nohup st -w "${XEMBED}" -e mksh >/dev/null 2>/dev/null &
+else
+	nohup st -w "${XEMBED}" >/dev/null 2>/dev/null &
+fi
