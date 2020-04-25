@@ -22,7 +22,7 @@ in
   home-manager.users.viz = {
     home.packages = with pkgs; [
         mpv git xclip farbfeld clang-tools slock ffmpeg transmission socat
-        wget curl vis
+        wget curl file gnumake clang
         xdotool xorg.xprop xorg.xrandr sxhkd
         emacs # Emacs is good at everything except text editing
         racket-minimal
@@ -35,6 +35,7 @@ in
     ];
 
     home.sessionVariables = {
+      INPUTRC = "\$HOME/lib/inputrc";
       ENV = "\$HOME/lib/kshrc";
       PATH = "\$HOME/bin:\$PATH";
       LESSHISTFILE = "\$XDG_CACHE_HOME/lesshst";
@@ -48,16 +49,25 @@ in
     };
 
     home.file = {
+      "lib/inputrc".text = "set editing-mode vi";
+
+      "lib/vis/fennel.lua".source = "${builtins.fetchurl
+         https://raw.githubusercontent.com/bakpakin/Fennel/master/fennel.lua}";
+      "lib/vis/visrc.lua".text = ''
+        local fennel = require("./fennel")
+        fennel.path = fennel.path .. ";lib/vis/?.fnl"
+        table.insert(package.loaders or package.searchers, fennel.searcher)
+        require("cfg") -- cfg.fnl is not tracked by Nix
+      '';
+
       ".irssi/passwd" = {
         text = ''
           Freenode : pass get irc/Freenode
           MadHouse : pass get irc/MadHouse
         '';
       };
-      ".irssi/scripts/autorun/passwd.pl" = {
-        source = "${builtins.fetchurl
+      ".irssi/scripts/autorun/passwd.pl".source = "${builtins.fetchurl
           https://raw.githubusercontent.com/gandalf3/irssi-passwd/master/passwd.pl}";
-      };
 
       "lib/ruler/rulerrc" = {
         text = ''
@@ -89,6 +99,7 @@ in
       };
     };
 
+    # Sweet sweet DRM'd content
     nixpkgs = {
       config = {
         allowUnfree = true;
@@ -115,19 +126,24 @@ in
         enable = true;
         config = {
           audio-display = "no";
+
+          osd-font = "Go";
+          osd-font-size = 20;
+
           sub-font = "Go";
-          sub-font-size = "20";
+          sub-font-size = 20;
           sub-color = "#ffffff";
           sub-border-color = "#000000";
           sub-border-size = 2;
           # Some ass subtitles force font size by using /fs
-          # I'm not sure how to override them though.
-          # Only way to override them would be to use ass=no
+          # AFAIK, only way to override them would be to use ass=no
           # But that breaks the position of the subtitle which
           # is not something that is pleasing especially when
           # something on-screen is translated.
           sub-ass-force-style = "Fontname=Go,Fontsize=20";
           embeddedfonts = "no";
+
+          ytdl-format = "bestaudio+bestvideo";
         };
       };
 

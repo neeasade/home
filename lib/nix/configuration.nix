@@ -104,7 +104,7 @@
   environment = {
     binsh = "${pkgs.dash}/bin/dash"; # Really? This isn't the default binsh?
     systemPackages = with pkgs; [
-      file gnumake clang pkg-config dash
+      dash
       vis # The only good editor
     ];
     etc = {
@@ -150,9 +150,9 @@
     sudo.enable = false; # sudo is overly complicated for what I need
   };
 
-  # Disable that annoying popup window
   programs = {
     ssh = {
+      # Disable that annoying popup window
       askPassword = "";
       extraConfig = ''
         UserKnownHostsFile ~/lib/ssh/known_hosts
