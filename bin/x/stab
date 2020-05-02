@@ -3,7 +3,7 @@
 
 for i in `lss ${XEMBED}`; do
 	echo "${i} $(xdotool getwindowname ${i})"
-done | menu sel -wi ${XEMBED} | {
+done | dmenu -p 'sel:' -l 5 -wi ${XEMBED} | {
 	read -r id
 	sprop ${XEMBED} _TABBED_SELECT_TAB "${wid}" STRING
 }

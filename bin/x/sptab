@@ -1,7 +1,7 @@
 #!/bin/sh
 # spawn a window in tabbed
 
-echo 'st\nmpv\nemacsclient -c' | menu sel -wi ${XEMBED} | {
+echo 'st\nmpv\nemacsclient -c' | dmenu -p 'sel:' -l 5 -wi ${XEMBED} | {
 	read -r win
 	case ${win} in
 	st*)    ${win} -w ${XEMBED}          ;;

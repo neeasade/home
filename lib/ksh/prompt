@@ -1,21 +1,21 @@
 _set_wn() {
 	case ${TERM} {
 	linux|dumb)
-	    ;;
+		;;
 	*)
-	    printf '\033]]0;%s: %s\a' \
-			`iif '[[ -z "${IN_NIX_SHELL}" ]]' ksh +ksh` \
+		printf '\1\033]]0;%s: %s\a\1' \
+			`iif '[[ -z "${IN_NIX_SHELL}" ]]' ksh !ksh` \
 			`iif '[[ ${PWD} = ${HOME}* ]]' "~${PWD#${HOME}}" "${PWD}"`
-	    ;;
+		;;
 	}
-} #2>/dev/null
+} 2>/dev/null
 
 _rm_jnk() {
 	_rm_e() {
 		for i; {
-	        [[ -d "${i}" || -f "${i}" ]] &&
-	            rm -rf "${i}"
-	    }
+			[[ -d "${i}" || -f "${i}" ]] &&
+				rm -rf "${i}"
+		}
 	}
 	_rm_e ${HOME}/.{dbus,pki,ssh}
 	unset -f _rm_e
@@ -26,10 +26,13 @@ _PS1_command() {
 }
 
 _draw_PS1() {
-	[[ -n "${IN_NIX_SHELL}" ]] && print -n '+'
+	[[ -n "${IN_NIX_SHELL}" ]] && print -n '!'
 	case `whoami` {
 	root) print -n '# '                 ;;
 	viz)  print -n '$ '; _PS1_command & ;;
 	*)    print -n '% '                 ;;
 	}
 }
+
+PS1=$'\1\r$(_draw_PS1)'
+PS2='... '

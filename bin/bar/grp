@@ -1,0 +1,17 @@
+#!/bin/sh
+read -r m </tmp/info/wm/groups/main
+read -r c </tmp/info/wm/groups/cur
+read -r n </tmp/info/wm/groups/num
+
+i=1; while [ ${i} -le ${n} ]; do
+	if [ ${i} -eq ${m} ]; then
+		printf 'x '
+	else
+		case ${c} in
+		*${i}*) printf '+ ' ;;
+		*)      printf 'o ' ;;
+		esac
+	fi
+	: $((i+=1))
+done
+echo

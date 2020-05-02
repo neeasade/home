@@ -18,5 +18,11 @@ a rsc='resource'
 a aliases='alias'
 a quit='exit'
 a wh='command -v'
+a datenow='date +"%a %d %b %Y %H:%M"'
+
+# FRENCH RIGHTS!
+a rmf='rm -fr'
+a sl='ls'
+a SU='doas mksh'
 
 a {cl,cle,clea}='clear'

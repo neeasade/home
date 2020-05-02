@@ -10,7 +10,7 @@ x=$((sw / 2 - w / 2))
 y=$((sh / 3))
 
 sel() {
-	dmenu -bp ${borderpx:-2} -x ${x} -y ${y} -w ${w} \
+	dmenu -x ${x} -y ${y} -w ${w} \
 		  -l ${l} -i \
 		  -p "select:" ${@}
 }
@@ -28,7 +28,6 @@ subs" | sel -p "run:"
 case ${1} in
 sel)
 	shift
-	case ${@} in *-wi*) borderpx=0 ;; esac
 	sel "${@}"
 	;;
 *)

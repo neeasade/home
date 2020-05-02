@@ -1,3 +1,9 @@
+__settitle() {
+	printf '\033]]0;%s: %s\a' \
+		`iif '[[ -n "${IN_NIX_SHELL}" ]]' !ksh ksh` \
+		"${*}"
+}
+
 find-font() {
 	[[ -n "${1}" ]] && fc-list | grep -i "${1}"
 }
@@ -30,8 +36,13 @@ c() {
 }
 
 l() {
-	[[ -d "${1}" ||  -z "${1}" ]] && ls "${1:-.}"
-	[[ -f "${1}" ]] && less "${1}"
+	if [[ ! -t 0 ]]; then
+		less
+	elif [[ -f "${1}" ]]; then
+		less "${1}"
+	elif [[ -d "${1}" ||  -z "${1}" ]]; then
+		ls "${1:-.}"
+	fi
 }
 
 resource() . ${HOME}/lib/kshrc;

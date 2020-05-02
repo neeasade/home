@@ -1,0 +1,18 @@
+#!/bin/sh
+# Bar
+
+PATH=$HOME/bin/bar:$PATH
+
+pgrep -x lemonbar && pkill lemonbar
+
+remkd /tmp/info/bar
+
+wendy -m 2 -w /tmp/info/wm/groups/cur grp \
+	| lemonbar -f 'scientifica:style=bold:pixelsize=11' -Sp \
+			-g 10x90+1910+10 -B\#fff -F\#000 &
+
+while :; do
+	printf '%%{l}%s%%{c}%s%%%%{r}%s\n' `date +%d/%m` `bat` `date +%H:%M`
+	sleep 60
+done | lemonbar -f 'scientifica:style=bold:pixelsize=11' \
+			-o1 -g 100x10+1820+0 -B\#fff -F\#000

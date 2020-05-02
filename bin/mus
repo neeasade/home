@@ -43,7 +43,7 @@ playnew() {
 		playing=1
 	}
 	echo /tmp/tmpmsock >/tmp/mussockname
-	mpv --no-audio-display --input-ipc-server=/tmp/tmpmsock "${f}" &&
+	mpv --input-ipc-server=/tmp/tmpmsock "${f}" &&
 		rm -f /tmp/mussockname /tmp/tmpmsock
 	[ ${playing} -eq 1 ] && pause
 }
@@ -112,8 +112,7 @@ deadsock && quit
 
 [ ! -S ${sock} ] && [ ${#} -eq 0 ] && {
 	find ${HOME}/med/mus ! -name '*\.*' -type f >/tmp/musplist
-	mpv --no-audio-display \
-		--input-ipc-server=${sock} \
+	mpv --input-ipc-server=${sock} \
 		--playlist=/tmp/musplist \
 		--shuffle
 	quit

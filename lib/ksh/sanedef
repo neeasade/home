@@ -11,22 +11,12 @@ fc-cache --verbose
 grep -i
 su -
 ls -AF
-mpv --no-audio-display
 EOF
 
-a mkf='touch'
 a mkd='mkdir -p'
-a sl='ls'
-a SU='doas mksh'
-
-# FRENCH RIGHTS!
-a rmf='rm -fr'
 
 # This is the best way I know of to detect systemd
-has systemctl || {
-	a reboot='doas reboot'
-	a poweroff='doas poweroff'
-	a shutdown='doas shutdown'
-}
-
-a datenow='date +"%a %d %b %Y %H:%M"'
+has systemctl ||
+	for i in reboot poweroff shutdown; {
+		a ${i}="doas ${i}"
+	}
