@@ -1,5 +1,10 @@
 # -*- mode: sh -*-
 
+# Used in M-x shell
+post-cd() {
+	:
+}
+
 has() {
 	type -p "${1}" >/dev/null
 }
@@ -28,7 +33,9 @@ _c() {
 			}
 			return 0
 		elif [[ -d "${p}" ]]; then
-			cd "${p}"; return 0
+			  cd "${p}"
+			  post-cd "${p}"
+			  return 0
 		fi
 	}
 	print 'error: no such file or dir' ${p}

@@ -89,15 +89,20 @@ has emacs && {
 
 	# Inside M-x shell
 	[[ -n "${INSIDE_EMACS}" ]] && [[ "${TERM}" = dumb ]] && {
+		# TODO:  * Change pager to view-file mode instead?
 		MANPAGER='cat' PAGER='cat'
 		export MANPAGER PAGER
 
+		post-cd() {
+			elisp "(vz/cd-selbuf \"${@}\")" >/dev/null
+		}
+		
 		v() {
 			elisp "(find-file \"${@}\")"
 		}
 
 		clear() {
-			elisp "(comint-clear-buffer)"
+			elisp "(run-at-time 0 nil #'comint-clear-buffer)" >/dev/null
 		}
 
 		# Woman can be really slow on large man pages
@@ -105,8 +110,8 @@ has emacs && {
 			if [[ ! -t 0 ]]; then
 				local t=`mktemp`
 				cat ->${t}
-				elisp "(pop-to-buffer-same-window (man \"-l ${t}\"))" >/dev/null
-				rm -f ${t}
+				elisp "(pop-to-buffer-same-window (man \"-l ${t}\"))
+					   (delete-file \"${t}\")" >/dev/null
 			else
 				elisp "(pop-to-buffer-same-window (man \"${@}\"))" >/dev/null
 			fi
@@ -116,8 +121,7 @@ has emacs && {
 			if [[ ! -t 0 ]]; then
 				local t=`mktemp`
 				cat ->${t}
-				elisp "(view-file \"${t}\")" >/dev/null
-				rm -f ${t}
+				elisp "(view-file \"${t}\") (delete-file \"${t}\")" >/dev/null
 			else
 				elisp "(view-file \"${@}\")" >/dev/null
 			fi

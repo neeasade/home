@@ -16,7 +16,7 @@ case ${KSH_VERSION} {
 }
 HISTSIZE=100000
 
-for i in prompt aliases sanedef diralias wrappers fun; {
+for i in prompt aliases sanedef diralias fun wrappers; {
     . ${HOME}/lib/ksh/${i}
 }
 unset i
