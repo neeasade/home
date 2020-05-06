@@ -1,9 +1,9 @@
 #!/bin/sh
 # select window in tabbed
 
-for i in `lss ${XEMBED}`; do
+for i in `lsc ${XEMBED}`; do
 	echo "${i} $(xdotool getwindowname ${i})"
 done | dmenu -p 'sel:' -l 5 -wi ${XEMBED} | {
 	read -r id
-	sprop ${XEMBED} _TABBED_SELECT_TAB "${wid}" STRING
+	atomx _TABBED_SELECT_TAB=${id%% *} `printf '%x' ${XEMBED}`
 }

@@ -1,18 +1,28 @@
-v() {
-	vis "${@}"
-}
-
+# -*- mode: sh -*-
+# These are here to help me select tabs/windows
+# Setting title to running command is way too hacky and cumbersome
 man() {
-	__settitle "man ${*}"
+	__settitle man ${*}
 	cmd man "${@}"
 }
+
+less() {
+	if [[ ! -t 0 ]]; then
+		__settitle 'less <stdin>'
+	else
+		__settitle "less ${*}"
+	fi
+	cmd less "${@}"
+}
+
+v() vis "${@}";
 
 has git && {
 	git() {
 		case ${1} {
 		ignore-get)
 			wget -O .gitignore \
-				https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
+		https://raw.githubusercontent.com/github/gitignore/master/${2}.gitignore
 			;;
 		squash)
 			local cnf
@@ -44,7 +54,7 @@ has git && {
 		push)
 			[[ -z "${2}" ]] &&
 				cmd git push origin `cmd git rev-parse --abbrev-ref HEAD` ||
-				cmd git "${@}"
+					cmd git "${@}"
 			;;
 		tracked)
 			cmd git ls-files
@@ -69,25 +79,57 @@ has emacs && {
 		emacs --daemon
 	}
 
-	# really limiting!
-	vterm() {
-		[[ -z ${INSIDE_EMACS} ]]        && return 1
-		[[ ${INSIDE_EMACS} = 'vterm' ]] && printf '\033]51;E%s\033\' "${@}"
+	v() {
+		! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
+			vis "${@}"
+			return ${?}
+		}
+		xembed --parent-id emacsclient "${@}" || emacsclient "${@}"
 	}
 
-	v() {
-		case ${INSIDE_EMACS} {
-		'')
-			! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
-				vis "${@}"
-				return ${?}
-			}
-			xembed --parent-id emacsclient -c "${@}" ||
-				emacsclient -c "${@}"
-			;;
-		vterm)
-			vterm "find-file \"${@}\""
-			;;
+	# Inside M-x shell
+	[[ -n "${INSIDE_EMACS}" ]] && [[ "${TERM}" = dumb ]] && {
+		MANPAGER='cat' PAGER='cat'
+		export MANPAGER PAGER
+
+		v() {
+			elisp "(find-file \"${@}\")"
+		}
+
+		clear() {
+			elisp "(comint-clear-buffer)"
+		}
+
+		# Woman can be really slow on large man pages
+		man() {
+			if [[ ! -t 0 ]]; then
+				local t=`mktemp`
+				cat ->${t}
+				elisp "(pop-to-buffer-same-window (man \"-l ${t}\"))" >/dev/null
+				rm -f ${t}
+			else
+				elisp "(pop-to-buffer-same-window (man \"${@}\"))" >/dev/null
+			fi
+		}
+
+		less() {
+			if [[ ! -t 0 ]]; then
+				local t=`mktemp`
+				cat ->${t}
+				elisp "(view-file \"${t}\")" >/dev/null
+				rm -f ${t}
+			else
+				elisp "(view-file \"${@}\")" >/dev/null
+			fi
+		}
+
+		# Will add more in the future
+		for i in alsamixer; {
+			eval "
+${i}() {
+	   nohup st -e ${i} 2>&1 >/dev/null &
+}
+"
 		}
 	}
 }

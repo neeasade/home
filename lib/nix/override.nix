@@ -2,7 +2,7 @@ self: super: rec {
   tabbed = super.tabbed.overrideAttrs (oldAttrs: {
     src = builtins.fetchGit {
       url = "https://github.com/vizs/tabbed";
-      rev = "d21e570d5da9e1629ce7a5bada3c24582cd2d5d9";
+      rev = "40bcf08acd5d8f7bb1b3772243ee4a10d6ad6ce1";
       ref = "master";
     };
   });
@@ -50,7 +50,7 @@ self: super: rec {
     version = "git";
     src = builtins.fetchGit {
       url = "https://github.com/martanne/vis";
-      rev = "08a550deac6f55f32f131f66992994b3944011ce";
+      rev = "7648280a95954304e5e935e2cead16d836b86eda";
       ref = "master";
     };
   });
@@ -74,16 +74,12 @@ self: super: rec {
     version = "git";
     src = builtins.fetchGit {
       url = "https://github.com/vizs/bar";
-      rev = "35a89711a311ee0905d797a60079c79bae32ed76";
+      rev = "396762917298f12473ec0c94a8e76d103b544f49";
       ref = "xft-port";
     };
-    buildInputs = with super; [
-      xorg.libxcb
-      xorg.libXft
-      perl
-      xorg.xcbutilwm
-      xorg.xcbutilrenderutil
-    ];
+    buildInputs = oldAttrs.buildInputs ++ (with super.xorg; [
+      xcbutilwm xcbutilrenderutil
+    ]);
     prePatch = "";
     preConfigure = ''
       sed -i "s|PREFIX?=/usr/local|PREFIX = $out|" Makefile
@@ -98,9 +94,9 @@ self: super: rec {
   });
 
   wmutils-core = super.wmutils-core.overrideAttrs (oldAttrs: {
-    buildInputs = with super; [
-      xorg.libxcb xorg.xcbutil xorg.xcbutilcursor
-    ];
+    buildInputs = oldAttrs.buildInputs ++ (with super.xorg; [
+      xcbutilcursor xcbutil
+    ]);
     src = builtins.fetchGit {
       url = "https://github.com/wmutils/core";
       rev = "2a8ee9d061996cef9567a30821249c3d06557419";

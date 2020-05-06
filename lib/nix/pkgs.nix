@@ -9,8 +9,17 @@
     xmenu = pkgs.callPackage ./pkgs/xmenu.nix {};
     libwm = pkgs.callPackage ./pkgs/libwm.nix {};
     xruler = pkgs.callPackage ./pkgs/ruler.nix {};
+    lsc = pkgs.callPackage ./pkgs/lsc.nix {};
+    emacs27 = pkgs.callPackage ./pkgs/emacs27.nix {};
+
+    acr = pkgs.callPackage ./pkgs/acr.nix {};
+
+    wendy = pkgs.callPackage ./pkgs/wendy.nix {};
+
     charter = pkgs.callPackage ./pkgs/charter.nix {};
+    scientifica = pkgs.callPackage ./pkgs/scientifica.nix {};
     verily-serif-mono = pkgs.callPackage ./pkgs/verilyserifmono.nix {};
+
     raleigh-reloaded-gtk-theme =
       pkgs.callPackage ./pkgs/raleigh-reloaded-gtk-theme.nix {};
   };

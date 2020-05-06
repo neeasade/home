@@ -1,3 +1,5 @@
+# -*- mode: sh -*-
+
 while read -r al; do
 	a ${al%% *}="${al}"
 done <<EOF

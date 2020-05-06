@@ -56,23 +56,47 @@
 
   time.timeZone = "Asia/Calcutta";
 
+  location = {
+    latitude = 22.56;
+    longitude = 88.36;
+  };
+
   services = {
-    dbus.packages = [ pkgs.gnome3.dconf ];
+    dbus.packages = with pkgs; [ gnome3.dconf gcr ];
     tlp.enable = true;
     udisks2.enable = false;
+    redshift.enable = true;
     xserver = {
       enable = true;
-      autorun = false;
-      startDbusSession = false; # DBus can FUCK OFF
+      autorun = true;
+      startDbusSession = true;
       libinput = {
         enable = true;
         disableWhileTyping = true;
       };
-      videoDrivers = [ "vesa" "intel" ];
+      desktopManager.session = [{
+        name = "home-manager";
+        bgSession = true;
+        start = ''
+          ${pkgs.stdenv.shell} $HOME/lib/xsession &
+          waitPID=$!
+        '';
+      }];
+      displayManager = {
+        defaultSession = "home-manager";
+        lightdm = {
+          enable = true;
+          autoLogin = {
+            enable = true;
+            user = "viz";
+          };
+          background = "#dde0e2";
+          greeter.enable = false;
+        };
+      };
+      # displayManager.startx.enable = true;
+      videoDrivers = [ "intel" ];
       layout = "us";
-      displayManager.lightdm.enable = false; # DMs are for sissies!
-      displayManager.startx.enable = true;
-      # Prevent screentearing or try to
       extraConfig = ''
         Section "Device"
           Identifier "Intel"
@@ -81,7 +105,6 @@
           Option "VSync" "true"
         EndSection
       '';
-      # Swap escape and capslock (otherwise known as the useless key)
       xkbOptions = "caps:swapescape";
     };
   };
@@ -97,9 +120,7 @@
     '';
   };
 
-  hardware = {
-    opengl.enable = true;
-  };
+  hardware.opengl.enable = true;
 
   environment = {
     binsh = "${pkgs.dash}/bin/dash"; # Really? This isn't the default binsh?
@@ -123,7 +144,7 @@
     # If it isn't obvious yet, I like typewriter fonts
     fonts = [
       pkgs.go-font pkgs.verily-serif-mono pkgs.charter pkgs.ibm-plex
-      pkgs.lmodern pkgs.lmmath
+      pkgs.lmodern pkgs.lmmath pkgs.scientifica
     ];
     fontconfig = {
       defaultFonts = {
@@ -146,11 +167,12 @@
   nixpkgs.overlays = [ (import ./override.nix) ];
 
   security = {
-    polkit.enable = true; # Nixos sucks
-    sudo.enable = false; # sudo is overly complicated for what I need
+    polkit.enable = true; # X needs it.
+    sudo.enable = false;
   };
 
   programs = {
+    gnupg.agent.enable = true;
     ssh = {
       # Disable that annoying popup window
       askPassword = "";
@@ -160,15 +182,10 @@
         IdentityFile ~/lib/ssh/id_rsa
       '';
     };
-    gnupg.agent = {
-      enable = true;
-      pinentryFlavor = "gnome3";
-    };
   };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "19.09"; # Did you read the comment? Yes, I did.
 }

@@ -3,4 +3,4 @@
 xid_flag="${1}"
 shift
 
-tabbed -c "${@}" "${xid_flag}"
+tabbed "${@}" "${xid_flag}"

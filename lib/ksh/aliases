@@ -1,3 +1,5 @@
+# -*- mode: sh -*-
+
 alias a='alias'
 a cmd='command'
 

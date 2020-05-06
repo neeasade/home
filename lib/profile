@@ -3,8 +3,6 @@
 
 . ${HOME}/.nix-profile/etc/profile.d/hm-session-vars.sh
 
-pass get irc/Freenode >/dev/null
-
 case ${SHELL} in
 */bin/mksh)
     export ENV=${HOME}/lib/kshrc

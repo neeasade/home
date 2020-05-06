@@ -1,6 +1,16 @@
-@-moz-document url-prefix("https://www.reddit.com") {
 [class^="redesign-beta-optin"], [class^="give-gold-button"],
-[class^="awardings-bar"], .premium-banner-outer {
+[class^="awardings-bar"], .premium-banner-outer,
+span[class^="userattrs"], div[class^="sidebox create"],
+a[class^="default-header"]#header-img,
+span#RESAccountSwitcherIcon {
     display: none !important;
 }
+
+ul[class^="tabmenu"] {
+    padding-top: 10px !important;
+}
+
+div#header-bottom-right {
+    padding-top: 9px !important;
+    padding-bottom: 7px !important;
 }
