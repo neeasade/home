@@ -93,7 +93,8 @@ has emacs && {
 		MANPAGER='cat' PAGER='cat'
 		export MANPAGER PAGER
 
-		post-cd() {
+		cd() {
+			builtin cd "${@}"
 			elisp "(vz/cd-selbuf \"${@}\")" >/dev/null
 		}
 		
@@ -128,7 +129,7 @@ has emacs && {
 		}
 
 		# Will add more in the future
-		for i in alsamixer; {
+		for i in alsamixer transmission-cli; {
 			eval "
 ${i}() {
 	   nohup st -e ${i} 2>&1 >/dev/null &
