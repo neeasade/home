@@ -27,14 +27,14 @@ in
         racket-minimal go lua python3 chicken
         dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh
         # Custom packages
-        xscreenshot crud sprop wchf xmenu xruler lsc
-        raleigh-reloaded-gtk-theme wendy emacs27
+        xscreenshot crud sprop wchf xmenu xruler lsc emacs27
+        raleigh-reloaded-gtk-theme wendy ircdiscord
     ];
 
     home.sessionVariables = {
       INPUTRC = "\$HOME/lib/inputrc";
       ENV = "\$HOME/lib/kshrc";
-      PATH = "\$HOME/bin:\$PATH";
+      PATH = "\$HOME/bin/emacs:\$HOME/bin:\$PATH";
       LESSHISTFILE = "\$XDG_CACHE_HOME/lesshst";
       GOPATH = "\$HOME/opt/go:\$HOME/src/go";
       EDITOR = "vis";
@@ -249,8 +249,7 @@ in
         extraPath = "/home/viz/bin/x";
         keybindings = {
           "alt + p" = "`menu run`";
-          "super + shift + Return" = "st -g 80x40 -t floating-st";
-          "alt + shift + Return" = "tab -w st";
+          "alt + shift + Return" = "eterm || tab -w st";
           "super + {v,l,m}" = "{chromium,slock,mus}";
           "super + {x,e}" = "{turnoff,tab --parent-id emacsclient -c -a ''}";
           "alt + shift + f" = "dmenu_dir -h 1";

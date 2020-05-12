@@ -16,7 +16,7 @@ _rm_jnk() {
 	_rm_e() {
 		for i; {
 			[[ -d "${i}" || -f "${i}" ]] &&
-				rm -rf "${i}"
+				rm -fr "${i}"
 		}
 	}
 	_rm_e ${HOME}/.{dbus,pki,ssh}

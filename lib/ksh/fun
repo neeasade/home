@@ -43,7 +43,7 @@ c() {
 }
 
 l() {
-	if [[ ! -t 0 ]]; then
+	if [[ -p /dev/stdin ]]; then
 		less
 	elif [[ -f "${1}" ]]; then
 		less "${1}"
@@ -128,14 +128,14 @@ andmap() {
 	return 0
 }
 
-rsfile()   print ${1%.*} | tr 'A-Z .' 'a-z_';
+rsfile()   tr 'A-Z .' 'a-z_'; <<<"${1%.*}"
 unix2dos() for i; { sed -i -e 's/\r*$/\r/' "${i}"; };
 dos2unix() for i; { sed -i -e 's/\r//'     "${i}"; };
 
 # I like sed, but sam makes my life a bit easier.
 # Weaponised shitposting
 
-retard()   sed -e 's/./& /g' <<<"${*}";
+aesthetic() sed -e 's/./& /g' <<<"${*}";
 discord() {
 	sed '
 y/ABCDEFGHIJKLMNOPQRSTUVWXYZ /abcdefghijklmnopqrstuvwxyz\t/

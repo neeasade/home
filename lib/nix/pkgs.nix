@@ -14,7 +14,9 @@
 
     acr = pkgs.callPackage ./pkgs/acr.nix {};
 
+    scroll = pkgs.callPackage ./pkgs/scroll.nix {};
     wendy = pkgs.callPackage ./pkgs/wendy.nix {};
+    ircdiscord = pkgs.callPackage ./pkgs/ircdiscord.nix {};
 
     charter = pkgs.callPackage ./pkgs/charter.nix {};
     scientifica = pkgs.callPackage ./pkgs/scientifica.nix {};

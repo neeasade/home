@@ -7,7 +7,7 @@ man() {
 }
 
 less() {
-	if [[ ! -t 0 ]]; then
+	if [[ -p /dev/stdin ]]; then
 		__settitle 'less <stdin>'
 	else
 		__settitle "less ${*}"
@@ -108,7 +108,7 @@ has emacs && {
 
 		# Woman can be really slow on large man pages
 		man() {
-			if [[ ! -t 0 ]]; then
+			if [[ -p /dev/stdin ]]; then
 				local t=`mktemp`
 				cat ->${t}
 				elisp "(pop-to-buffer-same-window (man \"-l ${t}\"))
@@ -119,7 +119,7 @@ has emacs && {
 		}
 
 		less() {
-			if [[ ! -t 0 ]]; then
+			if [[ -p /dev/stdin ]]; then
 				local t=`mktemp`
 				cat ->${t}
 				elisp "(view-file \"${t}\") (delete-file \"${t}\")" >/dev/null
@@ -128,11 +128,10 @@ has emacs && {
 			fi
 		}
 
-		# Will add more in the future
-		for i in alsamixer transmission-cli; {
+		for i in alsamixer transmission-cli mpv ircdiscord; {
 			eval "
 ${i}() {
-	   nohup st -e ${i} 2>&1 >/dev/null &
+	   nohup st -e "${i} \"\${@}\"" 2>&1 >/dev/null &
 }
 "
 		}
@@ -182,7 +181,7 @@ has nix && {
 			[[ -z "${@}" ]] && return 0
 			find /nix/store -maxdepth 1 -type d `
 				for i; {
-					print -- -name "*${i}*"
+					print -- "-name *${i}*"
 				}`
 			;;
 		shl)

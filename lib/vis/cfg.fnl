@@ -295,8 +295,7 @@
 (fn vis.types.window.set_syntax [win syntax]
   (set win.syntax nil)
   (foreach (fn [x] (win:style_define (car x) (cadr x)))
-    [[win.STYLE_CURSOR         "back: 16"]
-     [win.STYLE_STATUS         ""]
+    [[win.STYLE_STATUS         ""]
      [win.STYLE_STATUS_FOCUSED "reverse"]]))
 
 ;; Set title of the vis window

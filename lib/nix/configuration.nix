@@ -123,11 +123,8 @@
   hardware.opengl.enable = true;
 
   environment = {
-    binsh = "${pkgs.dash}/bin/dash"; # Really? This isn't the default binsh?
-    systemPackages = with pkgs; [
-      dash
-      vis # The only good editor
-    ];
+    binsh = "${pkgs.dash}/bin/dash";
+    systemPackages = with pkgs; [ dash vis ];
     etc = {
        "doas.conf" = {
          enable = true;

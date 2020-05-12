@@ -7,7 +7,7 @@ df -h
 du -h
 mv -i
 cp -r
-ln -sf
+ln -s
 free -h
 fc-cache --verbose
 grep -i
