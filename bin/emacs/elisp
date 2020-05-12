@@ -10,27 +10,32 @@ erun() {
 }
 
 die() {
-	[ -n "${tmp}" ] && rm -f ${tmp}
+	[ -n "${f}" ] && [ ${chk} -eq 0 ] && rm -f ${tmp}
 	exit ${1:-0}
 }
 
-if [ "${1}" = '-' ] && [ -p /dev/stdin ]; then
-	tmp=`mktemp` chk=0
-	cat ->${tmp}
-	lisp="(vz/eval-file \"${tmp}\")"
-elif [ -f "${1}" ]; then
-	lisp="(vz/eval-file \"${1}\")"
-elif [ -n "${1}" ]; then
-	lisp="${*}"
-fi
-
-[ -p /dev/stdin ] && [ ${chk} -eq 1 ] && {
-	tmp=`mktemp`
-	cat ->${tmp}
-	lisp="(let ((*stdin* \"${tmp}\")) ${lisp})"
+[ -p /dev/stdin ] && {
+	if [ "${1}" = '-' ]; then
+		f=`mktemp` chk=0
+		cat ->${f}
+		args="\"${@}\""
+	else
+		stdin=`mktemp`
+		cat ->${stdin}
+		stdin="\"${stdin}\""
+	fi
+	
 }
 
-res=`erun "${lisp}"`
+[ -f "${1}" ] && {
+	f="${1}"
+	shift
+	args="\"${@}\""
+}
+
+[ -z "${f}" ] && [ -n "${@}" ] && lisp="${*}"
+
+res=`erun "${lisp:-"(vz/eval-file \"${f}\" ${stdin:-nil} ${args:-nil})"}"`
 
 if [ -z "${res}" ] || [ "${res}" = 'nil' ]; then
   	 echo && die 1

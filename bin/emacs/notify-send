@@ -1,0 +1,21 @@
+#!/usr/bin/env -S elisp
+;; mode: -*- emacs-lisp -*-
+;; cursed? I think not
+
+(let* ((notif-str (concat " " (or args (vz/fread stdin)) " "))
+       (notif-buf (get-buffer-create "*notification*"))
+       (lines (split-string notif-str "\n"))
+       (wh (length lines))
+       (ww (apply #'max (mapcar #'length lines)))
+       (frame (make-frame
+			   `((width  . ,wh)
+				 (height . ,wh)
+				 (name   . "notification")))))
+  (select-frame frame)
+  (switch-to-buffer notif-buf)
+  (insert notif-str)
+  (setq mode-line-format nil)
+  (run-at-time 5 nil
+         `(lambda ()
+          (delete-frame ,frame)
+          (kill-buffer ,notif-buf))))
