@@ -1,0 +1,39 @@
+#!/bin/sh
+# mostly modelled after github.com/neeasade/dotfiles/blob/master/bin/bin/elisp
+
+pgrep -x emacs >/dev/null || exit 1
+
+chk=1
+
+erun() {
+	emacsclient --eval "${@}"
+}
+
+die() {
+	[ -n "${tmp}" ] && rm -f ${tmp}
+	exit ${1:-0}
+}
+
+if [ "${1}" = '-' ] && [ -p /dev/stdin ]; then
+	tmp=`mktemp` chk=0
+	cat ->${tmp}
+	lisp="(vz/eval-file \"${tmp}\")"
+elif [ -f "${1}" ]; then
+	lisp="(vz/eval-file \"${1}\")"
+elif [ -n "${1}" ]; then
+	lisp="${*}"
+fi
+
+[ -p /dev/stdin ] && [ ${chk} -eq 1 ] && {
+	tmp=`mktemp`
+	cat ->${tmp}
+	lisp="(let ((*stdin* \"${tmp}\")) ${lisp})"
+}
+
+res=`erun "${lisp}"`
+
+if [ -z "${res}" ] || [ "${res}" = 'nil' ]; then
+  	 echo && die 1
+else
+	echo "${res}" && die
+fi
