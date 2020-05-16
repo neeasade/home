@@ -1,13 +1,16 @@
 #!/usr/bin/env elisp
 ;; -*- mode: emacs-lisp -*-
 ;; Return term so we can find the window and embed it in tabbed if needed!
-;; TODO: * Find out how to embed automatically?
-;;       * Kill terminal buffer on closing the X window
+;; TODO: * Find out how to embed automatically? -- Might have to return frame id
 
-(let* ((term (concat "*term-" (number-to-string (random)) "*")))
-  (select-frame (make-frame '((window-system . x))))
-  (setq-local default-directory (getenv "PWD"))
+(let* ((term (format "*term-%d*" (random)))
+       (frame (make-frame '((window-system . x)
+                            (width . 80))))
+       (default-directory (or (getenv "PWD") (getenv "HOME"))))
+  (select-frame frame)
   (shell term)
-  (setq mode-line-format nil)
   (delete-other-windows)
+  (vz/term-mode)
+  (setq vz/term-mode--frame frame
+        mode-line-format nil)
   term)
