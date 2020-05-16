@@ -28,6 +28,9 @@ _PS1_command() {
 }
 
 _draw_PS1() {
+	[[ "${TERM}" = dumb ]] && [[ -n "${INSIDE_EMACS}" ]] &&
+		print -n "|Pr0mPT|${PWD}|"
+
 	[[ -n "${IN_NIX_SHELL}" ]] && print -n '!'
 	case `whoami` {
 	root) print -n '# '                 ;;
