@@ -6,6 +6,8 @@
 (let* ((term (format "*term-%d*" (random)))
        (frame (make-frame `((window-system . x)
                             (width . 80)
+                            (left  . 10)
+                            (top   . 10)
                             (title . ,term)))))
   (select-frame frame)
   (setq default-directory (or (getenv "PWD") (getenv "HOME")))

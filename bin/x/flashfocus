@@ -1,4 +1,5 @@
 #!/bin/sh
+# SEIZURE WARNING!
 # Change the currently focused window's border colour to make it stand out
 
 norm='0x6ecbdc'
@@ -10,16 +11,16 @@ if [ -f /tmp/flashfocus ]; then
 	pkill flashfocus
 else
 	# The joys of programs not accepting/spitting stuff in the same format
-	# Why use `xdotool'? tabbed(1)
+	# Why use xdotool(1)? tabbed(1)
 	xdotool getactivewindow | xargs -I{} printf '%x' {} | {
 		read -r id
 		echo ${id} >/tmp/flashfocus
 		i=0
 		while [ ${i} -lt 100 ]; do
 			chwb -s 10 -c 0x000fff ${id}
-			sleep 0.5
+			sleep 0.2
 			chwb -s 10 -c 0xfff000 ${id}
-			sleep 0.5
+			sleep 0.2
 			: $((i+=1))
 		done
 	}

@@ -34,7 +34,7 @@ in
     home.sessionVariables = {
       INPUTRC = "\$HOME/lib/inputrc";
       ENV = "\$HOME/lib/kshrc";
-      PATH = "\$HOME/bin/emacs:\$HOME/bin:\$PATH";
+      PATH = "\$HOME/bin:\$PATH";
       LESSHISTFILE = "\$XDG_CACHE_HOME/lesshst";
       GOPATH = "\$HOME/opt/go:\$HOME/src/go";
       EDITOR = "vis";
@@ -71,7 +71,10 @@ in
           name=".*"
             drawin ruler $RULER_WID
           role="browser"
-            grep -q '2' /tmp/info/wm/groups/cur || { waitron window_focus $RULER_WID && waitron group_move_window 2; }
+            grep -q '2' /tmp/info/wm/groups/cur || { \
+                  waitron window_focus $RULER_WID && \
+                          waitron group_move_window 2 \
+            }
           instance="mpv-popup"
             mpopv $RULER_WID
         '';
@@ -152,7 +155,7 @@ in
 
       # Irssi is patched. See override.nix
       irssi = {
-        enable = true;
+        enable = false;
         networks."Freenode" = {
           nick = "_viz_";
           autoCommands = [
@@ -219,7 +222,7 @@ in
       enable = true;
       initExtra = ''
         echo $! >~/tmp/asdf
-        export PATH=$HOME/bin/x:$PATH
+        export PATH=$HOME/bin/emacs:$HOME/bin/x:$PATH
         remkd /tmp/info/{,vol}
         . $XDG_CACHE_HOME/wall &
         pmenu &
@@ -263,6 +266,7 @@ in
           "super + shift + {v,p}" = "notify-send {volume `vol -g`%,"
               + "`mus pprint`}";
           "super + shift + r" = "pkill -USR1 redshift";
+          "super + shift + f" = "flashfocus";
           "alt + s" = "~/tmp/tst";
           "alt + [" = "plumb";
 

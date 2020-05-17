@@ -22,7 +22,7 @@ die() {
 	else
 		stdin=`mktemp`
 		cat ->${stdin}
-		stdin="\"${stdin}\""
+		stdin=\"${stdin}\"
 	fi
 	
 }

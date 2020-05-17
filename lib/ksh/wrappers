@@ -27,19 +27,12 @@ has git && {
 		squash)
 			local cnf
 			print -n 'do you want to continue? '; read -r cnf
-			[[ "${cnf:0:1}" != y ]] && return 0
+			[[ "${cnf:0:1}" != @(y|Y) ]] && return 0
 			local n=${2}
 			shift 2
 			local msg="${@}"
 			cmd git reset --soft HEAD~${n}
 			cmd git commit -m "${msg}"
-			;;
-		add)
-			[[ "${2}" = @('.'|'*') ]] && {
-				print no
-				return 0
-			}
-			cmd git "${@}"
 			;;
 		com*)
 			shift
