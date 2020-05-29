@@ -5,8 +5,18 @@ pgrep -x emacs >/dev/null || exit 1
 
 chk=1
 
+[ "${1}" = -t ] && {
+	trim=1
+	shift
+}
+
 erun() {
-	emacsclient --eval "${@}"
+	# When Emacs is stuck doing something else, quit
+	if has timeout; then
+		timeout 1 emacsclient --eval "${@}"
+	else
+		emacsclient --eval "${@}"
+	fi
 }
 
 die() {
@@ -33,12 +43,16 @@ die() {
 	args="\"${@}\""
 }
 
-[ -z "${f}" ] && [ -n "${@}" ] && lisp="${*}"
+[ -z "${f}" ] && [ -n "${@}" ] && lisp="${@}"
 
 res=`erun "${lisp:-"(vz/eval-file \"${f}\" ${stdin:-nil} ${args:-nil})"}"`
 
 if [ -z "${res}" ] || [ "${res}" = 'nil' ]; then
-  	 echo && die 1
+	echo && die 1
 else
+	[ ${trim:-0} -eq 1 ] && {
+		res=${res#[\"\(]}
+		res=${res%[\"\)]}
+	}
 	echo "${res}" && die
 fi

@@ -43,7 +43,8 @@ playnew() {
 		playing=1
 	}
 	echo /tmp/tmpmsock >/tmp/mussockname
-	mpv --input-ipc-server=/tmp/tmpmsock "${f}" &&
+	# It is unquoted intentionally. Search for ctrl-enter in dmenu(1)
+	mpv --input-ipc-server=/tmp/tmpmsock ${f} &&
 		rm -f /tmp/mussockname /tmp/tmpmsock
 	[ ${playing} -eq 1 ] && pause
 }

@@ -16,13 +16,13 @@ sel() {
 }
 
 run() {
-	echo "chromium
+	$(echo "chromium
 st
 screenshot
 turnoff
 record
 dmenu_dir
-subs" | sel -p "run:"
+subs" | sel -p "run:")
 }
 
 case ${1} in

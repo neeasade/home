@@ -18,13 +18,8 @@
        timeout = 1;
        efi.canTouchEfiVariables = true;
      };
-     blacklistedKernelModules = [ 
-       "bluetooth" "uvcvideo" "pcspkr"
-     ];
-     kernelModules = [
-       "fuse" # One of the most coolest thing
-       "kvm-intel"
-     ];
+     blacklistedKernelModules = [  "bluetooth" "uvcvideo" "pcspkr" ];
+     kernelModules = [ "fuse" "kvm-intel" ];
      consoleLogLevel = 2;
      tmpOnTmpfs = true;
   };
@@ -94,7 +89,7 @@
           greeter.enable = false;
         };
       };
-      # displayManager.startx.enable = true;
+      displayManager.startx.enable = false;
       videoDrivers = [ "intel" ];
       layout = "us";
       extraConfig = ''
@@ -145,10 +140,7 @@
     ];
     fontconfig = {
       defaultFonts = {
-        monospace = [
-          "Verily Serif Mono"
-          "Go Mono"
-        ];
+        monospace = [ "Verily Serif Mono" "Go Mono" ];
         sansSerif = [ "IBM Plex Sans Condensed" "Go" ];
         serif = [ "Charter" "Latin Modern Roman" ];
       };

@@ -102,7 +102,7 @@ has emacs && {
 				elisp "(pop-to-buffer-same-window (man \"-l ${t}\"))
 					   (delete-file \"${t}\")" >/dev/null
 			else
-				elisp "(pop-to-buffer-same-window (man \"${@}\"))" >/dev/null
+				elisp "(pop-to-buffer-same-window (man \"${*}\"))" >/dev/null
 			fi
 		}
 
@@ -116,7 +116,7 @@ has emacs && {
 			fi
 		}
 
-		for i in alsamixer transmission-cli ircdiscord; {
+		for i in top alsamixer vidir transmission-cli ircdiscord; {
 			eval "
 ${i}() {
 	   nohup st -e "${i} \"\${@}\"" 2>&1 >/dev/null &

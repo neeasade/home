@@ -1,19 +1,20 @@
-#!/usr/bin/env elisp
-;; -*- mode: emacs-lisp -*-
+#!/usr/bin/env -S elisp -t
+;; -*- mode: emacs-lisp; -*-
 ;; Return term so we can find the window and embed it in tabbed if needed!
-;; TODO: * Find out how to embed automatically? -- Might have to return frame id
 
 (let* ((term (format "*term-%d*" (random)))
-       (frame (make-frame `((window-system . x)
-                            (width . 80)
-                            (left  . 10)
-                            (top   . 10)
-                            (title . ,term)))))
-  (select-frame frame)
-  (setq default-directory (or (getenv "PWD") (getenv "HOME")))
-  (shell term)
-  (delete-other-windows)
-  (vz/term-mode)
-  (setq vz/term-mode--frame frame
-        mode-line-format nil)
-  term)
+      (frame (make-frame `((window-system . x)
+                           (width . 80)
+                           (left  . 10)
+                           (top   . 10)
+                           (title . ,term)))))
+ (select-frame frame)
+ (setq default-directory (or (getenv "PWD") (getenv "HOME")))
+ (let ((shbuf (shell term)))
+   (switch-to-buffer shbuf)
+   (delete-other-windows)
+   (vz/term-mode)
+   (setq vz/term-mode--frame frame
+         mode-line-format nil)
+   (set-process-sentinel (get-buffer-process shbuf) #'vz/term-mode-sentinel))
+  (frame-parameter frame 'window-id))

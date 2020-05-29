@@ -24,8 +24,20 @@ in
         mpv git xclip farbfeld clang-tools slock ffmpeg transmission socat
         wget curl file gnumake gcc zathura
         xdotool xorg.xprop xorg.xrandr sxhkd gnupg pinentry-gnome
-        racket-minimal go lua python3 chicken
+        racket-minimal go lua python3 chicken gnutls # For circe
         dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh
+        (texlive.combine { inherit (texlive)
+          scheme-minimal
+          collection-latex
+          collection-binextra
+          collection-latexextra
+          collection-pictures
+          collection-latexrecommended
+          collection-formatsextra
+          collection-langenglish
+          collection-mathscience
+          ;
+        })
         # Custom packages
         xscreenshot crud sprop wchf xmenu xruler lsc emacs27
         raleigh-reloaded-gtk-theme wendy ircdiscord
@@ -150,6 +162,7 @@ in
           "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
           "kbmfpngjjgdllneeigpgjifpgocmfgmb" # RES
           "clngdbkpkpeebahjckkjfobafhncgmne" # Stylus
+#         "kkkjlfejijcjgjllecmnejhogpbcigdc" # Org-capture extension
         ];
       };
 
@@ -199,10 +212,26 @@ in
         options = {
           default-bg = "#ffffea";
           default-fg = "#1c1c1d";
+          statusbar-bg = "#eaffff";
+          statusbar-fg = "#1c1c1d";
+          inputbar-bg = "#eaffff";
+          inputbar-fg = "#1c1c1d";
+          completion-bg = "#e9fee9";
+          completion-fg = "#000000";
+          completion-group-bg = "#e9fee9";
+          completion-group-fg = "#000000";
+          completion-highlight-bg = "#438743";
+          completion-highlight-fg = "#e9fee9";
+          index-bg = "#e9fee9";
+          index-fg = "#000000";
+          index-active-bg = "#438743";
+          index-active-fg = "#e9fee9";
           recolor-lightcolor = "#ffffea";
           recolor-darkcolor = "#1c1c1d";
+
           recolor = true;
           guioptions = "";
+          font = "serif normal 10";
         };
         extraConfig = "map q abort";
       };
@@ -253,7 +282,7 @@ in
         keybindings = {
           "alt + p" = "`menu run`";
           "alt + shift + Return" = "eterm || tab -w st";
-          "super + {v,l,m}" = "{chromium,slock,mus}";
+          "super + {v,l,m,o}" = "{chromium,slock,mus,org-capture}";
           "super + {x,e}" = "{turnoff,tab --parent-id emacsclient -c -a ''}";
           "alt + shift + f" = "dmenu_dir -h 1";
           "alt + shift + ctrl + f" = "dmenu_dir -h 0";

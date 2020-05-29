@@ -12,7 +12,7 @@ ruler)
 	rm -fr /tmp/drawin
 	;;
 *)
-	cmd=${1:-`echo 'emacsclient -ca''
+	cmd=${*:-`echo 'emacsclient -ca''
 meh $(find ${HOME}/med/img -type f | menu sel)
 zathura $(find ${HOME}/doc -type f -name *.pdf | menu sel)' | menu sel`}
 	mkdir -p /tmp/drawin

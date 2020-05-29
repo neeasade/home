@@ -18,7 +18,7 @@ self: super: rec {
   dmenu = super.dmenu.overrideAttrs (oldAttrs: {
     src = builtins.fetchGit {
       url = "https://github.com/vizs/dmenu";
-      rev = "ee3360a093533ac0dc5eb5ff4350b700b19c6ffb";
+      rev = "eefcf76dbe130f6d00727ce51b51a5340253087e";
       ref = "master";
     };
     patches = [];
