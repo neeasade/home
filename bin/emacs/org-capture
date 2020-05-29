@@ -1,0 +1,20 @@
+#!/bin/sh
+
+xdotool getactivewindow | xargs -I{} printf '%x' {} | {
+	read -r id
+	[ "$(atomx WM_WINDOW_ROLE ${id})" = browser ] &&
+		xdotool getactivewindow key "ctrl+l" "ctrl+c"
+}
+
+elisp - <<EOF
+(let ((frame (make-frame '((window-system . x)
+                           (name . "org capture")
+                           (width . 80)
+                           (auto-raise . t)
+                           (height . 100)))))
+  (select-frame frame)
+  (shell-command "waitron window_snap center")
+  (org-capture)
+  (delete-other-windows)
+  (frame-parameter frame 'window-id))
+EOF
