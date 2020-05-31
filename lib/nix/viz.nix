@@ -24,7 +24,7 @@ in
         mpv git xclip farbfeld clang-tools slock ffmpeg transmission socat
         wget curl file gnumake gcc zathura
         xdotool xorg.xprop xorg.xrandr sxhkd gnupg pinentry-gnome
-        racket-minimal go lua python3 chicken gnutls # For circe
+        racket go lua python3 chicken godef gnutls # For circe
         dwm dmenu st tabbed bgs doas lemonbar-xft wmutils-core meh
         (texlive.combine { inherit (texlive)
           scheme-minimal

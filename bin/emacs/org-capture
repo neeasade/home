@@ -6,6 +6,7 @@ xdotool getactivewindow | xargs -I{} printf '%x' {} | {
 		xdotool getactivewindow key "ctrl+l" "ctrl+c"
 }
 
+# TODO: Maybe add a advice after org-capture-finish to autokill frame?
 elisp - <<EOF
 (let ((frame (make-frame '((window-system . x)
                            (name . "org capture")

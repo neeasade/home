@@ -1,7 +1,7 @@
 { stdenv, fetchurl, pkgconfig
 , ncurses, libXpm, jansson, gmp, gettext
 , cairo, libtiff, harfbuzz, libpng, libjpeg
-, gtk3-x11, gnutls
+, gtk3-x11, gnutls, libxml2
 }:
 
 stdenv.mkDerivation rec {
@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     ncurses libXpm jansson gmp gettext
     cairo libtiff harfbuzz libpng libjpeg
-    gtk3-x11 gnutls
+    gtk3-x11 gnutls libxml2
   ];
   nativeBuildInputs = [ pkgconfig ];
 
