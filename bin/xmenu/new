@@ -1,4 +1,4 @@
 #!/bin/sh
 # Draw st
 
-draw_st
+drawin eterm || draw_st

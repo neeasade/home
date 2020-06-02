@@ -34,7 +34,7 @@ has git && {
 			cmd git reset --soft HEAD~${n}
 			cmd git commit -m "${msg}"
 			;;
-		com*)
+		com|commit)
 			shift
 			[[ -n "${1}" ]] && cmd git commit -m "${@}" ||
 					cmd git commit
@@ -48,15 +48,6 @@ has git && {
 			[[ -z "${2}" ]] &&
 				cmd git push origin `cmd git rev-parse --abbrev-ref HEAD` ||
 					cmd git "${@}"
-			;;
-		tracked)
-			cmd git ls-files
-			;;
-		untracked)
-			cmd git ls-files -o --exclude-standard
-			;;
-		changed)
-			cmd git ls-files -m
 			;;
 		*)
 			cmd git "${@}"
