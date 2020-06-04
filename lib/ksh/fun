@@ -62,7 +62,7 @@ conf() {
 	sync)
 		 g add `g ls-files`
 		 g commit -m sync
-		 g push
+		 g push origin master
 		 ;;
 	com*) shift; g commit -m "${@}"   ;;
 	push)        g push origin master ;;
