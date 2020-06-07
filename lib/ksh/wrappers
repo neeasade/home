@@ -101,6 +101,12 @@ has emacs && {
 			if [[ ! -t 0 ]]; then
 				local t=`mktemp`
 				cat ->${t}
+				elisp - <<EOF
+(-->
+  (f-read "${t}")
+  ansi-color-filter-apply
+  (f-write it 'utf-8 "${t}"))
+EOF
 				elisp "(view-file \"${t}\") (delete-file \"${t}\")" >/dev/null
 			else
 				elisp "(view-file \"${@}\")" >/dev/null

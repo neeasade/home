@@ -1,7 +1,7 @@
 { stdenv, fetchurl, pkgconfig
 , ncurses, libXpm, jansson, gmp, gettext
-, cairo, libtiff, harfbuzz, libpng, libjpeg
-, gtk3-x11, gnutls, libxml2
+, cairo, libtiff, harfbuzz, libpng, libjpeg, librsvg
+, gtk3-x11, gnutls, libxml2, webkitgtk
 }:
 
 stdenv.mkDerivation rec {
@@ -14,8 +14,8 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     ncurses libXpm jansson gmp gettext
-    cairo libtiff harfbuzz libpng libjpeg
-    gtk3-x11 gnutls libxml2
+    cairo libtiff harfbuzz libpng libjpeg librsvg
+    gtk3-x11 gnutls libxml2 webkitgtk
   ];
   nativeBuildInputs = [ pkgconfig ];
 
@@ -37,6 +37,7 @@ stdenv.mkDerivation rec {
     "--with-cairo"
     "--with-modules"
     "--with-harfbuzz"
+    "--with-xwidgets"
     "--without-sound"
     "--without-dbus"
     "--without-gsettings"

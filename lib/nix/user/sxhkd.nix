@@ -59,10 +59,10 @@
     "super + shift + ctrl + s" = "waitron window_resize    0 +50";
     "super + shift + ctrl + d" = "waitron window_resize  +20   0";
 
-    "alt + h" = "waitron window_cardinal focus left";
-    "alt + j" = "waitron window_cardinal focus down";
-    "alt + k" = "waitron window_cardinal focus up";
-    "alt + l" = "waitron window_cardinal focus right";
+    "alt + h" = "waitron window_cardinal_focus left";
+    "alt + j" = "waitron window_cardinal_focus down";
+    "alt + k" = "waitron window_cardinal_focus up";
+    "alt + l" = "waitron window_cardinal_focus right";
 
     "alt + c"         = "waitron window_snap middle";
     "alt + f"         = "waitron window_maximize";

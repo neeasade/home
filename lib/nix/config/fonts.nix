@@ -4,7 +4,7 @@
 
 {
   fonts = {
-    enableDefaultFonts = false;
+    enableDefaultFonts = true;
     fonts = [
       pkgs.go-font pkgs.ibm-plex pkgs.lmodern pkgs.lmmath
 

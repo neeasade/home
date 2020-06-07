@@ -1,22 +1,27 @@
-* NixOS Configuration
+ #+TITLE:NixOS Configuration
 Nix is cool.
 
 See Also: lib/ksh/wrappers:  ~has nix~
-** Before installing
+* Before installing
 Do this I guess
 #+begin_src sh
 mv /etc/nixos/hardware-configuration.nix .
 rm -r /etc/nixos
 ln -s /home/viz/lib/nix /etc/nixos
 #+end_src
-** Directory Structure
-| Global Configuration | config/*       |
+* Directory Structure
+| Global Configuration | con fig/*       |
 | User Configuration   | user/*         |
-| Basic configuration  | basic.nix      |
+| Basic Configuration  | basic.nix      |
 | Override             | override.nix   |
 | Packages             | pkgs.nix       |
 | Patches              | patches/<pkg>/ |
-| Actual packages      | pkgs/*         |
-** Other configurations I referred
+| Package Derivations  | pkgs/*         |
+* Misc
+- I use Emacs 27
+- I don't use ~sudo~, I use multiplexd's ~doas~ instead
+- ~nix-shell~ can use ~mksh~. See lib/ksh/wrappers ~has nix~
+- I can't get home-manager's graphical services to launch even if my life depended on it
+* Other configurations I referred
 - diamondburned's -- https://gitlab.com/diamondburned/dotfiles
 - Steve's -- https://github.com/buffet/rice

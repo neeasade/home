@@ -6,7 +6,7 @@
 # ~/doc       - documents -- school stuff, books
 # ~/src       - source code for stuff that I wrote
 # ~/bin       - scripts
-# ~/bin/<app> - scripts that depend of <app>
+# ~/bin/<app> - scripts that depend on/used by <app>
 {
   enable        = true;
   cacheHome     = "/home/viz/.cache";

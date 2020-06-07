@@ -103,6 +103,15 @@ in
         instance="mpv-popup"
           mpopv $RULER_WID
       '';
+
+      # Profile
+      "lib/profile".text = ''
+        . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+        [ `basename $SHELL` = mksh ] && {
+          export ENV=$HOME/lib/kshrc
+          . $HOME/lib/kshrc
+        }
+      '';
     };
 
     systemd.user.startServices = true;

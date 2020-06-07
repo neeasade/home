@@ -60,9 +60,9 @@ conf() {
 
 	case ${1} {
 	sync)
-		 conf add `conf ls-files`
+		 conf add `conf ls-files -m`
 		 conf com sync
-		 #conf push
+		 conf push
 		 ;;
 	com*) shift; g commit -m "${@}"   ;;
 	push)        g push origin master ;;
