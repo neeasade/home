@@ -1,6 +1,7 @@
 { stdenv
 , libX11
 , libxcb
+, xcbutil
 , xcbutilkeysyms
 , xcbutilwm }:
 
@@ -10,11 +11,11 @@ stdenv.mkDerivation rec {
 
   src = builtins.fetchGit {
     url = "https://github.com/vizs/wchf";
-    rev = "35eb3e3ff91e9e6d27491f92f380112d1cc9edab";
+    rev = "2d56077b3cd641c11b4ae8a8242a993a09a3a43c";
     ref = "master";
   };
 
-  buildInputs = [ libX11 libxcb xcbutilkeysyms xcbutilwm ];
+  buildInputs = [ libX11 libxcb xcbutil xcbutilkeysyms xcbutilwm ];
   installFlags = [ "PREFIX=$(out)" ];
 
   meta = with stdenv.lib; {

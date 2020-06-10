@@ -1,13 +1,13 @@
 #!/bin/sh
 # wchf config
 
-# 3bwm &
-
 while read -r l; do
     waitron wm_config ${l}
 done <<EOF
-border_width 5
-internal_border_width 2
+number_borders 3
+border_width 3 1 3
+color_focused ffffea 6ecbdc ffffea
+color_unfocused ffffea cccccc ffffea
 decor_size 0
 enable_borders true
 sticky_windows true
@@ -15,8 +15,6 @@ enable_sloppy_focus true
 enable_last_window_focusing true
 enable_resize_hints true
 groups_nr 5
-internal_color_focused 0x6ecbdc
-internal_color_unfocused 0xcccccc
-color_focused 0xffffea
-color_unfocused 0xffffea
 EOF
+
+waitron refresh_borders
