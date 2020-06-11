@@ -17,6 +17,7 @@ in
     ../config/location.nix
     ../config/networks.nix
     ../config/xorg.nix
+    ../config/docs.nix
     ../pkgs.nix
 
     "${home-manager}/nixos"

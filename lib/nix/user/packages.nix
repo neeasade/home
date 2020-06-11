@@ -16,6 +16,7 @@ with pkgs; [
   doas
   hunspell
   hunspellDicts.en_GB-ise
+  shellcheck
 
   # Xorg
   xdotool

@@ -1,11 +1,14 @@
 #!/bin/sh
 # wchf config
 
+# For border_width, color_{un,}focused, settings apply in the range
+# N, N-1, N-2, N-3, ...., 1
+
 while read -r l; do
     waitron wm_config ${l}
 done <<EOF
 number_borders 3
-border_width 3 1 3
+border_width 5 1 5
 color_focused ffffea 6ecbdc ffffea
 color_unfocused ffffea cccccc ffffea
 decor_size 0

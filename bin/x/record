@@ -13,7 +13,6 @@ ffmpeg -y -f x11grab \
 	   -s ${3}x${4} \
 	   -r 30 \
 	   -i ${DISPLAY}.0+${1},${2} \
-	   -qscale 0 \
 	   -q:v 0 \
 	   -pix_fmt yuv420p \
 	   ${video_path}
