@@ -5,13 +5,10 @@
     "Print"         = "screenshot -s";
     "super + Print" = "screenshot -u";
 
-    "alt + p"                = "`menu run`";
-    "alt + shift + Return"   = "eterm || tab -w st";
-    "alt + shift + f"        = "dmenu_dir -h 1";
-    "alt + s"                = "~/tmp/tst";
-    "alt + ["                = "plumb";
-    "alt + shift + q"        = "\$HOME/lib/wchf/wchfrc";
-    "alt + shift + ctrl + q" = "waitron wm_quit 0";
+    "super + r"                = "`menu run`";
+    "super + shift + Return"   = "eterm || tab -w st";
+    "super + shift + q"        = "\$HOME/lib/wchf/wchfrc";
+    "super + shift + ctrl + q" = "waitron wm_quit 0";
 
     "super + v" = "chromium";
     "super + l" = "slock";
@@ -61,19 +58,19 @@
     "super + shift + ctrl + d" = "waitron window_resize  +20   0";
 
     # Focus
-    "alt + h" = "waitron window_cardinal_focus left";
-    "alt + j" = "waitron window_cardinal_focus down";
-    "alt + k" = "waitron window_cardinal_focus up";
-    "alt + l" = "waitron window_cardinal_focus right";
+    "super + ctrl + h" = "waitron window_cardinal_focus left";
+    "super + ctrl + j" = "waitron window_cardinal_focus down";
+    "super + ctrl + k" = "waitron window_cardinal_focus up";
+    "super + ctrl + l" = "waitron window_cardinal_focus right";
 
-    "alt + c"         = "waitron window_snap middle";
-    "alt + f"         = "waitron window_maximize";
+    "super + c"         = "waitron window_snap middle";
+    "super + f"         = "waitron window_maximize";
 
-    "alt + shift + c" = "waitron window_close";
+    "super + shift + c" = "waitron window_close";
 
     # Groups
-    "alt + {1-5}"         = "waitron group_activate_specific {1-5}";
-    "alt + shift + {1-5}" = "waitron group_move_window {1-5}";
-    "alt + ctrl + {1-5}"  = "waitron group_activate {1-5}";
+    "super + {1-5}"         = "waitron group_activate_specific {1-5}";
+    "super + shift + {1-5}" = "waitron group_move_window {1-5}";
+    "super + ctrl + {1-5}"  = "waitron group_activate {1-5}";
   };
 }

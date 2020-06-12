@@ -10,7 +10,7 @@ rm -r /etc/nixos
 ln -s /home/viz/lib/nix /etc/nixos
 #+end_src
 * Directory Structure
-| Global Configuration | con fig/*       |
+| Global Configuration | config/*       |
 | User Configuration   | user/*         |
 | Basic Configuration  | basic.nix      |
 | Override             | override.nix   |
@@ -25,3 +25,6 @@ ln -s /home/viz/lib/nix /etc/nixos
 * Other configurations I referred
 - diamondburned's -- https://gitlab.com/diamondburned/dotfiles
 - Steve's -- https://github.com/buffet/rice
+* Things to look up
+** TODO Installing racket packages in ~<nix>/share/racket/~
+** TODO Properly setup nix overlay
