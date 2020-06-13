@@ -6,8 +6,8 @@ for i in "${@}"; do
 	j=$(ffprobe -v error -i "${i}" -show_entries format=duration \
 				-of default=noprint_wrappers=1:nokey=1)
 	j=${j%%.*}
-	printf '%dm %ds\t%s\n' $((j/60)) $((j%60)) "${i}"
+	printf '%6d:%02d\t%s\n' $((j/60)) $((j%60)) "${i}"
 	: $((dur+=j))
 done
 
-printf '%dm %ds %s\n' $((dur/60)) $((dur%60)) Total
+printf '%6d:%02d\t%s\n' $((dur/60)) $((dur%60)) Total
