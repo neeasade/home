@@ -1,0 +1,20 @@
+#!/usr/bin/env -S elisp
+;; -*- mode: emacs-lisp -*-
+
+(let* ((items (split-string (vz/fread stdin) "\n"))
+       (wh (min (/ (length items) 10) (length items)))
+       (ww 100)
+       (_ (select-frame (make-frame `((window-system . x)
+                                      (width  . ,ww)
+                                      (height . ,wh)
+                                      (title  . "menu")
+                                      (minibuffer . only)))))
+       (ivy-fixed-height-minibuffer nil)
+       (ivy-height-alist '((t lambda (_) (frame-height))))
+       (option (condition-case ()
+                   (ivy-read "> " items :action (lambda (&rest args) args))
+                 (quit nil))))
+  (delete-frame)
+  ;; Switch away from minibuffer
+  (select-window (next-window))
+  option)

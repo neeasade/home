@@ -6,5 +6,6 @@ pgrep -x xmenu >/dev/null && pkill xmenu
 xmenu -d \
 	new reshape plumb drawin close hide \
 	unhide focus | while read -r c; do
+
 	PATH="${HOME}/bin/xmenu:${PATH}" sh -c "${c} & exit"
 done
