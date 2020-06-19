@@ -77,6 +77,18 @@ has emacs && {
 		MANPAGER='cat' PAGER='cat'
 		export MANPAGER PAGER
 
+		elisp-shell() {
+			elisp "(with-current-buffer
+						(window-buffer (selected-window))
+					${@})"
+		}
+
+		racket() {
+			elisp-shell '(setq-local comint-process-echoes nil)' >/dev/null
+			command racket "${@}"
+			elisp-shell '(setq-local comint-process-echoes t)' >/dev/null
+		}
+
 		v() {
 			elisp "(find-file \"${@}\")"
 		}

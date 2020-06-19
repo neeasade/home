@@ -13,7 +13,7 @@
     ];
     fontconfig = {
       defaultFonts = {
-        monospace = [ "Verily Serif Mono" ];
+        monospace = [ "IBM Plex Mono" ];
         sansSerif = [ "IBM Plex Sans Condensed" ];
         serif     = [ "Charter" ];
       };

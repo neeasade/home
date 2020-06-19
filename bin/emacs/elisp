@@ -46,13 +46,10 @@ die() {
 [ -z "${f}" ] && [ -n "${@}" ] && lisp="${@}"
 
 res=`erun "${lisp:-"(vz/eval-file \"${f}\" ${stdin:-nil} ${args:-nil})"}"`
+e=${?}
 
-if [ -z "${res}" ] || [ "${res}" = 'nil' ]; then
-	echo && die 1
-else
-	[ ${trim:-0} -eq 1 ] && {
-		res=${res#[\"\(]}
-		res=${res%[\"\)]}
-	}
-	echo "${res}" && die
-fi
+[ ${trim:-0} -eq 1 ] && {
+	res=${res#[\"\(]}
+	res=${res%[\"\)]}
+}
+echo "${res}" && die ${e}

@@ -13,6 +13,7 @@ fc-cache --verbose
 grep -i
 su -
 ls -AF
+cal -s
 EOF
 
 a mkd='mkdir -p'

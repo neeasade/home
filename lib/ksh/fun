@@ -52,6 +52,11 @@ l() {
 	fi
 }
 
+# Looks much more uniform
+ls() {
+	command ls -C "${@}" | column -t
+}
+
 resource() . ${HOME}/lib/kshrc;
 
 conf() {

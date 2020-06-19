@@ -9,7 +9,7 @@ while read -r l; do
 done <<EOF
 number_borders 3
 border_width 5 1 5
-color_focused ffffea 6ecbdc ffffea
+color_focused   ffffea 6ecbdc ffffea
 color_unfocused ffffea cccccc ffffea
 decor_size 0
 enable_borders true
@@ -18,6 +18,7 @@ enable_sloppy_focus true
 enable_last_window_focusing true
 enable_resize_hints true
 groups_nr 5
+pointer_modifier super
 EOF
 
 waitron refresh_borders
