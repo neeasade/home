@@ -1,5 +1,6 @@
 # -*- mode: sh -*-
-# These are here to help me select tabs/windows
+
+# The following two functions are here to help me select tabs/windows
 # Setting title to running command is way too hacky and cumbersome
 man() {
 	__settitle man ${*}
@@ -26,7 +27,7 @@ has git && {
 			;;
 		squash)
 			local cnf
-			print -n 'do you want to continue? '; read -r cnf
+			read -r cnf?'do you want to continue? '
 			[[ "${cnf:0:1}" != @(y|Y) ]] && return 0
 			local n=${2}
 			shift 2
@@ -103,7 +104,7 @@ EOF
 		man() {
 			case ${*} in
 			*configuration.nix)
-				st -e man -P less "${@}" 2&>1 >/dev/null
+				st -e man -P less "${@}" >/dev/null 2>&1
 				;;
 			*)
 				if [[ ! -t 0 ]]; then
@@ -137,7 +138,7 @@ EOF
 		for i in top alsamixer vidir transmission-cli ircdiscord; {
 			eval "
 ${i}() {
-	   st -e "${i} \"\${@}\"" 2&>1 >/dev/null &
+	   st -e "${i} \"\${@}\"" >/dev/null 2>&1 &
 }
 "
 		}
