@@ -27,7 +27,9 @@
     tmpOnTmpfs = true;
   };
 
-  hardware.bluetooth.enable = false;
+  hardware = {
+    bluetooth.enable = false;
+  };
 
   # Setup ALSA
   sound = {

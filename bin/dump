@@ -1,8 +1,0 @@
-#!/bin/sh
-# Add to/copy from dump file
-export DUMP="${DUMP:-${HOME}/doc/dump}"
-
-menu sel <${DUMP} | {
-	read -r sel
-	grep -q "${sel}" ${DUMP} && echo "${sel}" | xin || echo "${sel}" >>${DUMP}
-}

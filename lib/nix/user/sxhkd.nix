@@ -15,11 +15,11 @@
     "super + p" = "wmenu";
     "super + m" = "mus";
     "super + o" = "org-capture";
-    "super + x" = "turnoff";
     "super + e" = "tab --parent-id emacsclient -c -a ''";
 
     "super + shift + r" = "pkill -USR1 redshift";
     "super + shift + f" = "flashfocus";
+    "super + shift + x" = "turnoff";
 
     # Control
     "super + shift + k" = "vol -i 1%";

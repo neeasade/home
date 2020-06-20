@@ -2,13 +2,10 @@
 # SEIZURE WARNING!
 # Change the currently focused window's border colour to make it stand out
 
-norm='0x6ecbdc'
-
 if [ -f /tmp/flashfocus ]; then
-	read -r id </tmp/flashfocus
-	chwb -s 4 -c ${norm} ${id}
 	rm -f /tmp/flashfocus
 	pkill flashfocus
+	waitron refresh_borders
 else
 	# The joys of programs not accepting/spitting stuff in the same format
 	# Why use xdotool(1)? tabbed(1)
