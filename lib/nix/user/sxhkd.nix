@@ -25,8 +25,8 @@
     "super + shift + k" = "vol -i 1%";
     "super + shift + j" = "vol -d 1%";
     "super + shift + m" = "vol -t";
-    "super + shift + l" = "doas brness -i 1";
-    "super + shift + h" = "doas brness -d 1";
+    "super + shift + l" = "doas $HOME/bin/brness -i 1";
+    "super + shift + h" = "doas $HOME/bin/brness -d 1";
 
     # Notifications
     "super + shift + b" = "notify-send battery `bat -p`%";

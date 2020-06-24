@@ -23,4 +23,3 @@ a ${HOME}/med/vid/anm
 EOF
 
 a c..='cd ..'
-a ..='cd ..'

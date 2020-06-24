@@ -29,11 +29,9 @@ has git && {
 			local cnf
 			read -r cnf?'do you want to continue? '
 			[[ "${cnf:0:1}" != @(y|Y) ]] && return 0
-			local n=${2}
+			cmd git reset --soft HEAD~${2}
 			shift 2
-			local msg="${@}"
-			cmd git reset --soft HEAD~${n}
-			cmd git commit -m "${msg}"
+			cmd git commit -m "${@}"
 			;;
 		com|commit)
 			shift
@@ -43,12 +41,7 @@ has git && {
 		clone)
 			local fnl="${@}"
 			[[ "${2}" != *viz* ]] && fnl="${@} --depth 1"
-			cmd git ${fnl}
-			;;
-		push)
-			[[ -z "${2}" ]] &&
-				cmd git push origin `cmd git rev-parse --abbrev-ref HEAD` ||
-					cmd git "${@}"
+			cmd git "${fnl}"
 			;;
 		*)
 			cmd git "${@}"
@@ -97,7 +90,8 @@ EOF
 		}
 
 		clear() {
-			elisp "(run-at-time 0 nil #'comint-clear-buffer)" >/dev/null
+			:
+			# elisp-shell '(comint-clear-buffer)' >/dev/null
 		}
 
 		# Woman can be really slow on large man pages
@@ -122,13 +116,7 @@ EOF
 		less() {
 			if [[ ! -t 0 ]]; then
 				local t=`mktemp`
-				cat ->${t}
-				elisp - <<EOF
-(-->
-  (f-read "${t}")
-  ansi-color-filter-apply
-  (f-write it 'utf-8 "${t}"))
-EOF
+				sed -E 's/[\x01-\x1F\x7F]\[[0-9;]+m//g' >${t}
 				elisp "(view-file \"${t}\") (delete-file \"${t}\")" >/dev/null
 			else
 				elisp "(view-file \"${@}\")" >/dev/null
@@ -192,7 +180,7 @@ has nix && {
 				}`
 			;;
 		shl)
-			[[ -e shell.nix ]] && {
+			[[ -f shell.nix ]] && {
 				print error: shell.nix already exists
 				return 1
 			}
@@ -212,7 +200,7 @@ EOF
 			_nxsh "${@}"
 			;;
 		pkg)
-			[[ -e ${2} ]] && {
+			[[ -f ${2} ]] && {
 				print error: ${2} already exists
 				return 1
 			}
