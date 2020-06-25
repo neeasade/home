@@ -4,15 +4,17 @@
 
 if [ -f /tmp/flashfocus ]; then
 	rm -f /tmp/flashfocus
-	pkill flashfocus
+	waitron wm_config enable_borders true
 	waitron refresh_borders
+	pkill flashfocus
 else
 	# The joys of programs not accepting/spitting stuff in the same format
 	# Why use xdotool(1)? tabbed(1)
 	xdotool getactivewindow | xargs -I{} printf '%x' {} | {
 		read -r id
-		echo ${id} >/tmp/flashfocus
+		:>/tmp/flashfocus
 		i=0
+		waitron wm_config enable_borders false
 		while [ ${i} -lt 100 ]; do
 			chwb -s 10 -c 0x000fff ${id}
 			sleep 0.2
