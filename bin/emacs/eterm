@@ -1,6 +1,5 @@
 #!/usr/bin/env -S elisp -t
 ;; -*- mode: emacs-lisp; -*-
-;; Return term so we can find the window and embed it in tabbed if needed!
 
 (let* ((term (format "*term-%d*" (random)))
        (frame (make-frame '((window-system . x)
@@ -13,7 +12,9 @@
     (switch-to-buffer shbuf)
     (delete-other-windows)
     (vz/term-minor-mode)
-    (setq-local vz/term-minor-mode--frame frame
+    (setq-local vz/term-minor-mode-frame frame
                 mode-line-format nil)
     (set-process-sentinel (get-buffer-process shbuf)
-                          #'vz/term-minor-mode-sentinel)))
+                          #'vz/term-minor-mode-sentinel))
+  (add-to-list 'vz/term-minor-mode-frames frame)
+  (set-frame-parameter frame 'term-buffer term))
