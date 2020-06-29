@@ -28,7 +28,7 @@ die() {
 	if [ "${1}" = '-' ]; then
 		f=`mktemp` chk=0
 		cat ->${f}
-		args="\"${@}\""
+		args="\"${*}\""
 	else
 		stdin=`mktemp`
 		cat ->${stdin}
@@ -40,10 +40,14 @@ die() {
 [ -f "${1}" ] && {
 	f="${1}"
 	shift
-	args="\"${@}\""
+	args="'("
+	for i in "${@}"; do
+		args="${args} \"${i}\""
+	done
+	args="${args})"
 }
 
-[ -z "${f}" ] && [ -n "${@}" ] && lisp="${@}"
+[ -z "${f}" ] && [ -n "${*}" ] && lisp="${*}"
 
 res=`erun "${lisp:-"(vz/eval-file \"${f}\" ${stdin:-nil} ${args:-nil})"}"`
 e=${?}

@@ -1,11 +1,11 @@
-#!/usr/bin/env -S elisp -t
+#!/usr/bin/env -S elisp
 ;; -*- mode: emacs-lisp; -*-
 
-(let* ((term (format "*term-%d*" (random)))
-       (frame (make-frame '((window-system . x)
-                            (width . 80)
-                            (left  . 10)
-                            (top   . 10)))))
+(let* ((term  (format "*term-%d*" (random most-positive-fixnum)))
+       (frame (make-frame `((window-system . x)
+                            ,(when args
+                               (cons 'parent-id
+                                     (string-to-number (car args))))))))
   (select-frame frame)
   (setq default-directory (or (getenv "PWD") (getenv "HOME")))
   (let ((shbuf (shell term)))
