@@ -24,11 +24,20 @@ die() {
 	exit ${1:-0}
 }
 
+args() {
+	args="'("
+	for i in "${@}"; do
+		args="${args} \"${i}\""
+	done
+	args="${args})"
+}
+
 [ -t 0 ] || {
 	if [ "${1}" = '-' ]; then
 		f=`mktemp` chk=0
 		cat ->${f}
-		args="\"${*}\""
+		shift
+		args "${@}"
 	else
 		stdin=`mktemp`
 		cat ->${stdin}
@@ -40,11 +49,7 @@ die() {
 [ -f "${1}" ] && {
 	f="${1}"
 	shift
-	args="'("
-	for i in "${@}"; do
-		args="${args} \"${i}\""
-	done
-	args="${args})"
+	args "${@}"
 }
 
 [ -z "${f}" ] && [ -n "${*}" ] && lisp="${*}"
