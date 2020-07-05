@@ -41,7 +41,7 @@ has git && {
 		clone)
 			local fnl="${@}"
 			[[ "${2}" != *viz* ]] && fnl="${@} --depth 1"
-			cmd git "${fnl}"
+			cmd git ${fnl}
 			;;
 		*)
 			cmd git "${@}"

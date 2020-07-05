@@ -1,7 +1,6 @@
- #+TITLE:NixOS Configuration
+ #+TITLE: NixOS Configuration
 Nix is cool.
 
-See Also: lib/ksh/wrappers:  ~has nix~
 * Before installing
 Do this I guess
 #+begin_src sh

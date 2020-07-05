@@ -20,7 +20,7 @@ a rsc='resource'
 a aliases='alias'
 a quit='exit'
 a wh='command -v'
-a datenow='date +"%a %d %b %Y %H:%M"'
+a datenow='date +"%H:%M %A %d %B, %Y"'
 
 # FRENCH RIGHTS!
 a rmf='rm -fr'
