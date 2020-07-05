@@ -4,18 +4,30 @@
 
 {
   fonts = {
-    enableDefaultFonts = true;
-    fonts = [
-      pkgs.go-font pkgs.ibm-plex pkgs.lmodern pkgs.lmmath
+    enableDefaultFonts = false;
+    fonts = with pkgs; [
+      go-font
+      ibm-plex
+      lmodern
+      lmmath
 
       # Fonts that aren't in nixpkgs
-      pkgs.verily-serif-mono pkgs.charter pkgs.scientifica
+      verily-serif-mono
+      charter
+      scientifica
+      openmoji
+
+      # Covers almost every language in the world!
+      noto-fonts
+      noto-fonts-cjk
     ];
     fontconfig = {
+      useEmbeddedBitmaps = true;
       defaultFonts = {
         monospace = [ "IBM Plex Mono" ];
         sansSerif = [ "IBM Plex Sans Condensed" ];
         serif     = [ "Charter" ];
+        emoji     = [ "OpenMoji" ];
       };
     };
   };

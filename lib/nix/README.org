@@ -28,3 +28,5 @@ ln -s /home/viz/lib/nix /etc/nixos
 * Things to look up
 ** TODO Installing racket packages in ~<nix>/share/racket/~
 ** TODO Properly setup nix overlay
+* List of licenses
+https://github.com/NixOS/nixpkgs/blob/master/lib/licenses.nix
