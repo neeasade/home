@@ -12,6 +12,12 @@
     lsc               = pkgs.callPackage ./pkgs/lsc.nix         {};
     emacs27           = pkgs.callPackage ./pkgs/emacs27.nix     {};
 
+    xkeysnail         = pkgs.callPackage ./pkgs/xkeysnail.nix {
+      buildPythonPackage = pkgs.python3Packages.buildPythonPackage;
+      fetchPypi = pkgs.python3Packages.fetchPypi;
+      pythonPackages = pkgs.python3Packages;
+    };
+
     acr               = pkgs.callPackage ./pkgs/acr.nix         {};
 
     scroll            = pkgs.callPackage ./pkgs/scroll.nix      {};
