@@ -30,7 +30,12 @@ in
   security.wrappers.slock.source = "${pkgs.slock.out}/bin/slock";
 
   # Add my overlay
-  nixpkgs.overlays = [ (import ../override.nix) ];
+  nixpkgs.overlays = [
+    (import ../override.nix)
+    (import (builtins.fetchTarball {
+      url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
+    }))
+  ];
 
   # Setup the global environment
   environment = {
@@ -79,8 +84,6 @@ in
     home.sessionVariables = import ./envvars.nix;
 
     home.file = {
-      "lib/inputrc".text = "set editing-mode vi";
-
       # Setup vis to use Fennel instead of Lua for config
       "lib/vis/fennel.lua".source = "${builtins.fetchurl
         https://raw.githubusercontent.com/bakpakin/Fennel/master/fennel.lua}";
