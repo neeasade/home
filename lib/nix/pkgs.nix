@@ -10,7 +10,7 @@
     libwm             = pkgs.callPackage ./pkgs/libwm.nix       {};
     xruler            = pkgs.callPackage ./pkgs/ruler.nix       {};
     lsc               = pkgs.callPackage ./pkgs/lsc.nix         {};
-    # emacs27           = pkgs.callPackage ./pkgs/emacs27.nix     {};
+    emacs27           = pkgs.callPackage ./pkgs/emacs27.nix     {};
 
     xkeysnail         = pkgs.callPackage ./pkgs/xkeysnail.nix {
       buildPythonPackage = pkgs.python3Packages.buildPythonPackage;

@@ -68,12 +68,9 @@ with pkgs; [
   wchf
   xmenu
   xruler
-  xkeysnail
   lsc
+  emacs27
   raleigh-reloaded-gtk-theme
   wendy
   ircdiscord
-
-  # From Emacs overlay
-  emacsUnstable
 ]
