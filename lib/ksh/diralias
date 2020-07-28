@@ -4,7 +4,6 @@ while read -r al; do
 	a g${al% *}="cd ${al#* }"
 	a -d ${al% *}="${al#* }"
 done <<EOF
-H ${HOME}
 B ${HOME}/bin
 S ${HOME}/src
 R ${HOME}/opt/repos

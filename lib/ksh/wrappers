@@ -94,6 +94,13 @@ EOF
 			# elisp-shell '(comint-clear-buffer)' >/dev/null
 		}
 
+		transmission() {
+			pgrep -x transmission-dae || transmission-daemon
+			elisp -t '(transmission)'
+		}
+
+		trans() transmission;
+
 		# Woman can be really slow on large man pages
 		man() {
 			case ${*} in

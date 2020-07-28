@@ -1,9 +1,22 @@
 #!/bin/sh
 
-[ -f ${HOME}/tmp/bkup.lock ] || pgrep transmission >/dev/null && {
+torrent() {
+	pgrep -x transmission-dae &&
+		elisp -t - <<EOF
+(not (zerop (alist-get 'activeTorrentCount
+	 				   (transmission-request "session-stats"))))
+EOF
+}
+
+[ -f ${HOME}/tmp/bkup.lock ] || torrent && {
 	notify-send "bkup/transmission is running!"
 	exit 1
 }
+
+for i in `xdotool search --class .`; do
+	waitron window_focus ${i}
+	waitron window_close
+done
 
 if has systemctl; then
 	poweroff
