@@ -1,27 +1,34 @@
-{ stdenv, fetchurl, pkgconfig
+{ stdenv, fetchurl
+, pkgconfig, autoconf, automake, texinfo
 , ncurses, libXpm, jansson, gmp, gettext
-, cairo, libtiff, harfbuzz, libpng, libjpeg, librsvg
+, cairo, libtiff, harfbuzz, libpng, libjpeg, librsvg, libungif
 , gtk3-x11, gnutls, libxml2, webkitgtk
 }:
 
 stdenv.mkDerivation rec {
   pname = "emacs27";
-  version = "27.0.91";
+  version = "27.1-rc1";
   src = fetchurl {
-    url = "https://alpha.gnu.org/gnu/emacs/pretest/emacs-${version}.tar.xz";
-    sha256 = "1aj52fymw4iq9n5sahpb3wncm0cvshwmjr3833mirj6yhp9kv0cn";
+    url = "https://github.com/emacs-mirror/emacs/archive/emacs-${version}.tar.gz";
+    sha256 = "04p1xg0qzx3676i2cfanivjwf5q3ccr9vyal3bwmy2q8s10hwccf";
   };
 
   buildInputs = [
     ncurses libXpm jansson gmp gettext
-    cairo libtiff harfbuzz libpng libjpeg librsvg
+    cairo libtiff harfbuzz libpng libjpeg librsvg libungif
     gtk3-x11 gnutls libxml2 webkitgtk
   ];
-  nativeBuildInputs = [ pkgconfig ];
+  nativeBuildInputs = [
+    pkgconfig
+    autoconf
+    automake
+    texinfo
+  ];
 
   hardeningDisable = [ "format" ];
 
   preConfigure = ''
+    ./autogen.sh
     substituteInPlace lisp/international/mule-cmds.el \
       --replace /usr/share/locale ${gettext}/share/locale
     for makefile_in in $(find . -name Makefile.in -print); do
