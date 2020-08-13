@@ -12,7 +12,9 @@ buildGoModule rec {
     rev = "db9efb86a7a0d178dc64f868530aec7dc6cbfdcf";
   };
 
-  modSha256 = "0s1k5k5q15lf58p5d450myv9rhh42ylq12px6ar9yn2ir871fpj4";
+  vendorSha256 = "17y92b8h8lhdv0j7p5wzlzw7w9snn9w6idfd5f5pfi84iknlq4lk";
+
+  doCheck = false;
   
   meta = with lib; {
     homepage = "https://github.com/tadeokondrak/ircdiscord";

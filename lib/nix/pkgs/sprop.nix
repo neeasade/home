@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "git";
 
   src = builtins.fetchGit {
-    url = "git://oldgit.suckless.org/sprop";
+    url = "git://git.suckless.org/sprop";
     rev = "c0e990ecaea56a7d5aadb708ea28a99dba8fd926";
     ref = "master";
   };

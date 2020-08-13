@@ -2,21 +2,21 @@
 , pkgconfig, autoconf, automake, texinfo
 , ncurses, libXpm, jansson, gmp, gettext
 , cairo, libtiff, harfbuzz, libpng, libjpeg, librsvg, libungif
-, gtk3-x11, gnutls, libxml2, webkitgtk
+, gtk3-x11, gnutls, libxml2
 }:
 
 stdenv.mkDerivation rec {
   pname = "emacs27";
-  version = "27.1-rc1";
+  version = "27.1";
   src = fetchurl {
-    url = "https://github.com/emacs-mirror/emacs/archive/emacs-${version}.tar.gz";
-    sha256 = "04p1xg0qzx3676i2cfanivjwf5q3ccr9vyal3bwmy2q8s10hwccf";
+    url = "https://mirror.squ.edu.om/gnu/emacs/emacs-${version}.tar.gz";
+    sha256 = "1nw4lpid1kqncypa9f1228d43m59qn3gqgmy3vrjrfair4fsdgzz";
   };
 
   buildInputs = [
     ncurses libXpm jansson gmp gettext
     cairo libtiff harfbuzz libpng libjpeg librsvg libungif
-    gtk3-x11 gnutls libxml2 webkitgtk
+    gtk3-x11 gnutls libxml2
   ];
   nativeBuildInputs = [
     pkgconfig
@@ -44,12 +44,10 @@ stdenv.mkDerivation rec {
     "--with-cairo"
     "--with-modules"
     "--with-harfbuzz"
-    "--with-xwidgets"
     "--without-sound"
     "--without-dbus"
     "--without-gsettings"
     "--without-libsystemd"
-    "--without-gif"
   ];
 
   installTargets = [ "tags" "install" ];

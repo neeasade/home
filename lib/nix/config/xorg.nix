@@ -31,11 +31,18 @@
       displayManager = {
         defaultSession = "home-manager";
 
+        autoLogin = {
+          enable = true;
+          user = "viz";
+        };
+
         lightdm = {
           enable = true;
-          autoLogin = { enable = true; user = "viz"; };
-          # You don't even see this when autorun is enabled /shrug
-          background = "#dde0e2";
+          autoLogin = {
+#	   enable = true;
+#	   user = "viz";
+#	   timeout = 0;
+	  };
           greeter.enable = false;
         };
       };

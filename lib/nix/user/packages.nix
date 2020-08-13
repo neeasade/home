@@ -32,21 +32,17 @@ with pkgs; [
   lemonbar-xft
   wmutils-core
   meh
-  dwm
   dmenu
   st
-  tabbed
+#  emacs
 
   # For emacs
   gnutls
 
   # Languages
   racket
-  lua
   python3
-  chicken
   go
-  godef
 
   # Latex
   (texlive.combine { inherit (texlive)
@@ -69,8 +65,7 @@ with pkgs; [
   xmenu
   xruler
   lsc
-  emacs27
   raleigh-reloaded-gtk-theme
-  wendy
   ircdiscord
+  emacs27
 ]

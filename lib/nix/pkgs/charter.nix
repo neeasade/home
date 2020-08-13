@@ -5,8 +5,9 @@ stdenv.mkDerivation {
   version = "latest";
 
   src = fetchurl {
-    url = "https://practicaltypography.com/fonts/charter.zip";
-    sha256 = "bcddb75c25406def3d461c6f161ce10f3b32433f5b2109fc0716782ff21285b7";
+    name = "charter.zip";
+    url = "https://practicaltypography.com/fonts/Charter%20200512.zip";
+    sha256 = "18yk4qnzm4bn1y4cn0g2cddfiif6s6f6zmn477izcwcwidg63l9r";
   };
 
   nativeBuildInputs = [ unzip ];
@@ -15,7 +16,7 @@ stdenv.mkDerivation {
   sourceRoot = ".";
   installPhase = ''
     mkdir -p $out/share/fonts/truetype
-    find charter/ttf -name "*.ttf" -exec cp {} "$out/share/fonts/truetype/" \;
+    find "Charter/Charter/OpenType TT/" -name "*.ttf" -exec cp {} "$out/share/fonts/truetype/" \;
   '';
 
   meta = with stdenv.lib; {

@@ -7,12 +7,12 @@
 let
   home-manager = builtins.fetchGit {
     url = "https://github.com/rycee/home-manager.git";
-    rev = "03b4f81679456dc565722b38b18c27911b135d66";
+    rev = "223e3c38a13fb45726c7a9d97e2612ae53ab4f98";
     ref = "master";
   };
 in
 {
-  imports = [
+   imports = [
     ../config/fonts.nix
     ../config/location.nix
     ../config/networks.nix
@@ -25,16 +25,18 @@ in
 
   # I prefer doas over sudo
   security.sudo.enable = false;
-  security.wrappers.doas.source = "${pkgs.doas.out}/bin/doas";
-
-  security.wrappers.slock.source = "${pkgs.slock.out}/bin/slock";
+  security.wrappers = {
+    doas.source      = "${pkgs.doas.out}/bin/doas";
+    slock.source     = "${pkgs.slock.out}/bin/slock";
+    xkeysnail.source = "${pkgs.xkeysnail.out}/bin/xkeysnail";
+  };
 
   # Add my overlay
   nixpkgs.overlays = [ (import ../override.nix) ];
 
   # Setup the global environment
   environment = {
-    systemPackages = with pkgs; [ dash vis ];
+    systemPackages = with pkgs; [ dash ];
     etc = {
       "doas.conf" = {
         enable = true;
@@ -82,8 +84,11 @@ in
       "lib/inputrc".text = "set editing-mode vi";
 
       # Setup vis to use Fennel instead of Lua for config
-      "lib/vis/fennel.lua".source = "${builtins.fetchurl
-        https://raw.githubusercontent.com/bakpakin/Fennel/master/fennel.lua}";
+      "lib/vis/fennel.lua".source =
+        "${builtins.fetchurl {
+          url = "https://github.com/bakpakin/Fennel/releases/download/0.4.2/fennel";
+          sha256 = "1c6gpnwnhp2ghklnwb3pmb73kk10l5f1d8ay2wawylq48xwx02nw";
+        }}";
       "lib/vis/visrc.lua".text = ''
         local fennel = require("./fennel")
         fennel.path  = fennel.path .. ";/home/viz/lib/vis/?.fnl"
@@ -152,16 +157,17 @@ in
     services = {
       sxhkd = import ./sxhkd.nix;
 
+
       gpg-agent = {
         enable = true;
         pinentryFlavor = "gnome3";
       };
 
-#      redshift = {
-#        enable = true;
-#        latitude  = toString config.location.latitude;
-#        longitude = toString config.location.longitude;
-#      };
+      # redshift = {
+        # enable = true;
+        # latitude  = toString config.location.latitude;
+        # longitude = toString config.location.longitude;
+      # };
     };
   };
 }

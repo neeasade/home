@@ -6,7 +6,7 @@
     "super + Print" = "screenshot -u";
 
     "super + r"                = "`menu run`";
-    "super + shift + Return"   = "tab eterm || tab -w st";
+    "super + shift + Return"   = "eterm || st";
     "super + shift + q"        = "\$HOME/lib/wchf/wchfrc";
     "super + shift + ctrl + q" = "waitron wm_quit 0";
 
@@ -15,7 +15,7 @@
     "super + p" = "wmenu";
     "super + m" = "mus";
     "super + o" = "org-capture";
-    "super + e" = "tab --parent-id emacsclient -c -a ''";
+    "super + e" = "emacsclient -c -a ''";
 
     "super + shift + r" = "pkill -USR1 redshift";
     "super + shift + f" = "flashfocus";

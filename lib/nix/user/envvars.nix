@@ -1,5 +1,4 @@
 {
-  INPUTRC        = "\$HOME/lib/inputrc";
   ENV            = "\$HOME/lib/kshrc";
   PATH           = "\$HOME/bin:\$PATH";
   LESSHISTFILE   = "\$XDG_CACHE_HOME/lesshst";

@@ -9,16 +9,25 @@ self: super: rec {
 
   st = super.st.overrideAttrs (oldAttrs: {
     src = builtins.fetchGit {
-      url = "https://github.com/vizs/st";
-      rev = "55b7dd4fac07de7ea1b9465de14b3c15bef362be";
+      url = "https://github.com/odknt/st";
+      rev = "3f97e54e4374ecfad2a5044367b5348896039dc3";
       ref = "master";
     };
+    buildInputs = with super.pkgs; [
+      xorg.libX11
+      cairo
+      freetype
+      fontconfig
+    ];
+    patches = [
+      ./patches/st/001-config.patch
+    ];
   });
 
   dmenu = super.dmenu.overrideAttrs (oldAttrs: {
     src = builtins.fetchGit {
       url = "https://github.com/vizs/dmenu";
-      rev = "eefcf76dbe130f6d00727ce51b51a5340253087e";
+      rev = "51c09e8065466241c96e26ef3fddfe580c4ae934";
       ref = "master";
     };
     patches = [];

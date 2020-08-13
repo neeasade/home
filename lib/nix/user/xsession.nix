@@ -9,6 +9,7 @@
     pmenu &
     ruler &
     sxhkd &
+    xkeysnail $HOME/lib/xkeysnailrc
     emacs --daemon &
   '';
   scriptPath = "lib/xsession";
