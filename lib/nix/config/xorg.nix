@@ -38,11 +38,7 @@
 
         lightdm = {
           enable = true;
-          autoLogin = {
-#	   enable = true;
-#	   user = "viz";
-#	   timeout = 0;
-	  };
+          autoLogin.timeout = 0;
           greeter.enable = false;
         };
       };

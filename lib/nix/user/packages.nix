@@ -67,5 +67,6 @@ with pkgs; [
   lsc
   raleigh-reloaded-gtk-theme
   ircdiscord
+  wendy
   emacs27
 ]
