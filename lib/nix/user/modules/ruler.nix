@@ -5,17 +5,41 @@ with lib; let
     libwm = pkgs.callPackage ../../pkgs/libwm.nix {};
   };
   cfg = config.services.ruler;
-
-  # Shamelessly stolen from hm's sxhkd module
 in
   {
     options.services.ruler = {
       enable = mkEnableOption "Ruler daemon";
 
-      rules = mkOption {
-        type = types.attrsOf (types.nullOr types.str);
-        default = {};
-        description = "An attributon set that assigns rule to command";
+      rules = {
+        name = mkOption {
+          type = types.attrsOf (types.nullOr types.str);
+          default = {};
+          description = "An attributon set that assigns window name to command";
+        };
+
+        class = mkOption {
+          type = types.attrsOf (types.nullOr types.str);
+          default = {};
+          description = "An attributon set that assigns window class to command";
+        };
+
+        instance = mkOption {
+          type = types.attrsOf (types.nullOr types.str);
+          default = {};
+          description = "An attributon set that assigns window instance to command";
+        };
+
+        type = mkOption {
+          type = types.attrsOf (types.nullOr types.str);
+          default = {};
+          description = "An attributon set that assigns window type to command";
+        };
+
+        role = mkOption {
+          type = types.attrsOf (types.nullOr types.str);
+          default = {};
+          description = "An attributon set that assigns window role to command";
+        };
       };
 
       extraConfig = mkOption {
@@ -29,7 +53,11 @@ in
       home.packages = [ ruler ];
 
       xdg.configFile."ruler/rulerrc".text = concatStringsSep "\n"
-        ((mapAttrsToList (r: c: "${r}\n    ${c}") cfg.rules)
+        ((mapAttrsToList (r: c: "name=\"${r}\"\n    ${c}") cfg.rules.name)
+         ++ (mapAttrsToList (r: c: "class=\"${r}\"\n    ${c}") cfg.rules.class)
+         ++ (mapAttrsToList (r: c: "instance=\"${r}\"\n    ${c}") cfg.rules.instance)
+         ++ (mapAttrsToList (r: c: "type=\"${r}\"\n    ${c}") cfg.rules.type)
+         ++ (mapAttrsToList (r: c: "role=\"${r}\"\n    ${c}") cfg.rules.role)
          ++ [ cfg.extraConfig ]);
 
       systemd.user.services.ruler = {
