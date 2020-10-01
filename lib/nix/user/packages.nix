@@ -34,7 +34,6 @@ with pkgs; [
   meh
   dmenu
   st
-#  emacs
 
   # For emacs
   gnutls
@@ -61,12 +60,9 @@ with pkgs; [
   xscreenshot
   crud
   sprop
-  wchf
   xmenu
-  xruler
   lsc
   raleigh-reloaded-gtk-theme
   ircdiscord
   wendy
-  emacs27
 ]

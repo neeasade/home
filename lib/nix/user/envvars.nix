@@ -1,10 +1,10 @@
 {
   ENV            = "\$HOME/lib/kshrc";
-  PATH           = "\$HOME/bin:\$PATH";
+  PATH           = "\$HOME/bin/emacs:\$HOME/bin/x:\$HOME/bin:\$PATH";
   LESSHISTFILE   = "\$XDG_CACHE_HOME/lesshst";
   GOPATH         = "\$HOME/opt/go";
-  EDITOR         = "vis";
-  VISUAL         = "vis";
+  EDITOR         = "emacsclient";
+  VISUAL         = "emacsclient";
   MANPAGER       = "less";
   PYTHONUSERBASE = "\$HOME/opt/python";
   PYTHONPATH     = "\$HOME/opt/python";

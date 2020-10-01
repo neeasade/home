@@ -44,7 +44,6 @@
       };
 
       videoDrivers = [ "intel" ];
-      layout = "us";
 
       # Swap Capslock and Escape
       xkbOptions = "caps:swapescape";

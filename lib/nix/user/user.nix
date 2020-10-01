@@ -1,13 +1,12 @@
 # User configuration
-# TODO: Services don't start for some reason
 
 { config, pkgs, ... }:
 
 # Fetch home-manager
 let
   home-manager = builtins.fetchGit {
-    url = "https://github.com/rycee/home-manager.git";
-    rev = "223e3c38a13fb45726c7a9d97e2612ae53ab4f98";
+    url = "https://github.com/nix-community/home-manager.git";
+    rev = "96d7de6db18d9a5bf254ddf3525bb4ef1d2a6bda";
     ref = "master";
   };
 in
@@ -36,7 +35,7 @@ in
 
   # Setup the global environment
   environment = {
-    systemPackages = with pkgs; [ dash ];
+    systemPackages = [ pkgs.dash ];
     etc = {
       "doas.conf" = {
         enable = true;
@@ -50,7 +49,6 @@ in
   };
 
   programs = {
-    gnupg.agent.enable = true;
     ssh = {
       # Disable the annoying popup window
       askPassword = "";
@@ -62,8 +60,6 @@ in
     };
   };
 
-  services.redshift.enable = true;
-
   users.groups.viz = {};
   users.users.viz = {
     name = "viz";
@@ -71,7 +67,7 @@ in
     extraGroups = [ "wheel" "audio" "video" "input" ];
     home = "/home/viz";
     password = "nicetry";
-    shell = pkgs.mksh;
+    shell = pkgs.bash;
   };
 
   home-manager.users.viz = {
@@ -79,6 +75,12 @@ in
 
     # Environment variables
     home.sessionVariables = import ./envvars.nix;
+
+    imports = [
+      ./modules/wchf.nix
+      ./modules/ruler.nix
+      ./modules/sxhkd-fix.nix
+    ];
 
     home.file = {
       "lib/inputrc".text = "set editing-mode vi";
@@ -97,30 +99,34 @@ in
       #   require("cfg")
       # '';
 
-      # Ruler
-      "lib/ruler/rulerrc".text = ''
-        name=".*"
-          drawin ruler $RULER_WID
-        role="browser"
-          grep -q 2 /tmp/info/wm/groups/cur || {\
-          waitron window_focus $RULER_WID &&\
-          waitron group_move_window 2\
-          }
-        instance="mpv-popup"
-          mpopv $RULER_WID
-      '';
-
       # Profile
-      "lib/profile".text = ''
-        . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-        [ `basename $SHELL` = mksh ] && {
-          export ENV=$HOME/lib/kshrc
-          . $HOME/lib/kshrc
-        }
+      #"lib/profile".text = ''
+      #  . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+      #  [ ''${SHELL##*/} = mksh ] && {
+      #   export ENV=$HOME/lib/kshrc
+      #    . $HOME/lib/kshrc
+      #  }
+      #'';
+
+      "lib/directory-aliases".text = ''
+        A=/home/viz/med/img/art
+        B=/home/viz/bin
+        C=/home/viz/.cache
+        D=/home/viz/doc
+        E=/home/viz/lib
+        F=/home/viz/med/img/film
+        K=/home/viz/lib/ksh
+        M=/home/viz/med/mus
+        N=/home/viz/lib/nix
+        R=/home/viz/opt/repos
+        S=/home/viz/src
+        T=/home/viz/tmp
+        W=/home/viz/med/img/walls
+        a=/home/viz/med/vid/anm
+        s=/home/viz/doc/school
+        u=/home/viz/doc/uni
       '';
     };
-
-    systemd.user.startServices = true;
 
     xdg            = import ./xdg.nix;
     xsession       = import ./xsession.nix pkgs;
@@ -136,7 +142,9 @@ in
 
     programs = {
       home-manager.enable = true;
+      emacs.enable = true;
 
+      bash    = import ./bash.nix;
       git     = import ./git.nix;
       mpv     = import ./mpv.nix;
       irssi   = import ./irssi.nix;
@@ -149,25 +157,27 @@ in
           "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
           "kbmfpngjjgdllneeigpgjifpgocmfgmb" # RES
           "clngdbkpkpeebahjckkjfobafhncgmne" # Stylus
-#         "kkkjlfejijcjgjllecmnejhogpbcigdc" # Org-capture extension
+        # "kkkjlfejijcjgjllecmnejhogpbcigdc" # Org-capture extension
         ];
       };
     };
 
     services = {
       sxhkd = import ./sxhkd.nix;
-
+      ruler = import ./ruler.nix;
 
       gpg-agent = {
         enable = true;
         pinentryFlavor = "gnome3";
       };
 
-      # redshift = {
-      #   enable = true;
-      #   latitude  = toString config.location.latitude;
-      #   longitude = toString config.location.longitude;
-      # };
+      redshift = {
+        enable = true;
+        latitude  = toString config.location.latitude;
+        longitude = toString config.location.longitude;
+      };
+
+      xsession.windowManager.wchf.enable = true;
     };
   };
 }

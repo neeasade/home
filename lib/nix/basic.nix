@@ -8,7 +8,7 @@
     kernelModules  = [ "fuse" "kvm-intel" ];
 
     # Disable bluetooth, webcam and the beep speaker
-    blacklistedKernelModules = [ "bluetooth" "uvcvideo" "pcspkr" ];
+    blacklistedKernelModules = [ "bluetooth" "pcspkr" ];
 
     loader = {
       systemd-boot = {

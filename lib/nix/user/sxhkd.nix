@@ -1,6 +1,7 @@
 {
   enable = true;
-  extraPath = "/home/viz/bin/x";
+  # extraPath = "/home/viz/bin/x:/home/viz/bin/emacs:/home/viz/bin:"
+  #   + "/run/current-system/sw/bin";
   keybindings = {
     "Print"         = "screenshot -s";
     "super + Print" = "screenshot -u";
@@ -59,8 +60,8 @@
     "super + shift + c" = "waitron window_close";
 
     # Groups
-    "super + {1-5}"         = "waitron group_activate_specific {1-5}";
+    "super + {1-5}"         = "waitron group_switch {1-5}";
     "super + shift + {1-5}" = "waitron group_move_window {1-5}";
-    "super + ctrl + {1-5}"  = "waitron group_activate {1-5}";
+    "super + ctrl + {1-5}"  = "waitron group_combine_or_toggle {1-5}";
   };
 }

@@ -14,31 +14,31 @@ in
         name = mkOption {
           type = types.attrsOf (types.nullOr types.str);
           default = {};
-          description = "An attributon set that assigns window name to command";
+          description = "An attribution set that assigns window name to command";
         };
 
         class = mkOption {
           type = types.attrsOf (types.nullOr types.str);
           default = {};
-          description = "An attributon set that assigns window class to command";
+          description = "An attribution set that assigns window class to command";
         };
 
         instance = mkOption {
           type = types.attrsOf (types.nullOr types.str);
           default = {};
-          description = "An attributon set that assigns window instance to command";
+          description = "An attribution set that assigns window instance to command";
         };
 
         type = mkOption {
           type = types.attrsOf (types.nullOr types.str);
           default = {};
-          description = "An attributon set that assigns window type to command";
+          description = "An attribution set that assigns window type to command";
         };
 
         role = mkOption {
           type = types.attrsOf (types.nullOr types.str);
           default = {};
-          description = "An attributon set that assigns window role to command";
+          description = "An attribution set that assigns window role to command";
         };
       };
 

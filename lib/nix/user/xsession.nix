@@ -2,15 +2,20 @@
 
 {
   enable = true;
+
+  importedVariables = [
+    "PATH"
+    "XDG_CONFIG_HOME"
+    "XDG_DATA_HOME"
+    "XDG_CACHE_HOME"
+  ];
+
   initExtra = ''
-    export PATH=$HOME/bin/emacs:$HOME/bin/x:$PATH
     remkd /tmp/info/{,vol}
     . $XDG_CACHE_HOME/wall &
     pmenu &
-    ruler &
-    sxhkd &
-    emacs --daemon &
+    emacs --daemon
   '';
+
   scriptPath = "lib/xsession";
-  windowManager.command = "${pkgs.wchf.out}/bin/wchf";
 }
