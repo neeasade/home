@@ -133,6 +133,18 @@ in
         s=/home/viz/doc/school
         u=/home/viz/doc/uni
       '';
+
+      "lib/9fortune/terry".source =
+        "${builtins.fetchurl {
+          url = "https://code.9front.org/hg/plan9front/raw-file/484d3f8e5978/lib/terry";
+          sha256 = "0wx7rfz9cxsa99hwdzcdz718zqmbjlr39dfqjligqcnsvra9h86b";
+        }}";
+
+      "lib/9fortune/theo".source =
+        "${builtins.fetchurl {
+          url = "https://code.9front.org/hg/plan9front/raw-file/484d3f8e5978/lib/theo";
+          sha256 = "153smyqg0480nqb75csi9vzgdqjraml049f295hfgninv1la34il";
+        }}";
     };
 
     xdg            = import ./xdg.nix;
