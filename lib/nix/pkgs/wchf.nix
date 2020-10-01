@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
 
   src = builtins.fetchGit {
     url = "https://github.com/vizs/wchf";
-    rev = "64fb469479167561fadf61569eff80fd4df1cc7a";
+    rev = "80d2360c32020c385ada22b8629c853df2e3465c";
     ref = "master";
   };
 

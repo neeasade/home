@@ -2,8 +2,7 @@
 
 [[ "${-}" != *i* ]] && return 0
 
-set -o vi     vi-tabcomplete nohup \
-	   bgnice trackall       utf8-mode
+set -o nohup bgnice trackall utf8-mode
 
 stty -ixon
 

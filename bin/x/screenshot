@@ -1,22 +1,33 @@
 #!/bin/sh
 
 tmp_image='/tmp/grab.png'
+dir="${HOME}/med/img/screenshots"
 
 case `echo 'grab area\ngrab window\ngrab screen' | menu sel` in
 *area)
-	xscreenshot -g `crud g`
+	xscreenshot -g `crud g` >${tmp_image}
 	;;
 *win*)
 	sleep 1
-	xscreenshot -w `xdotool getactivewindow`
+	id="$(xdotool getactivewindow)"
+
+	xscreenshot -w "${id}" >${tmp_image}
+
+	case "$(atomx WM_NAME $(printf '%x' ${id}))" in
+	*"Microsoft Teams"*)
+		dir="${HOME}/doc/uni/screenshots"
+		;;
+	esac
 	;;
 *screen)
-	xscreenshot
+	xscreenshot >${tmp_image}
 	;;
 *)
 	exit
 	;;
-esac | ff2png >${tmp_image}
+esac
+
+ff2png <${tmp_image} | sponge ${tmp_image}
 
 case ${1} in
 -u)
@@ -27,7 +38,7 @@ case ${1} in
 *)
 	xclip -sel clip -t image/png -i ${tmp_image}
 	cp ${tmp_image} \
-	   ${HOME}/med/img/scrots/screenshot_`date '+%Y%m%d%H%M'`.png
+	   "${dir}/screenshot_$(date '+%Y%m%d%H%M').png"
 	;;
 esac
 

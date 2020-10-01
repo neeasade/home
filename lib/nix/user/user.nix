@@ -58,6 +58,13 @@ in
       IdentityFile       ~/lib/ssh/id_rsa
     '';
     };
+
+    # ANNOYING!
+    bash = {
+      enableLsColors = false;
+      enableCompletion = false;
+      shellAliases = pkgs.lib.mkForce {};
+    };
   };
 
   users.groups.viz = {};
@@ -177,7 +184,25 @@ in
         longitude = toString config.location.longitude;
       };
 
-      xsession.windowManager.wchf.enable = true;
+      xsession.windowManager.wchf = {
+        enable = true;
+
+        config = {
+          borderWidths = [ 1 5 1 ];
+          borderFocusedColors = [ "7d7c7c" "ffffea" "7d7d7c" ];
+          borderUnfocusedColors = [ "cccccc" "ffffea" "ffffea" ];
+          enableBorders = true;
+
+          enableSloppyFocus = true;
+          enableLastWindowFocusing = true;
+          enableResizeHints = true;
+
+          numberOfGroups = 5;
+          pointerModifier = "super";
+
+          extraConfig = "waitron refresh-borders";
+        };
+      };
     };
   };
 }

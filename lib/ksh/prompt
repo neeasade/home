@@ -33,9 +33,9 @@ _draw_PS1() {
 
 	[[ -n "${IN_NIX_SHELL}" ]] && print -n '!'
 	case `whoami` {
-	root) print -n '# '                 ;;
-	viz)  print -n '$ '; _PS1_command & ;;
-	*)    print -n '% '                 ;;
+	root) print -n '# '                ;;
+	viz)  print -n 'μ '; _PS1_command &;;
+	*)    print -n '% '                ;;
 	}
 }
 

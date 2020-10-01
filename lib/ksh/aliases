@@ -9,7 +9,10 @@ has perl    && a pl='perl'
 has zathura && a mpf='zathura'
 has sxhkd   && a resxhkd='pkill -USR1 -x sxhkd'
 has mk      || a mk='make'
-has doas    && a doas='doas '
+has doas    && {
+	a doas='doas '
+	a uwugivemerootpleaseuwu='doas '
+}
 
 a {mkci,mkic}='make clean install'
 a mki='make install'

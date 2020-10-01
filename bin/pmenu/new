@@ -1,4 +1,4 @@
 #!/bin/sh
 # Draw st
 
-tabbed -g `crud g` eterm || draw_st
+drawin eterm || draw_st

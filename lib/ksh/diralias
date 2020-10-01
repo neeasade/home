@@ -18,6 +18,7 @@ M ${HOME}/med/mus
 N ${HOME}/lib/nix
 K ${HOME}/lib/ksh
 s ${HOME}/doc/school
+u ${HOME}/doc/uni
 a ${HOME}/med/vid/anm
 EOF
 

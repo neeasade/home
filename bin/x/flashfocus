@@ -4,8 +4,8 @@
 
 if [ -f /tmp/flashfocus ]; then
 	rm -f /tmp/flashfocus
-	waitron wm_config enable_borders true
-	waitron refresh_borders
+	waitron wm-config enable-borders true
+	waitron refresh-borders
 	pkill flashfocus
 else
 	# The joys of programs not accepting/spitting stuff in the same format
@@ -14,7 +14,7 @@ else
 		read -r id
 		:>/tmp/flashfocus
 		i=0
-		waitron wm_config enable_borders false
+		waitron wm-config enable-borders false
 		while [ ${i} -lt 100 ]; do
 			chwb -s 10 -c 0x000fff ${id}
 			sleep 0.2

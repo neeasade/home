@@ -5,10 +5,10 @@
 case ${1} in
 ruler)
 	[ ! -d /tmp/drawin ] && exit 0
-	waitron window_unmap ${2}
+	waitron window-unmap ${2}
 	read -r x y w h </tmp/drawin/geom
 	xdotool windowmove ${2} ${x} ${y} windowsize ${2} ${w} ${h}
-	waitron window_map ${2}
+	waitron window-map ${2}
 	rm -fr /tmp/drawin
 	;;
 *)

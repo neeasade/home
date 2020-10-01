@@ -59,10 +59,10 @@ has emacs && {
 
 	v() {
 		! pgrep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
-			vis "${@}"
+			emacs -nw -q "${@}"
 			return ${?}
 		}
-		xembed --parent-id emacsclient "${@}" || emacsclient "${@}"
+		emacsclient -c "${@}"
 	}
 
 	# Inside M-x shell
@@ -95,11 +95,20 @@ EOF
 		}
 
 		transmission() {
-			pgrep -x transmission-dae || transmission-daemon
+			[[ -d ${HOME}/opt/transmission-download ]] ||
+				mkdir -p ${HOME}/opt/transmission-download
+			pgrep transmission ||
+				transmission-daemon -w ${HOME}/opt/transmission-download
 			elisp -t '(transmission)'
 		}
 
 		trans() transmission;
+
+		trans-add() {
+			elisp - <<EOF
+(transmission-add "${1}" "${2:-${PWD}}")
+EOF
+		}
 
 		# Woman can be really slow on large man pages
 		man() {

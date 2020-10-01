@@ -14,7 +14,7 @@ elisp - <<EOF
                            (auto-raise . t)
                            (height . 100)))))
   (select-frame frame)
-  (shell-command "waitron window_snap center")
+  (shell-command "waitron window-snap center")
   (org-capture)
   (delete-other-windows)
   (frame-parameter frame 'window-id))

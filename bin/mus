@@ -112,12 +112,12 @@ deadsock() {
 deadsock && quit
 
 [ ! -S ${sock} ] && [ ${#} -eq 0 ] && {
-	find ${HOME}/med/mus ! -name '*\.*' -type f >/tmp/musplist
-	mpv --input-ipc-server=${sock} \
-		--playlist=/tmp/musplist \
-		--shuffle
-	quit
-	exit 0
+	find ${HOME}/med/mus -type d | menu sel | {
+		read -r dir
+		mpv --input-ipc-server=${sock} \
+			--playlist=/tmp/musplist \
+			--shuffle
+	} || exit 0
 }
 
 if [ -z ${1} ]; then

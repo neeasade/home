@@ -1,7 +1,7 @@
 #!/usr/bin/env -S elisp
 ;; -*- mode: emacs-lisp; -*-
 
-(let* ((term  (format "*term-%d*" (random most-positive-fixnum)))
+(let* ((term  (vz/uniqify "*term"))
        (frame (make-frame `((window-system . x)
                             ,(when args
                                (cons 'parent-id
@@ -13,7 +13,8 @@
     (delete-other-windows)
     (vz/term-minor-mode)
     (setq-local vz/term-minor-mode-frame frame
-                mode-line-format nil)
+                mode-line-format `((:eval (vz/mode-line-fill 'mode-line 18))
+                                   ,vz/mode-line-extra-info))
     (set-process-sentinel (get-buffer-process shbuf)
                           #'vz/term-minor-mode-sentinel))
   (add-to-list 'vz/term-minor-mode-frames frame)

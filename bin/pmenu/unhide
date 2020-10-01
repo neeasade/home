@@ -6,6 +6,6 @@ while read -r i; do
 done </tmp/info/wm/misc/hidden | menu sel | {
 	read -r id
 	id=${id%% *}
-	waitron window_map ${id}
+	waitron window-map ${id}
 	sed -i "/${id}/d" /tmp/info/wm/misc/hidden
 }
