@@ -1,3 +1,5 @@
+# TODO: Really needs a cleanup but it works so w/e
+
 { lib, pkgs, config, ... }:
 
 with lib; let
@@ -47,6 +49,21 @@ in
         default = [ "utf8-mode" ];
       };
 
+      insideM-xShell.functions = mkOption {
+        type = types.attrsOf (types.nullOr types.str);
+        default = {};
+      };
+
+      insideM-xShell.aliases = mkOption {
+        type = types.attrsOf (types.nullOr types.str);
+        default = {};
+      };
+
+      insideM-xShell.extraConfig = mkOption {
+        type = types.lines;
+        default = "";
+      };
+
       extraConfig = mkOption {
         type = types.lines;
         default = "";
@@ -66,26 +83,36 @@ in
         formatAliases = aliases: mapAttrsToList (a: c: "alias ${a}=\"${c}\"") aliases;
       in
         concatStringsSep "\n"
-        ((formatAliases cfg.aliases)
-         ++ (mapAttrsToList (bin: aliases: concatStringsSep "\n" [
-           "whence -v ${bin} >/dev/null && {"
-           (concatStringsSep "\n" (formatAliases cfg.aliases))
-           "}"
-         ]) cfg.conditionalAliases));
+          ((formatAliases cfg.aliases)
+           ++ (mapAttrsToList (bin: aliases: concatStringsSep "\n" [
+             "whence -v ${bin} >/dev/null && {"
+             (concatStringsSep "\n" (formatAliases cfg.aliases))
+             "}"
+           ]) cfg.conditionalAliases)
+           ++ [
+             "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
+             (concatStringsSep "\n" (formatAliases cfg.insideM-xShell.aliases))
+             "}"
+           ]);
 
       xdg.configFile."ksh/functions".text = let
-        formatFunction = functions: mapAttrsToList (n: b: ''
+        formatFunctions = functions: mapAttrsToList (n: b: ''
           ${n}(){
             ${b}
           }'') functions;
       in
         concatStringsSep "\n"
-        ((formatFunction cfg.functions)
-        ++ (mapAttrsToList (bin: functions: concatStringsSep "\n" [
-          "whence -v ${bin} >/dev/null && {"
-          (concatStringsSep "\n" (formatFunction functions))
-          "}"
-        ]) cfg.conditionalFunctions));
+          ((formatFunctions cfg.functions)
+           ++ (mapAttrsToList (bin: functions: concatStringsSep "\n" [
+             "whence -v ${bin} >/dev/null && {"
+             (concatStringsSep "\n" (formatFunctions functions))
+             "}"
+           ]) cfg.conditionalFunctions)
+           ++ [
+             "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
+             (concatStringsSep "\n" (formatFunctions cfg.insideM-xShell.functions))
+             "}"
+           ]);
 
       xdg.configFile."ksh/envvars".text = concatStringsSep "\n"
         (mapAttrsToList (var: value: "export ${var}=\"${value}\"") cfg.envvars);
@@ -106,6 +133,12 @@ in
         done
       ''
         + optionalString (cfg.extraConfig != "") "\n"
-        + cfg.extraConfig;
+        + cfg.extraConfig
+        + optionalString (cfg.insideM-xShell.extraConfig != "") "\n"
+        + (concatStringsSep "\n" [
+          "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
+          cfg.insideM-xShell.extraConfig
+          "}"
+        ]);
     };
   }

@@ -119,11 +119,11 @@
     '';
 
     ls = ''
-      command ls -C "$@" | column -t
+      command ls -AFC "$@" | column -t
     '';
 
     resource = ''
-      . $HOME/lib/mkshrc
+      . $HOME/lib/kshrc
     '';
 
     conf = ''
@@ -455,51 +455,48 @@ EOF
     PS2 = "… ";
   };
 
-  extraConfig = ''
-    whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9]*,comint ]] && {
-      # TODO: * Change pager to view-file mode instead?
-      MANAPGER=cat PAGER=cat
-      export MANPAGER PAGER
+  # M-x shell is amazing
+  insideM-xShell = {
+    functions = {
+      elisp-shell = ''
+        elisp - <<EOF
+  (with-current-buffer (window-buffer (selected-window))
+    $@)
+  EOF
+      '';
 
-      elisp-shell(){
-      elisp - <<EOF
-(with-current-buffer (window-buffer (selected-window))
-  $@)
-EOF
-      }
-
-      racket(){
+      racket = ''
         elisp-shell '(setq-local comint-process-echoes nil)' >/dev/null
         command racket "$@"
         elisp-shell '(setq-local comint-process-echoes t)' >/dev/null
-      }
+      '';
 
-      v(){
+      v = ''
         elisp-shell "(find-file \"$@\")"
-      }
+      '';
 
-      clear(){
+      clear = ''
         :
         # elisp-shell '(comint-clear-buffer)' >/dev/null
-      }
+      '';
 
-      transmission(){
+      transmission = ''
         [[ -d $HOME/opt/transmission-download ]] ||
           mkdir -p $HOME/opt/transmission-download
         pgrep transmission ||
           transmission-daemon -w $HOME/opt/transmission-download
         elisp-shell -t '(transmision)'
-      }
+      '';
 
-      trans() transmission;
+      trans = "tranmission";
 
-      trans-add(){
+      trans-add = ''
         elisp-shell - <<EOF
-(transmission-add "$1" "''${2:-$PWD}")
-EOF
-      }
+        (transmission-add "$1" "''${2:-$PWD}")
+        EOF
+      '';
 
-      man(){
+      man = ''
         case $* {
         *configuration.nix)
           st -e man -P less "$@" >/dev/null 2>&1
@@ -514,9 +511,9 @@ EOF
             elisp-shell "(pop-to-buffer-same-window (man \"$*\"))" >/dev/null
           fi
         }
-      }
+      '';
 
-      less(){
+      less = ''
         if [[ ! -t 0 ]]; then
           local t=$(mktemp)
           sed -E 's/[\x01-\x1F\x7F]\[[0-9;]+m//g' >$t
@@ -524,17 +521,24 @@ EOF
         else
           elisp-shell "(view-file \"$t\")" >/dev/null
         fi
-      }
+      '';
+    };
+
+    extraConfig = ''
+      MANAPGER=cat PAGER=cat
+      export MANPAGER PAGER
 
       for i in top alsamixer vidir transmission-cli ircdiscord; {
         eval "
-$i(){
-  st -e "$i \"\$@\"" >/dev/null 2>&1 &
-}
-"
+        $i(){
+          st -e "$i \"\$@\"" >/dev/null 2>&1 &
+        }
+        "
       }
-    }
+  '';
+  };
 
+  extraConfig = ''
     PS1=$'\1\r$(_draw_PS1)'
   '';
 }

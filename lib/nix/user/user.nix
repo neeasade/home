@@ -36,6 +36,7 @@ in
   # Setup the global environment
   environment = {
     systemPackages = [ pkgs.dash ];
+    shellAliases = pkgs.lib.mkForce {};
     etc = {
       "doas.conf" = {
         enable = true;
@@ -63,7 +64,6 @@ in
     bash = {
       enableLsColors = false;
       enableCompletion = false;
-      shellAliases = pkgs.lib.mkForce {};
     };
   };
 
@@ -74,7 +74,7 @@ in
     extraGroups = [ "wheel" "audio" "video" "input" ];
     home = "/home/viz";
     password = "nicetry";
-    shell = pkgs.bash;
+    shell = pkgs.mksh;
   };
 
   home-manager.users.viz = {
@@ -87,6 +87,7 @@ in
       ./modules/wchf.nix
       ./modules/ruler.nix
       ./modules/sxhkd-fix.nix
+      ./modules/mksh.nix
     ];
 
     home.file = {
@@ -168,6 +169,7 @@ in
       mpv     = import ./mpv.nix;
       irssi   = import ./irssi.nix;
       zathura = import ./zathura.nix;
+      mksh    = import ./mksh.nix { pkgs = pkgs; };
 
       chromium = {
         enable = true;

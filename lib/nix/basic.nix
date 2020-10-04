@@ -34,7 +34,7 @@
   # Setup ALSA
   sound = {
     enable = true;
-    # Enable ALSA mixer so that we can audio from mutliple sources
+    # Enable ALSA mixer so that we can play audio from mutliple sources
     extraConfig = ''
       pcm.dsp {
         type plug
