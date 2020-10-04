@@ -73,72 +73,83 @@ in
     config = mkIf cfg.enable {
       home.packages = [ pkgs.mksh ];
 
-      xdg.configFile."ksh/directory-aliases".text = concatStringsSep "\n"
-        (mapAttrsToList (alias: directory: ''
+      xdg.configFile = {
+        "ksh/directory-aliases".text = concatStringsSep "\n"
+          (mapAttrsToList (alias: directory: ''
           alias -d ${alias}="${directory}"
           alias g${alias}="cd ${directory}"
         '') cfg.directoryAliases);
 
-      xdg.configFile."ksh/aliases".text = let
-        formatAliases = aliases: mapAttrsToList (a: c: "alias ${a}=\"${c}\"") aliases;
-      in
-        concatStringsSep "\n"
-          ((formatAliases cfg.aliases)
-           ++ (mapAttrsToList (bin: aliases: concatStringsSep "\n" [
-             "whence -v ${bin} >/dev/null && {"
-             (concatStringsSep "\n" (formatAliases cfg.aliases))
-             "}"
-           ]) cfg.conditionalAliases)
-           ++ [
-             "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
-             (concatStringsSep "\n" (formatAliases cfg.insideM-xShell.aliases))
-             "}"
-           ]);
+        "ksh/aliases".text = let
+          formatAliases = aliases: mapAttrsToList (a: c: "alias ${a}=\"${c}\"") aliases;
+        in
+          concatStringsSep "\n"
+            ((formatAliases cfg.aliases)
+             ++ (mapAttrsToList (bin: aliases: concatStringsSep "\n" [
+               "whence -v ${bin} >/dev/null && {"
+               (concatStringsSep "\n" (formatAliases cfg.aliases))
+               "}"
+             ]) cfg.conditionalAliases)
+             ++ [
+               "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
+               (concatStringsSep "\n" (formatAliases cfg.insideM-xShell.aliases))
+               "}"
+             ]);
 
-      xdg.configFile."ksh/functions".text = let
-        formatFunctions = functions: mapAttrsToList (n: b: ''
+        "ksh/functions".text = let
+          formatFunctions = functions: mapAttrsToList (n: b: ''
           ${n}(){
             ${b}
           }'') functions;
-      in
-        concatStringsSep "\n"
-          ((formatFunctions cfg.functions)
-           ++ (mapAttrsToList (bin: functions: concatStringsSep "\n" [
-             "whence -v ${bin} >/dev/null && {"
-             (concatStringsSep "\n" (formatFunctions functions))
-             "}"
-           ]) cfg.conditionalFunctions)
-           ++ [
-             "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
-             (concatStringsSep "\n" (formatFunctions cfg.insideM-xShell.functions))
-             "}"
-           ]);
+        in
+          concatStringsSep "\n"
+            ((formatFunctions cfg.functions)
+             ++ (mapAttrsToList (bin: functions: concatStringsSep "\n" [
+               "whence -v ${bin} >/dev/null && {"
+               (concatStringsSep "\n" (formatFunctions functions))
+               "}"
+             ]) cfg.conditionalFunctions)
+             ++ [
+               "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
+               (concatStringsSep "\n" (formatFunctions cfg.insideM-xShell.functions))
+               "}"
+             ]);
 
-      xdg.configFile."ksh/envvars".text = concatStringsSep "\n"
-        (mapAttrsToList (var: value: "export ${var}=\"${value}\"") cfg.envvars);
+        "ksh/envvars".text = concatStringsSep "\n"
+          (mapAttrsToList (var: value: "export ${var}=\"${value}\"") cfg.envvars);
 
-      xdg.configFile."ksh/vars".text = concatStringsSep "\n"
-        (mapAttrsToList (var: value: "${var}=\"${value}\"") cfg.vars);
+        "ksh/vars".text = concatStringsSep "\n"
+          (mapAttrsToList (var: value: "${var}=\"${value}\"") cfg.vars);
+      };
 
-      home.file."lib/kshrc".text = let
-        shellOpts = concatStringsSep " " cfg.shellOptions;
-      in
-        ''
-        [[ "$-" != *i* ]] && return 0
+      home.file = {
+        "lib/kshrc".text = let
+          shellOpts = concatStringsSep " " cfg.shellOptions;
+        in
+          ''
+            [[ "$-" != *i* ]] && return 0
 
-        set -o ${shellOpts}
+            set -o ${shellOpts}
 
-        for i in $XDG_CONFIG_HOME/ksh/{functions,envvars,vars,aliases,directory-aliases}; do
-            . "$i"
-        done
-      ''
-        + optionalString (cfg.extraConfig != "") "\n"
-        + cfg.extraConfig
-        + optionalString (cfg.insideM-xShell.extraConfig != "") "\n"
-        + (concatStringsSep "\n" [
-          "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
-          cfg.insideM-xShell.extraConfig
-          "}"
-        ]);
+            for i in $XDG_CONFIG_HOME/ksh/{functions,envvars,vars,aliases,directory-aliases}; do
+                . "$i"
+            done
+          ''
+          + optionalString (cfg.extraConfig != "") "\n"
+          + cfg.extraConfig
+          + optionalString (cfg.insideM-xShell.extraConfig != "") "\n"
+          + (concatStringsSep "\n" [
+            "whence -v emacs >/dev/null && [[ $TERM = dumb ]] && [[ $INSIDE_EMACS = [0-9.]*,comint ]] && {"
+            cfg.insideM-xShell.extraConfig
+            "}"
+          ]);
+
+        # Sourced by mksh only!
+        "lib/profile".text = ''
+          . ${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh
+          export ENV=$HOME/lib/kshrc
+          . $HOME/lib/kshrc
+        '';
+      };
     };
   }

@@ -107,34 +107,6 @@ in
       #   require("cfg")
       # '';
 
-      # Profile
-      #"lib/profile".text = ''
-      #  . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-      #  [ ''${SHELL##*/} = mksh ] && {
-      #   export ENV=$HOME/lib/kshrc
-      #    . $HOME/lib/kshrc
-      #  }
-      #'';
-
-      "lib/directory-aliases".text = ''
-        A=/home/viz/med/img/art
-        B=/home/viz/bin
-        C=/home/viz/.cache
-        D=/home/viz/doc
-        E=/home/viz/lib
-        F=/home/viz/med/img/film
-        K=/home/viz/lib/ksh
-        M=/home/viz/med/mus
-        N=/home/viz/lib/nix
-        R=/home/viz/opt/repos
-        S=/home/viz/src
-        T=/home/viz/tmp
-        W=/home/viz/med/img/walls
-        a=/home/viz/med/vid/anm
-        s=/home/viz/doc/school
-        u=/home/viz/doc/uni
-      '';
-
       "lib/9fortune/terry".source =
         "${builtins.fetchurl {
           url = "https://code.9front.org/hg/plan9front/raw-file/484d3f8e5978/lib/terry";
