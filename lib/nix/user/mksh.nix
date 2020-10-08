@@ -22,6 +22,7 @@
   };
 
   aliases = {
+    cmd = "command";
     rsc = "resource";
 
     aliases = "alias";
@@ -29,7 +30,7 @@
     wh = "command -v";
     datenow = "date +'%H:%M %A %d %B, %Y'";
 
-    rmf = "rm -fr";             # French rights
+    rmf = "rm -fr";             # French rights!
     sl = "ls";
     SU = "doas mksh";
 
@@ -48,7 +49,7 @@
     fc-cache = "fc-cache --verbose";
     grep = "grep -i";
     su = "su -";
-    cal = "cal -s";
+    cal = "cal -s";             # Sunday is the first day of the week! :P
     mkd = "mkdir -p";
   };
 
@@ -227,10 +228,10 @@
 
     discord = ''
       sed '
-  y/ABCDEFGHIJKLMNOPQRSTUVWXYZ /abcdefghijklmnopqrstuvwxyz\t/
-  s/[^\tb]/:regional_indicator_&: /g
-  s/\t/:clap: /g
-  s/b/:b: /g' <<<"$*"
+      y/ABCDEFGHIJKLMNOPQRSTUVWXYZ /abcdefghijklmnopqrstuvwxyz\t/
+      s/[^\tb]/:regional_indicator_&: /g
+      s/\t/:clap: /g
+      s/b/:b: /g' <<<"$*"
     '';
 
     # Prompt stuff
@@ -362,22 +363,22 @@
       '';
 
       nx = ''
-      case $1 {
-      sr)
-        shift
-        [[ -z "$@" ]] && return 0
-        find /nix/store -maxdepth 1 -type d $(
-          for i; {
-            print -- "-name *$i*"
+        case $1 {
+        sr)
+          shift
+          [[ -z "$@" ]] && return 0
+          find /nix/store -maxdepth 1 -type d $(
+            for i; {
+              print -- "-name *$i*"
+            }
+          )
+          ;;
+        shl)
+          [[ -f shell.nix ]] && {
+            print error: shell.nix already exists
+            return 1
           }
-        )
-        ;;
-      shl)
-        [[ -f shell.nix ]] && {
-          print error: shell.nix already exists
-          return 1
-        }
-        cat >shell.nix <<EOF
+          cat >shell.nix <<EOF
 with import <nixpkgs> {};
 
 stdenv.mkDerivation rec {
@@ -387,21 +388,21 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [];
 }
 EOF
-        ;;
-      sh)
-        shift 1
-        _nxsh "$@"
-        ;;
-      pkg)
-        [[ -f "$2" ]] && {
-          print error: $2 already exists
-          return 1
-        }
-        [[ -z "$2" ]] && {
-          print error: no file argument given
-          return 1
-        }
-        cat >$2 <<EOF
+          ;;
+        sh)
+          shift 1
+          _nxsh "$@"
+          ;;
+        pkg)
+          [[ -f "$2" ]] && {
+            print error: $2 already exists
+            return 1
+          }
+          [[ -z "$2" ]] && {
+            print error: no file argument given
+            return 1
+          }
+          cat >$2 <<EOF
 { stdenv, fetch }:
 
 stdenv.mkDerivation rec {
@@ -426,17 +427,17 @@ stdenv.mkDerivation rec {
   };
 }
 EOF
-        ;;
-      *)
-        cat <<EOF
+          ;;
+        *)
+          cat <<EOF
 usage: nx [shl|pkg file|sh ...|sr ...]
 	shl: create shell.nix template
 	pkg: write package template
 	sh: start nix-shell
 	sr: search in /nix/store
 EOF
-        ;;
-      }
+          ;;
+        }
       '';
     };
   };
@@ -454,6 +455,10 @@ EOF
 
     PS2 = "… ";
   };
+
+  extraConfig = ''
+    PS1=$'\1\r$(_draw_PS1)'
+  '';
 
   # M-x shell is amazing
   insideM-xShell = {
@@ -485,13 +490,13 @@ EOF
           mkdir -p $HOME/opt/transmission-download
         pgrep transmission ||
           transmission-daemon -w $HOME/opt/transmission-download
-        elisp-shell -t '(transmision)'
+        elisp -t '(transmision)'
       '';
 
-      trans = "tranmission";
+      trans = "transmission";
 
       trans-add = ''
-        elisp-shell - <<EOF
+        elisp - <<EOF
         (transmission-add "$1" "''${2:-$PWD}")
         EOF
       '';
@@ -535,10 +540,6 @@ EOF
         }
         "
       }
-  '';
+    '';
   };
-
-  extraConfig = ''
-    PS1=$'\1\r$(_draw_PS1)'
-  '';
 }

@@ -18,7 +18,7 @@
 
     interfaces = {
       # Disable ethernet?
-      enp1s0.useDHCP = false;
+      enp1s0.useDHCP = true;
       wlp2s0.useDHCP = true;
     };
   };

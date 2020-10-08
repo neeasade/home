@@ -87,7 +87,7 @@ in
             ((formatAliases cfg.aliases)
              ++ (mapAttrsToList (bin: aliases: concatStringsSep "\n" [
                "whence -v ${bin} >/dev/null && {"
-               (concatStringsSep "\n" (formatAliases cfg.aliases))
+               (concatStringsSep "\n" (formatAliases aliases))
                "}"
              ]) cfg.conditionalAliases)
              ++ [

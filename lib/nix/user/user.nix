@@ -141,7 +141,7 @@ in
       mpv     = import ./mpv.nix;
       irssi   = import ./irssi.nix;
       zathura = import ./zathura.nix;
-      mksh    = import ./mksh.nix { pkgs = pkgs; };
+      mksh    = import ./mksh.nix pkgs;
 
       chromium = {
         enable = true;
