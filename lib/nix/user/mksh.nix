@@ -288,9 +288,10 @@
         fi
         ;;
       clone)
-        local fnl="$@"
-        [[ "$2" != *viz* ]] && fnl="$@ --depth=1"
-        command git "$fnl"
+        local fnl
+        fnl=("$@")
+        [[ "$2" != *viz* ]] && fnl+=('--depth=1')
+        command git "''${fnl[@]}"
         ;;
       *)
         command git "$@"
@@ -352,7 +353,7 @@
             ;;
           *)
             [[ $inpkgs -eq 1 ]] &&
-              NIX_SHELL_PACKAGES+=("$1")
+            NIX_SHELL_PACKAGES+=("$1")
             ;;
           }
           shift
