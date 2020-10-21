@@ -29,6 +29,7 @@
 
   hardware = {
     bluetooth.enable = false;
+    uinput.enable = true;
   };
 
   # Setup ALSA

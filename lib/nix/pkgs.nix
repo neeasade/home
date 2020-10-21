@@ -7,7 +7,7 @@
     sprop             = pkgs.callPackage ./pkgs/sprop.nix       {};
     xmenu             = pkgs.callPackage ./pkgs/xmenu.nix       {};
     lsc               = pkgs.callPackage ./pkgs/lsc.nix         {};
-#    emacs27           = pkgs.callPackage ./pkgs/emacs27.nix     {};
+    weylus            = pkgs.callPackage ./pkgs/weylus.nix      {};
 
     xkeysnail         = pkgs.callPackage ./pkgs/xkeysnail.nix {
       buildPythonPackage = pkgs.python3Packages.buildPythonPackage;

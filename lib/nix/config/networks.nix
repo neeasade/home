@@ -21,5 +21,11 @@
       enp1s0.useDHCP = true;
       wlp2s0.useDHCP = true;
     };
+
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 1701 ];  # For weylus
+      allowedUDPPorts = [ 40118 ]; # For gfxtablet
+    };
   };
 }

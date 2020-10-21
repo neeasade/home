@@ -71,7 +71,13 @@ in
   users.users.viz = {
     name = "viz";
     group = "viz";
-    extraGroups = [ "wheel" "audio" "video" "input" ];
+    extraGroups = [
+      "wheel"
+      "audio"
+      "video"
+      "input"
+      "uinput"
+    ];
     home = "/home/viz";
     password = "nicetry";
     shell = pkgs.mksh;

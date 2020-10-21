@@ -3,6 +3,20 @@
 {
   enable = true;
 
+  shellOptions = [
+    "nohup"
+    "bgnice"
+    "trackall"
+    "utf8-mode"
+  ];
+
+  vars = {
+    HISTFILE = "\$XDG_CACHE_HOME/mksh_history";
+    HISTSIZE = "65535";         # Max size for mksh
+
+    PS2 = "… ";
+  };
+
   conditionalAliases = {
     python3.py = "python3";
     racket.rkt = "racket";
@@ -70,6 +84,7 @@
     s = "\$HOME/doc/school";
     u = "\$HOME/doc/uni";
     a = "\$HOME/med/vid/anm";
+    c = "\$HOME/med/img/screenshots";
   };
 
   functions = {
@@ -84,6 +99,7 @@
     _c = ''
       local p
       for p in "$@" $@* *$@ *$@*; {
+        p="$(realpath "$p")"
         if [[ -f "$p" ]]; then
           case $(file -ib "$p") {
           *pdf*) zathura "$p" ;;
@@ -264,7 +280,15 @@
     '';
   };
 
+  extraConfig = ''
+    PS1=$'\1\r$(_draw_PS1)'
+  '';
+
   conditionalFunctions = {
+    mpv.muss = ''
+      mpv "''${1:-.}" --shuffle
+    '';
+
     git.git = ''
       case $1 {
       ignore-get)
@@ -297,25 +321,6 @@
         command git "$@"
         ;;
       }
-    '';
-
-    emacs = {
-      remacs = ''
-        pgrep -x emacs >/dev/null && pkill emacs
-        emacs --daemon
-      '';
-
-      v = ''
-        ! grep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
-          emacs -nw -q "$@"
-          return $?
-        }
-        emacsclient -c "$@"
-      '';
-    };
-
-    mpv.muss = ''
-      mpv "''${1:-.}" --shuffle
     '';
 
     nix = {
@@ -441,34 +446,31 @@ EOF
         }
       '';
     };
+
+    emacs = {
+      remacs = ''
+        pgrep emacs >/dev/null && pkill emacs
+        emacs --daemon
+      '';
+
+      v = ''
+        ! grep -x emacs >/dev/null || ! pgrep -x X >/dev/null && {
+          emacs -nw -q "$@"
+          return $?
+        }
+        emacsclient -c "$@"
+      '';
+    };
   };
-
-  shellOptions = [
-    "nohup"
-    "bgnice"
-    "trackall"
-    "utf8-mode"
-  ];
-
-  vars = {
-    HISTFILE = "\$XDG_CACHE_HOME/mksh_history";
-    HISTSIZE = "65535";         # Max size for mksh
-
-    PS2 = "… ";
-  };
-
-  extraConfig = ''
-    PS1=$'\1\r$(_draw_PS1)'
-  '';
 
   # M-x shell is amazing
   insideM-xShell = {
     functions = {
       elisp-shell = ''
         elisp - <<EOF
-  (with-current-buffer (window-buffer (selected-window))
-    $@)
-  EOF
+(with-current-buffer (window-buffer (selected-window))
+  $@)
+EOF
       '';
 
       racket = ''
@@ -498,8 +500,8 @@ EOF
 
       trans-add = ''
         elisp - <<EOF
-        (transmission-add "$1" "''${2:-$PWD}")
-        EOF
+(transmission-add "$1" "''${2:-$PWD}")
+EOF
       '';
 
       man = ''

@@ -65,4 +65,5 @@ with pkgs; [
   raleigh-reloaded-gtk-theme
   ircdiscord
   wendy
+  # weylus
 ]

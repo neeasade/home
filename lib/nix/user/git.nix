@@ -11,5 +11,5 @@
     changed   = "ls-files -m";
   };
   # Emacs swap/auto-save files
-  ignores     = [ "~*" "#*#" ];
+  ignores     = [ "*~" "#*#" ];
 }
