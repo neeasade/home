@@ -97,22 +97,6 @@ in
     ];
 
     home.file = {
-      "lib/inputrc".text = "set editing-mode vi";
-
-      # Setup vis to use Fennel instead of Lua for config
-      # "lib/vis/fennel.lua".source =
-      #   "${builtins.fetchurl {
-      #     url = "https://github.com/bakpakin/Fennel/releases/download/0.4.2/fennel";
-      #     sha256 = "1c6gpnwnhp2ghklnwb3pmb73kk10l5f1d8ay2wawylq48xwx02nw";
-      #   }}";
-      # "lib/vis/visrc.lua".text = ''
-      #   local fennel = require("./fennel")
-      #   fennel.path  = fennel.path .. ";/home/viz/lib/vis/?.fnl"
-      #   table.insert(package.loaders or packages.searchers,
-      #                fennel.searcher)
-      #   require("cfg")
-      # '';
-
       "lib/9fortune/terry".source =
         "${builtins.fetchurl {
           url = "https://code.9front.org/hg/plan9front/raw-file/484d3f8e5978/lib/terry";

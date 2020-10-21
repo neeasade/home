@@ -1,6 +1,5 @@
  #+TITLE: NixOS Configuration
 Nix is cool.
-
 * Before installing
 Do this I guess
 #+begin_src sh
@@ -11,16 +10,17 @@ ln -s /home/viz/lib/nix /etc/nixos
 * Directory Structure
 | Global Configuration | config/*       |
 | User Configuration   | user/*         |
+| home-manager modules | user/modules/* |
 | Basic Configuration  | basic.nix      |
 | Override             | override.nix   |
 | Packages             | pkgs.nix       |
 | Patches              | patches/<pkg>/ |
 | Package Derivations  | pkgs/*         |
 * Misc
-- I use Emacs 27
 - I don't use ~sudo~, I use multiplexd's ~doas~ instead
-- ~nix-shell~ can use ~mksh~. See lib/ksh/wrappers ~has nix~
-- I can't get home-manager's graphical services to launch even if my life depended on it
+- ~nix-shell~ can use ~mksh~. See ~user/mksh.nix conditionalFunctions.nix~
+- +I can't get home-manager's graphical services to launch even if my life depended on it+
+  I got it working by importing ~XDG_CONFIG_HOME~ in ~xsession~ (see ~user/xsession.nix~)
 * Other configurations I referred
 - diamondburned's -- https://gitlab.com/diamondburned/dotfiles
 - Steve's -- https://github.com/buffet/rice
