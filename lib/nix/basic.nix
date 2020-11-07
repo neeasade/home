@@ -7,7 +7,7 @@
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules  = [ "fuse" "kvm-intel" ];
 
-    # Disable bluetooth, webcam and the beep speaker
+    # Disable bluetooth and the beep speaker
     blacklistedKernelModules = [ "bluetooth" "pcspkr" ];
 
     loader = {

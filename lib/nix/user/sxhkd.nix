@@ -1,7 +1,8 @@
+# To make sxhkd inherit the same PATH as the running X server,
+# I had to remove PATH related options from the service file.
+# Check modules/sxhkd-fix.nix (bad name ik)
 {
   enable = true;
-  # extraPath = "/home/viz/bin/x:/home/viz/bin/emacs:/home/viz/bin:"
-  #   + "/run/current-system/sw/bin";
   keybindings = {
     "Print"         = "screenshot -s";
     "super + Print" = "screenshot -u";

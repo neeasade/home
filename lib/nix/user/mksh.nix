@@ -324,6 +324,7 @@
     '';
 
     nix = {
+      # This is adapted from github.com/chisui/zsh-nix-shell
       _nxsh = let
         nxsh = pkgs.writeShellScript "nxsh" ''
           case $1 in

@@ -6,7 +6,7 @@
     # Very basic configuration
     ./basic.nix
     # Everything else
-    ./user/user.nix
+    ./user/main.nix
   ];
 
   # This value determines the NixOS release with which your system is to be

@@ -21,11 +21,17 @@ ln -s /home/viz/lib/nix /etc/nixos
 - ~nix-shell~ can use ~mksh~. See ~user/mksh.nix conditionalFunctions.nix~
 - +I can't get home-manager's graphical services to launch even if my life depended on it+
   I got it working by importing ~XDG_CONFIG_HOME~ in ~xsession~ (see ~user/xsession.nix~)
+** How I got graphical services working
+When you set a custom ~XDG_CONFIG_HOME~, home-manager installs the
+service files there but ~systemd~ does not know the newly set value (it
+tries to lookup user services in ~~/.config~ instead). So you have to
+import ~XDG_CONFIG_HOME~ from the environment.
 * Other configurations I referred
 - diamondburned's -- https://gitlab.com/diamondburned/dotfiles
 - Steve's -- https://github.com/buffet/rice
-* Things to look up
+* Things to do
 ** TODO Installing racket packages in ~<nix>/share/racket/~
 ** TODO Properly setup nix overlay
+** TODO Set a systemd hook thingy to save \*org-scratch\* buffers
 * List of licenses
 https://github.com/NixOS/nixpkgs/blob/master/lib/licenses.nix

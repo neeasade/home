@@ -38,6 +38,7 @@ in
     systemPackages = [ pkgs.dash ];
     shellAliases = pkgs.lib.mkForce {};
     etc = {
+      # TODO: Maybe make a doas module?
       "doas.conf" = {
         enable = true;
         text = ''
@@ -51,8 +52,7 @@ in
 
   programs = {
     ssh = {
-      # Disable the annoying popup window
-      askPassword = "";
+      askPassword = "";         # Disables the annoying popup window
       extraConfig = ''
       UserKnownHostsFile ~/lib/ssh/known_hosts
       ControlPath        ~/lib/ssh/master-%r@%n:%p
@@ -60,7 +60,7 @@ in
     '';
     };
 
-    # ANNOYING!
+    # ls -F > colours
     bash = {
       enableLsColors = false;
       enableCompletion = false;
@@ -84,17 +84,15 @@ in
   };
 
   home-manager.users.viz = {
-    home.packages = import ./packages.nix pkgs;
-
-    # Environment variables
-    home.sessionVariables = import ./envvars.nix;
-
     imports = [
       ./modules/wchf.nix
       ./modules/ruler.nix
       ./modules/sxhkd-fix.nix
       ./modules/mksh.nix
     ];
+
+    home.packages = import ./packages.nix pkgs;
+    home.sessionVariables = import ./envvars.nix;
 
     home.file = {
       "lib/9fortune/terry".source =
@@ -124,7 +122,12 @@ in
 
     programs = {
       home-manager.enable = true;
-      emacs.enable = true;
+      emacs = {
+        enable = true;
+        package = (pkgs.emacs.override {
+          withXwidgets = true;
+        });
+      };
 
       bash    = import ./bash.nix;
       git     = import ./git.nix;
@@ -140,6 +143,7 @@ in
           "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
           "kbmfpngjjgdllneeigpgjifpgocmfgmb" # RES
           "clngdbkpkpeebahjckkjfobafhncgmne" # Stylus
+          "mpbjkejclgfgadiemmefgebjfooflfhl" # Buster
         # "kkkjlfejijcjgjllecmnejhogpbcigdc" # Org-capture extension
         ];
       };
