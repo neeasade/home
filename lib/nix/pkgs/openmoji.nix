@@ -13,7 +13,6 @@ stdenv.mkDerivation rec {
 
   sourceRoot = ".";
   installPhase = ''
-ls
     mkdir -p $out/share/fonts/truetype
     cp OpenMoji-Color.ttf $out/share/fonts/truetype/
   '';

@@ -24,8 +24,8 @@
 
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 1701 ];  # For weylus
-      allowedUDPPorts = [ 40118 ]; # For gfxtablet
+      # allowedTCPPorts = [ 1701 ];  # For weylus
+      # allowedUDPPorts = [ 40118 ]; # For gfxtablet
     };
   };
 }

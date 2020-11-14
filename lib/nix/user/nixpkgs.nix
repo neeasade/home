@@ -4,7 +4,7 @@
 
   chromium = {
     enableWideVine = true;
-    enablePepperFlash = true;
+    # enablePepperFlash = true;
   };
 
   android_sdk.accept_license = true;

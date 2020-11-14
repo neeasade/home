@@ -8,7 +8,6 @@
     xserver = {
       enable = true;
       autorun = true;
-      startDbusSession = true;
       updateDbusEnvironment = true;
 
       libinput = {
@@ -60,7 +59,6 @@
     };
 
     dbus = {
-      socketActivated = true;
       packages = with pkgs; [ gnome3.dconf gcr ];
     };
   };
