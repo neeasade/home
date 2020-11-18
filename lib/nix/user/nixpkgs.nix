@@ -8,4 +8,6 @@
   };
 
   android_sdk.accept_license = true;
+
+  zathura.useMupdf = true;
 }
