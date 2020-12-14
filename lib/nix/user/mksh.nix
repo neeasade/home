@@ -268,9 +268,6 @@
     '';
 
     _draw_PS1 = ''
-      [[ "$TERM" = dumb ]] && [[ "$INSIDE_EMACS" = [0-9]*,comint ]] &&
-        print -n "|Pr0mpt|$PWD|"
-
       [[ -n "$IN_NIX_SHELL" ]] && print -n '!'
       case $(whoami) {
       root) print -n '# '                ;;
@@ -323,6 +320,7 @@
       }
     '';
 
+    # TODO: Update Emacs shell buffer's `exec-path'
     nix = {
       # This is adapted from github.com/chisui/zsh-nix-shell
       _nxsh = let
@@ -530,6 +528,11 @@ EOF
         else
           elisp-shell "(view-file \"$t\")" >/dev/null
         fi
+      '';
+
+      cd = ''
+        command cd $@
+        elisp-shell "(setq default-directory \"$PWD/\")" >/dev/null
       '';
     };
 
