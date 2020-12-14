@@ -5,14 +5,12 @@
 # Records a selected rectangle with ffmpeg.
 #
 
-video_path=${1:-"${HOME}/med/vid/caps/record-`date '+%Y%m%d%H%M'`.mp4"}
+video_path="${1:-"${HOME}/med/vid/caps/record-$(date '+%Y%m%d%H%M').mp4"}"
 
-set -- `crud`
+set -- $(crud)
 
 ffmpeg -y -f x11grab \
-	   -s ${3}x${4} \
+	   -s "${3}x${4}" \
 	   -r 30 \
-	   -i ${DISPLAY}.0+${1},${2} \
-	   -q:v 0 \
-	   -pix_fmt yuv420p \
-	   ${video_path}
+	   -i "${DISPLAY:-:0}.0+${1},${2}" \
+	   "${video_path}"
