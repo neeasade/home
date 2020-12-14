@@ -20,6 +20,7 @@ case `echo 'grab area\ngrab window\ngrab screen' | menu sel` in
 	esac
 	;;
 *screen)
+	sleep 1
 	xscreenshot >${tmp_image}
 	;;
 *)
