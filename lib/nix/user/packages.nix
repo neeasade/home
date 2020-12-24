@@ -32,8 +32,12 @@ with pkgs; [
   lemonbar-xft
   wmutils-core
   meh
+  sxiv
   dmenu
   st
+  sxiv
+
+  okular
 
   # For emacs
   gnutls

@@ -320,7 +320,6 @@
       }
     '';
 
-    # TODO: Update Emacs shell buffer's `exec-path'
     nix = {
       # This is adapted from github.com/chisui/zsh-nix-shell
       _nxsh = let
@@ -509,14 +508,17 @@ EOF
           st -e man -P less "$@" >/dev/null 2>&1
           ;;
         *)
+          local lisp
           if [[ ! -t 0 ]]; then
             local t=$(mktemp)
             cat ->$t
-            elisp-shell "(pop-to-buffer-same-window (man \"-l $t\"))
-              (delete-file \"$t\")" >/dev/null
+            lisp="(pop-to-buffer-same-window (man \"-l $t\")) (delete-file \"$t\")"
           else
-            elisp-shell "(pop-to-buffer-same-window (man \"$*\"))" >/dev/null
+            lisp="(pop-to-buffer-same-window (man \"$*\"))"
           fi
+          [[ -n "$IN_NIX_SHELL" ]] &&
+             lisp="(let ((process-environment \`(\"PATH=$PATH\" ,@process-environment))) $lisp)"
+          elisp-shell "$lisp" >/dev/null
         }
       '';
 
@@ -547,6 +549,9 @@ EOF
         }
         "
       }
+
+      [[ -n "$IN_NIX_SHELL" ]] &&
+        elisp-shell "(setq-local exec-path (s-split \":\" \"$PATH\"))" >/dev/null
     '';
   };
 }

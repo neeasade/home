@@ -61,8 +61,10 @@
     "super + shift + c" = "waitron window-close";
 
     # Groups
-    "super + {1-5}"         = "waitron group-switch {1-5}";
-    "super + shift + {1-5}" = "waitron group-move-window {1-5}";
-    "super + ctrl + {1-5}"  = "waitron group-combine-or-toggle {1-5}";
+    "super + {1-9}"         = "waitron group-switch {1-9}";
+    "super + 0"             = "waitron group-switch 10";
+    "super + shift + {1-9}" = "waitron group-move-window {1-9}";
+    "super + shift + 0"     = "waitron group-move-window 10";
+    "super + ctrl + 0"      = "waitron group-combine-or-toggle 10";
   };
 }

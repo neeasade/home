@@ -17,6 +17,7 @@ in
     ../config/networks.nix
     ../config/xorg.nix
     ../config/docs.nix
+    ../config/battery.nix
     ../pkgs.nix
 
     "${home-manager}/nixos"
@@ -60,7 +61,8 @@ in
     '';
     };
 
-    # ls -F > colours
+    # ls -F > colours (Sometimes I regret this when I realise that I
+    # have to edit the text after paths when in M-x shell)
     bash = {
       enableLsColors = false;
       enableCompletion = false;
@@ -72,6 +74,7 @@ in
     name = "viz";
     group = "viz";
     extraGroups = [
+      "adbusers"
       "wheel"
       "audio"
       "video"
@@ -89,6 +92,7 @@ in
       ./modules/ruler.nix
       ./modules/sxhkd-fix.nix
       ./modules/mksh.nix
+      # ./modules/kdeconnect.nix
     ];
 
     home.packages = import ./packages.nix pkgs;
@@ -136,6 +140,8 @@ in
       zathura = import ./zathura.nix;
       mksh    = import ./mksh.nix pkgs;
 
+      # kdeconnect.enable = true;
+
       chromium = {
         enable = true;
         extensions = [
@@ -177,7 +183,7 @@ in
           enableLastWindowFocusing = true;
           enableResizeHints = true;
 
-          numberOfGroups = 5;
+          numberOfGroups = 10;
           pointerModifier = "super";
 
           extraConfig = "waitron refresh-borders";

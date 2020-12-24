@@ -8,6 +8,4 @@
   MANPAGER       = "less";
   PYTHONUSERBASE = "\$HOME/opt/python";
   PYTHONPATH     = "\$HOME/opt/python";
-  MANPATH        = "/run/current-system/sw/share/man:"
-                 + "\$HOME/.nix-profile/share/man";
 }
