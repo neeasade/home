@@ -516,6 +516,13 @@ EOF
           else
             lisp="(pop-to-buffer-same-window (man \"$*\"))"
           fi
+
+          # `process-environment' is a list of env vars that is passed to the
+          # subprocess. Adding nix-shell's PATH to this is essential so that
+          # manpath command will also include the manpage of temporarily
+          # installed packages.
+          # NOTE: That for manpath to be run by the man command, MANPATH should
+          # be an empty string! See #21946 in nixpkgs
           [[ -n "$IN_NIX_SHELL" ]] &&
              lisp="(let ((process-environment \`(\"PATH=$PATH\" ,@process-environment))) $lisp)"
           elisp-shell "$lisp" >/dev/null
@@ -550,6 +557,8 @@ EOF
         "
       }
 
+      # Update Emacs' `exec-path' variable inside nix-shell. This will allow
+      # for completion of paths and potentially other things.
       [[ -n "$IN_NIX_SHELL" ]] &&
         elisp-shell "(setq-local exec-path (s-split \":\" \"$PATH\"))" >/dev/null
     '';
