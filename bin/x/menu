@@ -20,6 +20,7 @@ run() {
 	$(echo "chromium
 st
 zathura
+okular
 screenshot
 turnoff
 record

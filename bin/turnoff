@@ -1,10 +1,9 @@
 #!/bin/sh
 
 torrent() {
-	pgrep -x transmission-dae &&
+	pgrep -x transmission-dae ||
 		elisp -t - <<EOF
-(not (zerop (asoc-get (transmission-request "session-stats")
-                      'activeTorrentCount)))
+(zerop (asoc-get (transmission-request "session-stats") 'activeTorrentCount))
 EOF
 }
 
@@ -12,18 +11,6 @@ EOF
 	notify-send "bkup/transmission is running!"
 	exit 1
 }
-
-# Do some deeds before killing self
-[ -d ${HOME}/lib/org-scratch ] || mkdir -p ${HOME}/lib/org-scratch
-
-elisp -t - <<EOF
-(with-current-buffer "*org-scratch*"
-  (unless (zerop (buffer-size))
-    (f-write (buffer-substring-no-properties (point-min) (point-max))
-             'utf-8
-             (format "%s/lib/org-scratch/%s.org"
-                     (getenv "HOME") (format-time-string "%Y%m%d%H%M")))))
-EOF
 
 xdotool search --class . | xargs -I{} xdotool windowclose {} \;
 

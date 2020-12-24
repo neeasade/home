@@ -20,7 +20,8 @@ erun() {
 }
 
 die() {
-	[ -n "${f}" ] && [ ${chk} -eq 0 ] && rm -f ${tmp}
+	[ -n "${f}" ] && [ ${chk} -eq 0 ] && rm -f "${f}"
+	[ -n "${stdinf}" ] && [ -f "${stdinf}" ] && rm -f "${stdinf}"
 	exit ${1:-0}
 }
 
@@ -39,9 +40,9 @@ args() {
 		shift
 		args "${@}"
 	else
-		stdin=`mktemp`
-		cat ->${stdin}
-		stdin=\"${stdin}\"
+		stdinf=`mktemp`
+		cat ->${stdinf}
+		stdin=\"${stdinf}\"
 	fi
 	
 }
