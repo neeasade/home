@@ -46,10 +46,6 @@ do
    end)
 end
 
--- ** Clear off the keybinds already set
-
-globalkeys = {}
-
 -- * Wallpaper
 
 -- gears.wallpaper does not have a zoom mode which I use the most
@@ -57,6 +53,8 @@ globalkeys = {}
 
 local cairo = require("lgi").cairo
 
+-- This function is based on bgs' -z flag and
+-- https://stackoverflow.com/questions/6565703/math-algorithm-fit-image-to-screen-retain-aspect-ratio
 function vz_wallpaper_zoom (surf, s, background)
    local geom, cr = gears.wallpaper.prepare_context(s)
    local origsurf = surf
@@ -156,7 +154,7 @@ terminal = "eterm || st"
 editor = "emacsclient"
 editor_cmd = editor .. "-ca''"
 
-globalkeys = {
+globalkeys = gears.table.join(
    awful.key(
 	  { modkey, "Shift" }, "Return",
 	  function () awful.span(terminal) end,
@@ -164,9 +162,7 @@ globalkeys = {
    awful.key(
 	  { modkey }, "e",
 	  function () awful.span(editor_cmd) end,
-	  { description = "Spawn emacsclient or start an Emacs session", group = "launcher" })
-}
-
+	  { description = "Spawn emacsclient or start an Emacs session", group = "launcher" }))
 
 -- * Layouts
 
@@ -257,16 +253,17 @@ end
 -- Sometimes I lose focus and flashing the window border can
 -- help. SEIZURE WARNING! btw
 
-local vz_flashfocus = false
+-- local vz_flashfocus = false
 
 -- globalkeys = gears.table.join(
-   -- globalkeys,
-   -- awful.key({ modkey, "Shift" }, "f",
-	  -- function ()
-		 -- if vz_flashfocus then
-		 -- end
-	  -- end,
-	  -- { description = "Flash the border of focused client" }))
+--    globalkeys,
+--    awful.key({ modkey, "Shift" }, "f",
+-- 	  function ()
+-- 		 if vz_flashfocus then
+-- 			vz_flashfocus = false
+-- 		 end
+-- 	  end,
+-- 	  { description = "Flash the border of focused client" }))
 
 -- ** Awesome independent commands
 
@@ -322,6 +319,63 @@ globalkeys = gears.table.join(
    globalkeys,
    awful.key({ modkey, "Shift" }, "q", awesome.restart),
    awful.key({ modkey, "Shift", "Control" }, "q", awesome.quit))
+
+-- * Rules
+
+-- Woooo Rules are nice to have around LOL
+
+awful.rules.rule = {
+   {
+	  rule_any = { role = "browser" },
+	  properties = { tag = "2" },
+   },
+   {
+	  rule = { class = "mpv", instance = "mpv-popup" },
+	  properties = {
+		 floating = true,
+		 -- placement = awful.placement.top_left,
+		 titlebar_enabled = false,
+		 is_fixed = true,
+		 sticky = true,
+		 ontop = true,
+		 border_width = 0,
+	  },
+   },
+}
+
+-- * Mousebinds
+
+-- Mouse is useful, yes.
+
+vz_rmenu = awful.menu(
+   { items = {
+		{
+		   "new",
+		   function ()
+			  awful.spawn.easy_async(
+				 "crud",
+				 function (out)
+					local geo, j = {}, 1
+					for i in string.gmatch(out, "%S+") do
+					   geo[j] = tonumber(i)
+					   j = j+1
+					end
+					awful.spawn(terminal, { x = geo[1], y = geo[2], w = geo[3], h = geo[4] })
+			  end)
+		   end,
+		},
+		{
+		   "reshape",
+		   function ()
+
+		   end
+		},
+}})
+
+
+root.buttons(
+   awful.key(
+	  {}, 1, function () vz_rmenu:toggle() end))
 
 -- * -
 -- Local Variables: eval: (outline-minor-mode)
