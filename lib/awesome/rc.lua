@@ -52,6 +52,45 @@ globalkeys = {}
 
 -- * Wallpaper
 
+-- gears.wallpaper does not have a zoom mode which I use the most
+-- often!
+
+local cairo = require("lgi").cairo
+
+function vz_wallpaper_zoom (surf, s, background)
+   local geom, cr = gears.wallpaper.prepare_context(s)
+   local origsurf = surf
+   surf = gears.surface.load_uncached(surf)
+   background = gears.color(background)
+
+   cr.operator = cairo.Operator.SOURCE
+   cr.source = background
+   cr:paint()
+
+   local w_i, h_i = gears.surface.get_size(surf)
+   local nw, nh = 0, 0
+   if (w_i / h_i) > (geom.width / geom.height) then
+	  nw = w_i * geom.height / h_i
+	  nh = geom.height
+   else
+	  nw = geom.width
+	  nh = h_i * geom.width / w_i
+   end
+
+   cr:translate((geom.width - nw)/2, (geom.height - nh)/2)
+   cr:rectangle(0, 0, nw, mw)
+   cr:scale(nw/w_i, nh/h_i)
+
+   cr:set_source_surface(surf, 0, 0)
+   cr:paint()
+   if surf ~= origsurf then
+	  surf:finish()
+   end
+   if cr.status ~= "SUCCESS" then
+	  gears.debug.print_warning("Cairo context entered error state: " .. cr.status)
+   end
+end
+
 -- I have a script that will call `bgs` to set the wallpaper. And that
 -- script saves the command to call to set the wallpaper in a
 -- wallpaper. The script stores the path as the second argument. So if
@@ -71,6 +110,7 @@ do
 		 end
 	  end
 	  local mode = gears.wallpaper.fit
+	  local bg = "#000000"
 
 	  -- Set the path to wallpaper
 	  beautiful.wallpaper = wallpaper[2]
@@ -78,7 +118,11 @@ do
 	  -- How to set the wallpaper can be determined from the rest of
 	  -- the flags
 
-	  for _,f in pairs(wallpaper) do
+	  for i,f in pairs(wallpaper) do
+		 if f == "-C" then
+			bg = wallpaper[i+1]
+		 end
+
 		 -- c: centre
 		 -- z: zoom
 		 -- t: tile
@@ -86,15 +130,21 @@ do
 			mode = gears.wallpaper.centered
 			break
 		 elseif f == "-z" then
-			mode = gears.wallpaper.maximized
+			mode = vz_wallpaper_zoom
 			break
-		 elseif f == "=t" then
+		 elseif f == "-t" then
 			mode = gears.wallpaper.tiled
 			break
 		 end
 	  end
 
-	  awful.screen.connect_for_each_screen(function (s) mode(beautiful.wallpaper, s) end)
+	  awful.screen.connect_for_each_screen(function (s)
+			if mode ~= gears.wallpaper.tiled then
+			   mode(beautiful.wallpaper, s, bg)
+			else
+			   mode(beautiful.wallpaper, s)
+			end
+	  end)
    end
 end
 
