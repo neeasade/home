@@ -81,7 +81,6 @@
     M = "\$HOME/med/mus";
     N = "\$HOME/lib/nix";
     K = "\$HOME/lib/ksh";
-    s = "\$HOME/doc/school";
     u = "\$HOME/doc/uni";
     a = "\$HOME/med/vid/anm";
     c = "\$HOME/med/img/screenshots";
@@ -268,11 +267,11 @@
     '';
 
     _draw_PS1 = ''
-      [[ -n "$IN_NIX_SHELL" ]] && print -n '!'
+      [[ -n "$IN_NIX_SHELL" ]] && print -n ';'
       case $(whoami) {
       root) print -n '# '                ;;
       viz)  print -n 'μ '; _PS1_command &;;
-      *)    print -n '% '                ;;
+      *)    print -n '; '                ;;
       }
     '';
   };
@@ -546,6 +545,9 @@ EOF
     };
 
     extraConfig = ''
+      # Sync Emacs' `default-directory'
+      elisp-shell "(setq default-directory \"$PWD/\")" >/dev/null
+
       MANAPGER=cat PAGER=cat
       export MANPAGER PAGER
 
