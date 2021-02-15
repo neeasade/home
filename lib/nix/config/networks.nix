@@ -17,8 +17,7 @@
     useDHCP = false;
 
     interfaces = {
-      # Disable ethernet?
-      enp1s0.useDHCP = true;
+      enp1s0.useDHCP = false;
       wlp2s0.useDHCP = true;
     };
 
@@ -26,8 +25,6 @@
       enable = true;
       allowedTCPPortRanges = [ { from = 1714; to = 1764; }]; # For kdeconnect
       allowedUDPPortRanges = [ { from = 1714; to = 1764; }]; # For kdeconnect
-      # allowedTCPPorts = [ 1701 ];  # For weylus
-      # allowedUDPPorts = [ 40118 ]; # For gfxtablet
     };
   };
 }

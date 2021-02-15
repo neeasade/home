@@ -1,4 +1,4 @@
-{ stdenv, libX11 }:
+{ stdenv, lib, libX11 }:
 
 stdenv.mkDerivation rec {
   name = "xscreenshot-git";
@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
   makeFlags = [ "CC:=$(CC)" ];
   installFlags = [ "PREFIX=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "suckless screen capture tool";
     homepage = https://git.2f30.org/xscreenshot;
     license = licenses.mit;

@@ -270,8 +270,8 @@
       [[ -n "$IN_NIX_SHELL" ]] && print -n ';'
       case $(whoami) {
       root) print -n '# '                ;;
-      viz)  print -n 'μ '; _PS1_command &;;
-      *)    print -n '; '                ;;
+      viz)  print -n '; '; _PS1_command &;;
+      *)    print -n '% '                ;;
       }
     '';
   };
@@ -422,7 +422,7 @@ stdenv.mkDerivation rec {
   makeFlags = [];
   installFlags = [];
 
-  meta = with stdenv.lib; {
+  meta = with pkgs.lib; {
     description = "";
     homepage = "";
     license = licenses.;
@@ -490,7 +490,7 @@ EOF
           mkdir -p $HOME/opt/transmission-download
         pgrep transmission ||
           transmission-daemon -w $HOME/opt/transmission-download
-        elisp -t '(transmision)'
+        elisp -t '(transmission)'
       '';
 
       trans = "transmission";
@@ -539,7 +539,7 @@ EOF
       '';
 
       cd = ''
-        command cd $@
+        command cd "$@"
         elisp-shell "(setq default-directory \"$PWD/\")" >/dev/null
       '';
     };

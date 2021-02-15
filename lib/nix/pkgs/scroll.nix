@@ -1,4 +1,4 @@
-{ stdenv }:
+{ stdenv, lib }:
 
 stdenv.mkDerivation rec {
   pname = "scroll";
@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
 
   installFlags = [ "PREFIX=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "scrollback program for st";
     homepage = "https://git.suckless.org/scroll/file/README.html";
     platforms = platforms.linux;

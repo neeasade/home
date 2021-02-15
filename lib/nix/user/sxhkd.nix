@@ -2,7 +2,7 @@
 # I had to remove PATH related options from the service file.
 # Check modules/sxhkd-fix.nix (bad name ik)
 {
-  enable = true;
+  enable = false;
   keybindings = {
     "Print"         = "screenshot -s";
     "super + Print" = "screenshot -u";
@@ -61,10 +61,8 @@
     "super + shift + c" = "waitron window-close";
 
     # Groups
-    "super + {1-9}"         = "waitron group-switch {1-9}";
-    "super + 0"             = "waitron group-switch 10";
-    "super + shift + {1-9}" = "waitron group-move-window {1-9}";
-    "super + shift + 0"     = "waitron group-move-window 10";
-    "super + ctrl + 0"      = "waitron group-combine-or-toggle 10";
+    "super + {1-9,0}" = "waitron group-switch {1-9,10}";
+    "super + shift + {1-9,0}" = "waitron group-move-window {1-9,10}";
+    "super + ctrl + {1-9,0}" = "waitron group-combine-or-toggle {1-9,10}";
   };
 }

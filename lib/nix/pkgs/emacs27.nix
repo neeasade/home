@@ -1,4 +1,4 @@
-{ stdenv, fetchurl
+{ stdenv, lib, fetchurl
 , pkgconfig, autoconf, automake, texinfo
 , ncurses, libXpm, jansson, gmp, gettext
 , cairo, libtiff, harfbuzz, libpng, libjpeg, librsvg, libungif
@@ -62,7 +62,7 @@ stdenv.mkDerivation rec {
     rm -fr $out/{var,share/emacs/${version}/site-lisp}
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "GNU Emacs";
     homepage = "https://www.gnu.org/software/emacs";
     license = licenses.gpl3Plus;

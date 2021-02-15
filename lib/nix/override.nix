@@ -1,7 +1,11 @@
 self: super: rec {
-  emacs = super.emacs.override {
-    withXwidgets = true;
+  awesome = super.awesome.override {
+    gtk3Support = true;
   };
+
+#  emacs = super.emacs.override {
+#    withXwidgets = true;
+#  };
 
   tabbed = super.tabbed.overrideAttrs (_: {
     src = builtins.fetchGit {
@@ -24,7 +28,7 @@ self: super: rec {
       fontconfig
     ];
     patches = [
-      ./patches/st/001-config.patch
+      # ./patches/st/001-config.patch
     ];
   });
 

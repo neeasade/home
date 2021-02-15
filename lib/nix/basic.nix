@@ -8,7 +8,7 @@
     kernelModules  = [ "fuse" "kvm-intel" ];
 
     # Disable bluetooth and the beep speaker
-    blacklistedKernelModules = [ "bluetooth" "pcspkr" ];
+    blacklistedKernelModules = [ "btusb" "bluetooth" "pcspkr" ];
 
     loader = {
       systemd-boot = {

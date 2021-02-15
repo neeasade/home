@@ -15,19 +15,21 @@
 
       # Fonts that aren't in nixpkgs
       verily-serif-mono
-      charter
+      # charter
       scientifica
       openmoji
 
-      # Covers almost every language in the world!
+      # Covers almost every language
       noto-fonts
       noto-fonts-cjk
+      lohit-fonts.tamil
+      lohit-fonts.tamil-classical
     ];
 
     fontconfig = {
       useEmbeddedBitmaps = true;
       defaultFonts = {
-        monospace = [ "IBM Plex Mono" ];
+        monospace = [ "Luxi Mono" "IBM Plex Mono" ];
         sansSerif = [ "IBM Plex Sans Condensed" ];
         serif     = [ "Charter" ];
         emoji     = [ "OpenMoji" ];

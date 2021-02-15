@@ -1,4 +1,4 @@
-{ stdenv, libxcb }:
+{ stdenv, lib, libxcb }:
 
 stdenv.mkDerivation rec {
   name = "libwm-git";
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
   buildInputs = [ libxcb ];
   installFlags = [ "PREFIX=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A small library for X windows manipulation";
     homepage = "https://github.com/wmutils/libwm";
     platforms = platforms.linux;

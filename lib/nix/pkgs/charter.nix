@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, unzip }:
+{ stdenv, lib, fetchurl, unzip }:
 
 stdenv.mkDerivation {
   pname = "charter";
@@ -6,8 +6,8 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     name = "charter.zip";
-    url = "https://practicaltypography.com/fonts/Charter%20200512.zip";
-    sha256 = "18yk4qnzm4bn1y4cn0g2cddfiif6s6f6zmn477izcwcwidg63l9r";
+    url = "https://practicaltypography.com/fonts/Charter%20210112.zip";
+    sha256 = "1j8iv2dl695zrabs2knb7jsky8mjis29a2ddpna4by8mlvqrf0ml";
   };
 
   nativeBuildInputs = [ unzip ];
@@ -15,11 +15,12 @@ stdenv.mkDerivation {
 
   sourceRoot = ".";
   installPhase = ''
-    mkdir -p $out/share/fonts/truetype
-    find "Charter/Charter/OpenType TT/" -name "*.ttf" -exec cp {} "$out/share/fonts/truetype/" \;
+    mkdir -p $out/share/fonts/{open,true}type
+    find Charter\ */TTF*/Charter/ -name "*.ttf" -exec cp {} "$out/share/fonts/truetype/" \;
+    #find Charter\ */OTF*/Charter/ -name "*.otf" -exec cp {} "$out/share/fonts/opentype/" \;
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = "https://practicaltypography.com/charter.html";
     description = "Charter was designed by Matthew Carter in 1987 as a body text font";
     platforms = platforms.linux;

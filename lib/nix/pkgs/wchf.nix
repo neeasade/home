@@ -1,4 +1,5 @@
 { stdenv
+, lib
 , libX11
 , libxcb
 , xcbutil
@@ -18,7 +19,7 @@ stdenv.mkDerivation rec {
   buildInputs = [ libX11 libxcb xcbutil xcbutilkeysyms xcbutilwm ];
   installFlags = [ "PREFIX=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "personal fork of windowchef";
     homepage = "https://github.com/vizs/wchf";
     license = licenses.isc;

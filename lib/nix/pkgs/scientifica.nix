@@ -1,4 +1,4 @@
-{ stdenv, fetchurl }:
+{ stdenv, lib, fetchurl }:
 
 stdenv.mkDerivation rec {
   pname = "scientifica";
@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
     cp scientifica/{otb,bdf}/* $out/share/fonts/misc
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "tall, condensed, bitmap font for geeks";
     homepage = "https://github.com/nerdypepper/scientifica";
     license = licenses.ofl;

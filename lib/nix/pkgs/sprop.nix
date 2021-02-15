@@ -1,4 +1,4 @@
-{ stdenv, libX11 }:
+{ stdenv, lib, libX11 }:
 
 stdenv.mkDerivation rec {
   name = "sprop-git";
@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
   makeFlags = [ "CC:=$(CC)" ];
   installFlags = [ "PREFIX=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Set X Property";
     homepage = https://tools.suckless.org/x/sprop;
     license = licenses.mit;

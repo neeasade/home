@@ -12,9 +12,11 @@
 
       libinput = {
         enable = true;
-        scrollMethod = "twofinger";
-        tapping = true;
-        disableWhileTyping = true;
+        touchpad = {
+          scrollMethod = "twofinger";
+          tapping = true;
+          disableWhileTyping = true;
+        };
       };
 
       # Setup home-manager xsession

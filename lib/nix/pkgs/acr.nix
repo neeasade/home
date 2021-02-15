@@ -29,7 +29,7 @@ in stdenv.mkDerivation rec {
 
   buildInputs = ([ pkgs.makeWrapper ] ++ deps);
 
-  libPath = stdenv.lib.makeLibraryPath ([ stdenv.cc.cc ] ++ deps);
+  libPath = pkgs.lib.makeLibraryPath ([ stdenv.cc.cc ] ++ deps);
 
   installPhase = ''
     mkdir -p $out/bin/ $out/opt/

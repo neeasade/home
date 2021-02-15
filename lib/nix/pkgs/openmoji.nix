@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, unzip }:
+{ stdenv, lib, fetchurl, unzip }:
 
 stdenv.mkDerivation rec {
   pname = "openmoji";
@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     cp OpenMoji-Color.ttf $out/share/fonts/truetype/
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Opensource emojis for everyone";
     homepage = "https://openmoji.org";
     license = licenses.cc-by-sa-40;

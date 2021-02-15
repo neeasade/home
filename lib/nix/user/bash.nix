@@ -396,7 +396,7 @@ stdenv.mkDerivation rec {
   makeFlags = [];
   installFlags = [];
 
-  meta = with stdenv.lib {
+  meta = with pkgs.lib {
     description = "";
     homepage = "";
     license = licenses.;

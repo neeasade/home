@@ -1,4 +1,4 @@
-{ stdenv, fetchurl }:
+{ stdenv, lib, fetchurl }:
 
 stdenv.mkDerivation rec {
   name = "verily-serif-mono";
@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     cp ${src} $out/share/fonts/opentype/VerilySerifMono.otf
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "https://www.fontsquirrel.com/fonts/Verily-Serif-Mono";
     homepage = "Modification of Bitstream Vera Sans Mono";
     platforms = platforms.linux;

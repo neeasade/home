@@ -1,4 +1,4 @@
-{ stdenv, libX11 }:
+{ stdenv, lib, libX11 }:
 
 stdenv.mkDerivation rec {
   pname = "lsc";
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
 
   installFlags = [ "PREFIX:=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "print children of a X parent window";
     homepage = "https://git.sr.ht/~viz/lsc";
     license = licenses.bsd2;

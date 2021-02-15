@@ -128,9 +128,12 @@ in
       home-manager.enable = true;
       emacs = {
         enable = true;
-        package = (pkgs.emacs.override {
-          withXwidgets = true;
-        });
+        # package = (pkgs.emacs.override {
+          # withXwidgets = true;
+        # });
+        # extraPackages = self: [
+        #   self.pkgs.gnutls      # For circe to work properly
+        # ];
       };
 
       bash    = import ./bash.nix;
@@ -150,6 +153,7 @@ in
           "kbmfpngjjgdllneeigpgjifpgocmfgmb" # RES
           "clngdbkpkpeebahjckkjfobafhncgmne" # Stylus
           "mpbjkejclgfgadiemmefgebjfooflfhl" # Buster
+          "lckanjgmijmafbedllaakclkaicjfmnk" # ClearURLs
         # "kkkjlfejijcjgjllecmnejhogpbcigdc" # Org-capture extension
         ];
       };
@@ -158,6 +162,7 @@ in
     services = {
       sxhkd = import ./sxhkd.nix;
       ruler = import ./ruler.nix;
+      dunst = import ./notifications.nix pkgs;
 
       gpg-agent = {
         enable = true;
@@ -168,26 +173,6 @@ in
         enable = true;
         latitude  = toString config.location.latitude;
         longitude = toString config.location.longitude;
-      };
-
-      xsession.windowManager.wchf = {
-        enable = true;
-
-        config = {
-          borderWidths = [ 1 5 1 ];
-          borderFocusedColors = [ "7d7c7c" "ffffea" "7d7d7c" ];
-          borderUnfocusedColors = [ "cccccc" "ffffea" "ffffea" ];
-          enableBorders = true;
-
-          enableSloppyFocus = true;
-          enableLastWindowFocusing = true;
-          enableResizeHints = true;
-
-          numberOfGroups = 10;
-          pointerModifier = "super";
-
-          extraConfig = "waitron refresh-borders";
-        };
       };
     };
   };

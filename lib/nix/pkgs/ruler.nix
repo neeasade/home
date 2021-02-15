@@ -1,4 +1,5 @@
 { stdenv
+, lib
 , fetchurl
 , libwm
 , libxcb
@@ -22,7 +23,7 @@ stdenv.mkDerivation rec {
   makeFlags = [ "LEX=flex" ];
   installFlags = [ "PREFIX=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Window rule daemon";
     homepage = "https://github.com/tudurom/ruler";
     license = licenses.isc;

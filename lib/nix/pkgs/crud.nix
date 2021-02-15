@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, pkgconfig
+{ stdenv, lib, fetchurl, pkgconfig
 , libX11
 , libXext
 , libXcursor
@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
     sed -i "s|PREFIX ?= /usr/local|PREFIX ?= $out|" Makefile
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Prints the geometry of a selected regin in X11";
     homepage = "https://github.com/ix/crud";
     license = licenses.mit;

@@ -1,4 +1,4 @@
-{ stdenv }:
+{ stdenv, lib }:
 
 stdenv.mkDerivation rec {
   pname = "wendy";
@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
 
   installFlags = [ "PREFIX:=$(out)" "MANDIR:=$(out)/share/man" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "inotify based event watcher";
     homepage = "http://z3bra.org/wendy/";
     platforms = platforms.linux;

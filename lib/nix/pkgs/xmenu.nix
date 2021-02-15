@@ -1,4 +1,5 @@
 { stdenv
+, lib
 , fontconfig
 , freetype
 , libxcb
@@ -29,7 +30,7 @@ stdenv.mkDerivation rec {
 	../patches/xmenu/004-change_config.patch
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Drop-down menu for X11";
     homepage = "git://git.z3bra.org/xmenu";
     platforms = platforms.linux;

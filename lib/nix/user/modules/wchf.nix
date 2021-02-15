@@ -1,7 +1,7 @@
 { lib, pkgs, config, ... }:
 
 with lib; let
-  cfg = config.services.xsession.windowManager.wchf;
+  cfg = config.xsession.windowManager.wchf;
   wchf = pkgs.callPackage ../../pkgs/wchf.nix {};
 
   # Check whether border lists' length are equal
@@ -12,7 +12,7 @@ with lib; let
 in
   {
     options = {
-      services.xsession.windowManager.wchf = {
+      xsession.windowManager.wchf = {
         enable = mkEnableOption "wchf";
 
         config.borderWidths = mkOption {

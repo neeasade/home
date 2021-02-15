@@ -9,12 +9,11 @@ xdotool getactivewindow | xargs -I{} printf '%x' {} | {
 # TODO: Maybe add a advice after org-capture-finish to autokill frame?
 elisp - <<EOF
 (let ((frame (make-frame '((window-system . x)
-                           (name . "org capture")
+                           (name . "vz/org-capture-frame")
                            (width . 80)
                            (auto-raise . t)
                            (height . 100)))))
   (select-frame frame)
-  (shell-command "waitron window-snap center")
   (org-capture)
   (delete-other-windows)
   (frame-parameter frame 'window-id))

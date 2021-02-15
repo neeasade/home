@@ -1,4 +1,4 @@
-{ stdenv }:
+{ stdenv, lib }:
 
 stdenv.mkDerivation {
   name = "raleigh-reloaded-git";
@@ -15,7 +15,7 @@ stdenv.mkDerivation {
   '';
   # installFlags = [ "PREFIX=$(out)" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A conservative GTK-3.20 theme aiming to revive the Raleigh theme";
     homepage = "https://github.com/vlastavesely/raleigh-reloaded";
     license = licenses.gpl2;

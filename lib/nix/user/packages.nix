@@ -3,51 +3,59 @@
 with pkgs; [
   # General tools
   git
-  mpv
   transmission
-  ffmpeg
   wget
   curl
   file
-  gnumake
-  gcc
   socat
-  gnupg
   doas
+
+  # Encyrption stuff
+  #
+  # TODO: Look into using masterpassword and a proper password
+  # manager?
+  gnupg
+  pinentry-gnome
+
+  # Dictionary
   hunspell
   hunspellDicts.en_GB-ise
-  shellcheck
 
-  # Xorg
+  # Xorg related tools
   xdotool
-  zathura
-  slock
-  pinentry-gnome
   xclip
-  farbfeld
   xorg.xprop
   xorg.xrandr
-  sxhkd
-  bgs
-  lemonbar-xft
   wmutils-core
-  meh
-  sxiv
-  dmenu
-  st
-  sxiv
 
+  # Multimedia
+  # Yes, IK that I have two image viewers and PDF readers (if you
+  # count pdf-tools, I have three lol)
+  ffmpeg
+  mpv
+  zathura
+  sxiv
+  meh
   okular
 
-  # For emacs
-  gnutls
+  slock
+  farbfeld
+  bgs
+  lemonbar-xft
+  dmenu                         # TODO: Look into using rofi or emacs (lol)?
+  st
 
-  # Languages
+  # Languages and language related tools
   racket
   python3
   go
+  shellcheck
+  gnumake
+  gcc
 
-  # Latex
+  gnutls                        # For emacs
+
+  # Latex. I mainly write chemistry and maths
   (texlive.combine { inherit (texlive)
     scheme-minimal
     collection-latex
@@ -58,16 +66,18 @@ with pkgs; [
     collection-formatsextra
     collection-langenglish
     collection-mathscience
+
+    simplekv                    # For chemfig
   ;})
 
   # Custom packages
   xscreenshot
   crud
-  sprop
   xmenu
-  lsc
   raleigh-reloaded-gtk-theme
   ircdiscord
   wendy
-  # weylus
+  # These are for tabbed which I don't use anymore
+  # sprop
+  # lsc
 ]
