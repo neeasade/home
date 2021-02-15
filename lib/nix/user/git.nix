@@ -12,4 +12,7 @@
   };
   # Emacs swap/auto-save files
   ignores     = [ "*~" "#*#" ];
+  extraConfig = {
+    init.defaultBranch = "master"; # Yes
+  };
 }
