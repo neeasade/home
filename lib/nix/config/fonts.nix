@@ -17,11 +17,12 @@
       verily-serif-mono
       # charter
       scientifica
-      openmoji
 
       # Covers almost every language
       noto-fonts
       noto-fonts-cjk
+      noto-fonts-emoji
+
       lohit-fonts.tamil
       lohit-fonts.tamil-classical
     ];
@@ -32,7 +33,7 @@
         monospace = [ "Luxi Mono" "IBM Plex Mono" ];
         sansSerif = [ "IBM Plex Sans Condensed" ];
         serif     = [ "Charter" ];
-        emoji     = [ "OpenMoji" ];
+        emoji     = [ "Noto Color Emoji" ];
       };
     };
   };

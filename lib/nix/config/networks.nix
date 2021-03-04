@@ -5,10 +5,11 @@
 {
   networking = {
     hostName = "astatine";
-    nameservers = [ "1.1.1.1" "1.0.0.1" ];
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
     wireless = {
       enable = true;
+      interfaces = [ "wlp2s0" ]; # See: https://github.com/NixOS/nixpkgs/issues/101963
       networks."Not Your Wifi".pskRaw =
         "248567fa391aaa867b6c61c99bd093e30f90be440d6b455fd0068645733fb919";
     };

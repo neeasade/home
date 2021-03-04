@@ -24,11 +24,36 @@ in
   ];
 
   # I prefer doas over sudo
-  security.sudo.enable = false;
-  security.wrappers = {
-    doas.source      = "${pkgs.doas.out}/bin/doas";
-    slock.source     = "${pkgs.slock.out}/bin/slock";
-    xkeysnail.source = "${pkgs.xkeysnail.out}/bin/xkeysnail";
+  security = {
+    sudo.enable = false;
+    doas = {
+      enable = true;
+      extraRules = [
+        {
+          users = [ "root" ];
+          noPass = true;
+          keepEnv = true;
+          runAs = "root";
+        }
+        {
+          users = [ "viz" ];
+          keepEnv = true;
+          persist = false;
+          runAs = "root";
+        }
+        {
+          users = [ "viz" ];
+          noPass = true;
+          keepEnv = true;
+          runAs = "root";
+          cmd = "/home/viz/bin/brness";
+        }
+      ];
+    };
+    wrappers = {
+      slock.source     = "${pkgs.slock.out}/bin/slock";
+      xkeysnail.source = "${pkgs.xkeysnail.out}/bin/xkeysnail";
+    };
   };
 
   # Add my overlay
@@ -38,17 +63,6 @@ in
   environment = {
     systemPackages = [ pkgs.dash ];
     shellAliases = pkgs.lib.mkForce {};
-    etc = {
-      # TODO: Maybe make a doas module?
-      "doas.conf" = {
-        enable = true;
-        text = ''
-           permit nopass root as root
-           permit keepenv persist viz as root
-           permit nopass keepenv viz as root cmd /home/viz/bin/brness
-        '';
-      };
-    };
   };
 
   programs = {

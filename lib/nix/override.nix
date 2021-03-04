@@ -72,20 +72,20 @@ self: super: rec {
     };
   });
 
-  doas = super.doas.overrideAttrs (_: {
-    src = builtins.fetchGit {
-      url = "https://github.com/multiplexd/doas";
-      rev = "4c8ab4c372e3b3c6d051f298b0bda03575f79f96";
-      ref = "master";
-    };
-    buildInputs = with super; [ bison ];
-    postPatch = "";
-    installPhase = ''
-      mkdir -p $out/bin $out/man/man1
-      cp doas $out/bin
-      cp doas.1 $out/man/man1
-    '';
-  });
+  # doas = super.doas.overrideAttrs (_: {
+  #   src = builtins.fetchGit {
+  #     url = "https://github.com/multiplexd/doas";
+  #     rev = "4c8ab4c372e3b3c6d051f298b0bda03575f79f96";
+  #     ref = "master";
+  #   };
+  #   buildInputs = with super; [ bison ];
+  #   postPatch = "";
+  #   installPhase = ''
+  #     mkdir -p $out/bin $out/man/man1
+  #     cp doas $out/bin
+  #     cp doas.1 $out/man/man1
+  #   '';
+  # });
 
   lemonbar-xft = super.lemonbar-xft.overrideAttrs (old: {
     version = "git";

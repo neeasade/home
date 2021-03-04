@@ -24,7 +24,7 @@ okular
 screenshot
 turnoff
 record
-dmenu_dir
+signal-desktop
 subs" | sel -p "run:")
 }
 

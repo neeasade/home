@@ -53,7 +53,7 @@
     clea = "clear";
 
     # Sane defaults
-    ls = "ls -AF";
+    ls = "ls -1AF";
     du = "du -h";
     df = "df -h";
     mv = "mv -i";
@@ -72,18 +72,15 @@
     S = "\$HOME/src";
     R = "\$HOME/opt/repos";
     T = "\$HOME/tmp";
-    W = "\$HOME/med/img/walls";
-    A = "\$HOME/med/img/art";
-    F = "\$HOME/med/img/film";
+    I = "\$HOME/med/img";
     E = "\$HOME/lib";
     D = "\$HOME/doc";
     C = "\$XDG_CACHE_HOME";
     M = "\$HOME/med/mus";
     N = "\$HOME/lib/nix";
-    K = "\$HOME/lib/ksh";
     u = "\$HOME/doc/uni";
     a = "\$HOME/med/vid/anm";
-    c = "\$HOME/med/img/screenshots";
+    s = "\$HOME/med/img/screenshots";
   };
 
   functions = {
@@ -134,8 +131,8 @@
       fi
     '';
 
-    ls = ''
-      command ls -AFC "$@" | column -t
+    lc = ''
+       command ls -AF "$@"
     '';
 
     resource = ''

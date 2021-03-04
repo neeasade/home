@@ -38,6 +38,9 @@ with pkgs; [
   meh
   okular
 
+  # Communication
+  signal-desktop
+
   slock
   farbfeld
   bgs
