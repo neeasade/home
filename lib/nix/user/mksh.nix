@@ -73,11 +73,12 @@
     R = "\$HOME/opt/repos";
     T = "\$HOME/tmp";
     I = "\$HOME/med/img";
-    E = "\$HOME/lib";
+    E = "\$HOME/lib/emacs";
     D = "\$HOME/doc";
     C = "\$XDG_CACHE_HOME";
     M = "\$HOME/med/mus";
     N = "\$HOME/lib/nix";
+    b = "\$HOME/doc/books";
     u = "\$HOME/doc/uni";
     a = "\$HOME/med/vid/anm";
     s = "\$HOME/med/img/screenshots";
@@ -141,7 +142,7 @@
 
     conf = ''
       [[ -d "$HOME/opt/repos/home" ]] || return 1
-      g() git --git-dir="$HOME/opt/repos/home" --work-tree="$HOME" "$@";
+      g() command git --git-dir="$HOME/opt/repos/home" --work-tree="$HOME" "$@";
 
       case $1 {
       sync)

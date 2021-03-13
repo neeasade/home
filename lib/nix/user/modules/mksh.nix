@@ -131,7 +131,7 @@ in
 
             set -o ${shellOpts}
 
-            for i in $XDG_CONFIG_HOME/ksh/{functions,envvars,vars,aliases,directory-aliases}; do
+            for i in $XDG_CONFIG_HOME/ksh/{envvars,vars,aliases,directory-aliases,functions}; do
                 . "$i"
             done
           ''

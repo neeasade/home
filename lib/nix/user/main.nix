@@ -27,18 +27,12 @@ in
   security = {
     sudo.enable = false;
     doas = {
-      enable = true;
+      enable = false;
       extraRules = [
-        {
-          users = [ "root" ];
-          noPass = true;
-          keepEnv = true;
-          runAs = "root";
-        }
         {
           users = [ "viz" ];
           keepEnv = true;
-          persist = false;
+          setEnv = [ "PATH" ];
           runAs = "root";
         }
         {
@@ -51,9 +45,19 @@ in
       ];
     };
     wrappers = {
+      doas.source = "${pkgs.doas.out}/bin/doas";
       slock.source     = "${pkgs.slock.out}/bin/slock";
       xkeysnail.source = "${pkgs.xkeysnail.out}/bin/xkeysnail";
     };
+  };
+
+  environment.etc."doas.conf" = {
+    enable = true;
+    text = ''
+      permit nopass root as root
+      permit keepenv viz as root
+      permit keepenv nopass viz as root cmd /home/viz/bin/brness
+    '';
   };
 
   # Add my overlay

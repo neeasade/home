@@ -16,7 +16,7 @@
       # Fonts that aren't in nixpkgs
       verily-serif-mono
       # charter
-      scientifica
+      # scientifica
 
       # Covers almost every language
       noto-fonts

@@ -184,7 +184,10 @@ for i=1,10 do
       "#"..i+9,
       function()
         local tag = awful.screen.focused().tags[i]
-        if tag then awful.tag.viewtoggle(tag) end
+        if tag then
+          awful.tag.viewtoggle(tag)
+          -- TODO: Also raise all the clients in the tag
+        end
       end,
       { description = "Toggle tag #"..i, group = "tag" }),
     awful.key(
