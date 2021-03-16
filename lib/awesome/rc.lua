@@ -205,7 +205,7 @@ end
 -- ** Spawn windows and commands
 for k,c in pairs({
     e = editor,
-    v = "chromium",
+    v = "google-chrome-stable", --"chromium",
     Print = "screenshot -u",
     l = "slock",
     m = "mus",

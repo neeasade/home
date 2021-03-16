@@ -7,7 +7,7 @@ with pkgs; [
   wget
   curl
   file
-  socat
+  # socat
   doas
 
   # Encyrption stuff
@@ -24,8 +24,8 @@ with pkgs; [
   # Xorg related tools
   xdotool
   xclip
-  xorg.xprop
-  xorg.xrandr
+  # xorg.xprop
+  # xorg.xrandr
   wmutils-core
 
   # Multimedia
@@ -43,8 +43,8 @@ with pkgs; [
 
   slock
   farbfeld
-  bgs
-  lemonbar-xft
+  # bgs
+  # lemonbar-xft
   dmenu                         # TODO: Look into using rofi or emacs (lol)?
   st
 
@@ -76,10 +76,10 @@ with pkgs; [
   # Custom packages
   xscreenshot
   crud
-  xmenu
+  # xmenu
   raleigh-reloaded-gtk-theme
-  ircdiscord
-  wendy
+  # ircdiscord
+  # wendy
   # These are for tabbed which I don't use anymore
   # sprop
   # lsc

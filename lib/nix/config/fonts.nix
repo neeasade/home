@@ -23,8 +23,8 @@
       noto-fonts-cjk
       noto-fonts-emoji
 
-      lohit-fonts.tamil
-      lohit-fonts.tamil-classical
+      # lohit-fonts.tamil
+      # lohit-fonts.tamil-classical
     ];
 
     fontconfig = {

@@ -62,6 +62,7 @@ in
 
   # Add my overlay
   nixpkgs.overlays = [ (import ../override.nix) ];
+  nixpkgs.config.allowUnfree = true;
 
   # Setup the global environment
   environment = {
@@ -165,6 +166,7 @@ in
 
       chromium = {
         enable = true;
+        package = pkgs.google-chrome;  # :gnutroll:
         extensions = [
           "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
           "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
