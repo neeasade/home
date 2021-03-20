@@ -40,11 +40,10 @@ code, .inline {
     display: none
 }
 
-.compact-T3H92H {
-    /* remove spacing between same-group messages */
-    padding: .0rem 1rem .0rem 80px;
-    text-indent: calc(-80px - -1rem);
-}
+/* .compact-T3H92H { */
+/*     padding: .0rem 1rem .0rem 80px; */
+/*     text-indent: calc(-80px - -1rem); */
+/* } */
 
 [class^="message"] [class*="timestamp"] >span {
     font-family: sans-serif !important;

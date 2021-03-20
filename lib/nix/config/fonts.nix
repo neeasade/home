@@ -30,10 +30,23 @@
     fontconfig = {
       useEmbeddedBitmaps = true;
       defaultFonts = {
-        monospace = [ "Luxi Mono" "IBM Plex Mono" ];
-        sansSerif = [ "IBM Plex Sans Condensed" ];
-        serif     = [ "Charter" ];
-        emoji     = [ "Noto Color Emoji" ];
+        monospace = [
+          "Luxi Mono"
+          "IBM Plex Mono"
+          "Noto Sans Tamil"
+          "Noto Sans Tamil Supplement"
+        ];
+        sansSerif = [
+          "IBM Plex Sans Condensed"
+          "Noto Sans Tamil"
+          "Noto Sans Tamil Supplement"
+        ];
+        serif = [
+          "Charter"
+          "Noto Serif Tamil"
+          "Noto Sans Tamil Supplement"
+        ];
+        emoji = [ "Noto Color Emoji" ];
       };
     };
   };

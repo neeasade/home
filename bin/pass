@@ -54,8 +54,7 @@ show() {
 }
 
 list() {
-	cd ${store}
-	find . -type f -exec sh -c 'x={}; echo ${x#./}' \;
+	find "${store}" -type f -printf '%P\n'
 }
 
 case ${1} in

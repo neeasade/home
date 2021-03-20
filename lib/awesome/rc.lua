@@ -4,7 +4,7 @@
 local awful = require("awful")         -- Stdlib
 local gears = require("gears")         -- Stdlib
 local naughty = require("naughty")     -- Notifications
-local wibox = require("wibox")         -- Widgets
+local wibox = require("wibox")         -- Widgetsredshif
 local beautiful = require("beautiful") -- Theme
 
 -- * Notify on config errors
@@ -225,7 +225,6 @@ end
 for k,c in pairs({
     Return = terminal,
     x = "turnoff",
-    r = "pkill -USR1 redshift",
     -- f = "flashfocus",
     k = "vol -i 1%",
     j = "vol -d 1%",
@@ -237,6 +236,18 @@ for k,c in pairs({
     globalkeys,
     awful.key(
       { modkey, "Shift" }, k,
+      function() awful.spawn(c) end,
+      { description = c, group = "global" }))
+end
+
+-- With shift and control modifier
+for k,c in pairs({
+    r = "pkill -USR1 redshift",
+}) do
+  globalkeys = gears.table.join(
+    globalkeys,
+    awful.key(
+      { modkey, "Control", "Shift" }, k,
       function() awful.spawn(c) end,
       { description = c, group = "global" }))
 end
