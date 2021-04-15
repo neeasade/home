@@ -1,0 +1,78 @@
+#!/usr/bin/env racket
+#lang racket/base
+
+(require racket/system
+         racket/port
+         racket/file
+         racket/path
+         racket/string
+         net/url
+         json)
+
+(define subs
+  '("analog"
+    "nocontextpics"
+    "blackandwhite"
+    "expiredanalog"
+    "photographs"))
+
+(define file-save-dir
+  (expand-user-path "~/med/img/rphotos"))
+
+(define last-visited-link-file
+  (expand-user-path "~/lib/rdlastlink"))
+
+(define last-visited-link
+  (if (file-exists? last-visited-link-file)
+      (file->string last-visited-link-file)
+      ""))
+
+(define auth
+  (format "Authorization: bearer ~a"
+          (string-normalize-spaces
+           (with-output-to-string
+             (λ ()
+               (system "pass get token-for-rd"))))))
+
+(define (get-upvoted-port)
+  (get-pure-port (string->url "https://oauth.reddit.com/user/_viz_/upvoted")
+                 (list auth
+                       "User-Agent: rd by u/_viz_")))
+
+(define (get-upvotes)
+  (hash-ref (hash-ref (read-json (get-upvoted-port)) 'data) 'children))
+
+(define data (get-upvotes))
+
+(define (data/get-permalink data)
+  (hash-ref (hash-ref data 'data)
+            'permalink))
+
+(define (data/sub-in-group? data)
+  (memq (hash-ref (hash-ref data 'data)
+                  'subreddit)
+        subs))
+
+(define (data/get-url data)
+  (hash-ref (hash-ref data 'data) 'url))
+
+(define (fetch-url url)
+  (display-to-file (port->bytes (get-pure-port (string->url url)))
+                   (format "~a/~a"
+                           file-save-dir
+                           (file-name-from-path url))))
+
+(display-to-file (data/get-permalink (car data))
+                 (expand-user-path "~/lib/rdlastlink")
+                 #:exists 'replace)
+
+(unless (directory-exists? file-save-dir)
+  (make-directory file-save-dir))
+
+(let loop ((data data))
+  (unless (null? data)
+    (let ((url (data/get-url (car data))))
+      (unless (string=? last-visited-link url)
+        (when (data/sub-in-group? (car data))
+          (fetch-url url))
+        (loop (cdr data))))))
