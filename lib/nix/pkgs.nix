@@ -29,5 +29,15 @@
 
     raleigh-reloaded-gtk-theme =
       pkgs.callPackage ./pkgs/raleigh-reloaded-gtk-theme.nix {};
+
+    wayfirePlugins = pkgs.recurseIntoAttrs (
+      pkgs.callPackage ./pkgs/wayfirePlugins-new.nix {
+        inherit (pkgs.wayfireApplications-unwrapped) wayfire;
+      }
+    );
+
+    wayfire-session = pkgs.callPackage ./pkgs/wayfire-session.nix {};
+
+    session-desktop = pkgs.callPackage ./pkgs/session-desktop.nix {};
   };
 }

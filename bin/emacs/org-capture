@@ -1,18 +1,15 @@
 #!/bin/sh
 
-xdotool getactivewindow | xargs -I{} printf '%x' {} | {
-	read -r id
-	[ "$(atomx WM_WINDOW_ROLE ${id})" = browser ] &&
-		xdotool getactivewindow key "ctrl+l" "ctrl+c"
-}
+# xdotool getactivewindow | xargs -I{} printf '%x' {} | {
+# 	read -r id
+# 	[ "$(atomx WM_WINDOW_ROLE ${id})" = browser ] &&
+# 		xdotool getactivewindow key "ctrl+l" "ctrl+c"
+# }
 
-# TODO: Maybe add a advice after org-capture-finish to autokill frame?
 elisp - <<EOF
-(let ((frame (make-frame '((window-system . x)
+(let ((frame (make-frame '((window-system . pgtk)
                            (name . "vz/org-capture-frame")
-                           (width . 80)
-                           (auto-raise . t)
-                           (height . 100)))))
+                           (auto-raise . t)))))
   (select-frame frame)
   (org-capture)
   (delete-other-windows)

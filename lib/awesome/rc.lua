@@ -205,13 +205,13 @@ end
 -- ** Spawn windows and commands
 for k,c in pairs({
     e = editor,
-    v = "google-chrome-stable", --"chromium",
+    v = "chromium",
     Print = "screenshot -u",
     l = "slock",
     m = "mus",
     r = "menu run",
     o = "org-capture",
-
+    n = "emacsclient -c --eval '(find-file \"~/doc/uni/notes/annotations.org\")'"
 }) do
   globalkeys = gears.table.join(
     globalkeys,
@@ -225,7 +225,6 @@ end
 for k,c in pairs({
     Return = terminal,
     x = "turnoff",
-    -- f = "flashfocus",
     k = "vol -i 1%",
     j = "vol -d 1%",
     m = "vol -t",
@@ -398,6 +397,14 @@ clientkeys = gears.table.join(
   awful.key({ modkey }, "f",
     function(c)
       c.fullscreen = not c.fullscreen
+      -- c.maximized = not c.maximized
+      -- if c.maximized then
+      --   awful.titlebar.hide(c)
+      --   c.border_width = 0
+      -- else
+      --   awful.titlebar.show(c)
+      --   c.border_width = beautiful.border_width
+      -- end
       c:raise()
     end,
     { description = "Fullscreen", group = "client"}),
@@ -521,6 +528,12 @@ awful.rules.rules = {
     properties = {
       tag = "2",
       maximized = false, -- Chrome starts maximized which disable mousebinds
+    },
+  },
+  {
+    rule = { class = "Firefox" },
+    properties = {
+      maximized = false,
     },
   },
   {

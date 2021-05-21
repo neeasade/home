@@ -1,11 +1,14 @@
 {
   ENV            = "\$HOME/lib/kshrc";
-  PATH           = "\$HOME/bin/emacs:\$HOME/bin/x:\$HOME/bin:\$PATH";
+  PATH           = "\$HOME/bin/wayfire:\$HOME/bin/emacs:\$HOME/bin:\$PATH";
   LESSHISTFILE   = "\$XDG_CACHE_HOME/lesshst";
   GOPATH         = "\$HOME/opt/go";
-  EDITOR         = "emacsclient";
-  VISUAL         = "emacsclient";
+  EDITOR         = "emacsclient -c";
+  VISUAL         = "emacsclient -c";
   MANPAGER       = "less";
   PYTHONUSERBASE = "\$HOME/opt/python";
   PYTHONPATH     = "\$HOME/opt/python";
+  MOZ_ENABLE_WAYLAND = "1";
+  QT_QPA_PLATFORM = "wayland";
+  SDL_VIDEODRIVER = "wayland";
 }

@@ -14,14 +14,14 @@
     remkd /tmp/info/{,vol}
     # . $XDG_CACHE_HOME/wall &
     # pmenu &
-    emacs --daemon
+    # emacs --daemon
   '';
 
   scriptPath = "lib/xsession";
 
   windowManager = {
     awesome = {
-      enable = true;
+      enable = false;
       package = (pkgs.awesome.override {
         gtk3Support = true;
       });

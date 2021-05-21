@@ -4,7 +4,7 @@
 
 {
   documentation = {
-    info.enable = false;
+    info.enable = true;
     dev.enable  = true;
   };
 

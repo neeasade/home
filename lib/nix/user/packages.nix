@@ -15,18 +15,18 @@ with pkgs; [
   # TODO: Look into using masterpassword and a proper password
   # manager?
   gnupg
-  pinentry-gnome
+  pinentry-qt
 
   # Dictionary
   hunspell
   hunspellDicts.en_GB-ise
 
   # Xorg related tools
-  xdotool
-  xclip
+  # xdotool
+  # xclip
   # xorg.xprop
   # xorg.xrandr
-  wmutils-core
+  # wmutils-core
 
   # Multimedia
   # Yes, IK that I have two image viewers and PDF readers (if you
@@ -39,14 +39,14 @@ with pkgs; [
   okular
 
   # Communication
-  signal-desktop
+  session-desktop
 
-  slock
-  farbfeld
+  # slock
+  # farbfeld
   # bgs
   # lemonbar-xft
-  dmenu                         # TODO: Look into using rofi or emacs (lol)?
-  st
+  # dmenu                         # TODO: Look into using rofi or emacs (lol)?
+  # st
 
   # Languages and language related tools
   racket
@@ -74,8 +74,8 @@ with pkgs; [
   ;})
 
   # Custom packages
-  xscreenshot
-  crud
+  # xscreenshot
+  # crud
   # xmenu
   raleigh-reloaded-gtk-theme
   # ircdiscord

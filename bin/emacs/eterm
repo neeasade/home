@@ -1,21 +1,14 @@
 #!/usr/bin/env -S elisp
 ;; -*- mode: emacs-lisp; -*-
 
-(let* ((term  (vz/uniqify "*term"))
-       (frame (make-frame `((window-system . x)
-                            ,(when args
-                               (cons 'parent-id
-                                     (string-to-number (car args))))))))
+(let ((frame (make-frame-on-display "wayland-1")))
   (select-frame frame)
   (setq default-directory (or (getenv "PWD") (getenv "HOME")))
-  (let ((shbuf (shell term)))
+  (let ((shbuf (shell (vz/uniqify "*term"))))
     (switch-to-buffer shbuf)
     (delete-other-windows)
-    (vz/term-minor-mode)
-    (setq-local vz/term-minor-mode-frame frame
-                mode-line-format `((:eval (vz/mode-line-fill 'mode-line 18))
-                                   ,vz/mode-line-extra-info))
-    (set-process-sentinel (get-buffer-process shbuf)
-                          #'vz/term-minor-mode-sentinel))
-  (add-to-list 'vz/term-minor-mode-frames frame)
-  (set-frame-parameter frame 'term-buffer term))
+    (setq-local mode-line-format nil
+                vz/eterm--frame frame)
+    (set-process-sentinel (get-buffer-process shbuf) #'vz/eterm--sentinel)
+    (add-to-list 'vz/eterm--frames frame)
+    (set-frame-parameter frame 'term-buffer shbuf)))

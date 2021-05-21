@@ -15,22 +15,22 @@ self: super: rec {
     };
   });
 
-  st = super.st.overrideAttrs (_: {
-    src = builtins.fetchGit {
-      url = "https://github.com/odknt/st";
-      rev = "3f97e54e4374ecfad2a5044367b5348896039dc3";
-      ref = "master";
-    };
-    buildInputs = with super.pkgs; [
-      xorg.libX11
-      cairo
-      freetype
-      fontconfig
-    ];
-    patches = [
-      # ./patches/st/001-config.patch
-    ];
-  });
+  # st = super.st.overrideAttrs (_: {
+  #   src = builtins.fetchGit {
+  #     url = "https://github.com/odknt/st";
+  #     rev = "3f97e54e4374ecfad2a5044367b5348896039dc3";
+  #     ref = "master";
+  #   };
+  #   buildInputs = with super.pkgs; [
+  #     xorg.libX11
+  #     cairo
+  #     freetype
+  #     fontconfig
+  #   ];
+  #   patches = [
+  #     # ./patches/st/001-config.patch
+  #   ];
+  # });
 
   dmenu = super.dmenu.overrideAttrs (_: {
     src = builtins.fetchGit {

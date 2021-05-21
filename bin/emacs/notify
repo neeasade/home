@@ -6,7 +6,7 @@
        (notif-buf (get-buffer-create "*notification*"))
        (lines     (split-string notif-str "\n"))
        (wh        (length lines))
-       (ww        (-max (-map #'length lines)))
+       (ww        (apply #'max (seq-map #'length lines)))
        (frame     (make-frame
                     `((width  . ,ww)
                       (height . ,wh)

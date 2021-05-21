@@ -1,5 +1,7 @@
 #!/bin/sh
 
+[ -d /tmp/info/vol ] || mkdir -p /tmp/info/vol
+
 write() {
 	vol=`amixer sget Master`
 	vol=${vol%%\]*}

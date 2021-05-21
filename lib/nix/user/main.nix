@@ -1,12 +1,30 @@
 # User configuration
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 # Fetch home-manager
 let
   home-manager = builtins.fetchGit {
     url = "https://github.com/nix-community/home-manager.git";
-    rev = "96d7de6db18d9a5bf254ddf3525bb4ef1d2a6bda";
+    rev = "ca7868dc2977e2bdb4b1c909768c686d4ec0a412";
+    ref = "master";
+  };
+
+  rycee = builtins.fetchGit {
+    url = "https://gitlab.com/rycee/nur-expressions";
+    rev = "d01502ec87df050d03bbe65fa482e8b1091e8191";
+    ref = "master";
+  };
+
+  nixpkgs-wayland = builtins.fetchGit {
+    url = "https://github.com/colemickens/nixpkgs-wayland";
+    rev = "9354b29893139d6ed98b4374521a3042e1b30626";
+    ref = "master";
+  };
+
+  emacs-overlay = builtins.fetchGit {
+    url = "https://github.com/nix-community/emacs-overlay";
+    rev = "f5d26cf242c781bdd7bee13cce05a09c7db71c98";
     ref = "master";
   };
 in
@@ -61,13 +79,18 @@ in
   };
 
   # Add my overlay
-  nixpkgs.overlays = [ (import ../override.nix) ];
+  nixpkgs.overlays = [
+    (import ../override.nix)
+    (import "${rycee}/overlay.nix")
+    (import "${nixpkgs-wayland}")
+    (import "${emacs-overlay}")
+  ];
   nixpkgs.config.allowUnfree = true;
 
   # Setup the global environment
   environment = {
     systemPackages = [ pkgs.dash ];
-    shellAliases = pkgs.lib.mkForce {};
+    shellAliases = lib.mkForce {};
   };
 
   programs = {
@@ -88,10 +111,13 @@ in
     };
   };
 
+  hardware.opengl.enable = true;
+
   users.groups.viz = {};
   users.users.viz = {
     name = "viz";
     group = "viz";
+    isNormalUser = true;
     extraGroups = [
       "adbusers"
       "wheel"
@@ -111,6 +137,7 @@ in
       ./modules/ruler.nix
       ./modules/sxhkd-fix.nix
       ./modules/mksh.nix
+      ./modules/wayfire.nix
       # ./modules/kdeconnect.nix
     ];
 
@@ -132,28 +159,36 @@ in
     };
 
     xdg            = import ./xdg.nix;
-    xsession       = import ./xsession.nix pkgs;
+    # xsession       = import ./xsession.nix pkgs;
     nixpkgs.config = import ./nixpkgs.nix;
 
     gtk = {
       enable            = true;
       font.name         = "sans-serif";
-      iconTheme.name    = "Adwaita";
-      iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
+      iconTheme.name    = "hicolor";
+      iconTheme.package = pkgs.hicolor-icon-theme;
       theme.name        = "Raleigh-Reloaded";
+      gtk3 = {
+        bookmarks = [
+          "file:///home/viz/doc/uni"
+        ];
+        extraConfig = {
+          gtk-primary-button-warps-slider = true;
+        };
+      };
     };
 
     programs = {
       home-manager.enable = true;
       emacs = {
         enable = true;
-        # package = (pkgs.emacs.override {
-          # withXwidgets = true;
-        # });
+        package = pkgs.emacsPgtkGcc;
         # extraPackages = self: [
         #   self.pkgs.gnutls      # For circe to work properly
         # ];
       };
+
+      info.enable = true;       # This should make Emacs detect its info files properly
 
       bash    = import ./bash.nix;
       git     = import ./git.nix;
@@ -163,18 +198,27 @@ in
       mksh    = import ./mksh.nix pkgs;
 
       # kdeconnect.enable = true;
+      firefox = import ./firefox/firefox.nix { lib = lib; pkgs = pkgs; };
+
+      wayfire = import ./wayfire.nix { pkgs = pkgs; config = config; };
 
       chromium = {
         enable = true;
-        package = pkgs.google-chrome;  # :gnutroll:
+        package = (pkgs.ungoogled-chromium.override {
+          enableWideVine = true;
+        }); # no more :gnutroll:
         extensions = [
-          "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
-          "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
-          "kbmfpngjjgdllneeigpgjifpgocmfgmb" # RES
-          "clngdbkpkpeebahjckkjfobafhncgmne" # Stylus
-          "mpbjkejclgfgadiemmefgebjfooflfhl" # Buster
-          "lckanjgmijmafbedllaakclkaicjfmnk" # ClearURLs
-        # "kkkjlfejijcjgjllecmnejhogpbcigdc" # Org-capture extension
+          { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlock Origin
+          { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # Vimium
+          { id = "kbmfpngjjgdllneeigpgjifpgocmfgmb"; } # RES
+          { id = "clngdbkpkpeebahjckkjfobafhncgmne"; } # Stylus
+          { id = "mpbjkejclgfgadiemmefgebjfooflfhl"; } # Buster
+          { id = "lckanjgmijmafbedllaakclkaicjfmnk"; } # ClearURLs
+          { # Bypass paywall
+            id = "dcpihecpambacapedldabdbpakmachpb";
+            updateUrl = "https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-chrome/master/updates.xml";
+          }
+          { id = "dnhjklgpiifbofihffldllbcopkinlod"; } # Remove Google Redirection
         ];
       };
     };
@@ -186,13 +230,24 @@ in
 
       gpg-agent = {
         enable = true;
-        pinentryFlavor = "gnome3";
+        pinentryFlavor = "qt";
       };
 
       redshift = {
-        enable = true;
+        # enable = true;
         latitude  = toString config.location.latitude;
         longitude = toString config.location.longitude;
+        # package = pkgs.redshift-wlr;
+      };
+
+      gammastep = {
+        latitude  = toString config.location.latitude;
+        longitude = toString config.location.longitude;
+      };
+
+      emacs = {
+#        enable = true;
+        socketActivation.enable = true;
       };
     };
   };

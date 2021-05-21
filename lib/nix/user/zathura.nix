@@ -20,7 +20,7 @@
     recolor-lightcolor      = "#ffffff";
     recolor-darkcolor       = "#0d0d0d";
 
-    recolor                 = true;
+    recolor                 = false;
     guioptions              = "";
     font                    = "serif normal 10";
   };

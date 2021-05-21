@@ -11,7 +11,7 @@
       updateDbusEnvironment = true;
 
       libinput = {
-        enable = true;
+        enable = false;
         touchpad = {
           scrollMethod = "twofinger";
           tapping = true;
@@ -20,17 +20,20 @@
       };
 
       # Setup home-manager xsession
-      desktopManager.session = [{
-        name = "home-manager";
-        bgSession = true;
-        start = ''
-          ${pkgs.stdenv.shell} $HOME/lib/xsession &
-          waitPID=$!
-        '';
-      }];
+      desktopManager.session = [
+        {
+          name = "home-manager-xorg";
+          bgSession = true;
+          start = ''
+            ${pkgs.stdenv.shell} $HOME/lib/xsession &
+            waitPID=$!
+          '';
+        }
+      ];
 
       displayManager = {
-        defaultSession = "home-manager";
+        defaultSession = "vz-wayfire";
+        sessionPackages = [ pkgs.wayfire-session ];
 
         autoLogin = {
           enable = true;

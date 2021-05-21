@@ -5,7 +5,7 @@ umask 077
 store="${HOME}/.pass"
 acc=""
 
-alias gpg2='gpg2 -r Visuwesh --quiet --yes --batch'
+alias gpg2='gpg2 -r Visuwesh --quiet --yes --no-tty'
 
 usage() {
 	printf 'usage: pass [get|in|ls|mv]\n'
@@ -22,11 +22,19 @@ encrypt() {
 		[ ! -d ${store}/${acc%/*} ] && mkdir -p ${store}/${acc%/*}
 		;;
 	esac
-    printf '%s\n' "${passwd}" | gpg2 --encrypt --output "${store}/${acc}"
+    printf '%s\n' "${passwd}" | gpg2 --batch --encrypt --output "${store}/${acc}"
+}
+
+getpass() {
+	pinentry-qt <<EOF
+SETDESC Enter passphrase for gpg
+GETPIN
+EOF
 }
 
 decrypt() {
-    gpg2 -d "${store}/${acc}"
+    # getpass | grep '^D' | sed 's/^D //' | gpg2 --passphrase-fd 0 --pinentry-mode loopback -d "${store}/${acc}"
+	gpg2 --batch -d "$store/$acc"
 }
 
 readpw() {

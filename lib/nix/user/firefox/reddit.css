@@ -2,7 +2,8 @@
 [class^="awardings-bar"], .premium-banner-outer,
 span[class^="userattrs"], div[class^="sidebox create"],
 a[class^="default-header"]#header-img,
-span#RESAccountSwitcherIcon, span[class^="presence_circle"] {
+span#RESAccountSwitcherIcon, span[class^="presence_circle"],
+span[class^="score"]{
     display: none !important;
 }
 
