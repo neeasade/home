@@ -1,0 +1,5 @@
+#!/bin/sh
+
+video_path="${1:-"${HOME}/med/vid/caps/record-$(date '+%Y%m%d%H%M').mp4"}"
+
+wf-recorder -g "$(slurp)" -f "$video_path"

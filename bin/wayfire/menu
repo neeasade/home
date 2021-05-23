@@ -1,0 +1,27 @@
+#!/bin/sh
+
+sel(){
+	bemenu -i -p "select:" $@
+}
+
+run(){
+	$(echo "chromium-browser
+foot
+zathura
+okular
+screenshot
+turnoff
+record
+session-desktop
+subs" | sel -p "run:")
+}
+
+case $1 in
+sel)
+	shift
+	sel "$@"
+	;;
+*)
+	run
+	;;
+esac

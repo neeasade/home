@@ -1,0 +1,6 @@
+#!/bin/sh
+# X is kinda contradictory but w/e
+
+con="${1:-"$(cat -)"}"
+
+printf '%s' "$con" | wl-copy

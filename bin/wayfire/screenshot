@@ -1,0 +1,26 @@
+#!/bin/sh
+# TODO: To check if current window is microsoft teams and save file
+# accordingly.
+
+dir="$HOME/med/img/screenshots"
+path="$dir/screenshot_$(date '+%Y%m%d%H%M').png"
+
+case $(echo 'grab area\ngrab window\ngrab screen' | menu sel) in
+*area|*window)
+	grim -g "$(slurp)" "$path"
+	;;
+*screen)
+	grim "$path"
+	;;
+esac
+
+case $1 in
+-u)
+	url=$(0x0 "$path")
+	echo "$url" | xin
+	notify-send "" 'scrot taken! url in clipboard'
+	;;
+*)
+	wl-copy -t image/png <"$path"
+	;;
+esac
