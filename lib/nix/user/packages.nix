@@ -9,6 +9,7 @@ with pkgs; [
   file
   # socat
   doas
+  exiftool
 
   # Encyrption stuff
   #
@@ -37,6 +38,7 @@ with pkgs; [
   sxiv
   meh
   okular
+  koreader
 
   # Communication
   session-desktop

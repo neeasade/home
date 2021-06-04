@@ -15,6 +15,7 @@
 
       # Fonts that aren't in nixpkgs
       verily-serif-mono
+      et-book-fonts
       # charter
       # scientifica
 

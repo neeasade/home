@@ -25,7 +25,7 @@ let
       else "");
 in stdenv.mkDerivation rec {
   pname = "session-desktop";
-  version = "1.6.1"; # Please backport all updates to the stable channel.
+  version = "1.6.4"; # Please backport all updates to the stable channel.
   # All releases have a limited lifetime and "expire" 90 days after the release.
   # When releases "expire" the application becomes unusable until an update is
   # applied. The expiration date for the current release can be extracted with:
@@ -35,7 +35,7 @@ in stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://github.com/oxen-io/${pname}/releases/download/v${version}/${pname}-linux-amd64-${version}.deb";
-    sha256 = "0p0syn4g9hqdl6x15216db5zr7x9pzls6hydrs3ndr9z78dkdplr";
+    sha256 = "00nw5mma175jqqygsagg9pg0xa5np8ncjxps3bzgz4zlx1srw2mm";
   };
 
   nativeBuildInputs = [

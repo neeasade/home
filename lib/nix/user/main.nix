@@ -214,6 +214,7 @@ in
           { id = "clngdbkpkpeebahjckkjfobafhncgmne"; } # Stylus
           { id = "mpbjkejclgfgadiemmefgebjfooflfhl"; } # Buster
           { id = "lckanjgmijmafbedllaakclkaicjfmnk"; } # ClearURLs
+          { id = "pmcmeagblkinmogikoikkdjiligflglb"; } # Privacy Redirect
           { # Bypass paywall
             id = "dcpihecpambacapedldabdbpakmachpb";
             updateUrl = "https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-chrome/master/updates.xml";

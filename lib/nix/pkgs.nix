@@ -22,6 +22,7 @@
     ircdiscord        = pkgs.callPackage ./pkgs/ircdiscord.nix  {};
 
     charter           = pkgs.callPackage ./pkgs/charter.nix     {};
+    et-book-fonts = pkgs.callPackage ./pkgs/et-book.nix {};
     openmoji          = pkgs.callPackage ./pkgs/openmoji.nix    {};
     scientifica       = pkgs.callPackage ./pkgs/scientifica.nix {};
     verily-serif-mono =
