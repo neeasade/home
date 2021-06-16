@@ -8,6 +8,7 @@
     xmenu             = pkgs.callPackage ./pkgs/xmenu.nix       {};
     lsc               = pkgs.callPackage ./pkgs/lsc.nix         {};
     weylus            = pkgs.callPackage ./pkgs/weylus.nix      {};
+    mlvwm = pkgs.callPackage ./pkgs/mlvwm.nix {};
 
     xkeysnail         = pkgs.callPackage ./pkgs/xkeysnail.nix {
       buildPythonPackage = pkgs.python3Packages.buildPythonPackage;

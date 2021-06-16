@@ -265,6 +265,7 @@
     '';
 
     _draw_PS1 = ''
+      [[ -n "$INSIDE_EMACS" ]] && print -n "|PROMPT|$PWD|"
       [[ -n "$IN_NIX_SHELL" ]] && print -n ';'
       case $(whoami) {
       root) print -n '# '                ;;
@@ -463,7 +464,7 @@ EOF
     functions = {
       elisp-shell = ''
         elisp - <<EOF
-(with-current-buffer (window-buffer (selected-window))
+(with-current-buffer (process-buffer (seq-find (lambda (x) (eq $TOP_MKSH_PID (process-id x))) (process-list)))
   $@)
 EOF
       '';
@@ -541,13 +542,16 @@ EOF
 
       cd = ''
         command cd "$@"
-        elisp-shell "(setq-local default-directory \"$PWD/\")" >/dev/null
+        # elisp-shell "(cd \"$PWD/\")" >/dev/null
       '';
     };
 
     extraConfig = ''
+      [[ -z "$IN_NIX_SHELL" ]] &&
+         export TOP_MKSH_PID=$$
+
       # Sync Emacs' `default-directory'
-      elisp-shell "(setq-local default-directory \"$PWD/\")" >/dev/null
+      # elisp-shell "(setq-local default-directory \"$PWD/\")" >/dev/null
 
       MANAPGER=cat PAGER=cat
       export MANPAGER PAGER

@@ -24,7 +24,7 @@ let
 
   emacs-overlay = builtins.fetchGit {
     url = "https://github.com/nix-community/emacs-overlay";
-    rev = "b9298d977f2d6ab21e6794acd06027099ee2763c";
+    rev = "f5d26cf242c781bdd7bee13cce05a09c7db71c98";
     ref = "master";
   };
 in
@@ -137,7 +137,6 @@ in
       ./modules/ruler.nix
       ./modules/sxhkd-fix.nix
       ./modules/mksh.nix
-      ./modules/mlvwm.nix
       ./modules/wayfire.nix
       # ./modules/kdeconnect.nix
     ];
@@ -183,7 +182,7 @@ in
       home-manager.enable = true;
       emacs = {
         enable = true;
-        package = pkgs.emacsGcc;
+        package = pkgs.emacsPgtkGcc;
         # extraPackages = self: [
         #   self.pkgs.gnutls      # For circe to work properly
         # ];
@@ -201,7 +200,7 @@ in
       # kdeconnect.enable = true;
       firefox = import ./firefox/firefox.nix { lib = lib; pkgs = pkgs; };
 
-      # wayfire = import ./wayfire.nix { pkgs = pkgs; config = config; };
+      wayfire = import ./wayfire.nix { pkgs = pkgs; config = config; };
 
       chromium = {
         enable = true;
@@ -232,14 +231,14 @@ in
 
       gpg-agent = {
         enable = true;
-        pinentryFlavor = "gnome3";
+        pinentryFlavor = "qt";
       };
 
       redshift = {
-        enable = true;
+        # enable = true;
         latitude  = toString config.location.latitude;
         longitude = toString config.location.longitude;
-        package = pkgs.redshift-wlr;
+        # package = pkgs.redshift-wlr;
       };
 
       gammastep = {

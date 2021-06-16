@@ -7,7 +7,7 @@
 # }
 
 elisp - <<EOF
-(let ((frame (make-frame '((window-system . pgtk)
+(let ((frame (make-frame '((window-system . x)
                            (name . "vz/org-capture-frame")
                            (auto-raise . t)))))
   (select-frame frame)

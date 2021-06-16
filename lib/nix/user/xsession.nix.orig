@@ -13,6 +13,7 @@
   initExtra = ''
     remkd /tmp/info/{,vol}
     . $XDG_CACHE_HOME/wall &
+    pmenu &
     emacs --daemon
   '';
 
@@ -25,7 +26,6 @@
         gtk3Support = true;
       });
     };
-
     wchf = {
       enable = false;
 
@@ -44,15 +44,6 @@
 
         extraConfig = "waitron refresh-borders";
       };
-    };
-
-    mlvwm = {
-      enable = false;
-      config.initFile = ''
-  Desktopnum 10
-  StickyHide
-  SloppyFocus
-  '';
     };
   };
 }

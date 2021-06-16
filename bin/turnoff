@@ -3,7 +3,7 @@
 torrent() {
 	pgrep -x transmission-dae ||
 		elisp -t - <<EOF
-(zerop (asoc-get (transmission-request "session-stats") 'activeTorrentCount))
+(zerop (alist-get 'activeTorrentCount (transmission-request "session-stats")))
 EOF
 }
 

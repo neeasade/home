@@ -491,7 +491,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 function vz_place_under_cursor_or_centre(c, args)
   local len = 0
-  -- local fn = awful.placement.centered
 
   for i in pairs(awful.screen.focused():get_clients()) do
     len = len + 1
@@ -499,7 +498,7 @@ function vz_place_under_cursor_or_centre(c, args)
   end
 
   if len == 2 then
-    return awful.placement.no_offscreen(c)
+    return awful.placement.under_cursor(c)
   else
     return awful.placement.centered(c, args)
   end
@@ -527,7 +526,9 @@ awful.rules.rules = {
     rule = { class = "Chromium-browser" },
     properties = {
       tag = "2",
-      maximized = false, -- Chrome starts maximized which disable mousebinds
+      maximized = false, -- Chrome starts maximized which disables mousebinds
+      maximized_horizontal = false,
+      maximized_vertical = false,
     },
   },
   {
@@ -551,10 +552,17 @@ awful.rules.rules = {
     rule = { name = "vz/org-capture-frame" },
     properties = {
       floating = true,
-      placement = awful.placement.centered+awful.placement.maximize_vertically,
+      placement = awful.placement.centered+awful.placement.maximize_horizontally,
       titlebars_enabled = false,
       sticky = true,
       border_width = 2,
+    },
+  },
+  {
+    rule = { class = "Gcr-prompter" },
+    properties = {
+      placement = awful.placement.centered,
+      ontop = true,
     },
   },
 }

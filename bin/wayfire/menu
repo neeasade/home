@@ -11,8 +11,7 @@ zathura
 okular
 turnoff
 record
-session-desktop
-subs" | sel -p "run:")
+session-desktop" | sel -p "run:")
 }
 
 case $1 in

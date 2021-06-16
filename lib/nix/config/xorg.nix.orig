@@ -32,8 +32,9 @@
       ];
 
       displayManager = {
+        # defaultSession = "vz-wayfire";
+        # sessionPackages = [ pkgs.wayfire-session ];
         defaultSession = "home-manager-xorg";
-#        sessionPackages = [ pkgs.wayfire-session ];
 
         autoLogin = {
           enable = true;

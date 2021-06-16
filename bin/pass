@@ -26,7 +26,7 @@ encrypt() {
 }
 
 getpass() {
-	pinentry-qt <<EOF
+	pinentry-gnome3 <<EOF
 SETDESC Enter passphrase for gpg
 GETPIN
 EOF

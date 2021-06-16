@@ -1,0 +1,109 @@
+diff --git a/config/xorg.nix b/config/xorg.nix
+index e7f320a..19a7a33 100644
+--- a/config/xorg.nix
++++ b/config/xorg.nix
+@@ -11,7 +11,7 @@
+       updateDbusEnvironment = true;
+
+       libinput = {
+-        enable = false;
++        enable = true;
+         touchpad = {
+           scrollMethod = "twofinger";
+           tapping = true;
+@@ -32,8 +32,9 @@
+       ];
+
+       displayManager = {
+-        defaultSession = "vz-wayfire";
+-        sessionPackages = [ pkgs.wayfire-session ];
++        # defaultSession = "vz-wayfire";
++        # sessionPackages = [ pkgs.wayfire-session ];
++        defaultSession = "home-manager-xorg";
+
+         autoLogin = {
+           enable = true;
+diff --git a/user/envvars.nix b/user/envvars.nix
+index 128f4d0..383aa38 100644
+--- a/user/envvars.nix
++++ b/user/envvars.nix
+@@ -1,6 +1,7 @@
+ {
+   ENV            = "\$HOME/lib/kshrc";
+-  PATH           = "\$HOME/bin/wayfire:\$HOME/bin/emacs:\$HOME/bin:\$PATH";
++  PATH = "\$HOME/bin/x:\$HOME/bin/emacs:\$HOME/bin:\$PATH";
++#  PATH           = "\$HOME/bin/wayfire:\$HOME/bin/emacs:\$HOME/bin:\$PATH";
+   LESSHISTFILE   = "\$XDG_CACHE_HOME/lesshst";
+   GOPATH         = "\$HOME/opt/go";
+   EDITOR         = "emacsclient -c";
+diff --git a/user/main.nix b/user/main.nix
+index d1afe2d..46369e2 100644
+--- a/user/main.nix
++++ b/user/main.nix
+@@ -159,7 +159,7 @@ in
+     };
+
+     xdg            = import ./xdg.nix;
+-    # xsession       = import ./xsession.nix pkgs;
++    xsession       = import ./xsession.nix pkgs;
+     nixpkgs.config = import ./nixpkgs.nix;
+
+     gtk = {
+diff --git a/user/packages.nix b/user/packages.nix
+index 17132f7..1713bd6 100644
+--- a/user/packages.nix
++++ b/user/packages.nix
+@@ -47,7 +47,7 @@ with pkgs; [
+   # farbfeld
+   # bgs
+   # lemonbar-xft
+-  # dmenu                         # TODO: Look into using rofi or emacs (lol)?
++  dmenu                         # TODO: Look into using rofi or emacs (lol)?
+   # st
+
+   # Languages and language related tools
+diff --git a/user/wayfire.nix b/user/wayfire.nix
+index 02039cd..c98a0de 100644
+--- a/user/wayfire.nix
++++ b/user/wayfire.nix
+@@ -7,7 +7,6 @@
+     kanshi
+     mako
+     wf-recorder
+-    xdg-desktop-portal-wlr
+     gammastep
+     grim
+     slurp
+@@ -32,7 +31,6 @@
+     autostart = {
+       display = "kanshi";
+       notifs = "mako";
+-      # portal = "${pkgs.xdg-desktop-portal-wlr}/libexec/xdg-desktop-portal-wlr";
+       emacsdaemon = "DISPLAY=:0 emacs --daemon";
+       autostart_wf_shell = "false";
+       gamma = "gammastep"
+diff --git a/user/xsession.nix b/user/xsession.nix
+index b9c550b..19dc51b 100644
+--- a/user/xsession.nix
++++ b/user/xsession.nix
+@@ -12,16 +12,16 @@
+
+   initExtra = ''
+     remkd /tmp/info/{,vol}
+-    # . $XDG_CACHE_HOME/wall &
+-    # pmenu &
+-    # emacs --daemon
++    . $XDG_CACHE_HOME/wall &
++    pmenu &
++    emacs --daemon
+   '';
+
+   scriptPath = "lib/xsession";
+
+   windowManager = {
+     awesome = {
+-      enable = false;
++      enable = true;
+       package = (pkgs.awesome.override {
+         gtk3Support = true;
+       });
