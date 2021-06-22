@@ -23,8 +23,8 @@
   (expand-user-path "~/lib/rdlastlink"))
 
 (define last-visited-link
-  (if (file-exists? last-visited-link-file)
-      (file->string last-visited-link-file)
+  (or (and (file-exists? last-visited-link-file)
+           (file->string last-visited-link-file))
       ""))
 
 (define auth

@@ -4,7 +4,7 @@
 local awful = require("awful")         -- Stdlib
 local gears = require("gears")         -- Stdlib
 local naughty = require("naughty")     -- Notifications
-local wibox = require("wibox")         -- Widgetsredshif
+local wibox = require("wibox")         -- Widgets
 local beautiful = require("beautiful") -- Theme
 
 -- * Notify on config errors
@@ -498,7 +498,7 @@ function vz_place_under_cursor_or_centre(c, args)
   end
 
   if len == 2 then
-    return awful.placement.under_cursor(c)
+    return (awful.placement.under_mouse+awful.placement.no_offscreen)(c)
   else
     return awful.placement.centered(c, args)
   end
@@ -552,7 +552,7 @@ awful.rules.rules = {
     rule = { name = "vz/org-capture-frame" },
     properties = {
       floating = true,
-      placement = awful.placement.centered+awful.placement.maximize_horizontally,
+      placement = awful.placement.top+awful.placement.maximize_horizontally,
       titlebars_enabled = false,
       sticky = true,
       border_width = 2,
@@ -566,7 +566,6 @@ awful.rules.rules = {
     },
   },
 }
-
 
 -- * -*- -*-
 -- Local Variables:

@@ -1,129 +1,110 @@
 #!/bin/sh
+# Music player thing.  The way I organise music means that I don't
+# have to have any explicit playlist format file mess.
+#
+# The base directory is ~/med/mus.  Each artist gets a folder.  Each
+# album gets their own folder.  If it has more than a single disc,
+# they are labelled as D1, D2, and so on.
+#
+# I prefer to listen to albums in bulk so simply prompting to play an
+# album when a mpv instance is already not running is good enough for
+# my needs.
 
-[ -e /tmp/mussockname ] && {
-	read -r sock </tmp/mussockname
-} || sock=/tmp/mussock
-cmd="socat - ${sock}"
+sock=/tmp/mussock
+cmd="socat - $sock"
 
-fmt_song() {
-	artist=${1%/*}
-	echo "`echo ${artist##*/} | tr _ ' '` - `echo ${1##*/} | tr _ ' '`"
-}
-
-next() {
-	echo '{"command":["playlist-next"]}' | ${cmd} >/dev/null
-}
-
-prev() {
-	echo '{"command":["playlist-prev"]}' | ${cmd} >/dev/null
-}
-
-shuff() {
-	echo '{"command":["playlist-shuffle"]}' | ${cmd} >/dev/null
-}
-
-# Since mpv does not have a loop input function (or none that I know of),
-# this is a hack that presses L, which is the default bind for infinite loop.
-loop() {
-	echo '{"command":["keypress","L"]}' | ${cmd} >/dev/null
-}
-
-# Using loadfile does not continue with the playlist after the file
-# ends and mpv quits too (?). 
-# Following is a hacky "solution" to pause the current file and
-# play another file and resume after the file ends.
-# Potential non-hacky solution would be to use {audio,video}-add
-# but figuring out the filetype of the file/url is a PITA
-playnew() {
-	playing=0
-	f=${1:-`menu sel -p file/url: </tmp/musplist`}
-	[ -z "${f}" ] && return 0
-	is_playing && {
-		pause
-		playing=1
+getprop(){
+	printf '{"command":["get_property_string","%s"]}\n' "$1" |$cmd |{
+		read -r out
+		out="${out#*\"data\":\"}"
+		echo "${out%%\"*}"
 	}
-	echo /tmp/tmpmsock >/tmp/mussockname
-	# It is unquoted intentionally. Search for ctrl-enter in dmenu(1)
-	mpv --input-ipc-server=/tmp/tmpmsock ${f} &&
-		rm -f /tmp/mussockname /tmp/tmpmsock
-	[ ${playing} -eq 1 ] && pause
 }
 
-durstat() {
-	dur=`echo '{"command":["get_property_string","duration"]}' | ${cmd}`
-	[ -z "${dur}" ] && return 0
-	dur="${dur##*\"data\":\"}"
-	dur="${dur%%.*}"
-
-	cur=`echo '{"command":["get_property_string","playback-time"]}' | ${cmd}`
-	cur="${cur##*\"data\":\"}"
-	cur="${cur%%.*}"
-
-	echo $((cur/60)):$((cur%60))/$((dur/60)):$((dur%60))
+setprop(){
+	printf '{"command":["set_property","%s",%s]}\n' "$1" "$2" |$cmd
 }
 
-curfile() {
-	f=`echo '{"command":["get_property_string","path"]}' | ${cmd}`
-	f="${f##*\"data\":\"}"
-	echo "${f%%\"*}"
-}
-
-is_playing() {
-	case `echo '{"command":["get_property","pause"]}' | ${cmd}` in
-	*true*) return 1 ;;
-	*)      return 0 ;;
-	esac
-}
-
-pause() {
-	stat=false
-	is_playing && stat=true
-	printf '{"command":["set_property","pause",%s]}\n' ${stat} | ${cmd} >/dev/null
-}
-
-quit() {
-	echo '{"command":["quit"]}' | ${cmd} >/dev/null
-	rm ${sock} /tmp/mussockname
-}
-
-perc() {
-	perc=`echo '{"command":["get_property","percent-pos"]}' | ${cmd}`
-	perc=${perc##*\"data\":}
-	perc=${perc%%\"*}
-
-	# Preserve only two decimal places
-	echo ${perc%${perc#*.??}}
-}
-
-pprint() {
-	[ -S ${sock} ] || {
-		echo 'not playing!'
-		exit 0
+# Pause or play.
+pause(){
+	getprop pause |{
+		read -r p
+		case $p in
+		no) setprop pause true ;;
+		yes) setprop pause false ;;
+		esac
 	}
-	echo "playing: `fmt_song $(curfile)` (`perc`%)"
 }
 
-deadsock() {
-	! :| ${cmd} 2>/dev/null
+next(){
+	echo '{"command":["playlist-next"]}' |$cmd
 }
 
-# trap 'quit' EXIT INT TERM KILL HUP
-
-deadsock && quit
-
-[ ! -S ${sock} ] && [ ${#} -eq 0 ] && {
-	find ${HOME}/med/mus -type d | menu sel | {
-		read -r dir
-		mpv --input-ipc-server=${sock} \
-			--playlist=/tmp/musplist \
-			--shuffle
-	} || exit 0
+prev(){
+	echo '{"command":["playlist-prev"]}' |$cmd
 }
 
-if [ -z ${1} ]; then
-	`echo 'pause\nnext\nprev\nloop\nshuff\nplaynew\nquit' | menu sel`
+loop(){
+	getprop loop-file |{
+		read -r p
+		case $p in
+		no) setprop loop-file true ;;
+		inf) setprop loop-file false ;;
+		esac
+	}
+}
+
+current(){
+	getprop path |sed -e "s|$HOME/med/mus/||" -e 'y/_/ /' -e 's|/| --- |g' |{
+		read -r file
+
+		getprop duration |{
+			read -r total
+			total=${total%%.*}
+
+			getprop time-pos |{
+				read -r now
+				now=${now%%.*}
+
+				awesome-client <<EOF
+local notify = require("naughty")
+notify.notify{
+	title = "currently playing:",
+	text = "($((now/60)):$((now%60))/$((total/60)):$((total%60))) $file"
+}
+EOF
+			}
+		}
+	}
+}
+
+quit(){
+	echo '{"command":["quit"]}' |$cmd
+	rm $sock
+}
+
+:|$cmd || quit
+
+if [ -S $sock ]; then
+	if [ -z "$1" ]; then
+		echo 'pause
+next
+prev
+loop
+current
+quit' |menu sel |{
+			read -r cmd
+			[ -n "$cmd" ] && mus "$cmd"
+		}
+	else
+		g=$1
+		shift
+		$g "$@"
+	fi
 else
-	g=${1}
-	shift
-	${g} ${@}
+	# GNU find time
+	find $HOME/med/mus -type d -printf '%P\n' |menu sel |{
+		read -r dir
+		mpv --input-ipc-server="$sock" "$HOME/med/mus/$dir"
+	}
 fi

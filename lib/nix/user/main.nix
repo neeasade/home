@@ -239,7 +239,7 @@ in
         enable = true;
         latitude  = toString config.location.latitude;
         longitude = toString config.location.longitude;
-        package = pkgs.redshift-wlr;
+        # package = pkgs.redshift-wlr;
       };
 
       gammastep = {

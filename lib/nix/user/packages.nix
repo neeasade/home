@@ -7,7 +7,7 @@ with pkgs; [
   wget
   curl
   file
-  # socat
+  socat
   doas
   exiftool
 
