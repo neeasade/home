@@ -1,0 +1,4 @@
+#!/bin/sh
+# Strip off exif junk using exiftool(1)
+
+exiftool -overwrite_original -all= "$@"

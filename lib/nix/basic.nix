@@ -47,6 +47,11 @@
   # Change /bin/sh to dash
   environment.binsh = "${pkgs.dash}/bin/dash";
 
+  # Fuck off dbus
+  environment.etc = {
+    "machine-id".text = "00000000000000000000000000000000\n";
+  };
+
   # Garbage collect every two weeks
   nix.gc = {
     automatic = true;

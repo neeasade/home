@@ -54,28 +54,49 @@ loop(){
 	}
 }
 
+__current_file(){
+	getprop path |sed -e "s|$HOME/med/mus/||" -e 'y/_/ /' -e 's|/|  ·  |g'
+}
+
+__current_pause(){
+	getprop pause |{
+		read -r p
+		[ $p = yes ] && echo "▷ "
+	}
+}
+
+__current_now(){
+	getprop time-pos |{
+		read -r now
+		now=${now%%.*}
+		printf '%d:%02d\n' $((now/60)) $((now%60))
+	}
+}
+
+__current_total(){
+	getprop duration |{
+		read -r total
+		total=${total%%.*}
+		printf '%d:%02d\n' $((total/60)) $((total%60))
+	}
+}
+
+__current_albumtotal(){
+	getprop playlist-count
+}
+
+__current_albumnow(){
+	getprop playlist-pos
+}
+
 current(){
-	getprop path |sed -e "s|$HOME/med/mus/||" -e 'y/_/ /' -e 's|/| --- |g' |{
-		read -r file
-
-		getprop duration |{
-			read -r total
-			total=${total%%.*}
-
-			getprop time-pos |{
-				read -r now
-				now=${now%%.*}
-
-				awesome-client <<EOF
+	awesome-client <<EOF
 local notify = require("naughty")
 notify.notify{
 	title = "currently playing:",
-	text = "($((now/60)):$((now%60))/$((total/60)):$((total%60))) $file"
+	text = "$(__current_pause)($((1 + $(__current_albumnow)))/$(__current_albumtotal)) ($(__current_now)/$(__current_total)) $(__current_file)"
 }
 EOF
-			}
-		}
-	}
 }
 
 quit(){
@@ -105,6 +126,7 @@ else
 	# GNU find time
 	find $HOME/med/mus -type d -printf '%P\n' |menu sel |{
 		read -r dir
-		mpv --input-ipc-server="$sock" "$HOME/med/mus/$dir"
+		[ -n "$dir" ] &&
+			mpv --no-video --input-ipc-server="$sock" "$HOME/med/mus/$dir"
 	}
 fi

@@ -10,6 +10,7 @@ with pkgs; [
   socat
   doas
   exiftool
+  zip unzip
 
   # Encyrption stuff
   #
