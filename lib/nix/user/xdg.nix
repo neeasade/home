@@ -1,6 +1,6 @@
 # I try to follow a Plan 9 like home directory
-# ~/lib       - config files
-# ~/opt       - data files
+# ~/lib       - config+data files
+#+ ~/opt       - data files+
 # ~/tmp       - temporary directory that has downloads and stuff
 # ~/med       - media     -- videos, images, music
 # ~/doc       - documents -- school stuff, books
@@ -11,7 +11,7 @@
   enable        = true;
   cacheHome     = "/home/viz/.cache";
   configHome    = "/home/viz/lib";
-  dataHome      = "/home/viz/opt";
+  dataHome      = "/home/viz/lib";
   userDirs      = {
     enable      = true;
     download    = "/home/viz/tmp";

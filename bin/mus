@@ -55,7 +55,16 @@ loop(){
 }
 
 __current_file(){
-	getprop path |sed -e "s|$HOME/med/mus/||" -e 'y/_/ /' -e 's|/|  ·  |g'
+	# I need -E or + doesn't work.  Very weird.  Hopefully the last
+	# sed command doesn't bite me in the back in the future.  :P
+	getprop path |{
+		read -r path
+		if [ $(__current_albumtotal) -eq 1 ]; then
+			echo "${path%/*}"
+		else
+			echo "$path"
+		fi
+	} |sed -E -e "s|$HOME/med/mus/||" -e 'y/_/ /' -e 's|/|  ·  |g' -e 's/[0-9]+\.//'
 }
 
 __current_pause(){
@@ -89,12 +98,20 @@ __current_albumnow(){
 	getprop playlist-pos
 }
 
+__current_albumpos(){
+	__current_albumtotal |{
+		read -r total
+		[ $total -ne 1 ] &&
+			echo "($(__current_albumnow)/$total)"
+	}
+}
+
 current(){
 	awesome-client <<EOF
 local notify = require("naughty")
 notify.notify{
 	title = "currently playing:",
-	text = "$(__current_pause)($((1 + $(__current_albumnow)))/$(__current_albumtotal)) ($(__current_now)/$(__current_total)) $(__current_file)"
+	text = "$(__current_pause)$(__current_albumpos) ($(__current_now)/$(__current_total)) $(__current_file)"
 }
 EOF
 }

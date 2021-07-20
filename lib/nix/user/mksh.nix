@@ -70,7 +70,7 @@
   directoryAliases = {
     B = "\$HOME/bin";
     S = "\$HOME/src";
-    R = "\$HOME/opt/repos";
+    R = "\$HOME/lib/repos";
     T = "\$HOME/tmp";
     I = "\$HOME/med/img";
     E = "\$HOME/lib/emacs";
@@ -141,8 +141,8 @@
     '';
 
     conf = ''
-      [[ -d "$HOME/opt/repos/home" ]] || return 1
-      g() command git --git-dir="$HOME/opt/repos/home" --work-tree="$HOME" "$@";
+      [[ -d "$HOME/lib/repos/home" ]] || return 1
+      g() command git --git-dir="$HOME/lib/repos/home" --work-tree="$HOME" "$@";
 
       case $1 {
       sync)

@@ -172,6 +172,7 @@ in
       gtk3 = {
         bookmarks = [
           "file:///home/viz/doc/uni"
+          "file:///home/viz/doc/books"
         ];
         extraConfig = {
           gtk-primary-button-warps-slider = true;
