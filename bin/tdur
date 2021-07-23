@@ -1,19 +1,30 @@
 #!/bin/sh
-# Like `wc' but for duration of video/music file
+# Like `wc' but for duration of video/audio file
 
 dur=0
 
-calc() {
+print(){
+	h=
+	m=$(($1/60))
+	s=$(($1%60))
+	if [ $m -gt 60 ]; then
+		h=$((m/60)):
+		m=$((m%60))
+	fi
+	printf '%7s%02d:%02d\t%s\n' "$h" $m $s "$2"
+}
+
+calc(){
 	for i in "${@}"; do
 		[ -d "${i}" ] && calc "${i}"/*
 		j=$(ffprobe -v error -i "${i}" -show_entries format=duration \
 					-of default=noprint_wrappers=1:nokey=1)
 		j=${j%%.*}
-		printf '%6d:%02d\t%s\n' $((j/60)) $((j%60)) "${i}"
+		print ${j} "${i}"
 		: $((dur+=j))
 	done
 }
 
 calc "${@}"
 
-printf '%6d:%02d\t%s\n' $((dur/60)) $((dur%60)) Total
+print ${dur} Total

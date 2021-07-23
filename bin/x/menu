@@ -4,7 +4,7 @@ read -r sw sh <<EOF
 $(res)
 EOF
 
-w=$((sw / 3))
+w=$((sw / 2))
 
 l=$((sw / 50))
 x=$((sw / 2 - w / 2))
@@ -12,6 +12,7 @@ y=$((sh / 3))
 
 sel() {
 	dmenu -x ${x} -y ${y} -w ${w} \
+		  -fn "serif:pixelsize=16" \
 		  -l ${l} -i \
 		  -p "select:" ${@}
 }

@@ -102,7 +102,7 @@ __current_albumpos(){
 	__current_albumtotal |{
 		read -r total
 		[ $total -ne 1 ] &&
-			echo "($(__current_albumnow)/$total)"
+			echo "($((1+$(__current_albumnow)))/$total)"
 	}
 }
 
