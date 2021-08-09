@@ -11,8 +11,7 @@ x=$((sw / 2 - w / 2))
 y=$((sh / 3))
 
 sel() {
-	dmenu -x ${x} -y ${y} -w ${w} \
-		  -fn "serif:pixelsize=16" \
+	dmenu -fn "serif:pixelsize=16" \
 		  -l ${l} -i \
 		  -p "select:" ${@}
 }

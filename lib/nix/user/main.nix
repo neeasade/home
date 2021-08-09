@@ -24,7 +24,7 @@ let
 
   emacs-overlay = builtins.fetchGit {
     url = "https://github.com/nix-community/emacs-overlay";
-    rev = "b9298d977f2d6ab21e6794acd06027099ee2763c";
+    rev = "cb1c62a69542010068f1283ece546b69254f45e1";
     ref = "master";
   };
 in

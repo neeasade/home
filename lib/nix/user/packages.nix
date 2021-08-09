@@ -21,7 +21,8 @@ with pkgs; [
 
   # Dictionary
   hunspell
-  hunspellDicts.en_GB-ise
+  hunspellDicts.en-gb-ise
+  hunspellDicts.en-academic
 
   # Xorg related tools
   xdotool

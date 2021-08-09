@@ -32,6 +32,16 @@
     raleigh-reloaded-gtk-theme =
       pkgs.callPackage ./pkgs/raleigh-reloaded-gtk-theme.nix {};
 
+    hunspellDicts.en-academic = pkgs.callPackage ./pkgs/hunspellDicts.en-academic.nix {};
+    hunspellDicts.en-gb-ise =
+      (pkgs.hunspellDicts.en_GB-ise.overrideAttrs (_: {
+        version = "2020.12.07";
+        src = builtins.fetchurl {
+          url = "mirror://sourceforge/wordlist/speller/2020.12.07/hunspell-en_GB-ise-2020.12.07.zip";
+          sha256 = "1lqsy2szmwbgf9c7fhqpmw6rjnzn8d8mpdyv82sw726ir4p4pv9c";
+        };
+      }));
+
     wayfirePlugins = pkgs.recurseIntoAttrs (
       pkgs.callPackage ./pkgs/wayfirePlugins-new.nix {
         inherit (pkgs.wayfireApplications-unwrapped) wayfire;

@@ -485,10 +485,10 @@ EOF
       '';
 
       transmission = ''
-        [[ -d $HOME/opt/transmission-download ]] ||
-          mkdir -p $HOME/opt/transmission-download
-        pgrep transmission ||
-          transmission-daemon -w $HOME/opt/transmission-download
+        [[ -d $HOME/tmp/transmission-download ]] ||
+          mkdir -p $HOME/tmp/transmission-download
+        pgrep transmission >/dev/null ||
+          transmission-daemon -w $HOME/tmp/transmission-download
         elisp -t '(transmission)'
       '';
 
@@ -516,11 +516,11 @@ EOF
           fi
 
           # `process-environment' is a list of env vars that is passed to the
-          # subprocess. Adding nix-shell's PATH to this is essential so that
+          # subprocess.  Adding nix-shell's PATH to this is essential so that
           # manpath command will also include the manpage of temporarily
           # installed packages.
           # NOTE: That for manpath to be run by the man command, MANPATH should
-          # be an empty string! See #21946 in nixpkgs
+          # be an empty string!  See #21946 in nixpkgs.
           [[ -n "$IN_NIX_SHELL" ]] &&
              lisp="(let ((process-environment \`(\"PATH=$PATH\" ,@process-environment))) $lisp)"
 
@@ -564,10 +564,10 @@ EOF
         "
       }
 
-      # Update Emacs' `exec-path' variable inside nix-shell. This will allow
+      # Update Emacs' `exec-path' variable inside nix-shell.  This will allow
       # for completion of paths and potentially other things.
       [[ -n "$IN_NIX_SHELL" ]] &&
-        elisp-shell "(setq-local exec-path (split-string \"$PATH\" \":\"))" >/dev/null
+        elisp-shell "(setq-local exec-path (parse-colon-path \"$PATH\"))" >/dev/null
     '';
   };
 }

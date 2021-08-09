@@ -230,6 +230,7 @@ for k,c in pairs({
     m = "vol -t",
     l = "doas /home/viz/bin/brness -i 1",
     h = "doas /home/viz/bin/brness -d 1",
+    p = "elisp -t '(vz/org-clock-in)'",
 }) do
   globalkeys = gears.table.join(
     globalkeys,
@@ -247,6 +248,18 @@ for k,c in pairs({
     globalkeys,
     awful.key(
       { modkey, "Control", "Shift" }, k,
+      function() awful.spawn(c) end,
+      { description = c, group = "global" }))
+end
+
+-- With control modifier
+for k,c in pairs({
+    p = "elisp -t '(vz/org-clock-freeze)'",
+}) do
+  globalkeys = gears.table.join(
+    globalkeys,
+    awful.key(
+      { modkey, "Control" }, k,
       function() awful.spawn(c) end,
       { description = c, group = "global" }))
 end
@@ -559,6 +572,17 @@ awful.rules.rules = {
     },
   },
   {
+    rule = { name = "vz/emacs-minibuffer-only-frame" },
+    properties = {
+      floating = true,
+      titlebars_enabled = false,
+      border_width = 4,
+      sticky = true,
+      ontop = true,
+      placement = awful.placement.centered,
+      },
+   },
+  {
     rule = { class = "Gcr-prompter" },
     properties = {
       placement = awful.placement.centered,
@@ -572,5 +596,5 @@ awful.rules.rules = {
 -- eval: (outline-minor-mode)
 -- lua-indent-level: 2
 -- indent-tabs-mode: nil
--- outline-regexp: "-- [*]+"
+-- outline-regexp: "-- [*]+ "
 -- End:

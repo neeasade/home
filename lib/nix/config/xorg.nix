@@ -50,9 +50,9 @@
       videoDrivers = [ "intel" ];
 
       # Swap Capslock and Escape
-      xkbOptions = "caps:swapescape";
+      xkbOptions = "caps:swapescape,ctrl:swap_lwin_lctl";
 
-      # Intel TearFree section thing
+      # intel TearFree section thing
       extraConfig = ''
         Section "Device"
           Identifier "Intel"

@@ -1,11 +1,22 @@
 self: super: rec {
+  # WHY IS IT SO OUTDATED?!??!?!??!?
+  hunspellDicts = super.hunspellDicts // {
+    en-gb-ise = super.hunspellDicts.en-gb-ise.overrideAttrs (_: {
+      version = "2020.12.07";
+      src = builtins.fetchurl {
+        url = "mirror://sourceforge/wordlist/speller/2020.12.07/hunspell-en_GB-ise-2020.12.07.zip";
+        sha256 = "1lqsy2szmwbgf9c7fhqpmw6rjnzn8d8mpdyv82sw726ir4p4pv9c";
+      };
+    });
+  };
+
   awesome = super.awesome.override {
     gtk3Support = true;
   };
 
-#  emacs = super.emacs.override {
-#    withXwidgets = true;
-#  };
+  #  emacs = super.emacs.override {
+  #    withXwidgets = true;
+  #  };
 
   tabbed = super.tabbed.overrideAttrs (_: {
     src = builtins.fetchGit {
@@ -127,7 +138,7 @@ self: super: rec {
 
   irssi = super.irssi.overrideAttrs (_: {
     patches = [
-      "${builtins.fetchurl https://raw.githubusercontent.com/gandalf3/" 
+      "${builtins.fetchurl https://raw.githubusercontent.com/gandalf3/"
         + "irssi-passwd/master/irssi-connection-set-key.patch}"
     ];
   });

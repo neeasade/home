@@ -9,11 +9,12 @@ h=50
 x=$((ww - w - 20))
 y=20
 
-(echo "%{c}${c}"; sleep 2) | 
-	lemonbar -d \
-			 -g ${w}x${h}+${x}+${y} \
-			 -f "monospace:pixelsize=12" \
-			 -F \#1c1c1d \
-			 -B \#ffffea \
-			 -R \#6ecbdc \
-			 -r 4 &
+type -v lemonbar >/dev/null && \
+	(echo "%{c}${c}"; sleep 2) |
+		lemonbar -d \
+				 -g ${w}x${h}+${x}+${y} \
+				 -f "monospace:pixelsize=12" \
+				 -F \#1c1c1d \
+				 -B \#ffffea \
+				 -R \#6ecbdc \
+				 -r 4 &
