@@ -1,7 +1,7 @@
 { stdenv, lib, fetchurl, autoPatchelfHook, dpkg, wrapGAppsHook, nixosTests
 , gnome2, gtk3, atk, at-spi2-atk, cairo, pango, gdk-pixbuf, glib, freetype, fontconfig
 , dbus, libX11, xorg, libXi, libXcursor, libXdamage, libXrandr, libXcomposite
-, libXext, libXfixes, libXrender, libXtst, libXScrnSaver, nss, nspr, alsaLib
+, libXext, libXfixes, libXrender, libXtst, libXScrnSaver, libxshmfence, nss, nspr, alsaLib
 , cups, expat, libuuid, at-spi2-core, libappindicator-gtk3, mesa
 # Runtime dependencies:
 , systemd, libnotify, libdbusmenu, libpulseaudio
@@ -25,7 +25,7 @@ let
       else "");
 in stdenv.mkDerivation rec {
   pname = "session-desktop";
-  version = "1.6.7"; # Please backport all updates to the stable channel.
+  version = "1.6.11"; # Please backport all updates to the stable channel.
   # All releases have a limited lifetime and "expire" 90 days after the release.
   # When releases "expire" the application becomes unusable until an update is
   # applied. The expiration date for the current release can be extracted with:
@@ -35,7 +35,7 @@ in stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://github.com/oxen-io/${pname}/releases/download/v${version}/${pname}-linux-amd64-${version}.deb";
-    sha256 = "0ncg67jw1zfm15ih0mpfblbzh153wvqgnl85iffp0iilk3y8j3bg";
+    sha256 = "0i89xa142vaahx7fqxw6qipqx9dpz7d093fhpwink90iazwpnamm";
   };
 
   nativeBuildInputs = [
@@ -70,6 +70,7 @@ in stdenv.mkDerivation rec {
     libXrandr
     libXrender
     libXtst
+    libxshmfence
     libappindicator-gtk3
     libnotify
     libuuid
@@ -107,7 +108,7 @@ in stdenv.mkDerivation rec {
     # up, but resources/app.asar still requires them.
     # Symlink to bin
     mkdir -p $out/bin
-    ln -s $out/lib/Session/session-desktop-bin $out/bin/session-desktop
+    ln -s $out/lib/Session/session-desktop $out/bin/session-desktop
     runHook postInstall
   '';
 

@@ -67,4 +67,6 @@
       packages = with pkgs; [ gnome3.dconf gcr ];
     };
   };
+
+  systemd.packages = with pkgs; [ gnome3.dconf ];
 }

@@ -1,0 +1,31 @@
+From f7a1719123d9f91ea6cf4ac9c8ce2b1b9d15316c Mon Sep 17 00:00:00 2001
+From: viz <visuwesh@tutanota.com>
+Date: Thu, 9 Sep 2021 08:43:48 +0530
+Subject: [PATCH 1/2] Disable changelog message.
+
+This is horrible UX.
+---
+ src/window.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/src/window.py b/src/window.py
+index 2f60450..6e6b984 100644
+--- a/src/window.py
++++ b/src/window.py
+@@ -160,7 +160,7 @@ class DrWindow(Gtk.ApplicationWindow):
+ 
+ 		self._enable_first_tool()
+ 		self.set_picture_title()
+-		self._try_show_release_notes()
++		# self._try_show_release_notes()
+ 
+ 		# has to return False to be removed from the mainloop immediatly
+ 		return False
+@@ -1261,4 +1261,3 @@ class DrWindow(Gtk.ApplicationWindow):
+ 
+ 	############################################################################
+ ################################################################################
+-
+-- 
+2.32.0
+

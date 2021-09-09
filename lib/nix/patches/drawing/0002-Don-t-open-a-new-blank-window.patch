@@ -1,0 +1,34 @@
+From 5b48c3a44d6af703309e5a0d90bd6935cdd9fbf5 Mon Sep 17 00:00:00 2001
+From: viz <visuwesh@tutanota.com>
+Date: Thu, 9 Sep 2021 08:54:30 +0530
+Subject: [PATCH 2/2] Don't open a new blank window.
+
+-n opened a window for a blank image even if you gave it a file.  But
+this is frankly annoying.
+---
+ src/main.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/main.py b/src/main.py
+index 334cb15..1b94eba 100644
+--- a/src/main.py
++++ b/src/main.py
+@@ -174,8 +174,8 @@ class Application(Gtk.Application):
+ 				f = self._get_valid_file(args[1], fpath)
+ 				# here, f can be a GioFile or a boolean. True would mean the app
+ 				# should open a new blank image.
+-				if f != False:
+-					f = None if f == True else f
++				# (viz): It opens a new window every time which is annoying.
++				if f != False and f != True:
+ 					self.open_window_with_content(f, False)
+ 					windows_counter = windows_counter + 1
+ 			if windows_counter == 0:
+@@ -376,4 +376,3 @@ class Application(Gtk.Application):
+ 
+ 	############################################################################
+ ################################################################################
+-
+-- 
+2.32.0
+

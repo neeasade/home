@@ -30,6 +30,9 @@ with pkgs; [
   xorg.xprop
   xorg.xrandr
   wmutils-core
+  # WOOOO.  AFAICS, dragging stuff _from_ Emacs is not possible.
+  xdragon
+
 
   # Multimedia
   # Yes, IK that I have two image viewers and PDF readers (if you
@@ -44,6 +47,13 @@ with pkgs; [
 
   # Communication
   session-desktop
+
+  drawing
+
+  kdeconnect
+
+  gimp
+  tor-browser-bundle-bin
 
   slock
   farbfeld

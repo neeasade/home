@@ -56,7 +56,7 @@ loop(){
 
 __current_file(){
 	# I need -E or + doesn't work.  Very weird.  Hopefully the last
-	# sed command doesn't bite me in the back in the future.  :P
+	# sed command won't bite me in the back in the future.  :P
 	getprop path |{
 		read -r path
 		if [ $(__current_albumtotal) -eq 1 ]; then

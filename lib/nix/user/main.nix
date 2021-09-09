@@ -230,6 +230,7 @@ in
       sxhkd = import ./sxhkd.nix;
       ruler = import ./ruler.nix;
       dunst = import ./notifications.nix pkgs;
+      clipmenu.enable = true;
 
       gpg-agent = {
         enable = true;

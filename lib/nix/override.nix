@@ -1,14 +1,28 @@
 self: super: rec {
+  drawing = super.drawing.overrideAttrs (old: rec {
+    version = "0.8.3";
+    src = super.fetchFromGitHub {
+      owner = "maoschanz";
+      repo = old.pname;
+      rev = version;
+      sha256 = "0wz9p47riyy3h8b0sqsb6bx416hc6d1a1wyzlfmsxkrqrkwcjcm8";
+    };
+    patches = [
+      patches/drawing/0001-Disable-changelog-message.patch
+      patches/drawing/0002-Don-t-open-a-new-blank-window.patch
+    ];
+  });
+
   # WHY IS IT SO OUTDATED?!??!?!??!?
-  hunspellDicts = super.hunspellDicts // {
-    en-gb-ise = super.hunspellDicts.en-gb-ise.overrideAttrs (_: {
-      version = "2020.12.07";
-      src = builtins.fetchurl {
-        url = "mirror://sourceforge/wordlist/speller/2020.12.07/hunspell-en_GB-ise-2020.12.07.zip";
-        sha256 = "1lqsy2szmwbgf9c7fhqpmw6rjnzn8d8mpdyv82sw726ir4p4pv9c";
-      };
-    });
-  };
+  # hunspellDicts = super.hunspellDicts // {
+  #   en-gb-ise = super.hunspellDicts.en-gb-ise.overrideAttrs (_: {
+  #     version = "2020.12.07";
+  #     src = builtins.fetchurl {
+  #       url = "mirror://sourceforge/wordlist/speller/2020.12.07/hunspell-en_GB-ise-2020.12.07.zip";
+  #       sha256 = "1lqsy2szmwbgf9c7fhqpmw6rjnzn8d8mpdyv82sw726ir4p4pv9c";
+  #     };
+  #   });
+  # };
 
   awesome = super.awesome.override {
     gtk3Support = true;
