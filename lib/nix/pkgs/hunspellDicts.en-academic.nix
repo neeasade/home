@@ -14,21 +14,22 @@ stdenv.mkDerivation rec {
     branchName = "master";
   };
 
+  # See also: (man "5 hunspell")
   buildPhase = ''
-    for i in src/academic/en_US_chem.dic \
-                src/academic/en_US_math.dic \
-                src/academic/en_US_physics.dic \
-                src/names/names_people.dic \
-                src/names/names_scientists.dic \
-                src/base/*; do
-      cat "$i"; echo # Not ending files with a newline should be a crime against humanity!
-    done |sed -e 's/#.*$//' -e '/^[[:space:]]*$/d' >en-Academic.dic
+    for i in src/academic/en_US_{chem,math,physics,unit,symbols}.dic \
+                src/names/names_{people,scientists,misc,geo}.dic; do
+      cat "$i"
+      echo # Not ending files with a newline should be a crime against humanity!
+    done |sed \
+    -e 's/#.*//g' -e '/^[[:space:]]*$/d' |sort >en-Academic.dic.tmp
+    wc -l <en-Academic.dic.tmp >en-Academic.dic.custom
+    cat en-Academic.dic.tmp >>en-Academic.dic.custom
   '';
 
   installPhase = ''
     runHook preInstall
     install -dm755 $out/share/hunspell
-    install -m644 en-Academic.dic "$out/share/hunspell/"
+    install -m644 en-Academic.dic.custom "$out/share/hunspell/en-Academic.dic"
     install -m644 en-Academic.aff "$out/share/hunspell/"
     install -dm755 $out/share/myspell/dicts
     ln -s $out/share/hunspell/en-Academic.dic $out/share/myspell/dicts

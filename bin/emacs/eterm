@@ -9,7 +9,7 @@
   (let ((shbuf (shell (vz/uniquify "*term"))))
     (switch-to-buffer shbuf)
     (delete-other-windows)
-    (setq-local mode-line-format nil
+    (setq-local ;; mode-line-format nil
                 vz/eterm--frame frame)
     (set-process-sentinel (get-buffer-process shbuf) #'vz/eterm--sentinel)
     (add-to-list 'vz/eterm--frames frame)

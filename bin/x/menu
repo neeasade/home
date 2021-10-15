@@ -25,6 +25,7 @@ screenshot
 turnoff
 record
 session-desktop
+koreader
 subs" | sel -p "run:")
 }
 

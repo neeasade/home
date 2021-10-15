@@ -440,6 +440,11 @@ clientkeys = gears.table.join(
 root.keys(globalkeys)
 
 -- * Mousebinds
+-- ** Root binds
+-- This requires patched slw(1) from wmutils to work properly.  Since
+-- awesomewm is reparenting, slw's logic was too simple.
+root.buttons(gears.table.join(awful.button({}, 3, nil, function (_) awful.spawn("reshapewin") end)))
+
 -- ** Client binds
 -- *** Sloppy focus
 client.connect_signal(
@@ -588,6 +593,14 @@ awful.rules.rules = {
       placement = awful.placement.centered,
       ontop = true,
     },
+  },
+  {
+    rule = { class = "Xdragon" },
+    properties = {
+      placement = awful.placement.top_right,
+      ontop = true,
+      sticky = true,
+      },
   },
 }
 

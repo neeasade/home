@@ -8,6 +8,8 @@
   MANPAGER       = "less";
   PYTHONUSERBASE = "\$HOME/lib/python";
   PYTHONPATH     = "\$HOME/lib/python";
+  # The QT file picker does not match "fuzzily."
+  QT_QPA_PLATFORMTHEME = "gtk3";
   # MOZ_ENABLE_WAYLAND = "1";
   # QT_QPA_PLATFORM = "wayland";
   # SDL_VIDEODRIVER = "wayland";

@@ -139,6 +139,9 @@ self: super: rec {
     buildInputs = old.buildInputs ++ (with super.xorg; [
       xcbutilcursor xcbutil
     ]);
+    patches = [
+      patches/slw/0001-Return-the-right-window-for-reparenting-window-managers.patch
+    ];
     src = builtins.fetchGit {
       url = "https://github.com/wmutils/core";
       rev = "2a8ee9d061996cef9567a30821249c3d06557419";

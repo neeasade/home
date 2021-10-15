@@ -3,7 +3,7 @@
 {
   enable      = true;
   userEmail   = "visuwesh@tutanota.com";
-  userName    = "viz";
+  userName    = "Visuwesh";
   aliases     = {
     com       = "commit";
     tracked   = "ls-files";

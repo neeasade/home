@@ -19,10 +19,12 @@ with pkgs; [
   gnupg
   pinentry-gnome
 
-  # Dictionary
+  # Spelling
   hunspell
   hunspellDicts.en-gb-ise
   hunspellDicts.en-academic
+  # aspellDicts.ta
+  # aspellDicts.en-science
 
   # Xorg related tools
   xdotool
@@ -44,15 +46,16 @@ with pkgs; [
   meh
   okular
   koreader
+  gimp
+
+  # With a couple of patches, this is so far the best paint
+  # replacement.
+  drawing
 
   # Communication
   session-desktop
-
-  drawing
-
   kdeconnect
 
-  gimp
   tor-browser-bundle-bin
 
   slock
@@ -92,6 +95,7 @@ with pkgs; [
   crud
   xmenu
   raleigh-reloaded-gtk-theme
+  go-sam
   # ircdiscord
   # wendy
   # These are for tabbed which I don't use anymore

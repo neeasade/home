@@ -13,7 +13,9 @@
   initExtra = ''
     remkd /tmp/info/{,vol}
     . $XDG_CACHE_HOME/wall &
-    emacs --daemon
+    # Do not forget the '&'!  Lest you end up waiting a good five seconds
+    # before you can do anything!
+    emacs --daemon &
   '';
 
   scriptPath = "lib/xsession";

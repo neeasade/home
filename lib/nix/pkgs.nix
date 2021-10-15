@@ -42,6 +42,8 @@
         };
       }));
 
+    go-sam = pkgs.callPackage ./pkgs/go-sam.nix {};
+
     wayfirePlugins = pkgs.recurseIntoAttrs (
       pkgs.callPackage ./pkgs/wayfirePlugins-new.nix {
         inherit (pkgs.wayfireApplications-unwrapped) wayfire;

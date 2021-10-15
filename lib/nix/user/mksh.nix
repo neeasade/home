@@ -52,6 +52,8 @@
     cle = "clear";
     clea = "clear";
 
+    lst = "ls -c";              # Sorted by time.
+
     # Sane defaults
     ls = "ls -1AF";
     du = "du -h";
@@ -61,7 +63,7 @@
     ln = "ln -s";
     free = "free -h";
     fc-cache = "fc-cache --verbose";
-    grep = "grep -i";
+    grep = "grep -iHn";
     su = "su -";
     cal = "cal -s";             # Sunday is the first day of the week! :P
     mkd = "mkdir -p";
@@ -405,7 +407,7 @@ EOF
             return 1
           }
           cat >$2 <<EOF
-{ stdenv, fetch }:
+{ stdenv, lib, fetch }:
 
 stdenv.mkDerivation rec {
   pname = "";
@@ -416,12 +418,7 @@ stdenv.mkDerivation rec {
   buildInputs = [];
   nativeBuildInputs = [];
 
-  patches = [];
-
-  makeFlags = [];
-  installFlags = [];
-
-  meta = with pkgs.lib; {
+  meta = with lib; {
     description = "";
     homepage = "";
     license = licenses.;

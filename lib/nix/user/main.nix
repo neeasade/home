@@ -24,7 +24,7 @@ let
 
   emacs-overlay = builtins.fetchGit {
     url = "https://github.com/nix-community/emacs-overlay";
-    rev = "cb1c62a69542010068f1283ece546b69254f45e1";
+    rev = "8ec106afc1bda54c483894a88e148e41a81ca537";
     ref = "master";
   };
 in
@@ -172,6 +172,7 @@ in
       gtk3 = {
         bookmarks = [
           "file:///home/viz/doc/uni"
+          "file:///home/viz/doc/uni/refb"
           "file:///home/viz/doc/books"
         ];
         extraConfig = {
@@ -230,7 +231,7 @@ in
       sxhkd = import ./sxhkd.nix;
       ruler = import ./ruler.nix;
       dunst = import ./notifications.nix pkgs;
-      clipmenu.enable = true;
+      # clipmenu.enable = true;
 
       gpg-agent = {
         enable = true;
