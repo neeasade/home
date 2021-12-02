@@ -13,6 +13,21 @@
   initExtra = ''
     remkd /tmp/info/{,vol}
     . $XDG_CACHE_HOME/wall &
+
+     # -twokey: by default, when you press two modifiers at once, it
+    # disables sticky keys permanently.  Bad behaviour for an Emacs
+    # user.
+    #
+    # latchlock: pressing the same modifier locks it.  Very nice
+    # behaviour.  For example, if you know that you're going to do a
+    # lot of C- motion, then press Ctrl twice.  C-SPC C-n C-n C-w
+    # becomes Ctrl Ctrl n n w.
+    ${pkgs.xkbset}/bin/xkbset sticky -twokey latchlock
+
+	  # Sticky key gets reset after a set period of time.  No good!  The
+	  # default timeout is 120 s.
+	  ${pkgs.xkbset}/bin/xkbset exp 120 =sticky =twokey =latchlock
+
     # Do not forget the '&'!  Lest you end up waiting a good five seconds
     # before you can do anything!
     emacs --daemon &

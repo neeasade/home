@@ -13,11 +13,11 @@ case `echo 'grab area\ngrab window\ngrab screen' | menu sel` in
 
 	xscreenshot -w "${id}" >${tmp_image}
 
-	case "$(atomx WM_NAME $(printf '%x' ${id}))" in
-	*"Microsoft Teams"*)
-		dir="${HOME}/doc/uni/screenshots"
-		;;
-	esac
+	# case "$(atomx WM_NAME $(printf '%x' ${id}))" in
+	# *"Microsoft Teams"*)
+	# 	dir="${HOME}/doc/uni/screenshots"
+	# 	;;
+	# esac
 	;;
 *screen)
 	sleep 1

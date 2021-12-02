@@ -1,0 +1,21 @@
+{ stdenv, lib, fetchurl }:
+
+stdenv.mkDerivation rec {
+  pname = "words";
+  version = "2020.12.07";
+  src = fetchurl {
+    url = "http://downloads.sourceforge.net/wordlist/scowl-${version}.tar.gz";
+    sha256 = "1k2rp0zs4fyfgr2z2yp7pr0kyk2w9nxjvm62j09qki10m9y6d1sm";
+  };
+
+  sourceRoot = ".";
+  buildPhase = ''
+    cd scowl-${version}
+    cat final/{british,english}-words.60 |sort >words
+  '';
+
+  installPhase = ''
+    mkdir -p $out/share/dict
+    cp ./words $out/share/dict
+  '';
+}

@@ -11,7 +11,11 @@ chk=1
 }
 
 erun() {
-	# When Emacs is stuck doing something else, quit
+	# This is probably next to useless since Emacs is unaware that a
+	# client wants to connect when it is busy [1].  Emacsclient
+	# supposedly has a builtin timeout but it is too long [2].
+	# 1. https://lists.gnu.org/archive/html/bug-gnu-emacs/2021-09/msg02543.html
+	# 2. https://lists.gnu.org/archive/html/bug-gnu-emacs/2021-09/msg02610.html
 	if has timeout; then
 		timeout 1 emacsclient --eval "${@}"
 	else
@@ -44,7 +48,7 @@ args() {
 		cat ->${stdinf}
 		stdin=\"${stdinf}\"
 	fi
-	
+
 }
 
 [ -f "${1}" ] && {

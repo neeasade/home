@@ -11,6 +11,7 @@ with pkgs; [
   doas
   exiftool
   zip unzip
+  nix-prefetch
 
   # Encyrption stuff
   #
@@ -40,7 +41,7 @@ with pkgs; [
   # Yes, IK that I have two image viewers and PDF readers (if you
   # count pdf-tools, I have three lol)
   ffmpeg
-  mpv
+  # mpv
   zathura
   sxiv
   meh
@@ -48,7 +49,7 @@ with pkgs; [
   koreader
   gimp
 
-  # With a couple of patches, this is so far the best paint
+  # With a couple of patches, this is so far the best MS Paint
   # replacement.
   drawing
 
@@ -57,6 +58,8 @@ with pkgs; [
   kdeconnect
 
   tor-browser-bundle-bin
+
+  youtube-dl
 
   slock
   farbfeld
@@ -96,6 +99,7 @@ with pkgs; [
   xmenu
   raleigh-reloaded-gtk-theme
   go-sam
+  words
   # ircdiscord
   # wendy
   # These are for tabbed which I don't use anymore

@@ -28,11 +28,10 @@
 
       # Covers almost every language
       noto-fonts
-      noto-fonts-cjk
+      # noto-fonts-cjk
       noto-fonts-emoji
 
-      # lohit-fonts.tamil
-      # lohit-fonts.tamil-classical
+      source-han-serif
     ];
 
     fontconfig = {

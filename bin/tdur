@@ -15,8 +15,8 @@ print(){
 }
 
 calc(){
-	for i in "${@}"; do
-		[ -d "${i}" ] && calc "${i}"/*
+	for i; do
+		[ -d "${i}" ] && calc "${i}"/* && continue
 		j=$(ffprobe -v error -i "${i}" -show_entries format=duration \
 					-of default=noprint_wrappers=1:nokey=1)
 		j=${j%%.*}

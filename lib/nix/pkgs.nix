@@ -43,6 +43,7 @@
       }));
 
     go-sam = pkgs.callPackage ./pkgs/go-sam.nix {};
+    words = pkgs.callPackage ./pkgs/words.nix {};
 
     wayfirePlugins = pkgs.recurseIntoAttrs (
       pkgs.callPackage ./pkgs/wayfirePlugins-new.nix {

@@ -16,15 +16,15 @@ let
     ref = "master";
   };
 
-  nixpkgs-wayland = builtins.fetchGit {
-    url = "https://github.com/colemickens/nixpkgs-wayland";
-    rev = "9354b29893139d6ed98b4374521a3042e1b30626";
-    ref = "master";
-  };
+  # nixpkgs-wayland = builtins.fetchGit {
+  #   url = "https://github.com/colemickens/nixpkgs-wayland";
+  #   rev = "9354b29893139d6ed98b4374521a3042e1b30626";
+  #   ref = "master";
+  # };
 
   emacs-overlay = builtins.fetchGit {
     url = "https://github.com/nix-community/emacs-overlay";
-    rev = "8ec106afc1bda54c483894a88e148e41a81ca537";
+    rev = "0c42763e54d656473deef733703f224351296b13";
     ref = "master";
   };
 in
@@ -82,7 +82,7 @@ in
   nixpkgs.overlays = [
     (import ../override.nix)
     (import "${rycee}/overlay.nix")
-    (import "${nixpkgs-wayland}")
+    # (import "${nixpkgs-wayland}")
     (import "${emacs-overlay}")
   ];
   nixpkgs.config.allowUnfree = true;
@@ -138,7 +138,7 @@ in
       ./modules/sxhkd-fix.nix
       ./modules/mksh.nix
       ./modules/mlvwm.nix
-      ./modules/wayfire.nix
+      # ./modules/wayfire.nix
       # ./modules/kdeconnect.nix
     ];
 
@@ -195,7 +195,7 @@ in
 
       bash    = import ./bash.nix;
       git     = import ./git.nix;
-      mpv     = import ./mpv.nix;
+      mpv     = import ./mpv.nix { pkgs = pkgs; };
       irssi   = import ./irssi.nix;
       zathura = import ./zathura.nix;
       mksh    = import ./mksh.nix pkgs;
@@ -218,16 +218,17 @@ in
           { id = "mpbjkejclgfgadiemmefgebjfooflfhl"; } # Buster
           { id = "lckanjgmijmafbedllaakclkaicjfmnk"; } # ClearURLs
           { id = "pmcmeagblkinmogikoikkdjiligflglb"; } # Privacy Redirect
+          { id = "dnhjklgpiifbofihffldllbcopkinlod"; } # Remove Google Redirection
           { # Bypass paywall
             id = "dcpihecpambacapedldabdbpakmachpb";
             updateUrl = "https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-chrome/master/updates.xml";
           }
-          { id = "dnhjklgpiifbofihffldllbcopkinlod"; } # Remove Google Redirection
         ];
       };
     };
 
     services = {
+      kdeconnect.enable = true;
       sxhkd = import ./sxhkd.nix;
       ruler = import ./ruler.nix;
       dunst = import ./notifications.nix pkgs;

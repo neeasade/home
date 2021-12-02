@@ -42,7 +42,7 @@
 (define (get-upvotes)
   (hash-ref (hash-ref (read-json (get-upvoted-port)) 'data) 'children))
 
-(define data (get-upvotes))
+;; (define data '(asd asd))
 
 (define (data/get-permalink data)
   (hash-ref (hash-ref data 'data)
@@ -62,17 +62,17 @@
                            file-save-dir
                            (file-name-from-path url))))
 
-(display-to-file (data/get-permalink (car data))
-                 (expand-user-path "~/lib/rdlastlink")
-                 #:exists 'replace)
+;; (display-to-file (data/get-permalink (car data))
+;;                  (expand-user-path "~/lib/rdlastlink")
+;;                  #:exists 'replace)
 
 (unless (directory-exists? file-save-dir)
   (make-directory file-save-dir))
 
-(let loop ((data data))
-  (unless (null? data)
-    (let ((url (data/get-url (car data))))
-      (unless (string=? last-visited-link url)
-        (when (data/sub-in-group? (car data))
-          (fetch-url url))
-        (loop (cdr data))))))
+;; (let loop ((data data))
+;;   (unless (null? data)
+;;     (let ((url (data/get-url (car data))))
+;;       (unless (string=? last-visited-link url)
+;;         (when (data/sub-in-group? (car data))
+;;           (fetch-url url))
+;;         (loop (cdr data))))))

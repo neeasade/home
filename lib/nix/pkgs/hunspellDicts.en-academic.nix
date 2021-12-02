@@ -1,7 +1,26 @@
-# I think this dictionary itself needs some rewrite.  Hunspell reports
-# zero corrections instead of no corrections for words already present
-# which is very annoying as it means that I can't use it properly with
-# ispell.
+# The initial problem I had with the dictionary was because I
+# generated the dictionary file incorrectly.  The first line in the
+# dictionary file has to include an approximate number of entries so
+# hunspell can create an efficient hashtable ahead-of-time.  However,
+# there are some problems with the way words are strung together.
+# For example, "methoxide" is being corrected to "meth-oxide" and/or
+# "meth oxide" but both are incorrect, same with "dichloromethane."
+# For that, I should take a look at modifying the .aff file.
+# The other potential problem is that it is based off of the US SCOWL
+# dictionary.  I prefer the British spelling.  But considering that I
+# use en_GB-ise+en_Academic together, I _shouldn't_ have a problem but
+# maybe there's a way to trivially ‘sed’ ize with ise, and er with re?
+# The latter might be a problem though, and I'm not even sure if this
+# is worth doing since _most_ words should be in the
+# British dictionary.
+#
+# Ref.: (man "5 hunspell")
+# Edit: (find-file-other-window "~/lib/repos/acamedic/en-Academic.aff")
+#
+# I will just put it here so I don't forget but the following words
+# aren't included in the dictionary:
+# physisorption chemisorbed physisorbed delocalized magnetisation nucleophile
+# electrophile immiscible
 { stdenv, lib, fetchgit }:
 
 stdenv.mkDerivation rec {

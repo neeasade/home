@@ -5,7 +5,7 @@
                  (make-frame-on-display "wayland-1")
                (error (make-frame-on-display ":0")))))
   (select-frame frame)
-  (setq default-directory (or (getenv "PWD") (getenv "HOME")))
+  ;; (setq default-directory (or (getenv "PWD") (getenv "HOME")))
   (let ((shbuf (shell (vz/uniquify "*term"))))
     (switch-to-buffer shbuf)
     (delete-other-windows)

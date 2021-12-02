@@ -63,7 +63,7 @@
     ln = "ln -s";
     free = "free -h";
     fc-cache = "fc-cache --verbose";
-    grep = "grep -iHn";
+    grep = "grep -iH"; #n
     su = "su -";
     cal = "cal -s";             # Sunday is the first day of the week! :P
     mkd = "mkdir -p";
@@ -550,7 +550,7 @@ EOF
       # Sync Emacs' `default-directory'
       # elisp-shell "(setq-local default-directory \"$PWD/\")" >/dev/null
 
-      MANAPGER=cat PAGER=cat
+      MANPAGER=cat PAGER=cat
       export MANPAGER PAGER
 
       for i in top alsamixer vidir transmission-cli ircdiscord; {

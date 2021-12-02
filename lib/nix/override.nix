@@ -1,4 +1,21 @@
 self: super: rec {
+  source-han-serif = super.source-han-serif.overrideAttrs (old: rec {
+    version = "2.000";
+    src = builtins.fetchurl {
+      url = "https://github.com/adobe-fonts/source-han-serif/releases/download/2.000R/SourceHanSerif.ttc.zip";
+      sha256 = "1hqrxi0gj9clzribdyzp9z8az8xwi591gfqkc3z090zvlv0k4f24";
+    };
+
+    nativeBuildInputs = [ super.unzip ];
+    phases = [ "unpackPhase" "buildPhase" ];
+
+    sourceRoot = ".";
+    buildPhase = ''
+      mkdir -p $out/share/fonts/opentype/${old.pname}
+      cp ./SourceHanSerif.ttc $out/share/fonts/opentype/${old.pname}
+    '';
+  });
+
   drawing = super.drawing.overrideAttrs (old: rec {
     version = "0.8.3";
     src = super.fetchFromGitHub {
@@ -14,15 +31,15 @@ self: super: rec {
   });
 
   # WHY IS IT SO OUTDATED?!??!?!??!?
-  # hunspellDicts = super.hunspellDicts // {
-  #   en-gb-ise = super.hunspellDicts.en-gb-ise.overrideAttrs (_: {
-  #     version = "2020.12.07";
-  #     src = builtins.fetchurl {
-  #       url = "mirror://sourceforge/wordlist/speller/2020.12.07/hunspell-en_GB-ise-2020.12.07.zip";
-  #       sha256 = "1lqsy2szmwbgf9c7fhqpmw6rjnzn8d8mpdyv82sw726ir4p4pv9c";
-  #     };
-  #   });
-  # };
+  hunspellDicts = super.hunspellDicts // {
+    en-gb-ise = super.hunspellDicts.en-gb-ise.overrideAttrs (_: {
+      version = "2020.12.07";
+      src = builtins.fetchurl {
+        url = "mirror://sourceforge/wordlist/speller/2020.12.07/hunspell-en_GB-ise-2020.12.07.zip";
+        sha256 = "1lqsy2szmwbgf9c7fhqpmw6rjnzn8d8mpdyv82sw726ir4p4pv9c";
+      };
+    });
+  };
 
   awesome = super.awesome.override {
     gtk3Support = true;

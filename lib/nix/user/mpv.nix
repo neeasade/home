@@ -1,6 +1,13 @@
 # mpv config. Mainly subtitle settings
+{ pkgs, ... }:
+
 {
   enable = true;
+  package = (pkgs.mpv-with-scripts.override {
+    scripts = with pkgs.mpvScripts; [
+      mpris
+    ];
+  });
 
   config = {
     # Don't display album art or w/e
